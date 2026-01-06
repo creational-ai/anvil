@@ -15,6 +15,9 @@ cd idea-to-mvp
 
 # Deploy both skills and all commands
 ./deploy.sh
+
+# Verify deployment is correct
+./verify.sh
 ```
 
 ## Skills Overview
@@ -24,12 +27,13 @@ cd idea-to-mvp
 Creates the foundation before any code is written.
 
 **Stages**:
-1. North Star - Refine idea into North Star doc
+1. North Star - Refine idea into vision doc
 2. Architecture - Technical architecture
-3. Research - Market validation
-4. PoC Design - Define work items and dependencies
+3. Milestones Overview - Strategic milestone roadmap
+4. Milestone Design - Detailed design per milestone
+5. PoC Design - Define atomic proofs-of-concept
 
-**Output**: `north-star.md`, `[name]-architecture.md`, `[name]-poc-design.md`
+**Output**: `north-star.md`, `[name]-architecture.md`, `milestones-overview.md`, `milestone-[number]-[slug].md`, `[milestone-slug]-poc-design.md`
 
 **Deploy to**: `~/.claude/skills/dev-design/`
 
@@ -53,13 +57,17 @@ Implements work items through a repeating 3-stage cycle.
 ## Workflow
 
 ```
-1. Use dev-design to create your plan
-   → Outputs: north-star.md, core-architecture.md, core-poc-design.md
+1. Use dev-design to create your plan (5 stages)
+   → Stage 1: North Star (vision)
+   → Stage 2: Architecture (technical design)
+   → Stage 3: Milestones Overview (strategic roadmap)
+   → Stage 4: Milestone Design (detailed design for milestone-1)
+   → Stage 5: PoC Design (atomic proof-of-concepts)
 
 2. Use dev-cycle to execute the plan
-   → /dev-plan: Plan first work item
+   → /dev-plan: Plan first PoC
    → /dev-execute: Implement it
-   → Repeat for each work item
+   → Repeat for each PoC
 
 3. When new issues emerge
    → /dev-overview: Analyze and add to plan
@@ -79,6 +87,7 @@ Implements work items through a repeating 3-stage cycle.
 ```
 idea-to-mvp/                    # Project repo
 ├── deploy.sh                   # Deploy both skills and commands
+├── verify.sh                   # Verify deployment is correct
 ├── sync-from-user.sh           # Sync changes from deployed skills
 ├── commands/                   # Global commands (used by both skills)
 │   ├── verify-doc.md
@@ -86,14 +95,14 @@ idea-to-mvp/                    # Project repo
 │   ├── dev-plan.md
 │   ├── dev-execute.md
 │   └── small-win-check.md
-├── dev-design/                 # Design skill
+├── dev-design/                 # Design skill (5 stages)
 │   ├── SKILL.md
-│   ├── assets/templates/
-│   └── references/
-└── dev-cycle/                  # Development skill
+│   ├── assets/templates/       # 5 templates
+│   └── references/             # 5 stage guides
+└── dev-cycle/                  # Development skill (3 stages)
     ├── SKILL.md
-    ├── assets/templates/
-    └── references/
+    ├── assets/templates/       # 4 templates
+    └── references/             # 3 stage guides
 
 ~/.claude/skills/               # Deployed skills
 ├── dev-design/

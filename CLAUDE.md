@@ -14,6 +14,7 @@ This repo contains two complementary Claude Code skills:
 ```
 idea-to-mvp/
 ├── deploy.sh                   # Deploy both skills and commands
+├── verify.sh                   # Verify deployment is correct
 ├── sync-from-user.sh           # Sync changes from deployed skills
 ├── commands/                   # Global commands (deployed by both skills)
 │   ├── verify-doc.md          # Document verification
@@ -21,10 +22,10 @@ idea-to-mvp/
 │   ├── dev-plan.md            # Plan implementation steps
 │   ├── dev-execute.md         # Execute step-by-step
 │   └── small-win-check.md     # Project health check
-├── dev-design/                 # Design skill
+├── dev-design/                 # Design skill (5 stages)
 │   ├── SKILL.md               # Main skill definition
-│   ├── assets/templates/      # Templates (north-star, design, poc-plan)
-│   └── references/            # Stage guides (1-4)
+│   ├── assets/templates/      # Templates (5 templates)
+│   └── references/            # Stage guides (1-5)
 └── dev-cycle/                  # Development skill
     ├── SKILL.md               # Main skill definition
     ├── assets/templates/      # Templates (overview, implementation, results, PROJECT_STATE)
@@ -59,6 +60,9 @@ git status  # Review changes
 # Deploy both skills and all commands
 ./deploy.sh
 
+# Verify deployment is correct
+./verify.sh
+
 # Sync changes back from deployed skills and commands
 ./sync-from-user.sh
 
@@ -71,7 +75,9 @@ git status
 **dev-design creates:**
 - `north-star.md` - Vision and goals (one per project)
 - `[name]-architecture.md` - Architecture (e.g., `core-architecture.md`)
-- `[name]-poc-design.md` - Work items to implement (e.g., `core-poc-design.md`)
+- `milestones-overview.md` - Strategic milestone roadmap
+- `milestone-[number]-[slug].md` - Detailed milestone design (e.g., `milestone-1-web-core.md`)
+- `[milestone-slug]-poc-design.md` - PoC plan (e.g., `web-core-poc-design.md`)
 
 **dev-cycle creates:**
 - `PROJECT_STATE.md` - Work item tracking
@@ -85,7 +91,9 @@ git status
 **dev-design** (`dev-design/assets/templates/`):
 - `north-star.md` - Stage 1 output
 - `architecture.md` - Stage 2 output
-- `poc-design.md` - Stage 4 output
+- `milestones-overview.md` - Stage 3 output
+- `milestone-design.md` - Stage 4 output
+- `poc-design.md` - Stage 5 output
 
 **dev-cycle** (`dev-cycle/assets/templates/`):
 - `overview.md` - Stage 1 output
@@ -96,7 +104,7 @@ git status
 ## Reference Guides
 
 **dev-design** (`dev-design/references/`):
-- `1-north-star-guide.md` through `4-poc-planning-guide.md`
+- `1-north-star-guide.md` through `5-poc-design-guide.md` (5 stages)
 
 **dev-cycle** (`dev-cycle/references/`):
 - `1-overview-guide.md` through `3-execution-guide.md`
