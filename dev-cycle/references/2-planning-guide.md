@@ -75,37 +75,6 @@ Unlike Stage 1, implementation planning gets into specifics:
 - **Validation built-in**: Pydantic handles validation, serialization, and documentation
 - **No dictionaries for structured data**: Use Pydantic models instead
 
-**Example - Good OOP with Pydantic:**
-```python
-from pydantic import BaseModel, Field
-from typing import Optional
-
-class UserConfig(BaseModel):
-    """User configuration with validation."""
-    username: str = Field(..., min_length=3, max_length=50)
-    email: str
-    age: Optional[int] = Field(None, ge=0, le=150)
-
-class UserService:
-    """Handles user operations."""
-
-    def __init__(self, config: UserConfig):
-        self.config = config
-
-    def validate_user(self) -> bool:
-        """Validate user meets requirements."""
-        return len(self.config.username) >= 3
-```
-
-**Example - Avoid:**
-```python
-# ❌ Weak typing, no validation
-def process_user(user_dict: dict) -> dict:
-    username = user_dict.get("username", "")
-    # No validation, error-prone
-    return {"status": "ok"}
-```
-
 ## Step Size Guidelines
 
 Each step should be:
@@ -119,45 +88,15 @@ If a step is too big, break it into sub-steps (3a, 3b, 3c).
 
 **CRITICAL**: Each PoC must be complete and functional on its own.
 
-### What "Self-Contained" Means
-
-✅ **Good - PoC works independently:**
+**What this means:**
 - All existing functionality continues working after PoC completes
 - New capability can be tested/verified immediately
 - No "TODO: will work after PoC N+1" comments
 - Tests pass at end of PoC
 
-❌ **Bad - PoC breaks things:**
-- Existing features stop working
-- "This will work once we complete PoC 9" comments
-- Tests fail until future PoC
-- System non-functional between PoCs
+**Strategy: Add Alongside, Don't Replace**
 
-### Strategy: Add Alongside, Don't Replace
-
-When implementing something that could break existing code:
-
-**Don't do this:**
-```python
-# Replaces existing function (breaks old callers)
-def get_client() -> NewType:
-    # New implementation
-```
-
-**Do this instead:**
-```python
-# Keep old function working
-def get_client() -> OldType:
-    # Existing implementation unchanged
-
-# Add new function alongside
-def get_new_client() -> NewType:
-    # New implementation
-```
-
-**Note**: Examples shown in Python. Apply the same "add alongside, don't replace" principle in your language.
-
-**Migration happens in next PoC**, not this one.
+When implementing something that could break existing code, add new functions/classes alongside existing ones rather than modifying them. Migration happens in next PoC, not this one.
 
 ## Production-Grade Checklist
 

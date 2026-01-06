@@ -30,19 +30,6 @@ This stage is **user-initiated**:
 - Current dependencies and integrations
 - Limitations or constraints
 
-**Example:**
-```
-### Current Architecture (Supabase-Specific)
-
-**1. Database Client**
-- Uses Supabase Python Client directly
-- Query builder API: client.table("users").select()
-- Hardcoded to Supabase
-
-**2. Dependencies**
-from supabase import Client, create_client
-```
-
 ### 2. Define Target Architecture
 
 **What to capture:**
@@ -51,35 +38,13 @@ from supabase import Client, create_client
 - What changes from current
 - Configuration or extensibility points
 
-**Example:**
-```
-### Target Architecture (Database-Agnostic)
-
-**1. Abstraction Layer**
-- Protocol-based interface
-- Pluggable implementations (Supabase, PostgreSQL, etc.)
-- Configuration-driven provider selection
-```
-
 ### 3. Identify What Needs to Change
 
 **Break down by component/file:**
 - Which files need modification
-- What currently exists (code examples)
+- What currently exists (with code examples)
 - What should exist (proposed code)
 - How to verify changes work
-
-**Be specific:**
-```
-#### `core/db.py`
-**Current**: Returns Supabase Client
-def get_client() -> Client:
-    # Supabase-specific
-
-**New**: Factory pattern with abstraction
-def get_client() -> DatabaseClient:
-    # Returns adapter based on config
-```
 
 ### 4. Break Down into Self-Contained PoCs
 
@@ -97,84 +62,19 @@ def get_client() -> DatabaseClient:
 **Golden Rule**: One feature = One PoC (unless it spans the entire stack)
 
 **When to use ONE PoC:**
-- Feature is contained in one layer (frontend OR backend OR database)
+- Feature contained in one layer (frontend OR backend OR database)
 - Related tasks that test the same capability together
-- CRUD operations for a single entity (Create + Read + Update + Delete users)
-- All tasks validate the same technical assumption
+- CRUD operations for a single entity
 
-**When to split into multiple PoCs:**
-- Feature spans entire stack (database + API + frontend) and each layer needs independent testing
-- Clear dependency boundaries (PoC B literally cannot start until PoC A is proven)
-- Different technical risks that should be validated separately
+**When to split:**
+- Feature spans entire stack and each layer needs independent testing
+- Clear dependency boundaries (PoC B cannot start until PoC A proven)
+- Different technical risks requiring separate validation
 - **BUT STILL MINIMIZE** - If you can test 2 layers together, do it
-
-**GOOD - Minimized PoCs:**
-```
-✅ PoC 3: User Management (One PoC)
-   - Database schema for users
-   - CRUD API endpoints
-   - Authentication logic
-   - Tests for all operations
-   - Proves: "We can manage users end-to-end"
-```
-
-**BAD - Too many micro-PoCs:**
-```
-❌ PoC 3: User Database Schema
-❌ PoC 4: Create User API
-❌ PoC 5: Read User API
-❌ PoC 6: Update User API
-❌ PoC 7: Delete User API
-❌ PoC 8: User Authentication
-```
-
-**When forced to split (e.g., full-stack feature):**
-```
-✅ PoC 3: User Management Backend
-   - Database + API + Auth (grouped)
-   - Proves: "Backend handles users correctly"
-
-✅ PoC 4: User Management Frontend
-   - UI components + forms + state
-   - Proves: "Frontend integrates with user API"
-```
-
-**Remember**: Every additional PoC adds overhead. Group related work aggressively.
 
 **Strategy: Add Alongside, Don't Replace**
 
-When new capability could break existing code:
-```python
-# ❌ BAD - Breaks existing code
-def get_client() -> NewType:  # Changes return type
-    # New implementation
-
-# ✅ GOOD - Add alongside
-def get_client() -> OldType:  # Keep unchanged
-    # Existing implementation
-
-def get_new_client() -> NewType:  # Add new
-    # New implementation
-```
-
-**Note**: Examples shown in Python. Apply the same "add alongside, don't replace" principle in your language.
-
-**PoC structure example:**
-```
-PoC N: Create abstraction layer
-- Keep get_client() unchanged (Supabase)
-- Add get_db_adapter() (new abstraction)
-- Why: Existing tools keep working during PoC N
-
-PoC N+1: Refactor tools to use abstraction
-- Update tools to use get_db_adapter()
-- Test with both providers
-- Why: Now self-contained with abstraction
-
-PoC N+2: Production deployment
-- Deploy to AWS RDS
-- Verify in production
-```
+When new capability could break existing code, add new functions/classes alongside existing ones rather than modifying them. This keeps the system working during implementation.
 
 ### 5. Evaluate Implementation Approaches
 
@@ -183,37 +83,12 @@ PoC N+2: Production deployment
 - For each: Pros, Cons
 - Recommend one with rationale
 
-**Example:**
-```
-### Option A: Adapter Pattern
-Pros: Simple, type-safe, flexible
-Cons: Manual implementation per provider
-
-### Option B: ORM (SQLAlchemy)
-Pros: Industry standard, feature-rich
-Cons: Heavier dependency, more complex
-
-Recommended: Option A - Adapter Pattern
-Reason: Simpler for our use case, easier to optimize
-```
-
 ### 6. Document Design Decisions
 
 **Capture key decisions:**
 - ✅ What was decided
 - Why that choice was made
 - What alternatives were considered
-
-**Example:**
-```
-1. ✅ Connection pooling: Deferred to later PoC
-   - Simple connection OK for PoC N
-   - Add pooling when performance demands it
-
-2. ✅ CRUD operations: Implement all 4 upfront
-   - Complete abstraction layer
-   - Prevents partial implementation
-```
 
 ### 7. Update Plan
 

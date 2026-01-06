@@ -52,15 +52,6 @@ Or use natural language: "Create overview for database abstraction", "Plan the i
 - Code snippets that could be copy-pasted
 - "Here's how you'd implement this..." with actual new code
 
-### Why This Matters:
-- Preserves token space for what matters: thinking and design
-- Prevents premature implementation decisions
-- Forces clear conceptual understanding before coding
-- Ensures design is sound before investing in implementation
-
-### If Asked to Write Code in Stage 1:
-Respond: "We're in the Overview stage — let's keep focus on architecture and design. Code comes in Stage 2 (Planning with code snippets) and Stage 3 (Execution with full implementation). For now, let me describe how this would work at a high level..."
-
 ---
 
 ## Stage 1: Overview
@@ -154,10 +145,6 @@ Run Stage 2 when:
 🏗️ **QUALITY OOP CODE** - Use classes with clear responsibilities, Pydantic models for all data structures, strong typing everywhere
 
 🔒 **SELF-CONTAINED** - Each work item must be complete and functional on its own; doesn't break existing functionality and existing tests
-
----
-
-**Why one at a time?** Learnings from one item often change subsequent items.
 
 ### Process
 
@@ -293,16 +280,6 @@ See `references/3-execution-guide.md` for detailed per-step workflow:
 - [ ] `docs/[name]-results.md` shows all success criteria met
 - [ ] Production-grade checklist verified
 
-### Common Pitfalls
-
-- Skipping tests
-- Not documenting as you go (especially lessons learned)
-- Steps that are too large
-- Ignoring edge cases
-- Using raw dicts instead of Pydantic models
-- Missing type hints
-- Breaking self-contained requirement
-
 ### Next Stage
 
 → **Return to Stage 2** for next work item (after work complete)
@@ -376,38 +353,8 @@ Use Glob/Grep to check for existing documents:
 
 ---
 
-## When to Use This Skill
-
-**Good fits**:
-- Building a new feature
-- Fixing a complex bug
-- Implementing PoCs from dev-design
-- Refactoring existing code
-- Adding new capabilities
-
-**Not a good fit**:
-- Simple one-line fixes (just do it)
-- Typos or documentation updates (just do it)
-- Pure exploration/research (use Task tool with explore agent)
-
----
-
 ## Integration with dev-design
 
-This skill can be used **standalone** OR as part of the **dev-design workflow**:
+**Standalone**: Use dev-cycle for any development work (features, bugs, refactoring).
 
-**Standalone**: Use dev-cycle for any development work (features, bugs, refactoring, etc.)
-
-**With dev-design**:
-1. **dev-design** (Stages 1-4) creates the initial plan: `docs/north-star.md`, `docs/[name]-architecture.md`, `docs/[name]-poc-design.md`
-2. **dev-cycle** takes over for the development loop:
-   - Pick work item from `docs/[name]-poc-design.md`
-   - Stage 1: Create overview if needed (for new issues/features)
-   - Stage 2: Plan the implementation
-   - Stage 3: Execute step by step
-   - Repeat for next work item
-
-**Files Created**:
-- `PROJECT_STATE.md` - Created by dev-cycle on first use, updated when work items complete and via `/small-win-check` (follow template structure exactly)
-- `docs/[name]-implementation.md` - Implementation guide (evergreen)
-- `docs/[name]-results.md` - Progress tracking (live status)
+**With dev-design**: dev-design creates the plan (`docs/[name]-poc-design.md`), then dev-cycle implements it (Stage 1 → Stage 2 → Stage 3, repeat for each work item).

@@ -84,14 +84,6 @@ A step is NOT complete until:
 - Include: step status (⏳ Pending / ✅ Complete), test results, issues encountered, bug fixes
 - **Add "Lessons Learned" section** for each step documenting key insights, patterns, and gotchas
 - Keep implementation doc clean (no status updates there)
-- Document any design decisions or learnings
-
-## Common Pitfalls
-- Skipping tests
-- Not documenting as you go (especially lessons learned)
-- Steps that are too large
-- Ignoring edge cases
-- Forgetting to document what you learned from issues/bugs
 
 ## Next Stage
 → Return to Stage 2 for next work item (after work complete)
