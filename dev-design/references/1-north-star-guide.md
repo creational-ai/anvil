@@ -6,6 +6,9 @@ Refine the idea into a clear, feasible vision.
 ## Code Allowed
 NO
 
+## Timeline Estimates
+NOT NEEDED - Focus on WHAT and WHY, not WHEN. Avoid timeline estimates (e.g., "Week 1-2", "2 weeks", "3 months"). Design phases don't need schedules.
+
 ## Input
 - Idea (verbal, notes, rough sketch)
 

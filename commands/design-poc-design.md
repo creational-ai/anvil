@@ -13,15 +13,23 @@ Stage 5 of dev-design: Plan atomic PoCs with clear success criteria and dependen
 - `~/.claude/skills/dev-design/references/5-poc-design-guide.md` - Detailed process
 - `~/.claude/skills/dev-design/assets/templates/poc-design.md` - Output template
 
+## Prerequisites
+
+Must complete before running this command:
+- [ ] Stage 4: Milestone Design (`docs/milestone-[number]-[slug].md`)
+- [ ] Stage 3: Milestones Overview (`docs/milestones-overview.md`)
+
 ## Input
 
 **First argument (optional):**
-- Milestone name (e.g., "Core", "Cloud Deployment") → Reads milestone from `docs/milestones-overview.md` (RECOMMENDED)
-- Milestone number (e.g., "1", "2") → Reads Nth milestone from `docs/milestones-overview.md`
-- If not provided, uses first milestone from `docs/milestones-overview.md`
-- OR path to architecture doc (e.g., `docs/core-architecture.md`) → Create mode (legacy workflow)
-- OR path to existing PoC design doc (e.g., `docs/core-poc-design.md`) → Update mode
-- OR path to overview doc (e.g., `docs/feature-x-overview.md`) → Update mode from new feature
+- Milestone name (e.g., "Core", "Mobile") → Finds `docs/milestone-*-[name].md`
+- Milestone number (e.g., "1", "2") → Reads `docs/milestone-[number]-*.md`
+- If not provided, uses first milestone (milestone-1-*.md)
+- OR path to existing PoC design (e.g., `docs/core-poc-design.md`) → Update mode
+
+**Required docs (auto-read):**
+- `docs/milestone-[number]-[slug].md` - Detailed milestone design
+- `docs/milestones-overview.md` - Milestone context
 
 **User notes (optional):**
 ```
@@ -29,15 +37,12 @@ Stage 5 of dev-design: Plan atomic PoCs with clear success criteria and dependen
 ```
 
 **Mode Detection:**
-- If argument is milestone name/number (or empty) → **Milestone mode** (reads from `docs/milestones-overview.md`, recommended)
-- If argument is `docs/*-poc-design.md` and exists → **Update mode** (add new PoCs from user notes)
-- If argument is `docs/*-overview.md` → **Update mode** (extract PoCs from overview document)
-- If argument is `docs/*-architecture.md` → **Create mode** (new poc-design from architecture, legacy)
+- If argument is milestone name/number (or empty) → **Create mode** (new PoC design from milestone design)
+- If argument is `docs/*-poc-design.md` → **Update mode** (add new PoCs)
 
 **Output naming:**
-- Milestone mode: Uses milestone name from `docs/milestones-overview.md` → `docs/[milestone-name]-poc-design.md`
-- Create mode: Derives `[name]` from architecture file → `docs/[name]-poc-design.md`
-- Update mode: Uses existing file name
+- Derives from milestone slug → `docs/[milestone-slug]-poc-design.md`
+- Example: `docs/milestone-1-web-core.md` → `docs/web-core-poc-design.md`
 
 ## Key Requirements
 
@@ -46,22 +51,14 @@ Stage 5 of dev-design: Plan atomic PoCs with clear success criteria and dependen
 ## Process
 
 **Create Mode** - Follow the guidance in `5-poc-design-guide.md`:
-1. Refine architecture with implementation perspective
-2. Identify atomic things to prove (PoCs)
+1. Read the detailed milestone design (`docs/milestone-[number]-[slug].md`)
+2. Identify atomic things to prove (PoCs) from the design
 3. Map dependencies between PoCs
 4. Create PoC diagram
 5. Define success criteria for each PoC
 
-**Update Mode A** - From overview document (common workflow):
-1. Read the overview doc (e.g., `docs/feature-x-overview.md`)
-2. Extract work items/PoCs identified in the overview
-3. Read existing `docs/[milestone-name]-poc-design.md`
-4. **Append** new PoCs with next sequential numbers (e.g., if last PoC is #5, new ones are #6, #7, #8)
-5. Update dependency diagram to show where new PoCs fit
-6. **DO NOT renumber** existing PoCs
-
-**Update Mode B** - From user notes (quick updates):
-1. Read existing `docs/[milestone-name]-poc-design.md`
+**Update Mode** - Add new PoCs to existing design:
+1. Read existing `docs/[milestone-slug]-poc-design.md`
 2. Identify new PoCs needed based on user notes
 3. **Append** new PoCs with next sequential numbers
 4. Update dependency diagram to show where new PoCs fit
@@ -69,41 +66,26 @@ Stage 5 of dev-design: Plan atomic PoCs with clear success criteria and dependen
 
 ## Examples
 
-**Milestone workflow** (🔥 RECOMMENDED - after `/design-milestones`):
+**Create PoC design** (after `/design-milestone-design`):
 ```bash
-# After creating docs/milestones-overview.md, design PoCs for each milestone
+# After completing docs/milestone-1-web-core.md
 
-# Design PoCs for first milestone (Core)
+# Design PoCs for first milestone (uses milestone-1-*.md)
 /design-poc-design
+
 # OR explicitly specify milestone
 /design-poc-design "Core"
-# OR use milestone number
 /design-poc-design "1"
 
 # Later, design PoCs for second milestone
-/design-poc-design "Cloud Deployment"
-# OR
+/design-poc-design "Mobile"
 /design-poc-design "2"
 ```
 
-**Legacy create mode** (direct from architecture, skips milestone planning):
+**Update existing PoC design** (add new PoCs):
 ```bash
-/design-poc-design docs/core-architecture.md
-```
-
-**Update from overview** (common workflow after `/dev-overview`):
-```bash
-/dev-overview --notes "Add caching layer to reduce API calls"
-# Creates docs/caching-overview.md with work items
-
-/design-poc-design docs/caching-overview.md
-# Extracts PoCs from overview and adds to docs/core-poc-design.md
-```
-
-**Update from notes** (quick manual updates):
-```bash
-/design-poc-design docs/core-poc-design.md \
-  --notes "Add PoCs for rate limiting and retry logic discovered in PoC 3"
+/design-poc-design docs/web-core-poc-design.md \
+  --notes "Add PoCs for rate limiting discovered during planning"
 ```
 
 ## PoC Requirements
@@ -115,8 +97,11 @@ Each PoC must be:
 
 ## Output
 
-Create `docs/[milestone-name]-poc-design.md` using the template.
+Creates:
+- `docs/[milestone-slug]-poc-design.md` - PoC plan derived from milestone design
 
 ## After Completion
 
-Run `/verify-doc docs/[milestone-name]-poc-design.md` to validate, then hand off to **dev-cycle** skill for implementation.
+Run `/verify-doc docs/[milestone-slug]-poc-design.md` to validate, then hand off to **dev-cycle** skill for implementation.
+
+**Next Stage**: Implementation via **dev-cycle** skill.

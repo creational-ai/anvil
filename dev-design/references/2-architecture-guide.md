@@ -6,6 +6,9 @@ Create technical architecture and integration plan.
 ## Code Allowed
 NO
 
+## Timeline Estimates
+NOT NEEDED - Focus on WHAT and WHY, not WHEN. Avoid timeline estimates (e.g., "Week 1-2", "2 weeks", "3 months"). Design phases don't need schedules.
+
 ## Input
 - North Star doc from Stage 1 (`docs/north-star.md`)
 

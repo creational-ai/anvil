@@ -10,13 +10,13 @@ Structured workflow for taking ideas from concept to executable PoC plan.
 |-------|--------|-------------|
 | 1. North Star | `docs/north-star.md` | Claude Desktop |
 | 2. Architecture | `docs/[name]-architecture.md` | Claude Desktop |
-| 3. Research | Market analysis, validation | Claude Desktop |
-| 4. Milestones Overview | `docs/milestones-overview.md` | Claude Code |
+| 3. Milestones Overview | `docs/milestones-overview.md` | Claude Code |
+| 4. Milestone Design | `docs/milestone-[number]-[slug].md` | Claude Code |
 | 5. PoC Design | `docs/[milestone-name]-poc-design.md` | Claude Code |
 
 **Environment Split**:
-- **Claude Desktop** (Stages 1-3): Free-form exploration and research
-- **Claude Code** (Stages 4-5): Template-driven structured design
+- **Claude Desktop** (Stages 1-2): Free-form exploration and research
+- **Claude Code** (Stages 3-5): Template-driven structured design
 
 **File Naming**:
 - `[name]`: For architecture docs (can be anything - project name, feature name, module name)
@@ -111,45 +111,11 @@ Respond: "We're in the [North Star/Architecture/Research/Milestone Design/PoC De
 - [ ] No code written (only diagrams and descriptions)
 - [ ] Run `/verify-doc docs/[name]-architecture.md`
 
-**Next**: → Stage 3: Research
+**Next**: → Stage 3: Milestones Overview
 
 ---
 
-## Stage 3: Research
-
-**Goal**: Validate market fit and competitive landscape
-
-**Input**: North Star doc (`docs/north-star.md`) and Architecture doc (`docs/[name]-architecture.md`)
-
-**Process**:
-1. Research competitors
-2. Identify market gaps
-3. Validate pricing assumptions
-4. Assess technical differentiation
-5. Multiple research passes to fine-tune
-
-**Output**: Updates to `docs/north-star.md` and `docs/[name]-architecture.md`, market analysis
-
-### Fast-Track Option
-
-If research already exists (from prior sessions, reference docs, or external sources):
-1. Review existing research docs for coverage
-2. Verify all checklist items are addressed
-3. Note source: "Research validated via [reference docs]"
-4. Proceed to Stage 4
-
-### Stage 3 Complete Checklist
-- [ ] Competitors identified with strengths/weaknesses
-- [ ] Market gap clearly articulated
-- [ ] Differentiation strategy defined
-- [ ] Pricing validated against market (if applicable)
-- [ ] Go/no-go decision supported by evidence
-
-**Next**: → Stage 4: Milestones Overview
-
----
-
-## Stage 4: Milestones Overview
+## Stage 3: Milestones Overview
 
 **Goal**: Break North Star + Architecture into strategic milestones with clear progression, detailed architecture per milestone, and measurable outcomes
 
@@ -187,7 +153,7 @@ If research already exists (from prior sessions, reference docs, or external sou
 - **Key Outcomes**: Checkbox list of what this proves
 - **Why [This Approach/Order]?**: Strategic rationale
 
-### Stage 4 Complete Checklist
+### Stage 3 Complete Checklist
 - [ ] `docs/milestones-overview.md` created using template
 - [ ] Milestone Progression diagram shows overall strategy
 - [ ] Milestone 1: Core fully defined with all sections
@@ -197,7 +163,57 @@ If research already exists (from prior sessions, reference docs, or external sou
 - [ ] Next Steps clear
 - [ ] Run `/verify-doc docs/milestones-overview.md`
 
-**Next**: → Stage 5: PoC Design (run once per milestone, starting with Core)
+**Next**: → Stage 4: Milestone Design (detailed design per milestone)
+
+---
+
+## Stage 4: Milestone Design
+
+**Goal**: Expand a single milestone into comprehensive, self-contained design document with implementation details
+
+**Input**:
+- Milestones Overview (`docs/milestones-overview.md`)
+- Architecture doc (`docs/[name]-architecture.md`)
+
+**Template**: `assets/templates/milestone-design.md`
+
+**Output**: `docs/milestone-[number]-[slug].md` (e.g., `docs/milestone-1-web-core.md`)
+
+**Process**:
+1. Write Executive Summary (2-3 paragraphs + key principle)
+2. Expand Goal section (what it proves + what it doesn't include)
+3. Expand Architecture Overview (diagram, tech stack, cost structure)
+4. Design Core Components (3-6 components with full detail)
+5. Detail Implementation Phases (expand from overview with specifics)
+6. Expand Success Metrics (add measurement details and rationale)
+7. Add Key Outcomes (copy from overview, optionally expand)
+8. Add "Why This Approach?" section
+9. Document Design Decisions & Rationale
+10. Identify Risks & Mitigation strategies
+11. Document Open Questions (grouped by category)
+12. Define Next Steps (three time horizons)
+
+**Key Principles**:
+- **Self-Contained**: Document focuses ONLY on this milestone (no forward references to M2, M3)
+- **Implementation Perspective**: Production-grade design, not prototypes
+- **Design-Focused**: Focus on WHAT and WHY, not rigid WHEN
+- **Visual Communication**: Diagrams show architecture and flows clearly
+
+### Stage 4 Complete Checklist
+- [ ] `docs/milestone-[number]-[slug].md` created using template
+- [ ] Executive Summary provides clear context
+- [ ] Goal section includes what it proves AND what it doesn't
+- [ ] Architecture has all three subsections (Diagram, Stack, Cost)
+- [ ] Core Components (3-6) each have all subsections
+- [ ] Implementation Phases expanded from overview with details
+- [ ] Success Metrics have measurement details and rationale
+- [ ] Design Decisions explain why this approach
+- [ ] Risks identified with mitigation strategies
+- [ ] Open Questions grouped by category
+- [ ] Next Steps have three time horizons
+- [ ] NO forward references to other milestones (M2, M3, etc.)
+
+**Next**: → Stage 5: PoC Design (break milestone into atomic PoCs)
 
 ---
 
@@ -206,7 +222,8 @@ If research already exists (from prior sessions, reference docs, or external sou
 **Goal**: Define what needs to be proven and in what order — with PRODUCTION-GRADE thin slices
 
 **Input**:
-- Milestone definition from `docs/milestones-overview.md`
+- Milestone design from `docs/milestone-[number]-[slug].md` (Stage 4 output)
+- Milestones overview from `docs/milestones-overview.md` (Stage 3 output)
 - Validated architecture doc (`docs/[name]-architecture.md`)
 
 **Template**: `assets/templates/poc-design.md`
@@ -258,6 +275,6 @@ Once you have `docs/[milestone-name]-poc-design.md` completed, hand off to the *
 For detailed guidance on each stage:
 - `references/1-north-star-guide.md` - Stage 1 process
 - `references/2-architecture-guide.md` - Stage 2 process
-- `references/3-research-guide.md` - Stage 3 process
-- `references/4-milestones-overview-guide.md` - Stage 4 process
+- `references/3-milestones-overview-guide.md` - Stage 3 process
+- `references/4-milestone-design-guide.md` - Stage 4 process
 - `references/5-poc-design-guide.md` - Stage 5 process

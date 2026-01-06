@@ -6,8 +6,12 @@ Define what needs to be proven and in what order — with PRODUCTION-GRADE thin 
 ## Code Allowed
 NO
 
+## Timeline Estimates
+NOT NEEDED - Focus on WHAT and WHY, not WHEN. Avoid timeline estimates (e.g., "Week 1-2", "2 weeks", "3 months"). Design phases don't need schedules.
+
 ## Input
-- Milestone definition from `docs/milestones-overview.md` (Stage 4 output)
+- Milestone design from `docs/milestone-[number]-[slug].md` (Stage 4 output)
+- Milestones overview from `docs/milestones-overview.md` (Stage 3 output)
 - Validated architecture doc (`docs/[name]-architecture.md`) (Stage 2 output)
 
 **Note**: Run this stage once per milestone, starting with Milestone 1 (Core).

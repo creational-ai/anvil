@@ -4,13 +4,13 @@ Create milestones overview roadmap breaking North Star into strategic phases.
 
 ## What This Does
 
-Stage 4 of dev-design: Break North Star + Architecture into 1-3 milestones.
+Stage 3 of dev-design: Break North Star + Architecture into strategic milestones.
 
 ## Resources
 
 **Read these for guidance**:
-- `~/.claude/skills/dev-design/SKILL.md` - See "Stage 4: Milestones Overview" section
-- `~/.claude/skills/dev-design/references/4-milestones-overview-guide.md` - Detailed process
+- `~/.claude/skills/dev-design/SKILL.md` - See "Stage 3: Milestones Overview" section
+- `~/.claude/skills/dev-design/references/3-milestones-overview-guide.md` - Detailed process
 - `~/.claude/skills/dev-design/assets/templates/milestones-overview.md` - Template
 
 ## Prerequisites
@@ -18,14 +18,13 @@ Stage 4 of dev-design: Break North Star + Architecture into 1-3 milestones.
 Must complete before running this command:
 - [ ] Stage 1: North Star (`docs/north-star.md`)
 - [ ] Stage 2: Architecture (`docs/[name]-architecture.md`)
-- [ ] Optional: Stage 3: Research (if applicable)
 
 ## Input
 
 **Required docs (auto-read):**
 - `docs/north-star.md` - Vision and goals
 - `docs/*-architecture.md` - All architecture documents
-- Research findings (if any Stage 3 docs exist)
+- Research findings (if any exist)
 
 **User notes (optional):**
 ```
@@ -44,6 +43,10 @@ Must complete before running this command:
 /design-milestones-overview "Small project - just start with Core milestone"
 ```
 
+## Key Requirements
+
+⛔ **NO CODE** - This is design only (milestone planning, strategic roadmap)
+
 ## Process
 
 1. **Read all prerequisite docs:**
@@ -55,8 +58,8 @@ Must complete before running this command:
 2. **Follow the guidance in `4-milestones-overview-guide.md`:**
    - Start with Milestone 1: Core (always)
    - Assess path clarity (can you see the giant steps?)
-   - Define 1-3 milestones (Core + others if clear path visible)
-   - Document milestone order (sequential: 1 → 2 → 3)
+   - Define milestones based on strategic phases
+   - Document milestone progression and rationale
 
 ## Output
 
@@ -67,12 +70,12 @@ Creates:
 
 **Every project starts with Milestone 1: Core** (core functionality)
 
-**Clear path to north star**: Plan 2-3 milestones upfront if you can see the giant steps
+**Clear path to north star**: Define multiple milestones upfront if you can see the strategic phases
 
-**Unclear path**: Start with just 1 milestone (Core) - common with small/experimental projects
+**Unclear path**: Start with just Core milestone - expand as clarity emerges through execution
 
 ## After Completion
 
-User will run `/verify-doc docs/milestones-overview.md`, fix issues, then proceed to Stage 5 (PoC Design) starting with the first milestone.
+User will run `/verify-doc docs/milestones-overview.md`, fix issues, then proceed to Stage 4 (Milestone Design).
 
-**Next Stage**: `/design-poc-design` (run once per milestone, starting with Core)
+**Next Stage**: Create detailed design for Milestone 1, then proceed to PoC design for Milestone 1. Repeat for subsequent milestones as needed.

@@ -50,4 +50,4 @@ Create `[name]-architecture.md` using the template.
 
 ## After Completion
 
-Run `/verify-doc [name]-architecture.md` to validate, then proceed to Stage 3: Research.
+Run `/verify-doc [name]-architecture.md` to validate, then proceed to Stage 3: Milestones Overview.

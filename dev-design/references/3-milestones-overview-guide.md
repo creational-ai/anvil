@@ -6,6 +6,9 @@ Break North Star + Architecture into strategic milestones with clear progression
 ## Code Allowed
 NO - This is pure strategic planning
 
+## Timeline Estimates
+NOT NEEDED - Focus on WHAT and WHY, not WHEN. Avoid timeline estimates (e.g., "Week 1-2", "2 weeks", "3 months"). Design phases don't need schedules.
+
 ## Input
 - Completed North Star doc (`docs/north-star.md`)
 - Completed Architecture doc (`docs/[name]-architecture.md`)
