@@ -46,29 +46,29 @@ This stage is **user-initiated**:
 - What should exist (proposed code)
 - How to verify changes work
 
-### 4. Break Down into Self-Contained PoCs
+### 4. Break Down into Self-Contained Tasks
 
-**Critical requirement**: Each PoC must be self-contained and **production-grade**
+**Critical requirement**: Each task must be self-contained and **production-grade**
 
 **Why self-contained matters:**
-- Each PoC is complete within its scope (doesn't need non-dependent PoCs to work)
-- System remains functional between PoCs (no breaking changes to existing functionality/tests)
+- Each task is complete within its scope (doesn't need non-dependent tasks to work)
+- System remains functional between tasks (no breaking changes to existing functionality/tests)
 - Prevents cascading failures
-- Clearly shows what it proves and what capabilities it opens up for dependent PoCs
-- Safe to pause work at any PoC boundary
+- Clearly shows what it proves/delivers and what capabilities it opens up
+- Safe to pause work at any task boundary
 
-**⚠️ CRITICAL: Minimize the Number of PoCs**
+**⚠️ CRITICAL: Minimize the Number of Tasks**
 
-**Golden Rule**: One feature = One PoC (unless it spans the entire stack)
+**Golden Rule**: Group related work into one task when possible
 
-**When to use ONE PoC:**
-- Feature contained in one layer (frontend OR backend OR database)
-- Related tasks that test the same capability together
+**When to use ONE task:**
+- Work contained in one layer (frontend OR backend OR database)
+- Related work that tests the same capability together
 - CRUD operations for a single entity
 
 **When to split:**
-- Feature spans entire stack and each layer needs independent testing
-- Clear dependency boundaries (PoC B cannot start until PoC A proven)
+- Work spans entire stack and each layer needs independent testing
+- Clear dependency boundaries (Task B cannot start until Task A complete)
 - Different technical risks requiring separate validation
 - **BUT STILL MINIMIZE** - If you can test 2 layers together, do it
 
@@ -93,7 +93,7 @@ When new capability could break existing code, add new functions/classes alongsi
 ### 7. Update Plan
 
 **Final critical step:**
-- Add new work items to `docs/[name]-poc-design.md`
+- Add new tasks to `docs/[name]-poc-design.md`
 - **DO NOT renumber existing items** - just add new sequential numbers (e.g., if last item is #5, new items are #6, #7, #8)
 - Update dependency graph to show where new items fit
 - Verify dependencies still make sense
@@ -106,13 +106,13 @@ Two documents:
    - Executive summary
    - Current vs target architecture
    - What needs to change
-   - Work item breakdown
+   - Task breakdown
    - Implementation approaches
    - Risks and mitigations
    - Design decisions
 
 2. **Updated Plan**: `docs/[name]-poc-design.md`
-   - Incorporate new work items
+   - Incorporate new tasks
    - Add new sequential numbers
    - Maintain dependency graph
 
@@ -122,21 +122,21 @@ Two documents:
 - [ ] Current architecture documented with code examples
 - [ ] Target architecture clearly defined
 - [ ] All files requiring changes identified
-- [ ] Each new PoC is self-contained (works independently, doesn't break existing functionality/tests)
-- [ ] PoC dependency order makes sense
+- [ ] Each new task is self-contained (works independently, doesn't break existing functionality/tests)
+- [ ] Task dependency order makes sense
 - [ ] Implementation approaches evaluated
 - [ ] Recommended approach selected with rationale
 - [ ] Risks identified with mitigations
 - [ ] Design decisions documented
-- [ ] `docs/[name]-poc-design.md` updated with new work items
+- [ ] `docs/[name]-poc-design.md` updated with new tasks
 
 ## Common Pitfalls
 
-- **Forgetting self-contained requirement**: Each work item must work independently
+- **Forgetting self-contained requirement**: Each task must work independently
 - **Breaking changes**: Use "add alongside" strategy, not "replace"
 - **Vague definitions**: Be specific about what each item proves
 - **Missing dependencies**: Ensure prerequisites are clear
-- **Skipping plan update**: Must update plan with new work items
+- **Skipping plan update**: Must update plan with new tasks
 
 ## Next Stage
 

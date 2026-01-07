@@ -1,7 +1,7 @@
 # Execution Guide (Stage 3)
 
 ## Goal
-Implement the current work item one step at a time.
+Implement the current task one step at a time.
 
 ## Code Allowed
 YES
@@ -86,5 +86,5 @@ A step is NOT complete until:
 - Keep implementation doc clean (no status updates there)
 
 ## Next Stage
-→ Return to Stage 2 for next work item (after work complete)
-→ MVP complete (when all work items complete)
+→ Return to Stage 2 for next task (after task complete)
+→ MVP complete (when all tasks complete)

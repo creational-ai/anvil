@@ -55,7 +55,7 @@ Follow the guidance in `1-overview-guide.md`:
 1. Document current architecture
 2. Define target architecture
 3. Identify what needs to change
-4. Break into self-contained work items
+4. Break into self-contained tasks
 5. Evaluate approaches
 6. Document decisions
 7. Update [name]-poc-design.md (if applicable)

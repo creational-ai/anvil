@@ -39,7 +39,7 @@ Creates the foundation before any code is written.
 
 ### dev-cycle - Development Loop
 
-Implements work items through a repeating 3-stage cycle.
+Implements tasks through a repeating 3-stage cycle.
 
 **Stages**:
 1. Overview - Analyze features/bugs (design only)
@@ -78,7 +78,7 @@ Implements work items through a repeating 3-stage cycle.
 
 - **dev-design is NO-CODE** - Pure design and planning
 - **dev-cycle allows code** - Stage 1 is design-only, Stages 2-3 allow code
-- **One work item at a time** - Plan and execute incrementally
+- **One task at a time** - Plan and execute incrementally
 - **Production-grade quality** - OOP, Pydantic, type hints, tests required
 - **Self-contained work** - Each item works independently
 

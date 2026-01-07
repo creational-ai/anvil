@@ -328,4 +328,4 @@ _(Optional - only if this PoC introduces new error codes)_
 
 1. ✅ Verify all tests pass ([total] total)
 2. ✅ Verify [specific success criteria]
-3. → Proceed to next work item: [Next item]
+3. → Proceed to next task: [Next task]

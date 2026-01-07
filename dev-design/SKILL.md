@@ -1,8 +1,25 @@
 # dev-design
 
-Structured workflow for taking ideas from concept to executable PoC plan.
+Structured workflow for taking ideas from concept to executable task plan.
 
-**Philosophy**: dev-design handles the **design phase** (0 to 1). Once you have a PoC plan, hand off to the **dev-cycle skill** for the **development loop** (1 to N).
+## Hierarchy
+
+```
+Project (e.g., "mission-control")
+├── Milestone (grouping layer, e.g., "core", "cloud")
+│   ├── Task (e.g., "poc-1", "auth-feature", "fix-bug-42")
+│   └── Task ...
+└── Milestone (e.g., "integrations")
+    └── Task ...
+```
+
+**Task Types:**
+- **PoC** - Proof of Concept (validate technical approach)
+- **Feature** - New functionality
+- **Issue** - Bug fix
+- **Refactor** - Code improvement
+
+**Philosophy**: dev-design handles the **design phase** (0 to 1) at Project, Milestone, and Task levels. Once you have a task plan, hand off to the **dev-cycle skill** for the **development loop** (1 to N).
 
 ## Stage Overview
 
@@ -266,7 +283,7 @@ Each PoC must be:
 
 Once you have `docs/[milestone-name]-poc-design.md` completed, hand off to the **dev-cycle** skill for implementation.
 
-**dev-cycle** handles all development work through a repeating cycle: plan work items → execute step-by-step → test → repeat.
+**dev-cycle** handles all development work through a repeating cycle: plan tasks → execute step-by-step → test → repeat.
 
 ---
 

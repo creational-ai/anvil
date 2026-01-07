@@ -23,7 +23,7 @@ This command works with results documents created by:
 
 **Examples:**
 ```bash
-# Consolidate lessons from a completed work item
+# Consolidate lessons from a completed task
 /dev-lessons docs/poc6-results.md
 
 # Consolidate with additional context

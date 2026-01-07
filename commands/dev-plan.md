@@ -1,10 +1,10 @@
 # /dev-plan
 
-Create a detailed implementation plan for a single work item.
+Create a detailed implementation plan for a single task.
 
 ## What This Does
 
-Stage 2 of dev-cycle: Break down one work item into bite-sized, production-grade steps.
+Stage 2 of dev-cycle: Break down one task into bite-sized, production-grade steps.
 
 ## Resources
 
@@ -47,7 +47,7 @@ Stage 2 of dev-cycle: Break down one work item into bite-sized, production-grade
 
 ✅ **CODE ALLOWED** - Use concrete code snippets, configs, commands
 
-⚠️ **ONE WORK ITEM AT A TIME** - Only plan the next logical item
+⚠️ **ONE TASK AT A TIME** - Only plan the next logical task
 
 🏗️ **PRODUCTION-GRADE** - OOP, Pydantic models, type hints, real data
 

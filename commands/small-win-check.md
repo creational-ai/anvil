@@ -9,15 +9,14 @@ Scan the project for these artifacts (names may vary):
 Use Glob and Grep tools to search for these files. If files don't exist or aren't in expected locations, note their absence in the report.
 
 1. **North Star** - `docs/*north-star*.md` - Vision, milestones, success metrics
-2. **PoC Plan** - `docs/*poc-plan*.md` - PoC definitions and success criteria
-3. **Design** - `docs/*design*.md` - Architecture and end goals
-4. **Project State** - `PROJECT_STATE.md` - Current status tracking
-5. **PoC Results** - `docs/poc*-results.md` - Completed work
+2. **Design** - `docs/*design*.md` - Architecture and end goals
+3. **Project State** - `PROJECT_STATE.md` - Current status tracking
+4. **Results** - `docs/*-results.md` - Completed work
 
 ## Assessment Criteria
 
 ### 1. Alignment Check
-- Are completed PoCs aligned with the North Star vision?
+- Are completed tasks aligned with the North Star vision?
 - Does the work support the target architecture?
 - Are we on track for current milestone?
 
@@ -51,32 +50,32 @@ Review all files above and assess against the 5 criteria.
 ```markdown
 ## Latest Health Check
 
-### [Date] - [Session/Milestone Name]
+### [Date] - [Session/Task Name]
 **Status**: ✅ On Track / ⚠️ Minor Concerns / ❌ Needs Attention
 
 **Context**:
-[What prompted this health check? What milestone/work item just completed?]
+[What prompted this health check? What work just completed?]
 
 **Findings**:
-- [Summary of alignment, gaps, concerns]
+- ✅ [Key finding 1]
+- ✅ [Key finding 2]
 
-**Challenges** (if any):
-- [What difficulties were encountered]
-- [How they were resolved]
+**Challenges**:
+- [What difficulty was encountered]
+- [How it was resolved]
 
 **Results**:
 - ✅ [What was accomplished]
-- ✅ [Key outcomes]
+- ✅ [Key outcome]
 
 **Lessons Learned**:
-- [What worked well]
-- [What to do differently]
-- [Insights gained]
+- [Insight 1]
+- [Insight 2]
 
 **Next**: [What to focus on next]
 ```
 
-**Instructions**: Replace the entire section with new findings. Keep only the latest check - follow the template structure exactly.
+**Instructions**: Replace the entire "Latest Health Check" section with new findings. Keep only the latest check.
 
 ### Step 3: Generate Final Report
 
@@ -86,8 +85,8 @@ After updating PROJECT_STATE.md, provide this report:
 ## Small Win Check Report
 
 **Date**: [Date]
-**Current Stage**: [Stage]
-**Current PoC**: [PoC name]
+**Current Milestone**: [Milestone name]
+**Recent Work**: [Task name]
 
 ### ✅ Wins
 - [What's going well]
@@ -117,4 +116,4 @@ After updating PROJECT_STATE.md, provide this report:
 | End of session | Always |
 | Feeling uncertain | Immediately |
 | After major decision | Always |
-| Completing a PoC | Always |
+| Completing a task | Always |

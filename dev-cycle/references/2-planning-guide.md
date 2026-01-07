@@ -1,24 +1,24 @@
 # Planning Guide (Stage 2)
 
 ## Goal
-Break the work item (PoC, feature, bug fix) into bite-sized, production-grade implementation steps.
+Break the task (PoC, feature, bug fix, refactor) into bite-sized, production-grade implementation steps.
 
 ## Code Allowed
 YES
 
-## ⚠️ ONE WORK ITEM AT A TIME
+## ⚠️ ONE TASK AT A TIME
 
 Only generate implementation plan for:
-- The next logical work item (based on dependency graph), OR
-- The specific item you explicitly choose
+- The next logical task (based on dependency graph), OR
+- The specific task you explicitly choose
 
 **Why one at a time?**
-- Learnings from one work item often change subsequent items
+- Learnings from one task often change subsequent tasks
 - Keeps planning nimble and agile
 - Avoids wasted effort on plans that become obsolete
 
 ## Input
-- Single work item from `docs/[name]-poc-design.md` OR feature/bug to implement
+- Single task from `docs/[name]-poc-design.md` OR feature/bug to implement
 
 ## Process
 1. List all prerequisites (setup Supabase, configure AWS, API keys, etc.)
@@ -48,7 +48,7 @@ One document is created:
 - [ ] No step relies on mock data where real data is needed
 - [ ] Implementation would work in production context
 - [ ] Implementation doc contains NO status indicators (keep it clean)
-- [ ] **PoC is self-contained** - fully functional without requiring future PoCs
+- [ ] **Task is self-contained** - fully functional without requiring future tasks
 
 ## What CODE IS Allowed
 
@@ -84,19 +84,19 @@ Each step should be:
 
 If a step is too big, break it into sub-steps (3a, 3b, 3c).
 
-## Self-Contained PoC Requirement
+## Self-Contained Task Requirement
 
-**CRITICAL**: Each PoC must be complete and functional on its own.
+**CRITICAL**: Each task must be complete and functional on its own.
 
 **What this means:**
-- All existing functionality continues working after PoC completes
+- All existing functionality continues working after task completes
 - New capability can be tested/verified immediately
-- No "TODO: will work after PoC N+1" comments
-- Tests pass at end of PoC
+- No "TODO: will work after next task" comments
+- Tests pass at end of task
 
 **Strategy: Add Alongside, Don't Replace**
 
-When implementing something that could break existing code, add new functions/classes alongside existing ones rather than modifying them. Migration happens in next PoC, not this one.
+When implementing something that could break existing code, add new functions/classes alongside existing ones rather than modifying them. Migration happens in next task, not this one.
 
 ## Production-Grade Checklist
 
@@ -120,10 +120,10 @@ For each step, ensure:
 - **Using raw dicts instead of Pydantic models** (loses validation, type safety, documentation)
 - **Procedural code instead of OOP** (harder to test, maintain, extend)
 - **Missing type hints** (reduces IDE support, increases bugs)
-- **Breaking self-contained requirement** (add alongside don't replace; PoC must work independently without future PoCs)
+- **Breaking self-contained requirement** (add alongside don't replace; task must work independently without future tasks)
 
 ## Next Stage
 → Stage 3: Execution (use 3-execution-guide.md)
 
-## After Work Complete
-→ Return to Stage 2 for next work item
+## After Task Complete
+→ Return to Stage 2 for next task

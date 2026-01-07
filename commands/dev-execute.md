@@ -18,7 +18,7 @@ Stage 3 of dev-cycle: Implement one step at a time with pytest verification.
 
 **First argument (required):**
 - File path to implementation plan (e.g., `docs/poc6-implementation.md`)
-- Work item name (e.g., `poc6`, `feature-x`) → Will look for `docs/[name]-implementation.md`
+- Task name (e.g., `poc6`, `feature-x`) → Will look for `docs/[name]-implementation.md`
 
 **Second argument (optional):**
 - Step number or identifier (e.g., `3`, `step-3`, `Step 3`)
@@ -38,7 +38,7 @@ Stage 3 of dev-cycle: Implement one step at a time with pytest verification.
 # Execute specific step
 /dev-execute docs/poc6-implementation.md 3 --notes "Skip database migration for now"
 
-# Using work item name
+# Using task name
 /dev-execute poc6 step-5
 ```
 
@@ -96,6 +96,6 @@ When current step tests pass and docs are updated:
 
 ## After All Steps Complete
 
-When all work item steps are complete:
+When all task steps are complete:
 - Run `/small-win-check` to update Latest Health Check in PROJECT_STATE.md
-- Return to Stage 2 for next work item
+- Return to Stage 2 for next task

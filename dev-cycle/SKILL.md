@@ -1,16 +1,31 @@
 # dev-cycle
 
-A structured 3-stage workflow for building features, fixing bugs, and implementing PoCs with production-grade quality.
+A structured 3-stage workflow for implementing tasks with production-grade quality.
+
+## Hierarchy
+
+```
+Project (e.g., "mission-control")
+├── Milestone (grouping layer, e.g., "core", "cloud")
+│   ├── Task (e.g., "poc-1", "auth-feature", "fix-bug-42")
+│   └── Task ...
+└── Milestone (e.g., "integrations")
+    └── Task ...
+```
+
+**Task Types:**
+- **PoC** - Proof of Concept (validate technical approach)
+- **Feature** - New functionality
+- **Issue** - Bug fix
+- **Refactor** - Code improvement
 
 ## Overview
 
-This skill guides you through a complete development cycle:
+This skill operates at the **Task level** - one task at a time through a 3-stage workflow:
 
 1. **Stage 1: Overview** - High-level design (what and why)
 2. **Stage 2: Implementation Plan** - Step-by-step breakdown
 3. **Stage 3: Execution** - Actual implementation with tests
-
-**Works for**: Features, bugs, PoCs, milestones, or any development work.
 
 ## Quick Reference
 
@@ -74,7 +89,7 @@ See `references/1-overview-guide.md` for detailed guidance on:
 - Document current architecture
 - Define target architecture
 - Identify what needs to change
-- Break down into self-contained work items
+- Break down into self-contained tasks
 - Evaluate implementation approaches
 - Document design decisions
 - Update PoC plan (if applicable)
@@ -94,7 +109,7 @@ Where `[name]` is descriptive:
 - Executive summary
 - Current vs target architecture
 - What needs to change
-- Work item breakdown (PoCs/phases)
+- Task breakdown
 - Implementation approaches
 - Risks and mitigations
 - Design decisions
@@ -105,8 +120,8 @@ Where `[name]` is descriptive:
 - [ ] Current architecture documented with code examples
 - [ ] Target architecture clearly defined
 - [ ] All files requiring changes identified
-- [ ] 🔒 **Each work item is self-contained** (works independently; doesn't break existing functionality/tests)
-- [ ] Work item dependency order makes sense
+- [ ] 🔒 **Each task is self-contained** (works independently; doesn't break existing functionality/tests)
+- [ ] Task dependency order makes sense
 - [ ] Implementation approaches evaluated
 - [ ] Recommended approach selected with rationale
 - [ ] Risks identified with mitigations
@@ -125,7 +140,7 @@ User should review overview, run `/verify-doc`, fix issues, then request Stage 2
 
 ## Stage 2: Implementation Plan
 
-**Goal**: Break down a single work item into bite-sized, production-grade implementation steps.
+**Goal**: Break down a single task into bite-sized, production-grade implementation steps.
 
 **Code Allowed**: YES - Code snippets, configs, examples
 
@@ -133,10 +148,10 @@ User should review overview, run `/verify-doc`, fix issues, then request Stage 2
 
 Run Stage 2 when:
 - Overview is complete and verified
-- Ready to plan implementation for next work item
+- Ready to plan implementation for next task
 - User explicitly requests implementation plan
 
-⚠️ **ONE WORK ITEM AT A TIME** - Only plan the next logical work item to keep planning agile
+⚠️ **ONE TASK AT A TIME** - Only plan the next logical task to keep planning agile
 
 ✅ **CODE IS ALLOWED** - Unlike Stage 1, use concrete code snippets, commands, and configs
 
@@ -144,7 +159,7 @@ Run Stage 2 when:
 
 🏗️ **QUALITY OOP CODE** - Use classes with clear responsibilities, Pydantic models for all data structures, strong typing everywhere
 
-🔒 **SELF-CONTAINED** - Each work item must be complete and functional on its own; doesn't break existing functionality and existing tests
+🔒 **SELF-CONTAINED** - Each task must be complete and functional on its own; doesn't break existing functionality and existing tests
 
 ### Process
 
@@ -191,7 +206,7 @@ User should review plan, run `/verify-doc`, fix issues, then request Stage 3.
 
 ## Stage 3: Execution
 
-**Goal**: Implement the current work item one step at a time.
+**Goal**: Implement the current task one step at a time.
 
 **Code Allowed**: YES - Full implementation
 
@@ -282,7 +297,7 @@ See `references/3-execution-guide.md` for detailed per-step workflow:
 
 ### Next Stage
 
-→ **Return to Stage 2** for next work item (after work complete)
+→ **Return to Stage 2** for next task (after task complete)
 
 ---
 
@@ -315,10 +330,10 @@ Use Glob/Grep to check for existing documents:
    - Results docs track live progress
    - Use `/small-win-check` for PROJECT_STATE.md updates
 
-3. **One item at a time**
-   - Stage 1: Can plan multiple work items
-   - Stage 2: Only plan one work item
-   - Stage 3: Only execute one work item
+3. **One task at a time**
+   - Stage 1: Can plan multiple tasks
+   - Stage 2: Only plan one task
+   - Stage 3: Only execute one task
 
 4. **Tests are mandatory**
    - Every step requires passing tests
@@ -327,18 +342,19 @@ Use Glob/Grep to check for existing documents:
 
 5. **Self-contained is non-negotiable**
    - Add alongside, don't replace
-   - System works at every PoC boundary
-   - No "TODO: will work after next PoC" comments
+   - System works at every task boundary
+   - No "TODO: will work after next task" comments
 
 ---
 
 ## File Naming Conventions
 
 **Project Tracking** (created once, updated throughout):
-- `PROJECT_STATE.md` - Current work item, progress, latest health check (follow template structure only)
+- `PROJECT_STATE.md` - Milestone progress, key decisions, system status, latest health check
 - Template: `~/.claude/skills/dev-cycle/assets/templates/PROJECT_STATE.md`
+- Keep it concise - remove resolved questions, keep only latest health check
 
-**Per Work Item**:
+**Per Task**:
 - `docs/[name]-overview.md` - e.g., `database-abstraction-overview.md`, `fix-auth-bug-overview.md`, `poc6-overview.md`
 - `docs/[name]-implementation.md` - e.g., `poc6-implementation.md`, `auth-fix-implementation.md`
 - `docs/[name]-results.md` - e.g., `poc6-results.md`
@@ -349,7 +365,7 @@ Use Glob/Grep to check for existing documents:
 **Where `[name]` is**:
 - Descriptive and readable
 - Lowercase with hyphens
-- Specific to the work item (can be PoC, feature, bug, milestone)
+- Specific to the task (can be PoC, feature, bug, refactor)
 
 ---
 
@@ -357,4 +373,4 @@ Use Glob/Grep to check for existing documents:
 
 **Standalone**: Use dev-cycle for any development work (features, bugs, refactoring).
 
-**With dev-design**: dev-design creates the plan (`docs/[name]-poc-design.md`), then dev-cycle implements it (Stage 1 → Stage 2 → Stage 3, repeat for each work item).
+**With dev-design**: dev-design creates the plan (`docs/[name]-poc-design.md`), then dev-cycle implements it (Stage 1 → Stage 2 → Stage 3, repeat for each task).

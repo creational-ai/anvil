@@ -80,11 +80,11 @@ git status
 - `[milestone-slug]-poc-design.md` - PoC plan (e.g., `web-core-poc-design.md`)
 
 **dev-cycle creates:**
-- `PROJECT_STATE.md` - Work item tracking
+- `PROJECT_STATE.md` - Task and milestone tracking
 - `docs/[name]-overview.md` - Feature/bug design analysis
 - `docs/[name]-implementation.md` - Implementation guide (evergreen)
 - `docs/[name]-results.md` - Progress tracking (live status)
-- `tests/test_[name]_*.py` - Tests grouped by work item
+- `tests/test_[name]_*.py` - Tests grouped by task
 
 ## Templates
 
