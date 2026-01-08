@@ -32,7 +32,8 @@
       "Bash(do if [ -f \"/Users/docchang/Development/idea-to-mvp/dev-cycle/assets/templates/$template\" ])",
       "Bash(then echo \"✓ $template\")",
       "Bash(else echo \"✗ MISSING: $template\")",
-      "Bash(fi)"
+      "Bash(fi)",
+      "Bash(wc:*)"
     ]
   }
 }

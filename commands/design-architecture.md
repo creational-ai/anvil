@@ -16,7 +16,7 @@ Stage 2 of dev-design: Design system architecture without writing code.
 ## Input
 
 **First argument (required):**
-- Path to north-star.md (e.g., `docs/north-star.md`)
+- Path to north-star (e.g., `docs/mc-north-star.md`)
 
 **User notes (optional):**
 ```
@@ -24,12 +24,12 @@ Stage 2 of dev-design: Design system architecture without writing code.
 ```
 
 **Mode Detection:**
-- If `docs/[name]-architecture.md` exists → Update mode (refine existing document)
+- If `docs/[slug]-architecture.md` exists → Update mode (refine existing document)
 - Otherwise → Create mode (new document from north star)
 
 **Output naming:**
-- Derives `[name]` from north-star.md content or user notes
-- Creates/updates `docs/[name]-architecture.md`
+- Uses same `[slug]` as north-star (e.g., `mc`)
+- Creates/updates `docs/[slug]-architecture.md`
 
 ## Key Requirements
 
@@ -46,8 +46,8 @@ Follow the guidance in `2-architecture-guide.md`:
 
 ## Output
 
-Create `[name]-architecture.md` using the template.
+Create `docs/[slug]-architecture.md` using the template (e.g., `docs/mc-architecture.md`).
 
 ## After Completion
 
-Run `/verify-doc [name]-architecture.md` to validate, then proceed to Stage 3: Milestones Overview.
+Run `/verify-doc docs/[slug]-architecture.md` to validate, then proceed to Stage 3: Milestones Overview.

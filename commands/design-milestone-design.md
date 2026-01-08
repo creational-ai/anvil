@@ -16,19 +16,17 @@ Stage 4 of dev-design: Create detailed design for one milestone with implementat
 ## Prerequisites
 
 Must complete before running this command:
-- [ ] Stage 3: Milestones Overview (`docs/milestones-overview.md`)
-- [ ] Stage 2: Architecture (`docs/[name]-architecture.md`)
+- [ ] Stage 3: Milestones Overview (`docs/[slug]-milestones-overview.md`)
+- [ ] Stage 2: Architecture (`docs/[slug]-architecture.md`)
 
 ## Input
 
-**First argument (optional):**
-- Milestone name (e.g., "Core", "Mobile") → Reads milestone from `docs/milestones-overview.md`
-- Milestone number (e.g., "1", "2") → Reads Nth milestone from `docs/milestones-overview.md`
-- If not provided, uses first milestone (Milestone 1: Core)
+**First argument (required):**
+- Milestone slug (e.g., "core", "cloud") → Reads milestone from `docs/[project-slug]-milestones-overview.md`
 
 **Required docs (auto-read):**
-- `docs/milestones-overview.md` - Milestone overview with high-level sections
-- `docs/*-architecture.md` - Architecture documents
+- `docs/[project-slug]-milestones-overview.md` - Milestone overview with high-level sections
+- `docs/[project-slug]-architecture.md` - Architecture document
 
 **User notes (optional):**
 ```
@@ -37,25 +35,17 @@ Must complete before running this command:
 
 **Examples:**
 ```bash
-# Basic usage - designs first milestone (Core)
-/design-milestone-design
+# Design first milestone
+/design-milestone-design "core"
 
-# Specify milestone by name
-/design-milestone-design "Core"
-
-# Specify milestone by number
-/design-milestone-design "1"
-
-# Later, design second milestone
-/design-milestone-design "Mobile"
-# OR
-/design-milestone-design "2"
+# Later, design another milestone
+/design-milestone-design "cloud"
 ```
 
 **Output naming:**
-- Derives from milestone in `docs/milestones-overview.md`
-- Creates `docs/milestone-[number]-[slug].md`
-- Example: `docs/milestone-1-web-core.md`
+- Derives from milestone in `docs/[project-slug]-milestones-overview.md`
+- Creates `docs/[milestone-slug]-milestone.md`
+- Example: `docs/core-milestone.md`, `docs/cloud-milestone.md`
 
 ## Key Requirements
 
@@ -80,7 +70,7 @@ Follow the guidance in `4-milestone-design-guide.md`:
 ## Output
 
 Creates:
-- `docs/milestone-[number]-[slug].md` - Comprehensive milestone design
+- `docs/[slug]-milestone.md` - Comprehensive milestone design
 
 ## Key Principles
 
@@ -92,6 +82,6 @@ Creates:
 
 ## After Completion
 
-User will run `/verify-doc docs/milestone-[number]-[slug].md`, fix issues, then proceed to Stage 5 (PoC Design).
+User will run `/verify-doc docs/[slug]-milestone.md`, fix issues, then proceed to Stage 5 (PoC Design).
 
 **Next Stage**: Create PoC design for this milestone, breaking it into atomic proof-of-concepts.

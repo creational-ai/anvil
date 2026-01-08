@@ -10,9 +10,9 @@ NO
 NOT NEEDED - Focus on WHAT and WHY, not WHEN. Avoid timeline estimates (e.g., "Week 1-2", "2 weeks", "3 months"). Design phases don't need schedules.
 
 ## Input
-- Milestone design from `docs/milestone-[number]-[slug].md` (Stage 4 output)
-- Milestones overview from `docs/milestones-overview.md` (Stage 3 output)
-- Architecture doc (`docs/[name]-architecture.md`) (Stage 2 output)
+- Milestone design from `docs/[slug]-milestone.md` (Stage 4 output)
+- Milestones overview from `docs/[slug]-milestones-overview.md` (Stage 3 output)
+- Architecture doc (`docs/[slug]-architecture.md`) (Stage 2 output)
 
 **Note**: Run this stage once per milestone, starting with Milestone 1 (Core).
 
@@ -24,7 +24,7 @@ NOT NEEDED - Focus on WHAT and WHY, not WHEN. Avoid timeline estimates (e.g., "W
 5. Define success criteria for each PoC
 
 ## Output
-`docs/[milestone-name]-poc-design.md` using `assets/templates/poc-design.md`
+`docs/[slug]-poc-design.md` using `assets/templates/poc-design.md`
 
 Example: `docs/core-poc-design.md`, `docs/cloud-deployment-poc-design.md`
 

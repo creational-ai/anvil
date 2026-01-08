@@ -16,20 +16,19 @@ Stage 5 of dev-design: Plan atomic PoCs with clear success criteria and dependen
 ## Prerequisites
 
 Must complete before running this command:
-- [ ] Stage 4: Milestone Design (`docs/milestone-[number]-[slug].md`)
-- [ ] Stage 3: Milestones Overview (`docs/milestones-overview.md`)
+- [ ] Stage 4: Milestone Design (`docs/[milestone-slug]-milestone.md`)
+- [ ] Stage 3: Milestones Overview (`docs/[project-slug]-milestones-overview.md`)
 
 ## Input
 
 **First argument (optional):**
-- Milestone name (e.g., "Core", "Mobile") → Finds `docs/milestone-*-[name].md`
-- Milestone number (e.g., "1", "2") → Reads `docs/milestone-[number]-*.md`
-- If not provided, uses first milestone (milestone-1-*.md)
+- Milestone slug (e.g., "core", "cloud") → Finds `docs/[milestone-slug]-milestone.md`
+- If not provided, uses first milestone from `docs/[project-slug]-milestones-overview.md`
 - OR path to existing PoC design (e.g., `docs/core-poc-design.md`) → Update mode
 
 **Required docs (auto-read):**
-- `docs/milestone-[number]-[slug].md` - Detailed milestone design
-- `docs/milestones-overview.md` - Milestone context
+- `docs/[milestone-slug]-milestone.md` - Detailed milestone design
+- `docs/[project-slug]-milestones-overview.md` - Milestone context
 
 **User notes (optional):**
 ```
@@ -41,8 +40,8 @@ Must complete before running this command:
 - If argument is `docs/*-poc-design.md` → **Update mode** (add new PoCs)
 
 **Output naming:**
-- Derives from milestone slug → `docs/[milestone-slug]-poc-design.md`
-- Example: `docs/milestone-1-web-core.md` → `docs/web-core-poc-design.md`
+- Derives from milestone slug → `docs/[slug]-poc-design.md`
+- Example: `docs/web-core-milestone.md` → `docs/web-core-poc-design.md`
 
 ## Key Requirements
 
@@ -51,14 +50,14 @@ Must complete before running this command:
 ## Process
 
 **Create Mode** - Follow the guidance in `5-poc-design-guide.md`:
-1. Read the detailed milestone design (`docs/milestone-[number]-[slug].md`)
+1. Read the detailed milestone design (`docs/[slug]-milestone.md`)
 2. Identify atomic things to prove (PoCs) from the design
 3. Map dependencies between PoCs
 4. Create PoC diagram
 5. Define success criteria for each PoC
 
 **Update Mode** - Add new PoCs to existing design:
-1. Read existing `docs/[milestone-slug]-poc-design.md`
+1. Read existing `docs/[slug]-poc-design.md`
 2. Identify new PoCs needed based on user notes
 3. **Append** new PoCs with next sequential numbers
 4. Update dependency diagram to show where new PoCs fit
@@ -68,18 +67,13 @@ Must complete before running this command:
 
 **Create PoC design** (after `/design-milestone-design`):
 ```bash
-# After completing docs/milestone-1-web-core.md
+# After completing docs/web-core-milestone.md
 
-# Design PoCs for first milestone (uses milestone-1-*.md)
-/design-poc-design
+# Design PoCs for milestone
+/design-poc-design "web-core"
 
-# OR explicitly specify milestone
-/design-poc-design "Core"
-/design-poc-design "1"
-
-# Later, design PoCs for second milestone
-/design-poc-design "Mobile"
-/design-poc-design "2"
+# Later, design PoCs for another milestone
+/design-poc-design "cloud"
 ```
 
 **Update existing PoC design** (add new PoCs):
@@ -98,10 +92,10 @@ Each PoC must be:
 ## Output
 
 Creates:
-- `docs/[milestone-slug]-poc-design.md` - PoC plan derived from milestone design
+- `docs/[slug]-poc-design.md` - PoC plan derived from milestone design
 
 ## After Completion
 
-Run `/verify-doc docs/[milestone-slug]-poc-design.md` to validate, then hand off to **dev-cycle** skill for implementation.
+Run `/verify-doc docs/[slug]-poc-design.md` to validate, then hand off to **dev-cycle** skill for implementation.
 
 **Next Stage**: Implementation via **dev-cycle** skill.

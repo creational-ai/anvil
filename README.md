@@ -33,7 +33,7 @@ Creates the foundation before any code is written.
 4. Milestone Design - Detailed design per milestone
 5. PoC Design - Define atomic proofs-of-concept
 
-**Output**: `north-star.md`, `[name]-architecture.md`, `milestones-overview.md`, `milestone-[number]-[slug].md`, `[milestone-slug]-poc-design.md`
+**Output**: `[slug]-north-star.md`, `[slug]-architecture.md`, `[slug]-milestones-overview.md`, `[slug]-milestone.md`, `[slug]-poc-design.md`
 
 **Deploy to**: `~/.claude/skills/dev-design/`
 
@@ -61,7 +61,7 @@ Implements tasks through a repeating 3-stage cycle.
    → Stage 1: North Star (vision)
    → Stage 2: Architecture (technical design)
    → Stage 3: Milestones Overview (strategic roadmap)
-   → Stage 4: Milestone Design (detailed design for milestone-1)
+   → Stage 4: Milestone Design (detailed design per milestone)
    → Stage 5: PoC Design (atomic proof-of-concepts)
 
 2. Use dev-cycle to execute the plan

@@ -16,14 +16,14 @@ Stage 3 of dev-design: Break North Star + Architecture into strategic milestones
 ## Prerequisites
 
 Must complete before running this command:
-- [ ] Stage 1: North Star (`docs/north-star.md`)
-- [ ] Stage 2: Architecture (`docs/[name]-architecture.md`)
+- [ ] Stage 1: North Star (`docs/[slug]-north-star.md`)
+- [ ] Stage 2: Architecture (`docs/[slug]-architecture.md`)
 
 ## Input
 
 **Required docs (auto-read):**
-- `docs/north-star.md` - Vision and goals
-- `docs/*-architecture.md` - All architecture documents
+- `docs/[slug]-north-star.md` - Vision and goals
+- `docs/[slug]-architecture.md` - Architecture document
 - Research findings (if any exist)
 
 **User notes (optional):**
@@ -50,8 +50,8 @@ Must complete before running this command:
 ## Process
 
 1. **Read all prerequisite docs:**
-   - Read `docs/north-star.md`
-   - Read all `docs/*-architecture.md` files
+   - Read `docs/[slug]-north-star.md`
+   - Read `docs/[slug]-architecture.md`
    - Read any research findings (Stage 3 outputs)
    - Review user notes
 
@@ -64,7 +64,7 @@ Must complete before running this command:
 ## Output
 
 Creates:
-- `docs/milestones-overview.md` - Strategic milestone roadmap
+- `docs/[slug]-milestones-overview.md` - Strategic milestone roadmap (e.g., `docs/mc-milestones-overview.md`)
 
 ## Key Decisions
 
@@ -76,6 +76,6 @@ Creates:
 
 ## After Completion
 
-User will run `/verify-doc docs/milestones-overview.md`, fix issues, then proceed to Stage 4 (Milestone Design).
+User will run `/verify-doc docs/[slug]-milestones-overview.md`, fix issues, then proceed to Stage 4 (Milestone Design).
 
 **Next Stage**: Create detailed design for Milestone 1, then proceed to PoC design for Milestone 1. Repeat for subsequent milestones as needed.

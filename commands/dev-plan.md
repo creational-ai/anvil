@@ -16,7 +16,7 @@ Stage 2 of dev-cycle: Break down one task into bite-sized, production-grade step
 ## Input
 
 **First argument (required):**
-- PoC identifier (e.g., `PoC 6`, `poc6`) → Reads from `[name]-poc-design.md`
+- PoC identifier (e.g., `PoC 6`, `poc6`) → Reads from `[slug]-poc-design.md`
 - File path to overview doc (e.g., `docs/feature-x-overview.md`)
 - File path to poc-design doc (e.g., `core-poc-design.md`) with PoC identifier in notes
 

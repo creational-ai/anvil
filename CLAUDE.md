@@ -73,11 +73,11 @@ git status
 ## File Naming Conventions
 
 **dev-design creates:**
-- `north-star.md` - Vision and goals (one per project)
-- `[name]-architecture.md` - Architecture (e.g., `core-architecture.md`)
-- `milestones-overview.md` - Strategic milestone roadmap
-- `milestone-[number]-[slug].md` - Detailed milestone design (e.g., `milestone-1-web-core.md`)
-- `[milestone-slug]-poc-design.md` - PoC plan (e.g., `web-core-poc-design.md`)
+- `[slug]-north-star.md` - Vision and goals (e.g., `mc-north-star.md`)
+- `[slug]-architecture.md` - Architecture (e.g., `mc-architecture.md`)
+- `[slug]-milestones-overview.md` - Strategic milestone roadmap (e.g., `mc-milestones-overview.md`)
+- `[slug]-milestone.md` - Detailed milestone design (e.g., `core-milestone.md`)
+- `[slug]-poc-design.md` - PoC plan (e.g., `core-poc-design.md`)
 
 **dev-cycle creates:**
 - `PROJECT_STATE.md` - Task and milestone tracking
@@ -89,9 +89,9 @@ git status
 ## Templates
 
 **dev-design** (`dev-design/assets/templates/`):
-- `north-star.md` - Stage 1 output
-- `architecture.md` - Stage 2 output
-- `milestones-overview.md` - Stage 3 output
+- `north-star.md` - Stage 1 template
+- `architecture.md` - Stage 2 template
+- `milestones-overview.md` - Stage 3 template
 - `milestone-design.md` - Stage 4 output
 - `poc-design.md` - Stage 5 output
 

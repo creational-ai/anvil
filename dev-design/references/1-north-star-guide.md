@@ -19,7 +19,9 @@ NOT NEEDED - Focus on WHAT and WHY, not WHEN. Avoid timeline estimates (e.g., "W
 4. Surface assumptions and unknowns
 
 ## Output
-`docs/north-star.md` using `assets/templates/north-star.md`
+`docs/[slug]-north-star.md` using `assets/templates/north-star.md`
+
+Example: `docs/mc-north-star.md`
 
 ## Verification Checklist
 - [ ] Problem clearly stated

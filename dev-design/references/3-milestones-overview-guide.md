@@ -10,8 +10,8 @@ NO - This is pure strategic planning
 NOT NEEDED - Focus on WHAT and WHY, not WHEN. Avoid timeline estimates (e.g., "Week 1-2", "2 weeks", "3 months"). Design phases don't need schedules.
 
 ## Input
-- Completed North Star doc (`docs/north-star.md`)
-- Completed Architecture doc (`docs/[name]-architecture.md`)
+- Completed North Star doc (`docs/[slug]-north-star.md`)
+- Completed Architecture doc (`docs/[slug]-architecture.md`)
 - Optional: Research findings
 
 ## Process
@@ -197,7 +197,9 @@ Detailed Plans (to be created):
 
 ## Output
 
-`docs/milestones-overview.md` using `assets/templates/milestones-overview.md`
+`docs/[slug]-milestones-overview.md` using `assets/templates/milestones-overview.md`
+
+Example: `docs/mc-milestones-overview.md`
 
 ## Key Principles
 
@@ -229,7 +231,7 @@ Detailed Plans (to be created):
 - [ ] Strategic Decisions section explains milestone order
 - [ ] Success Criteria defined for each milestone
 - [ ] Next Steps clear
-- [ ] Run `/verify-doc docs/milestones-overview.md`
+- [ ] Run `/verify-doc docs/[slug]-milestones-overview.md`
 
 ## Examples
 

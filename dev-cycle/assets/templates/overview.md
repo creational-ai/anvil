@@ -255,7 +255,7 @@ def new_function():
 ## Next Steps
 
 1. Review this overview and confirm approach
-2. Update `docs/[name]-poc-design.md` to incorporate PoCs [N], [N+1], [N+2] (if work involves PoCs)
+2. Update `docs/[slug]-poc-design.md` to incorporate PoCs [N], [N+1], [N+2] (if work involves PoCs)
 3. Create implementation plan using 2-planning-guide.md
 4. Implement and test
 5. Proceed with next phases if Phase 1 succeeds

@@ -41,7 +41,7 @@ Stage 1 of dev-cycle: Analyze and plan the work without writing code.
 2. Combine with user notes
 3. Analyze current architecture
 4. Create design overview
-5. Update `[name]-poc-design.md` if applicable
+5. Update `[slug]-poc-design.md` if applicable
 
 ## Key Requirements
 
@@ -58,7 +58,7 @@ Follow the guidance in `1-overview-guide.md`:
 4. Break into self-contained tasks
 5. Evaluate approaches
 6. Document decisions
-7. Update [name]-poc-design.md (if applicable)
+7. Update [slug]-poc-design.md (if applicable)
 
 ## Output
 

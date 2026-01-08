@@ -3,7 +3,7 @@
 **North Star**: [One sentence describing what this project achieves]
 
 **Related Documents**:
-- [Architecture Doc](./[name]-architecture.md)
+- [Architecture Doc](./[slug]-architecture.md)
 - [Other relevant docs if any]
 
 **Strategic Approach**: [Brief description of overall strategy, e.g., "Web-first → Mobile → Scale"]
@@ -45,7 +45,7 @@
 
 ## Milestone 1: [Name]
 
-**[📄 Detailed Plan](./milestone-1-[slug].md)**
+**[📄 Detailed Plan](./[slug]-milestone.md)**
 
 **Status**: Planning
 
@@ -118,7 +118,7 @@
 
 ## Milestone 2: [Name]
 
-**[📄 Detailed Plan](./milestone-2-[slug].md)**
+**[📄 Detailed Plan](./[slug]-milestone.md)**
 
 **Status**: Planning
 
@@ -176,7 +176,7 @@
 
 ## Milestone 3: [Name]
 
-**[📄 Detailed Plan](./milestone-3-[slug].md)**
+**[📄 Detailed Plan](./[slug]-milestone.md)**
 
 **Status**: Planning
 
@@ -275,6 +275,6 @@
 **Next Action**: [What to do next]
 
 **Detailed Plans** (to be created):
-- [📄 Milestone 1: [Name]](./milestone-1-[slug].md)
-- [📄 Milestone 2: [Name]](./milestone-2-[slug].md)
-- [📄 Milestone 3: [Name]](./milestone-3-[slug].md)
+- [📄 Milestone 1: [Name]](./[slug]-milestone.md)
+- [📄 Milestone 2: [Name]](./[slug]-milestone.md)
+- [📄 Milestone 3: [Name]](./[slug]-milestone.md)

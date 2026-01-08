@@ -1,14 +1,14 @@
 # Milestone [Number]: [Name]
 
 **Status**: Planning
-**Parent Document**: [Milestones Overview](./milestones-overview.md)
-**Architecture Reference**: [Architecture Doc](./[name]-architecture.md)
+**Parent Document**: [Milestones Overview](./[slug]-milestones-overview.md)
+**Architecture Reference**: [Architecture Doc](./[slug]-architecture.md)
 
 ---
 
 ## Executive Summary
 
-[2-3 paragraphs describing what this milestone accomplishes, why it's important, and how it fits into the overall roadmap. Pull from the Goal section in milestones-overview.md and expand with context.]
+[2-3 paragraphs describing what this milestone accomplishes, why it's important, and how it fits into the overall roadmap. Pull from the Goal section in [slug]-milestones-overview.md and expand with context.]
 
 **Key Principle**: [One sentence capturing the core philosophy of this milestone]
 
@@ -277,8 +277,8 @@ Step 3
 
 ## Related Documents
 
-- [Milestones Overview](./milestones-overview.md) - Full milestone roadmap
-- [Architecture Doc](./[name]-architecture.md) - Complete technical architecture
+- [Milestones Overview](./[slug]-milestones-overview.md) - Full milestone roadmap
+- [Architecture Doc](./[slug]-architecture.md) - Complete technical architecture
 - [Other relevant doc] - Description
 
 ---

@@ -18,7 +18,7 @@ This stage is **user-initiated**:
 ## Input
 - Understanding of current architecture (from implemented work)
 - New feature or issue identified
-- Existing `docs/[name]-poc-design.md` (if applicable)
+- Existing `docs/[slug]-poc-design.md` (if applicable)
 
 ## Process
 
@@ -93,7 +93,7 @@ When new capability could break existing code, add new functions/classes alongsi
 ### 7. Update Plan
 
 **Final critical step:**
-- Add new tasks to `docs/[name]-poc-design.md`
+- Add new tasks to `docs/[slug]-poc-design.md`
 - **DO NOT renumber existing items** - just add new sequential numbers (e.g., if last item is #5, new items are #6, #7, #8)
 - Update dependency graph to show where new items fit
 - Verify dependencies still make sense
@@ -111,7 +111,7 @@ Two documents:
    - Risks and mitigations
    - Design decisions
 
-2. **Updated Plan**: `docs/[name]-poc-design.md`
+2. **Updated Plan**: `docs/[slug]-poc-design.md`
    - Incorporate new tasks
    - Add new sequential numbers
    - Maintain dependency graph
@@ -128,7 +128,7 @@ Two documents:
 - [ ] Recommended approach selected with rationale
 - [ ] Risks identified with mitigations
 - [ ] Design decisions documented
-- [ ] `docs/[name]-poc-design.md` updated with new tasks
+- [ ] `docs/[slug]-poc-design.md` updated with new tasks
 
 ## Common Pitfalls
 

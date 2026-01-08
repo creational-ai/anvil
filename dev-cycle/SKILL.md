@@ -126,7 +126,7 @@ Where `[name]` is descriptive:
 - [ ] Recommended approach selected with rationale
 - [ ] Risks identified with mitigations
 - [ ] Design decisions documented
-- [ ] `docs/[name]-poc-design.md` updated (if applicable)
+- [ ] `docs/[slug]-poc-design.md` updated (if applicable)
 - [ ] No code written (only diagrams and descriptions)
 - [ ] Run `/verify-doc docs/[name]-overview.md`
 
@@ -373,4 +373,4 @@ Use Glob/Grep to check for existing documents:
 
 **Standalone**: Use dev-cycle for any development work (features, bugs, refactoring).
 
-**With dev-design**: dev-design creates the plan (`docs/[name]-poc-design.md`), then dev-cycle implements it (Stage 1 → Stage 2 → Stage 3, repeat for each task).
+**With dev-design**: dev-design creates the plan (`docs/[slug]-poc-design.md`), then dev-cycle implements it (Stage 1 → Stage 2 → Stage 3, repeat for each task).

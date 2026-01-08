@@ -1,7 +1,7 @@
 # Stage 4: Milestone Design
 
 ## Goal
-Expand a single milestone from `docs/milestones-overview.md` into a comprehensive, self-contained design document with implementation details.
+Expand a single milestone from `docs/[slug]-milestones-overview.md` into a comprehensive, self-contained design document with implementation details.
 
 ## Code Allowed
 NO - This is pure design planning
@@ -10,8 +10,8 @@ NO - This is pure design planning
 NOT NEEDED - Focus on WHAT and WHY, not WHEN. Avoid timeline estimates (e.g., "Week 1-2", "2 weeks", "3 months"). Design phases don't need schedules.
 
 ## Input
-- Completed Milestones Overview (`docs/milestones-overview.md`) (Stage 3 output)
-- Completed Architecture doc (`docs/[name]-architecture.md`) (Stage 2 output)
+- Completed Milestones Overview (`docs/[slug]-milestones-overview.md`) (Stage 3 output)
+- Completed Architecture doc (`docs/[slug]-architecture.md`) (Stage 2 output)
 
 **Note**: Run this process once per milestone, starting with Milestone 1 (Core).
 
@@ -418,7 +418,7 @@ At the top:
 ```markdown
 **Status**: Planning | In Progress | Complete
 **Parent Document**: [Milestones Overview](./milestones-overview.md)
-**Architecture Reference**: [Architecture Doc](./[name]-architecture.md)
+**Architecture Reference**: [Architecture Doc](./[slug]-architecture.md)
 ```
 
 At the bottom:
@@ -429,9 +429,9 @@ At the bottom:
 
 ## Output
 
-`docs/milestone-[number]-[slug].md` using `assets/templates/milestone-design.md`
+`docs/[slug]-milestone.md` using `assets/templates/milestone-design.md`
 
-Example: `docs/milestone-1-web-core.md`
+Example: `docs/web-core-milestone.md`
 
 ## Key Principles
 
@@ -484,9 +484,9 @@ Example: `docs/milestone-1-web-core.md`
 
 ## Example Workflow
 
-1. Open `docs/milestones-overview.md`
+1. Open `docs/[slug]-milestones-overview.md`
 2. Find Milestone 1 section
-3. Use `assets/templates/milestone-design.md` template → save as `docs/milestone-1-web-core.md`
+3. Use `assets/templates/milestone-design.md` template → save as `docs/web-core-milestone.md`
 4. Work through sections 1-14 above, expanding each area
 5. Review architecture doc for technical details to include
 6. Add implementation perspective (how things connect, error handling, configuration)

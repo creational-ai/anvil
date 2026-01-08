@@ -57,10 +57,10 @@ User Request
 - **Inputs**:
   - Feature/issue/bug description from user
   - Current architecture (from codebase)
-  - Existing docs ([name]-poc-design.md, [name]-architecture.md)
+  - Existing docs ([slug]-poc-design.md, [slug]-architecture.md)
 - **Outputs**:
   - `docs/[name]-overview.md` - Design document (e.g., database-abstraction-overview.md, fix-auth-bug-overview.md)
-  - Updated `[name]-poc-design.md` - With new PoCs added (if applicable)
+  - Updated `[slug]-poc-design.md` - With new PoCs added (if applicable)
 - **Dependencies**: Templates (overview.md), References (1-overview-guide.md)
 - **Code Allowed**: NO - Pure design and analysis
 - **Command**: `/dev-overview <notes>`
@@ -103,8 +103,8 @@ User Request
    - Analyzes current architecture
    - Defines target architecture
    - Breaks into self-contained PoCs
-   - Updates [name]-poc-design.md
-   → Outputs: overview.md, updated [name]-poc-design.md
+   - Updates [slug]-poc-design.md
+   → Outputs: overview.md, updated [slug]-poc-design.md
 
 3. Stage 2 (Implementation Plan):
    - Takes NEXT PoC from plan
@@ -183,9 +183,9 @@ User Request
 - **Type**: File system integration
 - **Purpose**: Reads/writes project docs
 - **Contract**:
-  - Reads: `[name]-poc-design.md`, `[name]-architecture.md`, `PROJECT_STATE.md`
+  - Reads: `[slug]-poc-design.md`, `[slug]-architecture.md`, `PROJECT_STATE.md`
   - Writes: `docs/*-overview.md`, `docs/*-implementation.md`, `docs/*-results.md`
-  - Updates: `[name]-poc-design.md`, `PROJECT_STATE.md`
+  - Updates: `[slug]-poc-design.md`, `PROJECT_STATE.md`
 
 ## Key Design Decisions
 
@@ -306,7 +306,7 @@ Claude: [Following dev-cycle skill instructions]
    - Breaking into PoCs...
 
    Created: docs/database-abstraction-overview.md
-   Updated: [name]-poc-design.md (added PoC 6, 7, 8)"
+   Updated: [slug]-poc-design.md (added PoC 6, 7, 8)"
 
 User: [Reviews docs, runs /verify-doc, fixes issues]
 

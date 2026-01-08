@@ -10,7 +10,7 @@ NO
 NOT NEEDED - Focus on WHAT and WHY, not WHEN. Avoid timeline estimates (e.g., "Week 1-2", "2 weeks", "3 months"). Design phases don't need schedules.
 
 ## Input
-- North Star doc from Stage 1 (`docs/north-star.md`)
+- North Star doc from Stage 1 (`docs/[slug]-north-star.md`)
 
 ## Process
 1. Define system architecture
@@ -20,9 +20,9 @@ NOT NEEDED - Focus on WHAT and WHY, not WHEN. Avoid timeline estimates (e.g., "W
 5. Identify integration points
 
 ## Output
-`docs/[name]-architecture.md` using `assets/templates/architecture.md`
+`docs/[slug]-architecture.md` using `assets/templates/architecture.md`
 
-Example: `docs/core-architecture.md`, `docs/mobile-architecture.md`
+Example: `docs/mc-architecture.md`
 
 ## Verification Checklist
 - [ ] Architecture diagram complete

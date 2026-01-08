@@ -4,7 +4,7 @@
 [What does completing this Milestone prove? What capability does it unlock?]
 
 ## Project
-[Parent project name - link to docs/north-star.md]
+[Parent project name - link to docs/[slug]-north-star.md]
 
 ## PoC Dependency Diagram
 

@@ -25,19 +25,19 @@ Project (e.g., "mission-control")
 
 | Stage | Output | Environment |
 |-------|--------|-------------|
-| 1. North Star | `docs/north-star.md` | Claude Desktop |
-| 2. Architecture | `docs/[name]-architecture.md` | Claude Desktop |
-| 3. Milestones Overview | `docs/milestones-overview.md` | Claude Code |
-| 4. Milestone Design | `docs/milestone-[number]-[slug].md` | Claude Code |
-| 5. PoC Design | `docs/[milestone-name]-poc-design.md` | Claude Code |
+| 1. North Star | `docs/[slug]-north-star.md` | Claude Desktop |
+| 2. Architecture | `docs/[slug]-architecture.md` | Claude Desktop |
+| 3. Milestones Overview | `docs/[slug]-milestones-overview.md` | Claude Code |
+| 4. Milestone Design | `docs/[slug]-milestone.md` | Claude Code |
+| 5. PoC Design | `docs/[slug]-poc-design.md` | Claude Code |
 
 **Environment Split**:
 - **Claude Desktop** (Stages 1-2): Free-form exploration and research
 - **Claude Code** (Stages 3-5): Template-driven structured design
 
 **File Naming**:
-- `[name]`: For architecture docs (can be anything - project name, feature name, module name)
-- `[milestone-name]`: For PoC design docs (comes from milestone names in `docs/milestones-overview.md`)
+- `[slug]`: Project slug for project-level docs (north-star, architecture, milestones-overview)
+- `[slug]`: Milestone slug for milestone-level docs (milestone, poc-design)
 
 **Next**: → Hand off to `dev-cycle` skill for implementation
 
@@ -87,10 +87,10 @@ Respond: "We're in the [North Star/Architecture/Milestones Overview/Milestone De
 3. Identify key components and their relationships
 4. Surface assumptions and unknowns
 
-**Output**: `docs/north-star.md`
+**Output**: `docs/[slug]-north-star.md` (e.g., `docs/mc-north-star.md`)
 
 ### Stage 1 Complete Checklist
-- [ ] `docs/north-star.md` created using template
+- [ ] `docs/[slug]-north-star.md` created using template
 - [ ] Problem clearly stated
 - [ ] Solution approach makes sense
 - [ ] Technical feasibility seems reasonable
@@ -104,11 +104,11 @@ Respond: "We're in the [North Star/Architecture/Milestones Overview/Milestone De
 
 **Goal**: Create technical architecture and integration plan
 
-**Input**: North Star doc (`docs/north-star.md`)
+**Input**: North Star doc (`docs/[slug]-north-star.md`)
 
 **Template**: `assets/templates/architecture.md`
 
-**Naming**: `docs/[name]-architecture.md` where `[name]` is your project/feature/module name
+**Naming**: `docs/[slug]-architecture.md` where `[slug]` is your project slug
 
 **Process**:
 1. Define system architecture
@@ -117,16 +117,16 @@ Respond: "We're in the [North Star/Architecture/Milestones Overview/Milestone De
 4. Design component interactions
 5. Identify integration points
 
-**Output**: `docs/[name]-architecture.md`
+**Output**: `docs/[slug]-architecture.md` (e.g., `docs/mc-architecture.md`)
 
 ### Stage 2 Complete Checklist
-- [ ] `docs/[name]-architecture.md` created using template
+- [ ] `docs/[slug]-architecture.md` created using template
 - [ ] Architecture diagram complete
 - [ ] Tech stack justified
 - [ ] Data flows documented
 - [ ] Integration points identified
 - [ ] No code written (only diagrams and descriptions)
-- [ ] Run `/verify-doc docs/[name]-architecture.md`
+- [ ] Run `/verify-doc docs/[slug]-architecture.md`
 
 **Next**: → Stage 3: Milestones Overview
 
@@ -137,12 +137,12 @@ Respond: "We're in the [North Star/Architecture/Milestones Overview/Milestone De
 **Goal**: Break North Star + Architecture into strategic milestones with clear progression, detailed architecture per milestone, and measurable outcomes
 
 **Input**:
-- North Star doc (`docs/north-star.md`)
-- Architecture docs (`docs/[name]-architecture.md`)
+- North Star doc (`docs/[slug]-north-star.md`)
+- Architecture doc (`docs/[slug]-architecture.md`)
 
 **Template**: `assets/templates/milestones-overview.md`
 
-**Output**: `docs/milestones-overview.md`
+**Output**: `docs/[slug]-milestones-overview.md` (e.g., `docs/mc-milestones-overview.md`)
 
 **Process**:
 1. Create Milestone Progression diagram (visual roadmap)
@@ -171,14 +171,14 @@ Respond: "We're in the [North Star/Architecture/Milestones Overview/Milestone De
 - **Why [This Approach/Order]?**: Strategic rationale
 
 ### Stage 3 Complete Checklist
-- [ ] `docs/milestones-overview.md` created using template
+- [ ] `docs/[slug]-milestones-overview.md` created using template
 - [ ] Milestone Progression diagram shows overall strategy
 - [ ] Milestone 1: Core fully defined with all sections
 - [ ] Each milestone has Goal, Architecture, What Gets Built, Metrics, Outcomes, Why
 - [ ] Strategic Decisions section explains milestone order
 - [ ] Success Criteria defined for each milestone
 - [ ] Next Steps clear
-- [ ] Run `/verify-doc docs/milestones-overview.md`
+- [ ] Run `/verify-doc docs/[slug]-milestones-overview.md`
 
 **Next**: → Stage 4: Milestone Design (detailed design per milestone)
 
@@ -189,12 +189,12 @@ Respond: "We're in the [North Star/Architecture/Milestones Overview/Milestone De
 **Goal**: Expand a single milestone into comprehensive, self-contained design document with implementation details
 
 **Input**:
-- Milestones Overview (`docs/milestones-overview.md`)
-- Architecture doc (`docs/[name]-architecture.md`)
+- Milestones Overview (`docs/[slug]-milestones-overview.md`)
+- Architecture doc (`docs/[slug]-architecture.md`)
 
 **Template**: `assets/templates/milestone-design.md`
 
-**Output**: `docs/milestone-[number]-[slug].md` (e.g., `docs/milestone-1-web-core.md`)
+**Output**: `docs/[slug]-milestone.md` (e.g., `docs/web-core-milestone.md`)
 
 **Process**:
 1. Write Executive Summary (2-3 paragraphs + key principle)
@@ -217,7 +217,7 @@ Respond: "We're in the [North Star/Architecture/Milestones Overview/Milestone De
 - **Visual Communication**: Diagrams show architecture and flows clearly
 
 ### Stage 4 Complete Checklist
-- [ ] `docs/milestone-[number]-[slug].md` created using template
+- [ ] `docs/[slug]-milestone.md` created using template
 - [ ] Executive Summary provides clear context
 - [ ] Goal section includes what it proves AND what it doesn't
 - [ ] Architecture has all three subsections (Diagram, Stack, Cost)
@@ -239,13 +239,13 @@ Respond: "We're in the [North Star/Architecture/Milestones Overview/Milestone De
 **Goal**: Define what needs to be proven and in what order — with PRODUCTION-GRADE thin slices
 
 **Input**:
-- Milestone design from `docs/milestone-[number]-[slug].md` (Stage 4 output)
-- Milestones overview from `docs/milestones-overview.md` (Stage 3 output)
-- Validated architecture doc (`docs/[name]-architecture.md`)
+- Milestone design from `docs/[slug]-milestone.md` (Stage 4 output)
+- Milestones overview from `docs/[slug]-milestones-overview.md` (Stage 3 output)
+- Architecture doc (`docs/[slug]-architecture.md`) (Stage 2 output)
 
 **Template**: `assets/templates/poc-design.md`
 
-**Naming**: `docs/[milestone-name]-poc-design.md` where `[milestone-name]` comes from your milestone in `docs/milestones-overview.md`
+**Naming**: `docs/[slug]-poc-design.md` where `[slug]` comes from your milestone in `docs/[project-slug]-milestones-overview.md`
 
 **Examples**: `docs/core-poc-design.md`, `docs/cloud-deployment-poc-design.md`
 
@@ -265,15 +265,15 @@ Each PoC must be:
 
 **Golden Rule**: One feature = One PoC (minimize the number of PoCs; group related work)
 
-**Output**: `docs/[milestone-name]-poc-design.md`
+**Output**: `docs/[slug]-poc-design.md`
 
 ### Stage 5 Complete Checklist
-- [ ] `docs/[milestone-name]-poc-design.md` created using template
+- [ ] `docs/[slug]-poc-design.md` created using template
 - [ ] Each PoC proves one specific thing
 - [ ] Dependencies mapped (which PoCs unlock others)
 - [ ] Success criteria measurable
 - [ ] Order of execution clear
-- [ ] Run `/verify-doc docs/[milestone-name]-poc-design.md`
+- [ ] Run `/verify-doc docs/[slug]-poc-design.md`
 
 **Next**: → Hand off to **dev-cycle skill** for implementation
 
@@ -281,7 +281,7 @@ Each PoC must be:
 
 ## Next: Hand Off to dev-cycle
 
-Once you have `docs/[milestone-name]-poc-design.md` completed, hand off to the **dev-cycle** skill for implementation.
+Once you have `docs/[slug]-poc-design.md` completed, hand off to the **dev-cycle** skill for implementation.
 
 **dev-cycle** handles all development work through a repeating cycle: plan tasks → execute step-by-step → test → repeat.
 
