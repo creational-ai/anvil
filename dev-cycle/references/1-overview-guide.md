@@ -102,7 +102,7 @@ When new capability could break existing code, add new functions/classes alongsi
 
 Two documents:
 
-1. **Overview**: `docs/[name]-overview.md` using `assets/templates/overview.md`
+1. **Overview**: `docs/[milestone-slug]-[task-slug]-overview.md` using `assets/templates/overview.md`
    - Executive summary
    - Current vs target architecture
    - What needs to change
@@ -110,6 +110,8 @@ Two documents:
    - Implementation approaches
    - Risks and mitigations
    - Design decisions
+
+   **Examples**: `docs/core-poc6-overview.md`, `docs/cloud-auth-fix-overview.md`
 
 2. **Updated Plan**: `docs/[slug]-poc-design.md`
    - Incorporate new tasks

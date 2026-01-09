@@ -1,6 +1,6 @@
-# [Name] Implementation Plan
+# [Milestone-Slug]-[Task-Slug] Implementation Plan
 
-> **Track Progress**: See `docs/[name]-results.md` for implementation status, test results, and issues.
+> **Track Progress**: See `docs/[milestone-slug]-[task-slug]-results.md` for implementation status, test results, and issues.
 
 ## Overview
 
@@ -81,7 +81,7 @@ From `docs/[source-doc].md`:
 │   └── [file2.py]            # [Purpose]
 ├── [existing-file.py]        # Updated
 └── tests/
-    └── test_[name]_*.py # All tests
+    └── test_[task-slug]_*.py # All tests
 ```
 
 ### Design Principles
@@ -137,7 +137,7 @@ From `docs/[source-doc].md`:
 [actual code to write]
 ```
 
-**Tests** (add to `tests/test_[name]_*.py`):
+**Tests** (add to `tests/test_[task-slug]_*.py`):
 ```python
 """Tests for [what this step does]."""
 
@@ -158,7 +158,7 @@ class Test[ClassName]:
 
 **Verification**:
 ```bash
-cd [directory] && uv run pytest tests/test_[name]_*.py::Test[ClassName] -v
+cd [directory] && uv run pytest tests/test_[task-slug]_*.py::Test[ClassName] -v
 ```
 
 **Output**: [X]/[X] tests passing
@@ -179,7 +179,7 @@ cd [directory] && uv run pytest tests/test_[name]_*.py::Test[ClassName] -v
 [actual code to write]
 ```
 
-**Tests** (add to `tests/test_[name]_*.py`):
+**Tests** (add to `tests/test_[task-slug]_*.py`):
 ```python
 class Test[ClassName]:
     """Tests for [component]."""
@@ -191,7 +191,7 @@ class Test[ClassName]:
 
 **Verification**:
 ```bash
-cd [directory] && uv run pytest tests/test_[name]_*.py::Test[ClassName] -v
+cd [directory] && uv run pytest tests/test_[task-slug]_*.py::Test[ClassName] -v
 ```
 
 **Output**: [X]/[X] tests passing
@@ -207,7 +207,7 @@ cd [directory] && uv run pytest tests/test_[name]_*.py::Test[ClassName] -v
 - [ ] [Integration task 2]
 - [ ] [Final validation]
 
-**Tests** (add to `tests/test_[name]_*.py`):
+**Tests** (add to `tests/test_[task-slug]_*.py`):
 ```python
 class Test[Integration]:
     """Integration tests for [PoC name]."""
@@ -289,7 +289,7 @@ cd [directory] && uv run pytest tests/test_[affected1].py tests/test_[affected2]
 |------|--------|--------|
 | `[path/to/new-file.py]` | Create | Pending: [purpose] |
 | `[path/to/existing-file.py]` | Modify | Pending: [what changes] |
-| `tests/test_[name]_*.py` | Create | Pending: all tests |
+| `tests/test_[task-slug]_*.py` | Create | Pending: all tests |
 | `pyproject.toml` | Modify | Pending: [dependencies] |
 
 ---

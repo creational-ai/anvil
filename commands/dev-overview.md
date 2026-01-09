@@ -62,7 +62,12 @@ Follow the guidance in `1-overview-guide.md`:
 
 ## Output
 
-Create `docs/[name]-overview.md` using the template.
+Create `docs/[milestone-slug]-[task-slug]-overview.md` using the template.
+
+**Examples**:
+- `docs/core-poc6-overview.md` (PoC 6 in Core milestone)
+- `docs/core-database-abstraction-overview.md` (feature in Core milestone)
+- `docs/cloud-fix-auth-bug-overview.md` (bug fix in Cloud milestone)
 
 ## After Completion
 

@@ -22,7 +22,7 @@ Follow the planning guide exactly. Use the template exactly.
 
 ## Input
 
-- **Required**: Path to an overview document (`docs/[name]-overview.md`)
+- **Required**: Path to an overview document (`docs/[milestone-slug]-[task-slug]-overview.md`)
 - **Optional**: Notes from the user
 
 ## Process
@@ -35,9 +35,9 @@ Follow the planning guide exactly. Use the template exactly.
 
 ## Output
 
-Create: `docs/[name]-implementation.md`
+Create: `docs/[milestone-slug]-[task-slug]-implementation.md`
 
-Where `[name]` matches the overview document naming.
+Where `[milestone-slug]-[task-slug]` matches the overview document naming.
 
 ## Completion Report
 
@@ -46,12 +46,12 @@ When done, report:
 ```
 ## Implementation Plan Created
 
-**File**: docs/[name]-implementation.md
+**File**: docs/[milestone-slug]-[task-slug]-implementation.md
 **Task**: [Name of task being planned]
 **Steps**: [count] implementation steps
 **Prerequisites**: [count] prerequisites identified
 
-**Next**: Run `/verify-doc docs/[name]-implementation.md`
+**Next**: Run `/verify-doc docs/[milestone-slug]-[task-slug]-implementation.md`
 ```
 
 ## Quality Checklist

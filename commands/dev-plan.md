@@ -66,7 +66,9 @@ Follow the guidance in `2-planning-guide.md`:
 ## Output
 
 Create one document:
-- `docs/[name]-implementation.md` - Evergreen "how to" guide (NO status)
+- `docs/[milestone-slug]-[task-slug]-implementation.md` - Evergreen "how to" guide (NO status)
+
+**Examples**: `docs/core-poc6-implementation.md`, `docs/cloud-auth-fix-implementation.md`
 
 ## After Completion
 

@@ -32,17 +32,19 @@ Only generate implementation plan for:
 
 One document is created:
 
-**Implementation Plan**: `docs/[name]-implementation.md` using `assets/templates/implementation-plan.md`
+**Implementation Plan**: `docs/[milestone-slug]-[task-slug]-implementation.md` using `assets/templates/implementation-plan.md`
 - Prerequisites with setup instructions
 - Step-by-step implementation guide
 - Code snippets, commands, configs
 - Verification commands
 - **NO status indicators** - keep it clean and focused on "how to implement"
 
-**Note**: The results tracking document (`docs/[name]-results.md`) will be created later during Stage 3 (Execution) when `/dev-execute` is run.
+**Examples**: `docs/core-poc6-implementation.md`, `docs/cloud-auth-fix-implementation.md`
+
+**Note**: The results tracking document (`docs/[milestone-slug]-[task-slug]-results.md`) will be created later during Stage 3 (Execution) when `/dev-execute` is run.
 
 ## Verification Checklist
-- [ ] Implementation doc created (`docs/[name]-implementation.md`)
+- [ ] Implementation doc created (`docs/[milestone-slug]-[task-slug]-implementation.md`)
 - [ ] Prerequisites explicitly listed with setup instructions
 - [ ] **Affected test files identified** in Prerequisites section
 - [ ] Each step is small enough to verify independently

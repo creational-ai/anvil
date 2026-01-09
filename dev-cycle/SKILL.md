@@ -31,9 +31,9 @@ This skill operates at the **Task level** - one task at a time through a 3-stage
 
 | Stage | Code? | Guide | Template | Output |
 |-------|-------|-------|----------|--------|
-| 1. Overview | ❌ NO | `references/1-overview-guide.md` | `assets/templates/overview.md` | `docs/[name]-overview.md` |
-| 2. Planning | ✅ YES | `references/2-planning-guide.md` | `assets/templates/implementation-plan.md` | `docs/[name]-implementation.md` |
-| 3. Execution | ✅ YES | `references/3-execution-guide.md` | `assets/templates/implementation-results.md` | `docs/[name]-results.md`<br>Implementation files<br>Test files |
+| 1. Overview | ❌ NO | `references/1-overview-guide.md` | `assets/templates/overview.md` | `docs/[milestone-slug]-[task-slug]-overview.md` |
+| 2. Planning | ✅ YES | `references/2-planning-guide.md` | `assets/templates/implementation-plan.md` | `docs/[milestone-slug]-[task-slug]-implementation.md` |
+| 3. Execution | ✅ YES | `references/3-execution-guide.md` | `assets/templates/implementation-results.md` | `docs/[milestone-slug]-[task-slug]-results.md`<br>Implementation files<br>Test files |
 
 ## Optional Commands
 
@@ -98,12 +98,12 @@ See `references/1-overview-guide.md` for detailed guidance on:
 
 Create using `assets/templates/overview.md`:
 
-**File**: `docs/[name]-overview.md`
+**File**: `docs/[milestone-slug]-[task-slug]-overview.md`
 
-Where `[name]` is descriptive:
-- `database-abstraction-overview.md` (feature)
-- `fix-auth-bug-overview.md` (bug)
-- `poc6-overview.md` (PoC)
+**Examples**:
+- `core-poc6-overview.md` (PoC 6 in Core milestone)
+- `core-database-abstraction-overview.md` (feature in Core milestone)
+- `cloud-fix-auth-bug-overview.md` (bug fix in Cloud milestone)
 
 **Contents**:
 - Executive summary
@@ -128,7 +128,7 @@ Where `[name]` is descriptive:
 - [ ] Design decisions documented
 - [ ] `docs/[slug]-poc-design.md` updated (if applicable)
 - [ ] No code written (only diagrams and descriptions)
-- [ ] Run `/verify-doc docs/[name]-overview.md`
+- [ ] Run `/verify-doc docs/[milestone-slug]-[task-slug]-overview.md`
 
 ### Next Stage
 
@@ -175,18 +175,18 @@ See `references/2-planning-guide.md` for detailed guidance on:
 
 Create using templates:
 
-**Output**: `docs/[name]-implementation.md` (from `assets/templates/implementation-plan.md`)
+**Output**: `docs/[milestone-slug]-[task-slug]-implementation.md` (from `assets/templates/implementation-plan.md`)
 - Prerequisites with setup instructions
 - Step-by-step implementation guide
 - Code snippets, commands, configs
 - Verification commands
 - **NO status indicators** (evergreen guide)
 
-**Note**: The results tracking document (`docs/[name]-results.md`) will be created later during Stage 3 (Execution).
+**Note**: The results tracking document (`docs/[milestone-slug]-[task-slug]-results.md`) will be created later during Stage 3 (Execution).
 
 ### Stage 2 Complete Checklist
 
-- [ ] Implementation doc created (`docs/[name]-implementation.md`)
+- [ ] Implementation doc created (`docs/[milestone-slug]-[task-slug]-implementation.md`)
 - [ ] Prerequisites explicitly listed with setup instructions
 - [ ] Each step is small (~30 min) and independently verifiable
 - [ ] Each step has clear verification criteria with commands
@@ -194,7 +194,7 @@ Create using templates:
 - [ ] 🏗️ **OOP + Pydantic + Type hints enforced**
 - [ ] ⚠️ **No mock data where real data needed**
 - [ ] 🔒 **Work is self-contained** (add alongside, don't replace; works independently)
-- [ ] Run `/verify-doc docs/[name]-implementation.md`
+- [ ] Run `/verify-doc docs/[milestone-slug]-[task-slug]-implementation.md`
 
 ### Next Stage
 
@@ -225,6 +225,8 @@ Run Stage 3 when:
 
 ---
 
+**First time setup**: If results doc doesn't exist, create it from template. **Record Started timestamp** (ISO 8601 with timezone, e.g., `2024-01-08T22:45:00-08:00`).
+
 Execute the implementation plan:
 - Execute ONLY the current step (DO NOT do multiple steps)
 - Each step is bite-sized (~30 min max)
@@ -232,6 +234,8 @@ Execute the implementation plan:
 - Loop: implement → test → if fail, fix → re-test (repeat until pass)
 - When tests pass → update results doc → STOP
 - Keep implementation doc clean (no status updates)
+
+**After all steps complete**: Ask user "Mark task as complete?" → If confirmed, record **Completed timestamp**, update Status to ✅ Complete, then run `/dev-lessons` to consolidate lessons.
 
 ### Process
 
@@ -267,7 +271,7 @@ See `references/3-execution-guide.md` for detailed per-step workflow:
 
 ### Documentation Guidelines
 
-- Update `docs/[name]-results.md` after EACH step
+- Update `docs/[milestone-slug]-[task-slug]-results.md` after EACH step
 - Include: step status, test results, issues, bug fixes
 - **Add "Lessons Learned"** for each step (insights, patterns, gotchas)
 - Keep implementation doc clean (no status updates there)
@@ -276,23 +280,23 @@ See `references/3-execution-guide.md` for detailed per-step workflow:
 
 **Per step**:
 - Implementation code files (in appropriate modules)
-- Test files (`tests/test_[name]_*.py`)
-- Updated `docs/[name]-results.md`
+- Test files (`tests/test_[task-slug]_*.py`)
+- Updated `docs/[milestone-slug]-[task-slug]-results.md`
 
 **When work complete**:
 - All implementation and test files complete
-- `docs/[name]-results.md` with final status
+- `docs/[milestone-slug]-[task-slug]-results.md` with final status
 
 ### Stage 3 Verification Checklist
 
 **After each step**:
 - [ ] Implementation code works as expected
-- [ ] ⚠️ **Tests pass** (`uv run pytest tests/test_[name]_*.py -v`)
-- [ ] `docs/[name]-results.md` updated with step progress and **lessons learned**
+- [ ] ⚠️ **Tests pass** (`uv run pytest tests/test_[task-slug]_*.py -v`)
+- [ ] `docs/[milestone-slug]-[task-slug]-results.md` updated with step progress and **lessons learned**
 
 **After all steps (work complete)**:
 - [ ] All tests pass (new + existing)
-- [ ] `docs/[name]-results.md` shows all success criteria met
+- [ ] `docs/[milestone-slug]-[task-slug]-results.md` shows all success criteria met
 - [ ] Production-grade checklist verified
 
 ### Next Stage
@@ -311,9 +315,9 @@ The skill should detect where the user is in the workflow:
 4. **Results doc shows progress**: Continue Stage 3 from current step
 
 Use Glob/Grep to check for existing documents:
-- `docs/*-overview.md`
-- `docs/*-implementation.md`
-- `docs/*-results.md`
+- `docs/[milestone-slug]-[task-slug]-overview.md`
+- `docs/[milestone-slug]-[task-slug]-implementation.md`
+- `docs/[milestone-slug]-[task-slug]-results.md`
 
 ---
 
@@ -355,17 +359,17 @@ Use Glob/Grep to check for existing documents:
 - Keep it concise - remove resolved questions, keep only latest health check
 
 **Per Task**:
-- `docs/[name]-overview.md` - e.g., `database-abstraction-overview.md`, `fix-auth-bug-overview.md`, `poc6-overview.md`
-- `docs/[name]-implementation.md` - e.g., `poc6-implementation.md`, `auth-fix-implementation.md`
-- `docs/[name]-results.md` - e.g., `poc6-results.md`
+- `docs/[milestone-slug]-[task-slug]-overview.md` - e.g., `core-poc6-overview.md`, `cloud-auth-fix-overview.md`
+- `docs/[milestone-slug]-[task-slug]-implementation.md` - e.g., `core-poc6-implementation.md`, `cloud-auth-fix-implementation.md`
+- `docs/[milestone-slug]-[task-slug]-results.md` - e.g., `core-poc6-results.md`
 
 **Test Files**:
-- `tests/test_[name]_*.py` - e.g., `test_poc6_*.py`, `test_auth_fix_*.py`
+- `tests/test_[task-slug]_*.py` - e.g., `test_poc6_*.py`, `test_auth_fix_*.py`
 
-**Where `[name]` is**:
-- Descriptive and readable
-- Lowercase with hyphens
-- Specific to the task (can be PoC, feature, bug, refactor)
+**Where**:
+- `[milestone-slug]` is the milestone name (e.g., `core`, `cloud`, `mobile`)
+- `[task-slug]` is the task name (e.g., `poc6`, `auth-fix`, `database-abstraction`)
+- Both are lowercase with hyphens
 
 ---
 

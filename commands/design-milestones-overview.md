@@ -56,7 +56,7 @@ Must complete before running this command:
    - Review user notes
 
 2. **Follow the guidance in `4-milestones-overview-guide.md`:**
-   - Start with Milestone 1: Core (always)
+   - Start with Core milestone (always)
    - Assess path clarity (can you see the giant steps?)
    - Define milestones based on strategic phases
    - Document milestone progression and rationale
@@ -68,7 +68,7 @@ Creates:
 
 ## Key Decisions
 
-**Every project starts with Milestone 1: Core** (core functionality)
+**Every project starts with a Core milestone** (core functionality)
 
 **Clear path to north star**: Define multiple milestones upfront if you can see the strategic phases
 
@@ -78,4 +78,4 @@ Creates:
 
 User will run `/verify-doc docs/[slug]-milestones-overview.md`, fix issues, then proceed to Stage 4 (Milestone Design).
 
-**Next Stage**: Create detailed design for Milestone 1, then proceed to PoC design for Milestone 1. Repeat for subsequent milestones as needed.
+**Next Stage**: Create detailed design for Core milestone, then proceed to PoC design for Core. Repeat for subsequent milestones as needed.

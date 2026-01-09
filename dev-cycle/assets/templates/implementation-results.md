@@ -1,11 +1,11 @@
-# [Name] Results
+# [Milestone-Slug]-[Task-Slug] Results
 
 ## Summary
 | Attribute | Value |
 |-----------|-------|
 | **Status** | ✅ Complete / 🔄 In Progress / ❌ Failed |
-| **Started** | [Date] |
-| **Completed** | [Date] |
+| **Started** | [YYYY-MM-DDTHH:MM:SS-TZ] |
+| **Completed** | — |
 | **Proves** | [What this validated] |
 
 ---
@@ -16,7 +16,7 @@
 ---
 
 ## Success Criteria
-From `docs/[name]-implementation.md`:
+From `docs/[milestone-slug]-[task-slug]-implementation.md`:
 
 - [ ] [Criterion 1]
 - [ ] [Criterion 2]

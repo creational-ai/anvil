@@ -81,10 +81,10 @@ git status
 
 **dev-cycle creates:**
 - `PROJECT_STATE.md` - Task and milestone tracking
-- `docs/[name]-overview.md` - Feature/bug design analysis
-- `docs/[name]-implementation.md` - Implementation guide (evergreen)
-- `docs/[name]-results.md` - Progress tracking (live status)
-- `tests/test_[name]_*.py` - Tests grouped by task
+- `docs/[milestone-slug]-[task-slug]-overview.md` - Feature/bug design analysis (e.g., `core-poc6-overview.md`)
+- `docs/[milestone-slug]-[task-slug]-implementation.md` - Implementation guide (evergreen)
+- `docs/[milestone-slug]-[task-slug]-results.md` - Progress tracking (live status)
+- `tests/test_[task-slug]_*.py` - Tests grouped by task
 
 ## Templates
 
