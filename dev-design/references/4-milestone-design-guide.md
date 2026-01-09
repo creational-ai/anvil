@@ -13,13 +13,13 @@ NOT NEEDED - Focus on WHAT and WHY, not WHEN. Avoid timeline estimates (e.g., "W
 - Completed Milestones Overview (`docs/[slug]-milestones-overview.md`) (Stage 3 output)
 - Completed Architecture doc (`docs/[slug]-architecture.md`) (Stage 2 output)
 
-**Note**: Run this process once per milestone, starting with Milestone 1 (Core).
+**Note**: Run this process once per milestone, starting with Core.
 
 ## Process
 
 ### 1. Select Your Milestone
 
-Choose which milestone to detail (usually Milestone 1: Core first).
+Choose which milestone to detail (usually Core first).
 
 From `milestones-overview.md`, you already have:
 - Goal (2-3 sentences)
@@ -47,7 +47,7 @@ From `milestones-overview.md`, you already have:
 ```markdown
 ## Executive Summary
 
-Milestone 1 builds and validates the core platform on web FIRST. We get AI chat,
+This milestone builds and validates the core platform on web FIRST. We get AI chat,
 forums, and automation working perfectly before adding mobile complexity. This
 web-first approach lets us iterate faster, test thoroughly, and prove the core
 concept before expanding to mobile platforms.
@@ -485,7 +485,7 @@ Example: `docs/web-core-milestone.md`
 ## Example Workflow
 
 1. Open `docs/[slug]-milestones-overview.md`
-2. Find Milestone 1 section
+2. Find the milestone section to detail
 3. Use `assets/templates/milestone-design.md` template → save as `docs/web-core-milestone.md`
 4. Work through sections 1-14 above, expanding each area
 5. Review architecture doc for technical details to include

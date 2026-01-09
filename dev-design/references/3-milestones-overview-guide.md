@@ -28,9 +28,9 @@ NOT NEEDED - Focus on WHAT and WHY, not WHEN. Avoid timeline estimates (e.g., "W
 
 **Purpose**: Give reader immediate understanding of the strategic journey
 
-### 2. Define Milestone 1: Core (Always First)
+### 2. Define First Milestone (Core)
 
-**Every project starts with Milestone 1: Core**
+**Every project starts with a Core milestone**
 
 For each milestone, include:
 
@@ -114,17 +114,17 @@ Rationale for strategic decisions:
 
 **Example Progression**:
 ```
-M1: Core → Validates basic functionality works
-M2: Mobile → Builds on Core, validates mobile integration
-M3: Scale → Builds on Mobile, validates multi-tenant architecture
-M4: Enterprise → Builds on Scale, validates B2B features
+Core → Validates basic functionality works
+Mobile → Builds on Core, validates mobile integration
+Scale → Builds on Mobile, validates multi-tenant architecture
+Enterprise → Builds on Scale, validates B2B features
 ```
 
 Each milestone unlocks the next. Don't skip steps - the progression should feel natural and logical.
 
 ### 5. Define Additional Milestones (If Clear Path)
 
-Use same format as Milestone 1 for each additional milestone:
+Use same format as the first milestone for each additional milestone:
 - Goal
 - Architecture Diagram
 - What Gets Built
@@ -146,15 +146,15 @@ The number matters less than the clarity of progression.
 **Why This Milestone Order?**
 Explain the rationale for the sequence:
 ```
-1. Web-First (M1):
-   - Validate core features without mobile complexity
-   - Faster iteration: No app store dependencies
-   - Build adapter pattern from the start
+Web-First (Core):
+- Validate core features without mobile complexity
+- Faster iteration: No app store dependencies
+- Build adapter pattern from the start
 
-2. Mobile Integration (M2):
-   - Iron out mobile bugs with one game first
-   - Prove adapter pattern works
-   - Smaller user base = lower risk
+Mobile Integration:
+- Iron out mobile bugs with one game first
+- Prove adapter pattern works
+- Smaller user base = lower risk
 ```
 
 **Optional Strategic Sections**:
@@ -168,17 +168,17 @@ Explain the rationale for the sequence:
 Create checklist for each milestone AND long-term:
 
 ```
-### Milestone 1
+### Core
 - [ ] Chat widget works
 - [ ] AI quality >80%
 - [ ] <$75/month cost
 
-### Milestone 2
+### Mobile
 - [ ] 200+ users
 - [ ] VIP sync 100% accurate
 - [ ] Revenue $200+ MRR
 
-### Long-Term Platform
+### Long-Term
 - [ ] 1,000+ members
 - [ ] Self-sustaining operation
 ```
@@ -187,12 +187,12 @@ Create checklist for each milestone AND long-term:
 
 Clear call-to-action:
 ```
-Current Status: Design complete, ready to start Milestone 1
-Next Action: Begin Milestone 1 implementation
+Current Status: Design complete, ready to start Core
+Next Action: Begin Core implementation
 
 Detailed Plans (to be created):
-- Milestone 1: [Name]
-- Milestone 2: [Name]
+- Core (./core-milestone.md)
+- Mobile (./mobile-milestone.md)
 ```
 
 ## Output
@@ -226,7 +226,7 @@ Example: `docs/mc-milestones-overview.md`
 ## Verification Checklist
 
 - [ ] Milestone Progression diagram shows overall strategy
-- [ ] Milestone 1: Core is fully defined with all sections
+- [ ] First milestone (Core) is fully defined with all sections
 - [ ] Each milestone has Goal, Architecture, What Gets Built, Metrics, Outcomes, Why
 - [ ] Strategic Decisions section explains milestone order
 - [ ] Success Criteria defined for each milestone
@@ -240,9 +240,9 @@ Example: `docs/mc-milestones-overview.md`
 ```markdown
 ## Milestone Progression
 
-[Visual diagram showing: Web-First → Mobile: Game 1 → Mobile: Game 2]
+[Visual diagram showing: Core → Mobile: Game 1 → Mobile: Game 2]
 
-## Milestone 1: Web-First Core Platform
+## Core
 
 Goal: Build and validate core platform on web FIRST. Get AI chat, forums,
 and automation working perfectly before adding mobile complexity.
@@ -280,9 +280,9 @@ Why Web-First Wins?
 ```markdown
 ## Milestone Progression
 
-[Simple diagram showing just Milestone 1]
+[Simple diagram showing just Core]
 
-## Milestone 1: Core Functionality
+## Core
 
 Goal: Prove the basic video processing pipeline works with sample data.
 
@@ -302,7 +302,7 @@ Key Outcomes:
 
 ## Strategic Decisions
 
-Starting with just Core milestone. Will add Milestone 2 after Core proves
+Starting with just Core. Will add next milestone after Core proves
 viability. Path unclear - need to validate core concept first.
 ```
 

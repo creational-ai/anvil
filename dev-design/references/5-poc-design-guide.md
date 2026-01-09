@@ -14,7 +14,7 @@ NOT NEEDED - Focus on WHAT and WHY, not WHEN. Avoid timeline estimates (e.g., "W
 - Milestones overview from `docs/[slug]-milestones-overview.md` (Stage 3 output)
 - Architecture doc (`docs/[slug]-architecture.md`) (Stage 2 output)
 
-**Note**: Run this stage once per milestone, starting with Milestone 1 (Core).
+**Note**: Run this stage once per milestone, starting with Core.
 
 ## Process
 1. Refine architecture with implementation perspective

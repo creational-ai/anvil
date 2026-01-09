@@ -17,10 +17,10 @@
 │                    MILESTONE PROGRESSION                             │
 ├─────────────────────────────────────────────────────────────────────┤
 │                                                                      │
-│  Milestone 1              Milestone 2               Milestone 3      │
+│  [Milestone A]            [Milestone B]             [Milestone C]    │
 │  ═══════════              ═══════════               ═══════════      │
 │                                                                      │
-│  [M1 Theme]     ────────▶ [M2 Theme]      ────────▶ [M3 Theme]      │
+│  [Theme]        ────────▶ [Theme]         ────────▶ [Theme]         │
 │  [Subtitle]               [Subtitle]                [Subtitle]      │
 │                                                                      │
 │  ┌──────────────┐         ┌──────────────┐          ┌───────────┐  │
@@ -43,7 +43,7 @@
 
 ---
 
-## Milestone 1: [Name]
+## [Milestone Name]
 
 **[📄 Detailed Plan](./[slug]-milestone.md)**
 
@@ -57,7 +57,7 @@
 
 ```
 ┌─────────────────────────────────────────────────────────────┐
-│           MILESTONE 1: [DESCRIPTIVE NAME]                    │
+│           [MILESTONE NAME]                                   │
 ├─────────────────────────────────────────────────────────────┤
 │                                                              │
 │                                                              │
@@ -116,7 +116,7 @@
 
 ---
 
-## Milestone 2: [Name]
+## [Milestone Name]
 
 **[📄 Detailed Plan](./[slug]-milestone.md)**
 
@@ -124,13 +124,13 @@
 
 ### Goal
 
-[2-3 sentences describing what this milestone achieves and why it comes second. What does M1 unlock that makes this possible?]
+[2-3 sentences describing what this milestone achieves. What does the previous milestone unlock that makes this possible?]
 
 ### Architecture Diagram
 
 ```
 ┌─────────────────────────────────────────────────────────────┐
-│           MILESTONE 2: [DESCRIPTIVE NAME]                    │
+│           [MILESTONE NAME]                                   │
 ├─────────────────────────────────────────────────────────────┤
 │                                                              │
 │                                                              │
@@ -174,7 +174,7 @@
 
 ---
 
-## Milestone 3: [Name]
+## [Milestone Name]
 
 **[📄 Detailed Plan](./[slug]-milestone.md)**
 
@@ -182,13 +182,13 @@
 
 ### Goal
 
-[2-3 sentences describing what this milestone achieves and how it builds on M2.]
+[2-3 sentences describing what this milestone achieves and how it builds on previous milestones.]
 
 ### Architecture Diagram
 
 ```
 ┌─────────────────────────────────────────────────────────────┐
-│           MILESTONE 3: [DESCRIPTIVE NAME]                    │
+│           [MILESTONE NAME]                                   │
 ├─────────────────────────────────────────────────────────────┤
 │                                                              │
 │                                                              │
@@ -226,16 +226,16 @@
 
 ### Why This Milestone Order?
 
-**1. [Milestone 1 Rationale]**:
+**[Milestone Name] First**:
 - [Reason 1]
 - [Reason 2]
 - [Reason 3]
 
-**2. [Milestone 2 Rationale]**:
+**[Milestone Name] Second**:
 - [Reason 1]
 - [Reason 2]
 
-**3. [Milestone 3 Rationale]**:
+**[Milestone Name] Third**:
 - [Reason 1]
 - [Reason 2]
 
@@ -243,24 +243,24 @@
 
 ## Success Criteria
 
-### Milestone 1
+### [Milestone Name]
 - [ ] [Criterion 1]
 - [ ] [Criterion 2]
 - [ ] [Criterion 3]
 - [ ] [Criterion 4]
 
-### Milestone 2
+### [Milestone Name]
 - [ ] [Criterion 1]
 - [ ] [Criterion 2]
 - [ ] [Criterion 3]
 - [ ] [Criterion 4]
 
-### Milestone 3
+### [Milestone Name]
 - [ ] [Criterion 1]
 - [ ] [Criterion 2]
 - [ ] [Criterion 3]
 
-### Long-Term Platform
+### Long-Term
 - [ ] [Long-term goal 1]
 - [ ] [Long-term goal 2]
 - [ ] [Long-term goal 3]
@@ -275,6 +275,6 @@
 **Next Action**: [What to do next]
 
 **Detailed Plans** (to be created):
-- [📄 Milestone 1: [Name]](./[slug]-milestone.md)
-- [📄 Milestone 2: [Name]](./[slug]-milestone.md)
-- [📄 Milestone 3: [Name]](./[slug]-milestone.md)
+- [📄 [Milestone Name]](./[slug]-milestone.md)
+- [📄 [Milestone Name]](./[slug]-milestone.md)
+- [📄 [Milestone Name]](./[slug]-milestone.md)

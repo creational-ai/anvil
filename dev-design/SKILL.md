@@ -146,7 +146,7 @@ Respond: "We're in the [North Star/Architecture/Milestones Overview/Milestone De
 
 **Process**:
 1. Create Milestone Progression diagram (visual roadmap)
-2. Define Milestone 1: Core with full detail (Goal, Architecture, What Gets Built, Metrics, Outcomes, Why)
+2. Define first milestone (Core) with full detail (Goal, Architecture, What Gets Built, Metrics, Outcomes, Why)
 3. Assess path clarity (can you see the giant steps?)
 4. Design milestone progression (each should build, validate, progress)
 5. Define additional milestones (if clear path visible)
@@ -155,7 +155,7 @@ Respond: "We're in the [North Star/Architecture/Milestones Overview/Milestone De
 8. Add Next Steps
 
 **Key Principles**:
-- **Every project starts with Milestone 1: Core** (core functionality)
+- **Every project starts with a Core milestone** (core functionality)
 - **Clear path to north star**: Plan multiple milestones upfront if you can see the giant steps
 - **Unclear path**: Start with just Core - add milestones as clarity emerges through execution
 - **Each milestone should**: Build on previous learnings, validate a capability, progress toward north star
@@ -173,7 +173,7 @@ Respond: "We're in the [North Star/Architecture/Milestones Overview/Milestone De
 ### Stage 3 Complete Checklist
 - [ ] `docs/[slug]-milestones-overview.md` created using template
 - [ ] Milestone Progression diagram shows overall strategy
-- [ ] Milestone 1: Core fully defined with all sections
+- [ ] First milestone (Core) fully defined with all sections
 - [ ] Each milestone has Goal, Architecture, What Gets Built, Metrics, Outcomes, Why
 - [ ] Strategic Decisions section explains milestone order
 - [ ] Success Criteria defined for each milestone

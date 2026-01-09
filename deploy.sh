@@ -10,6 +10,7 @@ DEVCYCLE_SKILL_DIR="$HOME/.claude/skills/dev-cycle"
 OLD_SKILL_DIR="$HOME/.claude/skills/idea-to-mvp"
 OLD_BLUEPRINT_DIR="$HOME/.claude/skills/blueprint"
 COMMANDS_DIR="$HOME/.claude/commands"
+AGENTS_DIR="$HOME/.claude/agents"
 
 echo "=============================================="
 echo "Deploying dev-design + dev-cycle skills..."
@@ -35,6 +36,7 @@ fi
 mkdir -p "$DEVDESIGN_SKILL_DIR"
 mkdir -p "$DEVCYCLE_SKILL_DIR"
 mkdir -p "$COMMANDS_DIR"
+mkdir -p "$AGENTS_DIR"
 
 # Deploy dev-design skill
 echo "--- Deploying dev-design skill ---"
@@ -80,6 +82,17 @@ if [ -d "$SCRIPT_DIR/commands" ]; then
 fi
 
 echo ""
+
+# Deploy agents
+echo "--- Deploying agents ---"
+echo "Target: $AGENTS_DIR"
+
+if [ -d "$SCRIPT_DIR/dev-cycle/agents" ]; then
+    cp -r "$SCRIPT_DIR/dev-cycle/agents/"* "$AGENTS_DIR/"
+    echo "  ✓ Copied all agents"
+fi
+
+echo ""
 echo "=============================================="
 echo "✓ Deployment complete!"
 echo "=============================================="
@@ -88,4 +101,5 @@ echo "Deployed to:"
 echo "  dev-design: $DEVDESIGN_SKILL_DIR"
 echo "  dev-cycle:  $DEVCYCLE_SKILL_DIR"
 echo "  commands:   $COMMANDS_DIR"
+echo "  agents:     $AGENTS_DIR"
 echo ""
