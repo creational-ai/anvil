@@ -1,20 +1,52 @@
 # /dev-lessons
 
-Consolidate per-step lessons learned into a final summary section.
-
-## What This Does
-
 Extracts lessons from each step in a results doc, consolidates them, and adds a unified `## Lessons Learned` section at the end.
+
+**Template**: `~/.claude/skills/dev-cycle/assets/templates/lessons-learned.md`
 
 ## Input
 
-**Argument (required):**
-- Path to results doc (e.g., `docs/core-poc6-results.md`)
+**Arguments (one or more required):**
+- Path(s) to results doc(s) (e.g., `docs/core-poc6-results.md`)
 
 **Examples:**
 ```bash
+# Single doc
 /dev-lessons docs/core-poc6-results.md
+
+# Multiple docs - process each one at a time
+/dev-lessons docs/core-poc1-results.md docs/core-poc2-results.md docs/core-poc3-results.md
 ```
+
+**Multiple docs**: Process each document sequentially, completing one before moving to the next.
+
+## Pre-Check
+
+**First, check if `## Lessons Learned` section already exists in the document.**
+
+### If NOT exists → Run Process (Steps 1-4)
+
+### If EXISTS → Validate Against Template
+
+Compare existing section against the template:
+
+1. **Structure**: Flat list only (NO subcategories like `### Topic`)
+2. **Format**: Each bullet matches `- **[Key concept]** - [Explanation].`
+   - Uses ` - ` dash separator (NOT `:` colon)
+   - Key concept is 2-5 words, bolded
+3. **Content**: Meets Requirements section (Keep if / Cut if criteria)
+
+**Structure/Format violations → Redo**:
+- Has subcategories (`###`)
+- Uses colon separator (`**Key**:` instead of `**Key** -`)
+- Missing bold on key concept
+
+**Content violations → Remove only**:
+- Contains lessons that should be cut per Requirements → remove those bullets, keep the rest
+
+**If valid → Done**: Report "Lessons Learned section validated - no changes needed."
+
+---
 
 ## Process
 
@@ -30,50 +62,38 @@ Read the results doc, locate all per-step "Lessons Learned" subsections, extract
 
 ### Step 3: Format
 
-- Start each bullet with **bold key concept**
-- Write complete, standalone insights
-- Include specific technical details when valuable
+Format each bullet per the template.
 
 ### Step 4: Add Section
 
-Add `## Lessons Learned` as the **final section** of the document (before any existing "Next Steps" section, or at the very end).
+Add `## Lessons Learned` as the **last section** of the document.
+
+---
 
 ## Requirements
 
 - **No duplicates** - Consolidate lessons appearing in multiple steps
-- **Future value** - Skip trivial observations ("tests passed", "code works")
-- **Technical specifics** - Preserve library versions, API patterns, error solutions
-- **Standalone insights** - Each bullet should be useful without reading the full doc
+- **Standalone** - Each bullet useful without reading the full doc
 
-## Output Format
+**Keep if:**
+- Project-specific (wouldn't know without doing this work)
+- Non-obvious discovery or gotcha
+- Explains WHY a decision was made (future devs might question it)
+- Would save significant time if someone didn't know
 
-```markdown
-## Lessons Learned
-
-- **[Key concept in bold]** - [Complete, standalone explanation with technical details when valuable].
-
-- **[Key concept in bold]** - [Complete, standalone explanation].
-
-- **[Key concept in bold]** - [Complete, standalone explanation].
-```
-
-## Example Output
-
-```markdown
-## Lessons Learned
-
-- **Database constraints handle cascades automatically** - ON DELETE SET NULL in FK constraint handles task unlinking when milestone is deleted, no application code needed.
-
-- **Force flag pattern for destructive operations** - Block by default with informative error, allow override with explicit `force=True`. Protects against accidental data loss while enabling intentional cleanup.
-
-- **Return affected entity info from delete operations** - Returning `tasks_unlinked` count and `dependencies_removed_from` list helps callers understand what changed without additional queries.
-
-- **TEXT[] arrays simplify dependency tracking** - PostgreSQL array fields like `depends_on: TEXT[]` can be filtered and updated in application code without complex SQL, making dependency cleanup straightforward.
-```
+**Cut if:**
+- Standard pattern any experienced dev in that language/framework knows
+- Generic advice that applies to any project
+- Obvious from reading the code
+- Minor style preference
+- Basic tooling usage
 
 ## After Completion
 
-Report what was consolidated:
+Report what was consolidated for each doc:
+- Document processed
 - Number of per-step lessons extracted
 - Number of consolidated lessons in final section
 - Themes/categories identified
+
+**Multiple docs**: Report summary for each, then overall count when all complete.
