@@ -50,12 +50,14 @@ Review all files above and assess against the 5 criteria.
 - If `PROJECT_STATE.md` doesn't exist, create it using the template
 - If `PROJECT_STATE.md` exists but structure differs significantly from template, realign it
 
-**Before generating the report**, replace the "Latest Health Check" section in `PROJECT_STATE.md` with the current findings (create the section if it doesn't exist):
+**Before generating the report**:
+1. Update the `Last Updated` timestamp at the top of `PROJECT_STATE.md`
+2. Replace the "Latest Health Check" section with the current findings (create if it doesn't exist):
 
 ```markdown
 ## Latest Health Check
 
-### [Date] - [Session/Task Name]
+### [YYYY-MM-DD] - [Session/Task Name]
 **Status**: ✅ On Track / ⚠️ Minor Concerns / ❌ Needs Attention
 
 **Context**:
@@ -89,7 +91,7 @@ After updating PROJECT_STATE.md, provide this report:
 ```markdown
 ## Small Win Check Report
 
-**Date**: [Date]
+**Date**: [YYYY-MM-DDTHH:MM:SS-TZ]
 **Current Milestone**: [Milestone name]
 **Recent Work**: [Task name]
 

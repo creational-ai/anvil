@@ -6,6 +6,7 @@
 
 | Attribute | Value |
 |-----------|-------|
+| **Created** | [YYYY-MM-DDTHH:MM:SS-TZ] |
 | **Name** | [Name] |
 | **Proves** | [What this validates] |
 | **Production-Grade Because** | [Why this isn't a toy/mock] |
