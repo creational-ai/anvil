@@ -48,10 +48,10 @@ cd [directory] && uv run pytest tests/test_[affected1].py tests/test_[affected2]
 [actual commands to run]
 ```
 
-**Verification**:
+**Verification** (inline OK for prerequisites):
 ```bash
-# [What to verify]
-[command to verify it's working]
+# Quick check that prerequisite is working
+python -c "[quick verification command]"
 # Expected: [what success looks like]
 ```
 
@@ -112,9 +112,10 @@ From `docs/[source-doc].md`:
 [actual commands to run]
 ```
 
-**Verification**:
+**Verification** (inline OK for Step 0):
 ```bash
-[command to verify step is complete]
+# Quick check that setup is working
+python -c "[quick verification command]"
 # Expected: [what success looks like]
 ```
 
@@ -259,7 +260,7 @@ Before marking PoC complete, verify:
 - [ ] **Error handling**: Failures are handled, not ignored
 - [ ] **Scalable patterns**: Code structure would work at 10x scale
 - [ ] **Tests exist**: pytest covers the critical paths
-- [ ] **Verification uses pytest**: Not inline Python (unless truly necessary)
+- [ ] **Implementation steps use pytest**: Inline Python OK for prerequisites/Step 0 only
 - [ ] **Config externalized**: No hardcoded secrets or environment-specific values
 - [ ] **Clean separation**: Each file has single responsibility
 - [ ] **Self-contained**: Works independently; all existing functionality still works; doesn't require future PoCs

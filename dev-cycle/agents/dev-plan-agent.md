@@ -67,3 +67,4 @@ Before completing, verify:
 - [ ] No mock data where real data needed
 - [ ] Task is self-contained
 - [ ] No status indicators in the document (keep it evergreen)
+- [ ] **Implementation steps use pytest** - Inline Python OK for prerequisites/Step 0 only

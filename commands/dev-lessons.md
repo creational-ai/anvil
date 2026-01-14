@@ -75,18 +75,22 @@ Add `## Lessons Learned` as the **last section** of the document.
 - **No duplicates** - Consolidate lessons appearing in multiple steps
 - **Standalone** - Each bullet useful without reading the full doc
 
-**Keep if:**
-- Project-specific (wouldn't know without doing this work)
-- Non-obvious discovery or gotcha
-- Explains WHY a decision was made (future devs might question it)
-- Would save significant time if someone didn't know
+### The Cutting Principle
 
-**Cut if:**
-- Standard pattern any experienced dev in that language/framework knows
-- Generic advice that applies to any project
-- Obvious from reading the code
-- Minor style preference
-- Basic tooling usage
+**Ask: "Would someone reading this in 6 months find it valuable?"**
+
+If the answer is no, cut it. Most per-step lessons are observations made during implementation that helped in the moment but have no lasting value. Cut the fluff.
+
+**Keep only lessons that:**
+- You couldn't have known without doing this specific work
+- Would make someone say "I wish I knew that before I started"
+- Explain a non-obvious behavior or gotcha that caused real confusion
+
+**Cut lessons that:**
+- Could be found by reading documentation or a quick search
+- Any experienced developer in that stack would already know
+- Are general best practices not specific to this project
+- Describe how a tool/library works as designed
 
 ## After Completion
 

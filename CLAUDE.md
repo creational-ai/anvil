@@ -16,21 +16,30 @@ idea-to-mvp/
 ├── deploy.sh                   # Deploy both skills and commands
 ├── verify.sh                   # Verify deployment is correct
 ├── sync-from-user.sh           # Sync changes from deployed skills
-├── commands/                   # Global commands (deployed by both skills)
-│   ├── verify-doc.md          # Document verification
-│   ├── dev-overview.md        # Create high-level design
-│   ├── dev-plan.md            # Plan implementation steps
-│   ├── dev-execute.md         # Execute step-by-step
-│   └── small-win-check.md     # Project health check
+├── commands/                   # Global commands
+│   ├── verify-doc.md           # Document verification
+│   ├── design-northstar.md     # dev-design Stage 1
+│   ├── design-architecture.md  # dev-design Stage 2
+│   ├── design-milestones-overview.md  # dev-design Stage 3
+│   ├── design-milestone-design.md     # dev-design Stage 4
+│   ├── design-poc-design.md    # dev-design Stage 5
+│   ├── dev-overview.md         # dev-cycle Stage 1
+│   ├── dev-plan.md             # dev-cycle Stage 2
+│   ├── dev-execute.md          # dev-cycle Stage 3
+│   ├── dev-lessons.md          # Lessons consolidation
+│   ├── small-win-check.md      # Project health check
+│   ├── agent-dev-plan.md       # Plan agent command
+│   └── agent-dev-execute.md    # Execute agent command
 ├── dev-design/                 # Design skill (5 stages)
-│   ├── SKILL.md               # Main skill definition
-│   ├── assets/templates/      # Templates (5 templates)
-│   └── references/            # Stage guides (1-5)
-└── dev-cycle/                  # Development skill
-    ├── SKILL.md               # Main skill definition
-    ├── assets/templates/      # Templates (overview, implementation, results, PROJECT_STATE)
-    ├── references/            # Stage guides (1-3)
-    └── docs/                  # Design docs for this skill
+│   ├── SKILL.md                # Main skill definition
+│   ├── assets/templates/       # Templates (5 templates)
+│   └── references/             # Stage guides (1-5)
+└── dev-cycle/                  # Development skill (3 stages)
+    ├── SKILL.md                # Main skill definition
+    ├── assets/templates/       # Templates (5 templates)
+    ├── agents/                 # Subagent definitions
+    ├── references/             # Stage guides (1-3)
+    └── docs/                   # Design docs for this skill
 ```
 
 ## Development Workflow
@@ -98,7 +107,8 @@ git status
 **dev-cycle** (`dev-cycle/assets/templates/`):
 - `overview.md` - Stage 1 output
 - `implementation-plan.md` - Stage 2 output (implementation guide)
-- `implementation-results.md` - Stage 2 output (progress tracking)
+- `implementation-results.md` - Stage 3 output (progress tracking)
+- `lessons-learned.md` - Lessons consolidation output
 - `PROJECT_STATE.md` - Project tracking
 
 ## Reference Guides
@@ -111,14 +121,28 @@ git status
 
 ## Slash Commands
 
-**All commands** (`commands/`):
-- `verify-doc.md` - Document verification
-- `dev-overview.md` - Create high-level design
-- `dev-plan.md` - Plan implementation steps
-- `dev-execute.md` - Execute step-by-step
-- `small-win-check.md` - Project health check
+**dev-design commands** (`commands/`):
+- `/design-northstar` - Create vision document (Stage 1)
+- `/design-architecture` - Create architecture document (Stage 2)
+- `/design-milestones-overview` - Create milestone roadmap (Stage 3)
+- `/design-milestone-design` - Create detailed milestone design (Stage 4)
+- `/design-poc-design` - Create PoC breakdown (Stage 5)
 
-Commands are global and deployed by both skills to `~/.claude/commands/`
+**dev-cycle commands** (`commands/`):
+- `/dev-overview` - Create high-level design (Stage 1)
+- `/dev-plan` - Plan implementation steps (Stage 2)
+- `/dev-execute` - Execute step-by-step (Stage 3)
+- `/dev-lessons` - Consolidate lessons learned
+- `/small-win-check` - Project health check
+
+**Agent commands** (`commands/`):
+- `/agent-dev-plan` - Plan agent for Stage 2
+- `/agent-dev-execute` - Execute agent for Stage 3
+
+**Utility commands** (`commands/`):
+- `/verify-doc` - Document verification
+
+Commands are deployed to `~/.claude/commands/`
 
 ## Deployment
 

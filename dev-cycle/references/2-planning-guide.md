@@ -49,7 +49,7 @@ One document is created:
 - [ ] **Affected test files identified** in Prerequisites section
 - [ ] Each step is small enough to verify independently
 - [ ] Each step has clear verification criteria (with code)
-- [ ] **Verification uses pytest** (not inline Python, unless truly necessary)
+- [ ] **Implementation steps use pytest** (inline Python OK for prerequisites/Step 0 only)
 - [ ] **Test scope is intentional** (test specific change → affected tests → full suite when it makes sense)
 - [ ] No step relies on mock data where real data is needed
 - [ ] Implementation would work in production context
@@ -121,18 +121,25 @@ For each step, ensure:
 
 ### Prefer pytest Over Inline Python
 
-**Use pytest unit tests** for verification, not inline `python -c` commands.
+**pytest is always preferred** for verification. Inline Python (`python -c`) is acceptable only for:
+- Prerequisites (e.g., "is database connected?", "can we import the module?")
+- Step 0 setup verification (e.g., "did the config load correctly?")
 
-**When to use pytest:**
-- Verifying code behavior works correctly
-- Testing model validation
-- Testing function outputs
-- Anything that CAN be written as a repeatable test
+**For implementation steps (Step 1+), always use pytest:**
 
-**When inline is acceptable:**
-- Verifying imports work (quick sanity check)
-- One-time setup verification (e.g., "is database connected?")
-- Checking something that truly can't be a unit test
+```bash
+# ✅ Prerequisites/Step 0 - inline OK for quick checks
+python -c "from mymodule import MyClass; print('Import works')"
+
+# ✅ Implementation steps - always pytest
+cd [directory] && uv run pytest tests/test_mymodule.py -v
+```
+
+**Why pytest for implementation steps:**
+- Repeatable and documented
+- Part of the test suite
+- Catches regressions
+- Professional standard
 
 ### Test Scope: Intentional and Incremental
 
@@ -162,7 +169,7 @@ List affected test files in Prerequisites:
 - **Missing type hints** (reduces IDE support, increases bugs)
 - **Breaking self-contained requirement** (add alongside don't replace; task must work independently without future tasks)
 - **Running tests without knowing what you're testing** (be intentional; test specific change, then affected tests, then expand)
-- **Using inline Python instead of pytest** (not repeatable; prefer unit tests)
+- **Using inline Python for implementation step verification** - use pytest for Steps 1+ (inline OK for prerequisites/Step 0)
 
 ## Next Stage
 → Stage 3: Execution (use 3-execution-guide.md)

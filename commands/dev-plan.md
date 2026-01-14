@@ -53,6 +53,8 @@ Stage 2 of dev-cycle: Break down one task into bite-sized, production-grade step
 
 🔒 **SELF-CONTAINED** - Add alongside, don't replace; works independently
 
+🧪 **PYTEST FOR STEPS** - Implementation steps use pytest (inline OK for prerequisites/Step 0)
+
 ## Process
 
 Follow the guidance in `2-planning-guide.md`:
