@@ -101,9 +101,8 @@ Testing is about **scope and intentionality**, not speed. Know exactly what you'
 ## After All Steps Complete
 
 When all steps are complete and all success criteria are met:
-1. **Ask user**: "All steps complete and tests passing. Mark task as complete?"
-2. **If user confirms**: Record **Completed timestamp** (ISO 8601 with timezone), update Status to ✅ Complete
-3. **Run `/dev-lessons`** to consolidate per-step lessons into final summary section
+1. Record **Completed timestamp** (ISO 8601 with local timezone, e.g., `2024-01-08T22:45:00-08:00`)
+2. Update Status to ✅ Complete
 
 ## Next Stage
 → Return to Stage 2 for next task (after task complete)

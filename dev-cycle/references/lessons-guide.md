@@ -2,6 +2,8 @@
 
 Extract and consolidate lessons learned from results docs.
 
+**Template**: `assets/templates/lessons-learned.md`
+
 ## Input
 
 Path(s) to results doc(s): `docs/[slug]-results.md`

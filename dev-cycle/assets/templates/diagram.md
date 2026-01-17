@@ -1,6 +1,6 @@
 # Diagram Template
 
-```diagram
+```
 ┌─────────────────────┐
 │     [Task ID]       │
 │    [SHORT NAME]     │
@@ -32,9 +32,9 @@
 - Metrics/achievements
 - What was proven/delivered
 
-**Exclude:**
+**Exclude (NEVER include):**
 - Files/directories (implementation details)
-- Test counts
+- Test counts, test results, tests passed
 
 ## Box Characters
 
@@ -55,7 +55,7 @@
 
 ## Examples
 
-```diagram
+```
 ┌─────────────────────┐
 │       PoC 0         │
 │    EXPLORATION      │
@@ -71,7 +71,7 @@
 └─────────────────────┘
 ```
 
-```diagram
+```
 ┌─────────────────────┐
 │       PoC 2         │
 │     EXTRACTORS      │
@@ -88,7 +88,7 @@
 └─────────────────────┘
 ```
 
-```diagram
+```
 ┌─────────────────────┐
 │       PoC 3         │
 │       CACHE         │

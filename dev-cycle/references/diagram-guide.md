@@ -2,6 +2,8 @@
 
 Generate a tight ASCII box summary from task documentation.
 
+**Template**: `assets/templates/diagram.md`
+
 ## Input
 
 Slug format: `[milestone-slug]-[task-slug]`
@@ -62,9 +64,9 @@ Parse from slug:
 - Metrics/achievements (12x faster, 14K tokens, max 1108 segments)
 - Tools/APIs added (get_transcript, get_metadata)
 
-**Exclude:**
+**Exclude (NEVER include):**
 - Files/directories (implementation details)
-- Test counts (not important)
+- Test counts, test results, tests passed (not important)
 
 ## Generation Process
 
@@ -76,20 +78,20 @@ Parse from slug:
 
 ## Output
 
-Wrap diagram in ` ```diagram ` code block. See template for format and example.
+Add `## Diagram` heading, then the diagram in a code block (no language tag):
+
+## Diagram
+```
+[diagram here]
+```
+
+See template for diagram format and examples.
 
 ## Placement
 
 Insert into `docs/[slug]-results.md`:
 - After `## Summary` section (after the table)
 - Before the `---` separator
-
-## Template Reference
-
-See `assets/templates/diagram.md` for:
-- Box character set
-- Placeholder definitions
-- Formatting rules
 
 ---
 
@@ -98,6 +100,7 @@ See `assets/templates/diagram.md` for:
 1. **Read** - All `docs/[slug]-*.md` files (overview, implementation, results)
 2. **Extract** - Task ID, short name (1 word CAPS), status, features/metrics
 3. **Group** - Organize items under section headers (Data Shapes, MCP Tools, etc.)
-4. **Focus** - Features and achievements, NOT files or test counts
+4. **Focus** - Features and achievements only. NEVER files, test counts, or test results
 5. **Format** - Use template, adjust box width, blank line between sections
-6. **Place** - Insert after `## Summary` in results doc, before `---`
+6. **Output** - Add `## Diagram` heading, then code block (no language tag)
+7. **Place** - Insert after `## Summary` in results doc, before `---`
