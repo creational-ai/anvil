@@ -4,52 +4,60 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Project Overview
 
-This repo contains two complementary Claude Code skills:
+This repo contains skills for both Claude Code and Claude Desktop:
 
+**Claude Code** (`claude-code/`):
 1. **dev-design** - Design phase (concept to executable plan)
 2. **dev-cycle** - Development loop (plan to working code)
+
+**Claude Desktop** (`claude-desktop/`):
+1. **dev-design** - Same 5-stage design workflow (outputs artifacts)
+2. **market-research** - Market validation with Go/Pivot/Kill recommendation
 
 ## Repo Structure
 
 ```
 idea-to-mvp/
-├── deploy.sh                   # Deploy both skills and commands
-├── verify.sh                   # Verify deployment is correct
-├── sync-from-user.sh           # Sync changes from deployed skills
-├── commands/                   # Global commands
-│   ├── verify-doc.md           # Document verification
-│   ├── design-northstar.md     # dev-design Stage 1
-│   ├── design-architecture.md  # dev-design Stage 2
-│   ├── design-milestones-overview.md  # dev-design Stage 3
-│   ├── design-milestone-design.md     # dev-design Stage 4
-│   ├── design-poc-design.md    # dev-design Stage 5
-│   ├── dev-overview.md         # dev-cycle Stage 1
-│   ├── dev-plan.md             # dev-cycle Stage 2
-│   ├── dev-execute.md          # dev-cycle Stage 3
-│   ├── dev-lessons.md          # Lessons consolidation
-│   ├── small-win-check.md      # Project health check
-│   ├── agent-dev-plan.md       # Plan agent command
-│   └── agent-dev-execute.md    # Execute agent command
-├── dev-design/                 # Design skill (5 stages)
-│   ├── SKILL.md                # Main skill definition
-│   ├── assets/templates/       # Templates (5 templates)
-│   └── references/             # Stage guides (1-5)
-└── dev-cycle/                  # Development skill (3 stages)
-    ├── SKILL.md                # Main skill definition
-    ├── assets/templates/       # Templates (5 templates)
-    ├── agents/                 # Subagent definitions
-    ├── references/             # Stage guides (1-3)
-    └── docs/                   # Design docs for this skill
+├── README.md                   # Overview linking both environments
+├── LICENSE
+│
+├── claude-code/                # Claude Code skills
+│   ├── README.md               # CC-specific documentation
+│   ├── deploy.sh               # Deploy skills and commands
+│   ├── verify.sh               # Verify deployment
+│   ├── sync-from-user.sh       # Sync from deployed skills
+│   ├── commands/               # Slash commands
+│   │   ├── design-*.md         # dev-design commands
+│   │   ├── dev-*.md            # dev-cycle commands
+│   │   ├── agent-*.md          # Agent commands
+│   │   └── verify-doc.md       # Document verification
+│   ├── dev-design/             # Design skill (5 stages)
+│   │   ├── SKILL.md
+│   │   ├── assets/templates/
+│   │   └── references/
+│   └── dev-cycle/              # Development skill (3 stages)
+│       ├── SKILL.md
+│       ├── assets/templates/
+│       ├── agents/
+│       └── references/
+│
+└── claude-desktop/             # Claude Desktop skills
+    ├── README.md               # CD-specific documentation
+    ├── package.sh              # Build .skill files
+    ├── dev-design/             # Design skill (v1.5.0)
+    ├── market-research/        # Market validation (v1.1.0)
+    └── releases/               # Packaged .skill files
 ```
 
-## Development Workflow
+## Development Workflow (Claude Code)
 
 ### Making Changes
 
-1. **Edit files in this repo** (not in `~/.claude/skills/`)
+1. **Edit files in `claude-code/`** (not in `~/.claude/skills/`)
 2. **Test locally** if needed
 3. **Deploy**:
    ```bash
+   cd claude-code
    ./deploy.sh
    ```
 4. **Commit and push**: Standard git workflow
@@ -59,6 +67,7 @@ idea-to-mvp/
 If you made changes in `~/.claude/skills/dev-design/`, `~/.claude/skills/dev-cycle/`, or `~/.claude/commands/`:
 
 ```bash
+cd claude-code
 ./sync-from-user.sh
 git status  # Review changes
 ```
@@ -66,17 +75,19 @@ git status  # Review changes
 ## Key Commands
 
 ```bash
-# Deploy both skills and all commands
+# Deploy Claude Code skills and commands
+cd claude-code
 ./deploy.sh
 
-# Verify deployment is correct
+# Verify deployment
 ./verify.sh
 
-# Sync changes back from deployed skills and commands
+# Sync changes back from deployed skills
 ./sync-from-user.sh
 
-# Check git status
-git status
+# Package Claude Desktop skills
+cd claude-desktop
+./package.sh
 ```
 
 ## File Naming Conventions
@@ -84,74 +95,85 @@ git status
 **dev-design creates:**
 - `[slug]-north-star.md` - Vision and goals (e.g., `mc-north-star.md`)
 - `[slug]-architecture.md` - Architecture (e.g., `mc-architecture.md`)
-- `[slug]-milestones-overview.md` - Strategic milestone roadmap (e.g., `mc-milestones-overview.md`)
+- `[slug]-milestones-overview.md` - Strategic milestone roadmap
 - `[slug]-milestone.md` - Detailed milestone design (e.g., `core-milestone.md`)
 - `[slug]-poc-design.md` - PoC plan (e.g., `core-poc-design.md`)
 
 **dev-cycle creates:**
 - `PROJECT_STATE.md` - Task and milestone tracking
-- `docs/[milestone-slug]-[task-slug]-overview.md` - Feature/bug design analysis (e.g., `core-poc6-overview.md`)
-- `docs/[milestone-slug]-[task-slug]-implementation.md` - Implementation guide (evergreen)
-- `docs/[milestone-slug]-[task-slug]-results.md` - Progress tracking (live status)
+- `docs/[milestone-slug]-[task-slug]-overview.md` - Feature/bug design analysis
+- `docs/[milestone-slug]-[task-slug]-implementation.md` - Implementation guide
+- `docs/[milestone-slug]-[task-slug]-results.md` - Progress tracking
 - `tests/test_[task-slug]_*.py` - Tests grouped by task
 
 ## Templates
 
-**dev-design** (`dev-design/assets/templates/`):
+**dev-design** (`claude-code/dev-design/assets/templates/`):
 - `north-star.md` - Stage 1 template
 - `architecture.md` - Stage 2 template
 - `milestones-overview.md` - Stage 3 template
-- `milestone-design.md` - Stage 4 output
-- `poc-design.md` - Stage 5 output
+- `milestone-design.md` - Stage 4 template
+- `poc-design.md` - Stage 5 template
 
-**dev-cycle** (`dev-cycle/assets/templates/`):
+**dev-cycle** (`claude-code/dev-cycle/assets/templates/`):
 - `overview.md` - Stage 1 output
-- `implementation-plan.md` - Stage 2 output (implementation guide)
-- `implementation-results.md` - Stage 3 output (progress tracking)
-- `lessons-learned.md` - Lessons consolidation output
-- `PROJECT_STATE.md` - Project tracking
+- `implementation-plan.md` - Stage 2 output
+- `implementation-results.md` - Stage 3 output
+- `lessons-learned.md` - Lessons consolidation
+- `diagram.md` - Task diagram template
+- `milestone-details.md` - Milestone summary template
 
 ## Reference Guides
 
-**dev-design** (`dev-design/references/`):
-- `1-north-star-guide.md` through `5-poc-design-guide.md` (5 stages)
+**dev-design** (`claude-code/dev-design/references/`):
+- `1-north-star-guide.md` through `5-poc-design-guide.md`
 
-**dev-cycle** (`dev-cycle/references/`):
+**dev-cycle** (`claude-code/dev-cycle/references/`):
 - `1-overview-guide.md` through `3-execution-guide.md`
+- `lessons-guide.md`, `diagram-guide.md`, `milestone-details-guide.md`
+- `verify-doc-guide.md`
 
 ## Slash Commands
 
-**dev-design commands** (`commands/`):
+**dev-design commands**:
 - `/design-northstar` - Create vision document (Stage 1)
 - `/design-architecture` - Create architecture document (Stage 2)
 - `/design-milestones-overview` - Create milestone roadmap (Stage 3)
 - `/design-milestone-design` - Create detailed milestone design (Stage 4)
 - `/design-poc-design` - Create PoC breakdown (Stage 5)
 
-**dev-cycle commands** (`commands/`):
+**dev-cycle commands**:
 - `/dev-overview` - Create high-level design (Stage 1)
 - `/dev-plan` - Plan implementation steps (Stage 2)
 - `/dev-execute` - Execute step-by-step (Stage 3)
 - `/dev-lessons` - Consolidate lessons learned
+- `/dev-diagram` - Generate task diagram
+- `/dev-finalize` - Wrap up task (timestamp + lessons + diagram)
+- `/dev-milestone-details` - Generate milestone summary
 - `/small-win-check` - Project health check
 
-**Agent commands** (`commands/`):
+**Agent commands**:
 - `/agent-dev-plan` - Plan agent for Stage 2
 - `/agent-dev-execute` - Execute agent for Stage 3
+- `/agent-dev-milestone-details` - Milestone details agent
+- `/agent-verify-doc` - Document verification agent
 
-**Utility commands** (`commands/`):
+**Utility commands**:
 - `/verify-doc` - Document verification
 
 Commands are deployed to `~/.claude/commands/`
 
 ## Deployment
 
-Single `deploy.sh` script at root deploys everything:
-- `dev-design/` → `~/.claude/skills/dev-design/`
-- `dev-cycle/` → `~/.claude/skills/dev-cycle/`
-- `commands/` → `~/.claude/commands/`
+**Claude Code**: `claude-code/deploy.sh` deploys to:
+- `~/.claude/skills/dev-design/`
+- `~/.claude/skills/dev-cycle/`
+- `~/.claude/commands/`
+- `~/.claude/agents/`
 
-Single `sync-from-user.sh` script syncs everything back
+**Claude Desktop**: `claude-desktop/package.sh` creates:
+- `releases/dev-design.skill`
+- `releases/market-research.skill`
 
 ## Git Workflow
 

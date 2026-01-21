@@ -107,13 +107,39 @@ get_project(slug) extracts:
 | **Best for** | Exploration, research | Implementation |
 | **Skills** | dev-design, market-research | dev-design, dev-cycle |
 
-## Building .skill Files
+## Development
 
-To rebuild the packaged `.skill` files after making changes:
+### Editing in Claude Desktop → Repo
+
+If you edited skills in Claude Desktop and exported new `.skill` files:
 
 ```bash
-./package.sh
+# 1. Export .skill files from Claude Desktop to releases/
+# 2. Unpackage to update source folders
+./unpackage.sh
+
+# 3. Review changes
+git status
 ```
+
+### Editing in Repo → Claude Desktop
+
+If you edited source folders directly:
+
+```bash
+# 1. Package source folders into .skill files
+./package.sh
+
+# 2. Import .skill files in Claude Desktop
+#    Settings → Skills → Import Skill
+```
+
+### Scripts
+
+| Script | Purpose |
+|--------|---------|
+| `package.sh` | Source folders → `.skill` files |
+| `unpackage.sh` | `.skill` files → Source folders |
 
 ## License
 

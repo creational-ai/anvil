@@ -20,6 +20,7 @@ A structured workflow for taking ideas from concept to working product. Supports
 │  └── PoC Design               └── Go/Pivot/Kill                │
 │                                                                 │
 │  Output: Artifacts            Output: Artifacts                 │
+│  Trigger: Natural language    Trigger: Natural language         │
 │                                                                 │
 └─────────────────────────────────────────────────────────────────┘
                                ↓
@@ -37,109 +38,30 @@ A structured workflow for taking ideas from concept to working product. Supports
 │  ├── Milestone Design                                          │
 │  └── PoC Design               Output: docs/ + code files       │
 │                                                                 │
-│  Output: docs/ folder         Invocation: /slash-commands      │
-│  Invocation: /slash-commands                                   │
+│  Output: docs/ folder         Trigger: /slash-commands         │
+│  Trigger: /slash-commands                                       │
 │                                                                 │
 └─────────────────────────────────────────────────────────────────┘
 ```
 
 ## Quick Start
 
-### Claude Code (Implementation)
+### Claude Desktop
 
-```bash
-git clone git@github-creational:creational-ai/idea-to-mvp.git
-cd idea-to-mvp
-
-# Deploy skills and commands to ~/.claude/
-./deploy.sh
-
-# Verify deployment
-./verify.sh
-```
-
-### Claude Desktop (Design & Research)
-
-1. Navigate to `claude-desktop/releases/`
-2. Download `.skill` files
-3. In Claude Desktop: **Settings → Skills → Import Skill**
-
-Or rebuild from source:
-```bash
-cd claude-desktop
-./package.sh
-```
+1. Download `.skill` files from [`claude-desktop/releases/`](claude-desktop/releases/)
+2. In Claude Desktop: **Settings → Skills → Import Skill**
 
 See [`claude-desktop/README.md`](claude-desktop/README.md) for details.
 
----
+### Claude Code
 
-## Claude Code Skills
+```bash
+cd claude-code
+./deploy.sh
+./verify.sh
+```
 
-### dev-design — Design Phase
-
-Creates the foundation before any code is written. **NO CODE allowed.**
-
-**Stages**:
-1. North Star — Refine idea into vision doc
-2. Architecture — Technical architecture
-3. Milestones Overview — Strategic milestone roadmap
-4. Milestone Design — Detailed design per milestone
-5. PoC Design — Define atomic proofs-of-concept
-
-**Commands**:
-- `/design-northstar` — Create vision document
-- `/design-architecture` — Create architecture document
-- `/design-milestones-overview` — Create milestone roadmap
-- `/design-milestone-design` — Create detailed milestone design
-- `/design-poc-design` — Create PoC breakdown
-
-**Output**: `docs/[slug]-*.md` files
-
-### dev-cycle — Development Loop
-
-Implements tasks through a repeating 3-stage cycle.
-
-**Stages**:
-1. Overview — Analyze features/bugs (design only, NO CODE)
-2. Implementation Plan — Break into steps with code snippets
-3. Execution — Implement with tests
-
-**Commands**:
-- `/dev-overview` — Create high-level design
-- `/dev-plan` — Plan implementation steps
-- `/dev-execute` — Execute step-by-step
-- `/dev-lessons` — Consolidate lessons learned
-- `/small-win-check` — Health check after work completion
-
-**Agent Commands** (for subagent invocation):
-- `/agent-dev-plan` — Plan agent for Stage 2
-- `/agent-dev-execute` — Execute agent for Stage 3
-
-**Output**: `docs/[milestone-slug]-[task-slug]-*.md` files + implementation
-
----
-
-## Claude Desktop Skills
-
-See [`claude-desktop/README.md`](claude-desktop/README.md) for full details.
-
-### dev-design (v1.5.0) — Design Phase
-
-Same 5-stage workflow, optimized for Claude Desktop:
-- Outputs as **artifacts** (not files)
-- **Natural language** triggers (no slash commands)
-- **200-users-first** philosophy baked in
-- **Market research checkpoint** after Stage 2
-
-### market-research (v1.1.0) — Market Validation
-
-Thorough market validation producing a Go/Pivot/Kill recommendation.
-- **Mission Control MCP integration** — auto-pulls project context
-- **Evidence-based** — 20-30+ web searches
-- **Decision-ready** — clear recommendation with reasoning
-
----
+See [`claude-code/README.md`](claude-code/README.md) for details.
 
 ## Workflow
 
@@ -166,10 +88,10 @@ CLAUDE CODE
 4. Import design docs to project
 
 5. dev-cycle loop (per task)
-   → /dev-overview (optional)
+   → /dev-overview
    → /dev-plan
    → /dev-execute
-   → /dev-lessons
+   → /dev-finalize
    → Repeat
 
 6. /small-win-check after completion
@@ -187,13 +109,11 @@ CLAUDE CODE
 6. /dev-overview → Analyze first task
 7. /dev-plan → Plan implementation
 8. /dev-execute → Execute step-by-step
-9. /dev-lessons → Consolidate lessons
+9. /dev-finalize → Wrap up task
 10. Repeat 6-9 for each task
 
 11. /small-win-check → Update PROJECT_STATE.md
 ```
-
----
 
 ## Key Principles
 
@@ -205,65 +125,30 @@ CLAUDE CODE
 - **200-users-first** — Right-sized for early users, scale comes later
 - **Validate early** — Market research before heavy investment
 
----
-
-## File Structure
+## Repository Structure
 
 ```
 idea-to-mvp/
 ├── README.md                   # This file
 ├── LICENSE
 │
-├── # ─── Claude Code ───────────────────────────────
-├── deploy.sh                   # Deploy CC skills + commands
-├── verify.sh                   # Verify CC deployment
-├── sync-from-user.sh           # Sync from deployed skills
+├── claude-code/                # Claude Code skills
+│   ├── README.md               # CC documentation
+│   ├── deploy.sh
+│   ├── verify.sh
+│   ├── sync-from-user.sh
+│   ├── dev-design/
+│   ├── dev-cycle/
+│   └── commands/
 │
-├── dev-design/                 # CC: Design skill (5 stages)
-│   ├── SKILL.md
-│   ├── assets/templates/
-│   └── references/
-│
-├── dev-cycle/                  # CC: Development skill (3 stages)
-│   ├── SKILL.md
-│   ├── assets/templates/
-│   ├── agents/
-│   └── references/
-│
-├── commands/                   # CC: Slash commands
-│   ├── design-*.md
-│   ├── dev-*.md
-│   └── ...
-│
-├── # ─── Claude Desktop ────────────────────────────
-└── claude-desktop/
-    ├── README.md               # CD-specific documentation
-    ├── package.sh              # Build .skill files
-    │
-    ├── dev-design/             # CD: Design skill (v1.5.0)
-    │   ├── SKILL.md
-    │   ├── assets/templates/
-    │   └── references/
-    │
-    ├── market-research/        # CD: Market validation (v1.1.0)
-    │   ├── SKILL.md
-    │   ├── assets/templates/
-    │   └── references/
-    │
-    └── releases/               # Packaged .skill files
-        ├── dev-design.skill
-        └── market-research.skill
+└── claude-desktop/             # Claude Desktop skills
+    ├── README.md               # CD documentation
+    ├── package.sh
+    ├── dev-design/
+    ├── market-research/
+    └── releases/
 ```
-
-**Claude Code deploys to**:
-- `~/.claude/skills/dev-design/`
-- `~/.claude/skills/dev-cycle/`
-- `~/.claude/commands/`
-
-**Claude Desktop**: Import `.skill` files via Settings
-
----
 
 ## License
 
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+MIT License - see [LICENSE](LICENSE) for details.
