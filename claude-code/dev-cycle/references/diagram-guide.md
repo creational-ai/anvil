@@ -78,20 +78,18 @@ Parse from slug:
 
 ## Output
 
-Add `## Diagram` heading, then the diagram in a code block (no language tag):
+Insert `## Diagram` section into `docs/[slug]-results.md`:
+- **Location**: After `## Summary` section (after the table), before the first `---`
 
-## Diagram
+Then add the diagram in a code block (no language tag):
+
 ```
-[diagram here]
+## Diagram
+
+[diagram code block here]
 ```
 
 See template for diagram format and examples.
-
-## Placement
-
-Insert into `docs/[slug]-results.md`:
-- After `## Summary` section (after the table)
-- Before the `---` separator
 
 ---
 
@@ -102,5 +100,4 @@ Insert into `docs/[slug]-results.md`:
 3. **Group** - Organize items under section headers (Data Shapes, MCP Tools, etc.)
 4. **Focus** - Features and achievements only. NEVER files, test counts, or test results
 5. **Format** - Use template, adjust box width, blank line between sections
-6. **Output** - Add `## Diagram` heading, then code block (no language tag)
-7. **Place** - Insert after `## Summary` in results doc, before `---`
+6. **Output** - Insert `## Diagram` section after Summary table (before first `---`), diagram in code block (no language tag)

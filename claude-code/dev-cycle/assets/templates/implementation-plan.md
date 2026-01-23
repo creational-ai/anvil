@@ -45,7 +45,7 @@ cd [directory] && uv run pytest tests/test_[affected1].py tests/test_[affected2]
 
 ### 2. [Prerequisite Name]
 
-**Why Needed**: [Why this PoC requires it]
+**Why Needed**: [Why this task requires it]
 
 **Steps**:
 1. [Setup step 1]
@@ -113,10 +113,9 @@ From `docs/[source-doc].md`:
 
 **Goal**: [What this step accomplishes]
 
-**Tasks**:
-- [ ] [Task 1]
-- [ ] [Task 2]
-- [ ] [Task 3]
+- [ ] [Setup item 1]
+- [ ] [Setup item 2]
+- [ ] [Setup item 3]
 
 **Code**:
 ```bash
@@ -139,9 +138,8 @@ python -c "[quick verification command]"
 
 **Goal**: [What this step accomplishes]
 
-**Tasks**:
-- [ ] [Implementation task 1]
-- [ ] [Implementation task 2]
+- [ ] [Implementation item 1]
+- [ ] [Implementation item 2]
 - [ ] [Write tests]
 
 **Code** (add to `[file-path]`):
@@ -183,9 +181,8 @@ cd [directory] && uv run pytest tests/test_[task-slug]_*.py::Test[ClassName] -v
 
 **Goal**: [What this step accomplishes]
 
-**Tasks**:
-- [ ] [Task 1]
-- [ ] [Task 2]
+- [ ] [Implementation item 1]
+- [ ] [Implementation item 2]
 - [ ] [Write tests]
 
 **Code** (update `[file-path]`):
@@ -216,15 +213,14 @@ cd [directory] && uv run pytest tests/test_[task-slug]_*.py::Test[ClassName] -v
 
 **Goal**: [What this final step accomplishes]
 
-**Tasks**:
-- [ ] [Integration task 1]
-- [ ] [Integration task 2]
+- [ ] [Integration item 1]
+- [ ] [Integration item 2]
 - [ ] [Final validation]
 
 **Tests** (add to `tests/test_[task-slug]_*.py`):
 ```python
 class Test[Integration]:
-    """Integration tests for [PoC name]."""
+    """Integration tests for [task name]."""
 
     def test_[end_to_end_scenario](self):
         """[Description]."""
@@ -262,7 +258,7 @@ cd [directory] && uv run pytest tests/test_[affected1].py tests/test_[affected2]
 
 ## Production-Grade Checklist
 
-Before marking PoC complete, verify:
+Before marking task complete, verify:
 
 - [ ] **OOP Design**: Classes with single responsibility and clear interfaces
 - [ ] **Pydantic Models**: All data structures use Pydantic (no raw dicts for structured data)
@@ -274,7 +270,7 @@ Before marking PoC complete, verify:
 - [ ] **Tests in same step**: Each step writes AND runs its tests (never separated)
 - [ ] **Config externalized**: No hardcoded secrets or environment-specific values
 - [ ] **Clean separation**: Each file has single responsibility
-- [ ] **Self-contained**: Works independently; all existing functionality still works; doesn't require future PoCs
+- [ ] **Self-contained**: Works independently; all existing functionality still works; doesn't require future tasks
 
 ---
 
@@ -337,7 +333,7 @@ cd [directory] && uv sync
 
 ## Error Codes Reference
 
-_(Optional - only if this PoC introduces new error codes)_
+_(Optional - only if this task introduces new error codes)_
 
 | Code | Meaning | Used By |
 |------|---------|---------|

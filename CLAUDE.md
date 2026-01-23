@@ -14,6 +14,7 @@ This repo contains skills for both Claude Code and Claude Desktop:
 **Claude Desktop** (`claude-desktop/`):
 1. **dev-design** - Same 5-stage design workflow (outputs artifacts)
 2. **market-research** - Market validation with Go/Pivot/Kill recommendation
+3. **business-validation** - Business validation roadmaps with PoC-based experiments
 
 ## Repo Structure
 
@@ -37,9 +38,10 @@ idea-to-mvp/
 └── claude-desktop/             # Claude Desktop skills
     ├── README.md               # CD-specific documentation
     ├── package.sh              # Build .skill files
-    ├── unpackage.sh            # Extract .skill files
+    ├── unpackage.sh            # Extract .skill files (single or all)
     ├── dev-design/             # Design skill (v1.5.0)
     ├── market-research/        # Market validation (v1.1.0)
+    ├── business-validation/    # Business validation (v1.1.0)
     └── releases/               # Packaged .skill files
 ```
 
@@ -82,6 +84,10 @@ cd claude-code
 # Package Claude Desktop skills
 cd claude-desktop
 ./package.sh
+
+# Unpackage Claude Desktop skills (after exporting from CD)
+./unpackage.sh releases/my-skill.skill   # Single skill (new or update)
+./unpackage.sh                            # All skills
 ```
 
 ## File Naming Conventions
@@ -175,6 +181,7 @@ Commands are deployed to `~/.claude/commands/`
 **Claude Desktop**: `claude-desktop/package.sh` creates:
 - `releases/dev-design.skill`
 - `releases/market-research.skill`
+- `releases/business-validation.skill`
 
 ## Git Workflow
 

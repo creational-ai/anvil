@@ -1,7 +1,7 @@
 # Overview Guide (Stage 1)
 
 ## Goal
-Analyze features, bugs, issues, or milestones and plan how to address them through structured implementation.
+Analyze a task (PoC, Feature, Issue, or Refactor) and design how to implement it.
 
 ## Code Allowed
 NO
@@ -46,31 +46,21 @@ This stage is **user-initiated**:
 - What should exist (proposed code)
 - How to verify changes work
 
-### 4. Break Down into Self-Contained Tasks
+### 4. Define Scope
 
-**Critical requirement**: Each task must be self-contained and **production-grade**
+**Terminology**:
+- **Task** = a unit of work with a Type (PoC, Feature, Issue, Refactor) - this overview is for a single task
+- **Step** = implementation sub-unit - only used in Implementation Plans (Stage 2)
+- **Scope** = what this task delivers
+
+**Critical requirement**: This task must be self-contained and **production-grade**
 
 **Why self-contained matters:**
-- Each task is complete within its scope (doesn't need non-dependent tasks to work)
-- System remains functional between tasks (no breaking changes to existing functionality/tests)
+- Task is complete within its scope (works independently)
+- System remains functional after this task (no breaking changes to existing functionality/tests)
 - Prevents cascading failures
-- Clearly shows what it proves/delivers and what capabilities it opens up
-- Safe to pause work at any task boundary
-
-**⚠️ CRITICAL: Minimize the Number of Tasks**
-
-**Golden Rule**: Group related work into one task when possible
-
-**When to use ONE task:**
-- Work contained in one layer (frontend OR backend OR database)
-- Related work that tests the same capability together
-- CRUD operations for a single entity
-
-**When to split:**
-- Work spans entire stack and each layer needs independent testing
-- Clear dependency boundaries (Task B cannot start until Task A complete)
-- Different technical risks requiring separate validation
-- **BUT STILL MINIMIZE** - If you can test 2 layers together, do it
+- Clearly shows what it proves/delivers
+- Safe to pause work after task completion
 
 **Strategy: Add Alongside, Don't Replace**
 
@@ -100,23 +90,19 @@ When new capability could break existing code, add new functions/classes alongsi
 
 ## Output
 
-Two documents:
+**Overview document**: `docs/[milestone-slug]-[task-slug]-overview.md` using `assets/templates/overview.md`
 
-1. **Overview**: `docs/[milestone-slug]-[task-slug]-overview.md` using `assets/templates/overview.md`
-   - Executive summary
-   - Current vs target architecture
-   - What needs to change
-   - Task breakdown
-   - Implementation approaches
-   - Risks and mitigations
-   - Design decisions
+Contents:
+- Executive summary (goal, strategy)
+- Current vs target architecture
+- What needs to change
+- Scope (what this task delivers)
+- Success criteria
+- Implementation approaches
+- Risks and mitigations
+- Design decisions
 
-   **Examples**: `docs/core-poc6-overview.md`, `docs/cloud-auth-fix-overview.md`
-
-2. **Updated Plan**: `docs/[slug]-poc-design.md`
-   - Incorporate new tasks
-   - Add new sequential numbers
-   - Maintain dependency graph
+**Examples**: `docs/core-poc6-overview.md`, `docs/cloud-auth-fix-overview.md`
 
 ## Verification Checklist
 
@@ -124,21 +110,21 @@ Two documents:
 - [ ] Current architecture documented with code examples
 - [ ] Target architecture clearly defined
 - [ ] All files requiring changes identified
-- [ ] Each new task is self-contained (works independently, doesn't break existing functionality/tests)
-- [ ] Task dependency order makes sense
+- [ ] Scope clearly defined (what this task delivers)
+- [ ] Success criteria are specific and measurable
+- [ ] Task is self-contained (works independently, doesn't break existing functionality/tests)
 - [ ] Implementation approaches evaluated
 - [ ] Recommended approach selected with rationale
 - [ ] Risks identified with mitigations
 - [ ] Design decisions documented
-- [ ] `docs/[slug]-poc-design.md` updated with new tasks
 
 ## Common Pitfalls
 
-- **Forgetting self-contained requirement**: Each task must work independently
+- **Forgetting self-contained requirement**: Task must work independently
 - **Breaking changes**: Use "add alongside" strategy, not "replace"
-- **Vague definitions**: Be specific about what each item proves
-- **Missing dependencies**: Ensure prerequisites are clear
-- **Skipping plan update**: Must update plan with new tasks
+- **Vague scope**: Be specific about what this task delivers
+- **Using "Step" terminology**: Steps are for Implementation Plan, not Overview
+- **Listing multiple tasks**: Overview is for a single task only
 
 ## Next Stage
 

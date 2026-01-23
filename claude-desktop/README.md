@@ -8,6 +8,7 @@ Skills for the **design and validation phase** of idea-to-mvp, optimized for Cla
 |-------|---------|---------|
 | **dev-design** | 1.5.0 | 5-stage design workflow (North Star → Architecture → Milestones → Milestone Design → PoC Design) |
 | **market-research** | 1.1.0 | Market validation with Go/Pivot/Kill recommendation |
+| **business-validation** | 1.1.0 | Business validation roadmaps with PoC-based experiments |
 
 ## Installation
 
@@ -16,6 +17,7 @@ Skills for the **design and validation phase** of idea-to-mvp, optimized for Cla
 1. Download from `releases/`:
    - `dev-design.skill`
    - `market-research.skill`
+   - `business-validation.skill`
 
 2. In Claude Desktop: **Settings → Skills → Import Skill**
 
@@ -75,6 +77,18 @@ If you have Mission Control MCP connected, it will pull project data automatical
 
 **Output**: Market research report with Go/Pivot/Kill recommendation.
 
+### business-validation
+
+When you need to figure out the path to revenue:
+
+> "How do I make money with [project]?"
+> "What's blocking me from launching?"
+> "Who would pay for this?"
+
+Pulls full context from Mission Control (project → milestones → tasks), challenges assumptions, identifies real blockers.
+
+**Output**: Business validation roadmap with PoC-based experiments and success criteria.
+
 ## Philosophy: 200 Users First
 
 Both skills follow the "200 users first" principle:
@@ -105,7 +119,7 @@ get_project(slug) extracts:
 | **Output** | Artifacts | `docs/` files |
 | **Invocation** | Natural language | Slash commands |
 | **Best for** | Exploration, research | Implementation |
-| **Skills** | dev-design, market-research | dev-design, dev-cycle |
+| **Skills** | dev-design, market-research, business-validation | dev-design, dev-cycle, market-research |
 
 ## Development
 
@@ -115,8 +129,10 @@ If you edited skills in Claude Desktop and exported new `.skill` files:
 
 ```bash
 # 1. Export .skill files from Claude Desktop to releases/
-# 2. Unpackage to update source folders
-./unpackage.sh
+
+# 2. Unpackage (single skill or all)
+./unpackage.sh releases/my-skill.skill   # Single skill (new or update)
+./unpackage.sh                            # All skills
 
 # 3. Review changes
 git status
@@ -139,7 +155,7 @@ If you edited source folders directly:
 | Script | Purpose |
 |--------|---------|
 | `package.sh` | Source folders → `.skill` files |
-| `unpackage.sh` | `.skill` files → Source folders |
+| `unpackage.sh [file]` | `.skill` files → Source folders (single or all) |
 
 ## License
 

@@ -1,8 +1,8 @@
 # [Milestone-Slug]-[Task-Slug] Overview
 
-> **Purpose**: Plan how to address new features or issues discovered during implementation
+> **Purpose**: Analyze and design a task before implementation
 >
-> **Important**: Each injected PoC must be self-contained (works independently; doesn't break existing functionality and existing tests)
+> **Important**: This task must be self-contained (works independently; doesn't break existing functionality and existing tests)
 
 ## Executive Summary
 
@@ -87,66 +87,28 @@ Component B (NEW)
 
 ---
 
-## PoC Breakdown
+## Scope
 
-### Phase 1: [PoC N] - [Name]
+What this task delivers:
 
-**Prerequisites**:
-- [Prerequisite 1]
-- [Prerequisite 2]
+- [Capability/change 1]
+- [Capability/change 2]
+- [Capability/change 3]
 
-**Implementation Steps**:
-1. [Step 1]
-2. [Step 2]
-3. [Step 3]
-
-**Design Decision**: [Why this PoC is structured this way]
-
-To keep PoC [N] self-contained and non-breaking:
+**Self-Contained Strategy**:
 - **Keep** [existing function/behavior] unchanged
 - **Add** [new function/behavior] alongside
-- **Why**: Ensures all existing [functionality] continues working without changes during PoC [N]
-- **Migration path**: PoC [N+1] will refactor to use new implementation
+- **Why**: Ensures all existing functionality continues working
 
-```[language]
-# [file] after PoC [N]
-def existing_function():
-    """Legacy function for existing code."""
-    # Existing implementation unchanged
+---
 
-def new_function():
-    """New function using improved approach."""
-    # New implementation
-```
+## Success Criteria
 
-**Success Criteria**:
-- [ ] [Criterion 1]
-- [ ] [Criterion 2]
+- [ ] [Criterion 1 - specific, measurable]
+- [ ] [Criterion 2 - specific, measurable]
+- [ ] [Criterion 3 - specific, measurable]
 - [ ] All existing tests pass
 - [ ] New functionality works independently
-
----
-
-### Phase 2: [PoC N+1] - [Name]
-
-**Depends on**: PoC [N]
-
-**Steps**:
-1. [Step 1]
-2. [Step 2]
-
-**Success Criteria**:
-- [ ] [Criterion 1]
-- [ ] [Criterion 2]
-- [ ] All existing tests still pass
-- [ ] System works with either old or new implementation
-
----
-
-### Phase 3: [PoC N+2] - [Name]
-
-**Steps**:
-...
 
 ---
 
@@ -201,12 +163,10 @@ def new_function():
 
 ## Files Requiring Changes
 
-| File | Change Type | Complexity | PoC |
-|------|-------------|------------|-----|
-| `[file-path]` | [Create/Modify/Refactor] | [Low/Medium/High] | PoC [N] |
-| `[file-path]` | [Create/Modify/Refactor] | [Low/Medium/High] | PoC [N+1] |
-
-**Total Estimated Effort**: [N] PoCs ([N], [N+1], [N+2])
+| File | Change Type | Complexity |
+|------|-------------|------------|
+| `[file-path]` | [Create/Modify/Refactor] | [Low/Medium/High] |
+| `[file-path]` | [Create/Modify/Refactor] | [Low/Medium/High] |
 
 ---
 
@@ -231,7 +191,7 @@ def new_function():
 |------|------------|------------|
 | [Risk 1] | H/M/L | [How to mitigate] |
 | [Risk 2] | H/M/L | [How to mitigate] |
-| [Risk 3] | H/M/L | **Deferred to later PoC**. [Why deferring is acceptable] |
+| [Risk 3] | H/M/L | **Out of scope**. [Why deferring is acceptable] |
 
 ---
 
@@ -255,7 +215,6 @@ def new_function():
 ## Next Steps
 
 1. Review this overview and confirm approach
-2. Update `docs/[slug]-poc-design.md` to incorporate PoCs [N], [N+1], [N+2] (if work involves PoCs)
-3. Create implementation plan using 2-planning-guide.md
-4. Implement and test
-5. Proceed with next phases if Phase 1 succeeds
+2. Run `/verify-doc` to check for issues
+3. Create implementation plan (`/dev-plan`)
+4. Execute implementation (`/dev-execute`)

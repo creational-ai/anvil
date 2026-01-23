@@ -36,7 +36,7 @@ Follow `/dev-finalize` exactly:
 
 1. **Step 1: Timestamp** - Update `**Completed**:` field with ISO 8601 timestamp
 2. **Step 2: Lessons** - Extract and consolidate lessons into `## Lessons Learned`
-3. **Step 3: Diagram** - Generate ASCII diagram for `## Diagram` section
+3. **Step 3: Diagram** - Generate ASCII diagram, insert `## Diagram` section after Summary table (before first `---`)
 4. **Step 4: Health Check** - Run 5-point assessment and update `PROJECT_STATE.md`
 
 ## Verification

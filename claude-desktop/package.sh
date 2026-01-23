@@ -12,7 +12,7 @@ RELEASES_DIR="$SCRIPT_DIR/releases"
 mkdir -p "$RELEASES_DIR"
 
 # Skills to package
-SKILLS=("dev-design" "market-research")
+SKILLS=("dev-design" "market-research" "business-validation")
 
 echo "📦 Packaging Claude Desktop skills..."
 echo ""

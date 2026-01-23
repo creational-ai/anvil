@@ -78,6 +78,8 @@ Check:
 - **Approach is sound** - makes technical sense
 - **Approach is incremental** - builds on existing code, doesn't require big-bang rewrites
 - **No code in document** - this is design phase only
+- **Single task only** - Overview should not list "Task 1, Task 2, Task 3" (each task gets its own overview)
+- **No "Steps"** - Steps are for Implementation Plan; Overview uses "Scope" to describe what task delivers
 
 **Implementation Plan**:
 - Steps match overview goals
@@ -123,6 +125,13 @@ Apply to all document types:
 - Specific examples where needed
 - Consistent terminology
 - No missing context (assumes knowledge not stated)
+
+**Terminology** (critical for Overview docs)
+- **Task** = a unit of work (PoC, Feature, Issue, Refactor) - each task gets its own Overview
+- **Step** = implementation sub-unit - only used in Implementation Plans (Stage 2)
+- **Scope** = what a task delivers (use in Overview instead of "Steps")
+- Flag if Overview lists multiple tasks ("Task 1, Task 2" or "Phase 1, Phase 2") - should be a single task
+- Flag if Overview uses "Steps" or "Implementation Steps" (that's Stage 2's job)
 
 **Hunt for Surprises**
 - Hidden dependencies: assumes something exists that isn't explicitly created

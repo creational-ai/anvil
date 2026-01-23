@@ -37,7 +37,8 @@
       "WebFetch(domain:clig.dev)",
       "WebFetch(domain:www.prompthub.us)",
       "Bash(./package.sh)",
-      "Bash(./unpackage.sh:*)"
+      "Bash(./unpackage.sh:*)",
+      "Bash(git checkout:*)"
     ]
   }
 }
