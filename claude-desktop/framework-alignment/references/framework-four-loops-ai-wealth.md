@@ -9,7 +9,7 @@
 
 ## Core Premise
 
-In 2026, becoming a millionaire with AI is **not about thinking in straight lines** â€” it's about **building loops that compound**. The winners will be the ones building the fastest feedback loops.
+In 2026, becoming a millionaire with AI is **not about thinking in straight lines** — it's about **building loops that compound**. The winners will be the ones building the fastest feedback loops.
 
 Human brains struggle with two things: exponential growth and self-improving systems. The entire economy is migrating to both simultaneously. Companies like Cursor and Perplexity are reaching $100M+ revenue in 12-18 months because they've mastered fast feedback loops.
 
@@ -22,12 +22,12 @@ Human brains struggle with two things: exponential growth and self-improving sys
 ### Loop 1: The Balance Loop
 
 **What it is:** A continuous balancing act between two opposing forces:
-- **Your Asymmetric Advantage** â€” What do you uniquely bring?
-- **Your Customer's Acute Pain** â€” What specific frustration can you fix?
+- **Your Asymmetric Advantage** — What do you uniquely bring?
+- **Your Customer's Acute Pain** — What specific frustration can you fix?
 
 **The balance test:**
-- If you focus only on your strength â†’ clever product nobody urgently needs (you slip)
-- If you chase acute pain without real advantage â†’ brutal commoditized market (you trip)
+- If you focus only on your strength → clever product nobody urgently needs (you slip)
+- If you chase acute pain without real advantage → brutal commoditized market (you trip)
 
 **The stabilizer: Assumption Testing**
 - Ask constantly: "What am I assuming?"
@@ -38,11 +38,11 @@ Human brains struggle with two things: exponential growth and self-improving sys
 
 **The loop mechanics:**
 ```
-Asymmetric Advantage â†â†’ Acute Pain
-         â†“
+Asymmetric Advantage ↔ Acute Pain
+         ↓
    Assumption Testing
-         â†“
-   Adjust Balance â†’ Repeat
+         ↓
+   Adjust Balance → Repeat
 ```
 
 **Action steps from the video:**
@@ -57,16 +57,16 @@ Asymmetric Advantage â†â†’ Acute Pain
 **What it is:** Rapid iteration that outpaces competition and market shifts.
 
 **Case study: Cursor**
-- 0 â†’ $100M in 18 months
-- $100M â†’ $500M one year later
+- 0 → $100M in 18 months
+- $100M → $500M one year later
 - Ships new features every single day
 - Dogfoods their own AI (uses Cursor to build Cursor)
 
-**Core principle:** Product-market fit is not a destination â€” it's a moving target you chase daily.
+**Core principle:** Product-market fit is not a destination — it's a moving target you chase daily.
 
 **The loop:**
 ```
-Launch â†’ Learn â†’ Level Up â†’ Repeat
+Launch → Learn → Level Up → Repeat
 ```
 
 **Key phrase:** "The more you learn, the more you earn."
@@ -85,7 +85,7 @@ Launch â†’ Learn â†’ Level Up â†’ Repeat
 
 **YouTube (success):**
 - Every element on screen is an experiment (thumbnails, titles, row position, timing)
-- Nothing is random â€” all micro-behaviors feed back into AI systems
+- Nothing is random — all micro-behaviors feed back into AI systems
 - They don't ask "What content do we think people will like?"
 - They ask "How can we learn from what viewers are actually doing every second?"
 - Result: The more you use it, the more you will use it
@@ -94,14 +94,14 @@ Launch â†’ Learn â†’ Level Up â†’ Repeat
 - Raised $1.75 billion, had stars, budget, hype, great leadership
 - Launched with a big fixed idea of how people should watch
 - Spent energy defending that idea instead of listening to data
-- No learning loops â†’ shut down in 6 months
+- No learning loops → shut down in 6 months
 - Sold for under $100M (lost $1.5B+)
 
 **The difference:** YouTube was built like an AI company. Quibi was built like a media company.
 
 **The loop:**
 ```
-User Behavior Signals â†’ Feed into System â†’ Improve Product â†’ More Usage â†’ More Signals â†’ Repeat
+User Behavior Signals → Feed into System → Improve Product → More Usage → More Signals → Repeat
 ```
 
 **Your shield:** Not a clever feature or better model, but how quickly you notice reality changing and adjust.
@@ -125,7 +125,7 @@ User Behavior Signals â†’ Feed into System â†’ Improve Product â†�
 
 **The loop:**
 ```
-Deep Conviction â†’ Obsessive Grit â†’ Stay in Trenches â†’ See it Through â†’ Compound Learning â†’ Deeper Conviction
+Deep Conviction → Obsessive Grit → Stay in Trenches → See it Through → Compound Learning → Deeper Conviction
 ```
 
 **What this looks like:**
@@ -134,7 +134,7 @@ Deep Conviction â†’ Obsessive Grit â†’ Stay in Trenches â†’ See i
 - Unseen work that becomes your foundation
 - The only thing that holds steady when the storm hits
 
-**On failure:** "Falling is not failing. Every leaf must fall someday. When it falls, it doesn't fail â€” it feeds the soil and gives birth to something new."
+**On failure:** "Falling is not failing. Every leaf must fall someday. When it falls, it doesn't fail — it feeds the soil and gives birth to something new."
 
 **The deeper loop:** Wealth without wisdom won't last. The real question is who you are becoming as you run these loops.
 
@@ -219,7 +219,7 @@ Use these to check any project against this framework:
 - [ ] Am I dogfooding my own product?
 - [ ] Do I have a fixed roadmap or am I chasing a moving target?
 - [ ] What would happen to my product if GPT-5/6 or Gemini 4 dropped tomorrow?
-- [ ] Am I following Launch â†’ Learn â†’ Level Up?
+- [ ] Am I following Launch → Learn → Level Up?
 
 ### Signal to Innovation Loop
 - [ ] Where are my user behavior signals coming from?

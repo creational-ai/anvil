@@ -9,11 +9,11 @@
 
 ## Core Premise
 
-Most people are letting AI destroy their ability to think â€” training AI to become their own replacement. But **AI can make you dangerously intelligent**.
+Most people are letting AI destroy their ability to think — training AI to become their own replacement. But **AI can make you dangerously intelligent**.
 
 The top 1% use AI **backwards**. They don't prompt to get answers. They use it to train their brain and outsmart almost any situation.
 
-**Key insight:** The goal isn't efficiency alone â€” it's building long-term intelligence through strategic friction.
+**Key insight:** The goal isn't efficiency alone — it's building long-term intelligence through strategic friction.
 
 ---
 
@@ -21,21 +21,21 @@ The top 1% use AI **backwards**. They don't prompt to get answers. They use it t
 
 ### Step 1: Intelligent Laziness
 
-**The problem:** Completion bias â€” your brain seeks dopamine from finishing tasks, treating all tasks as equal priority. CEOs waste 72% of their time in meetings that don't move the needle.
+**The problem:** Completion bias — your brain seeks dopamine from finishing tasks, treating all tasks as equal priority. CEOs waste 72% of their time in meetings that don't move the needle.
 
 **The solution:** Recognize two types of task curves:
 
 **Curve 1: Capped Payoff (Zone of Laziness)**
 - Goes up then flattens at diminishing returns
 - Examples: formatting slides, internal emails, expense reports, FYI meetings
-- Additional effort yields nothing â€” "nobody cares if you spend hours choosing better fonts"
-- **Strategy:** Satisfice (satisfy + suffice) â€” stop when it's good enough
+- Additional effort yields nothing — "nobody cares if you spend hours choosing better fonts"
+- **Strategy:** Satisfice (satisfy + suffice) — stop when it's good enough
 
 **Curve 2: Uncapped Payoff (Zone of Obsession)**
 - Stays flat for a long time, then goes to the moon
 - Examples: customer interactions, product design, pricing model, finding a co-founder/life partner
 - Being 1% better here solves 99% of your problems
-- Johnny Ive obsessed for months on internal iPhone components â€” Steve Jobs never complained
+- Johnny Ive obsessed for months on internal iPhone components — Steve Jobs never complained
 - **Strategy:** Pour your soul into this
 
 **The principle:** Use AI on Zone 1 so you can focus on Zone 2.
@@ -48,12 +48,12 @@ Four categories to immediately delegate to AI (Zone 1 only):
 
 | Letter | Category | What It Solves | Example |
 |--------|----------|----------------|---------|
-| **D** | Drafting | Blank page problem | Use AIM protocol: Act in this role, use this Input, this is your Mission. First draft will be crappy â€” that's fine, you're off to the races |
-| **R** | Research | Information overload | Deep research features fire off hundreds of queries, consolidate results, self-check â€” "like hiring a consultant for a week, but you get there in 10 minutes" |
-| **A** | Analysis | Pattern finding | Let AI take first pass at analyzing unstructured data â€” it finds patterns humans can't |
-| **G** | Grunt work | Boring manual tasks | Reformatting, translating, tabulating, cleaning data â€” just give it to AI |
+| **D** | Drafting | Blank page problem | Use AIM protocol: Act in this role, use this Input, this is your Mission. First draft will be crappy — that's fine, you're off to the races |
+| **R** | Research | Information overload | Deep research features fire off hundreds of queries, consolidate results, self-check — "like hiring a consultant for a week, but you get there in 10 minutes" |
+| **A** | Analysis | Pattern finding | Let AI take first pass at analyzing unstructured data — it finds patterns humans can't |
+| **G** | Grunt work | Boring manual tasks | Reformatting, translating, tabulating, cleaning data — just give it to AI |
 
-**Critical rule:** Apply DRAG only in Zone 1. If it requires human interaction, judgment, intuition, decision-making, or taste â€” that's Zone 2. You do it yourself.
+**Critical rule:** Apply DRAG only in Zone 1. If it requires human interaction, judgment, intuition, decision-making, or taste — that's Zone 2. You do it yourself.
 
 **Key insight:** "70-80% of my repetitive tasks tend to be in Zone 1."
 
@@ -64,7 +64,7 @@ Four categories to immediately delegate to AI (Zone 1 only):
 **The mindset shift:** Stop treating AI like a calculator.
 
 - Calculator: 2+2 = 4, always predictable
-- AI: A **probability engine** â€” same question gives different answers, happily makes things up, refuses to admit it doesn't know
+- AI: A **probability engine** — same question gives different answers, happily makes things up, refuses to admit it doesn't know
 
 **Key phrase:** "You don't just ask AI the way you ask a normal human being. You have to architect your questions very carefully."
 
@@ -72,7 +72,7 @@ Four categories to immediately delegate to AI (Zone 1 only):
 
 | Camp | Name | What You Do | Example |
 |------|------|-------------|---------|
-| 0 | Zero-shot | Just ask blindly | "Give me the best new business idea" â€” rolling the dice |
+| 0 | Zero-shot | Just ask blindly | "Give me the best new business idea" — rolling the dice |
 | 1 | One-shot | Give one clear example | "Write a LinkedIn post about remote work. Use this specific post as a style guide." |
 | 2 | Few-shot | Give 3+ examples for patterns | "Here are five of my previous presentations. Write a new one based on my tone of voice on topic XYZ." |
 | 3 | Chain of Thought | Force AI to show its work | "Do not refine my research report yet. List top 3 improvements. Tell me why. Think step by step. Show me your thinking for each step." |
@@ -82,7 +82,7 @@ Four categories to immediately delegate to AI (Zone 1 only):
 
 **Pro tip for few-shot:** Ask AI to explain the pattern back to you first. Forces AI to articulate what it's doing, and forces you to learn how your brain works.
 
-**Key phrase:** "Remember, you're dealing with a drunk genius â€” make sure you're the one driving the car."
+**Key phrase:** "Remember, you're dealing with a drunk genius — make sure you're the one driving the car."
 
 ---
 
@@ -90,24 +90,24 @@ Four categories to immediately delegate to AI (Zone 1 only):
 
 **The plot twist:** After becoming fast and efficient, the top 1% deliberately slow things down.
 
-**Why:** Long-term intelligence isn't built through convenience â€” it's built through resistance.
+**Why:** Long-term intelligence isn't built through convenience — it's built through resistance.
 
 **The principle:**
-- For **information tasks** â†’ Use AI to remove friction
-- For **transformation tasks** â†’ Use AI to add friction
+- For **information tasks** → Use AI to remove friction
+- For **transformation tasks** → Use AI to add friction
 
 **The wheelchair trap:**
 > "Most people use AI as a wheelchair for the mind. If you sit in a wheelchair when you can still walk, eventually your legs stop working. Atrophy."
 
-**The analogy:** Muscles are built through progressive overload â€” lift heavier weights, fibers break, grow back stronger. But for our minds, we do the opposite â€” avoid resistance, outsource thinking.
+**The analogy:** Muscles are built through progressive overload — lift heavier weights, fibers break, grow back stronger. But for our minds, we do the opposite — avoid resistance, outsource thinking.
 
-**The astronaut warning:** When astronauts spend months in zero gravity, their muscles and bones atrophy dramatically â€” up to 20%.
+**The astronaut warning:** When astronauts spend months in zero gravity, their muscles and bones atrophy dramatically — up to 20%.
 
 **Key phrase:** "AI is like zero gravity for your thinking. No friction, no load, no growth."
 
-**The spotter model:** In any gym, a spotter doesn't lift for you â€” they help you lift and make sure you don't get crushed.
+**The spotter model:** In any gym, a spotter doesn't lift for you — they help you lift and make sure you don't get crushed.
 
-**Concrete example â€” Learning a concept:**
+**Concrete example — Learning a concept:**
 1. Study it yourself first
 2. Then go to AI with the concept text
 3. Prompt: "I need to master this concept. Quiz me on it."
@@ -121,24 +121,24 @@ Four categories to immediately delegate to AI (Zone 1 only):
 
 ### Step 4: The Intelligent Fool
 
-**The obstacle:** The biggest obstacle to intelligence isn't ignorance â€” it's ego.
+**The obstacle:** The biggest obstacle to intelligence isn't ignorance — it's ego.
 
 **The principle:** The smartest people are obsessed with what they don't know. This is the **fool's advantage**.
 
 **Case study: Microsoft's 10x growth**
 - 2014: $300B market cap, missed search and mobile, cloud slipping to Amazon, toxic culture where everyone was terrified to admit knowledge gaps
 - Satya Nadella's one cultural move: "We're switching from know-it-alls to learn-it-alls"
-- Permission to say "I don't know" or "I was wrong" â€” embrace beginner's mind
-- Result: $300B â†’ $3T+ market cap (10x in a decade)
+- Permission to say "I don't know" or "I was wrong" — embrace beginner's mind
+- Result: $300B → $3T+ market cap (10x in a decade)
 
-**The neuroscience:** Neuroplasticity â€” brain rewiring happens only at the edge of your ability, when you're making errors, frustrated, feeling discomfort.
+**The neuroscience:** Neuroplasticity — brain rewiring happens only at the edge of your ability, when you're making errors, frustrated, feeling discomfort.
 
 **Key phrase:** "If you aren't feeling stupid, you aren't learning."
 
 **The opportunity:** AI is the ultimate training ground to be a student again. Ask questions you'd never ask colleagues out of fear of embarrassment. AI doesn't roll its eyes.
 
 **Concrete practice:**
-1. Pick one thing you don't understand in your field â€” something everyone thinks you know, but you don't
+1. Pick one thing you don't understand in your field — something everyone thinks you know, but you don't
 2. Ask AI the most basic questions about that topic
 3. Then ask: "Can you explain it in a simpler way? Teach me like I'm 10 years old."
 4. Ask 3 times in a row to simplify again and again
@@ -206,15 +206,15 @@ You're off-track when:
 3. **Intelligent Gym failures:**
    - Using AI as wheelchair for all thinking
    - Outsourcing transformation tasks: "Write my LinkedIn post, fix my resume, summarize this book"
-   - No resistance in your learning â€” everything feels easy
-   - Mental atrophy â€” losing ability to think without AI
+   - No resistance in your learning — everything feels easy
+   - Mental atrophy — losing ability to think without AI
    - AI making you faster but not smarter
 
 4. **Intelligent Fool failures:**
-   - Ego blocking learning â€” afraid to admit gaps
+   - Ego blocking learning — afraid to admit gaps
    - Know-it-all culture (pre-Nadella Microsoft)
    - Hiding behind a mask of mastery
-   - Never feeling stupid â€” sign you're not at your edge
+   - Never feeling stupid — sign you're not at your edge
    - Avoiding basic questions out of embarrassment
 
 ---
@@ -235,7 +235,7 @@ Use these to check your AI usage against this framework:
 - [ ] Am I providing examples and context, or rolling the dice?
 - [ ] Do I ask AI to show its work and think step by step?
 - [ ] Am I verifying AI outputs or accepting blindly?
-- [ ] Who's driving â€” me or the drunk genius?
+- [ ] Who's driving — me or the drunk genius?
 
 ### Intelligent Gym
 - [ ] Is this an information task or a transformation task?
@@ -286,7 +286,7 @@ This is your Mission: [what you need]
 
 1. **Daily task review:** Categorize work into Zone 1 vs Zone 2 before starting
 2. **DRAG check:** Before doing repetitive work, ask "Can DRAG handle this?"
-3. **Prompt audit:** Check which camp you're at â€” try to climb one level
+3. **Prompt audit:** Check which camp you're at — try to climb one level
 4. **Learning sessions:** Apply Intelligent Gym with progressive overload
 5. **Weekly fool practice:** Pick one topic you don't understand and ask basic questions
 
