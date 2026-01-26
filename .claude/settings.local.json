@@ -38,7 +38,16 @@
       "WebFetch(domain:www.prompthub.us)",
       "Bash(./package.sh)",
       "Bash(./unpackage.sh:*)",
-      "Bash(git checkout:*)"
+      "Bash(git checkout:*)",
+      "mcp__mission-control__create_project",
+      "mcp__mission-control__get_project",
+      "mcp__mission-control__list_milestones",
+      "mcp__mission-control__list_tasks",
+      "mcp__mission-control__create_task",
+      "mcp__mission-control__complete_task",
+      "mcp__mission-control__update_project",
+      "mcp__mission-control__create_milestone",
+      "mcp__mission-control__update_task"
     ]
   }
 }

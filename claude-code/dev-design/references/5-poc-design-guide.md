@@ -174,4 +174,4 @@ Even at planning stage, think production:
 - Vague success criteria
 
 ## Next Stage
-→ PoC Implementation Planning (ONE PoC at a time) via dev-cycle
+→ PoC Planning (ONE PoC at a time) via dev-cycle

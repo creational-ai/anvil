@@ -25,9 +25,9 @@ Identify document type from filename pattern:
 
 | Pattern | Type | Cross-Reference |
 |---------|------|-----------------|
-| `docs/[slug]-overview.md` | Task Overview | poc-design or milestone design |
-| `docs/[slug]-implementation.md` | Implementation Plan | overview for same slug |
-| `docs/[slug]-results.md` | Results | implementation (rarely verified) |
+| `docs/[slug]-design.md` | Task Design | poc-design or milestone design |
+| `docs/[slug]-plan.md` | Plan | design for same slug |
+| `docs/[slug]-results.md` | Results | plan (rarely verified) |
 | `docs/[milestone]-milestone-details.md` | Milestone Details | all task results for milestone |
 
 ## Verification Process
@@ -53,9 +53,9 @@ Each doc type has a template. Verify the document follows its template structure
 | Milestones Overview | `~/.claude/skills/dev-design/assets/templates/milestones-overview.md` |
 | Milestone Design | `~/.claude/skills/dev-design/assets/templates/milestone-design.md` |
 | PoC Design | `~/.claude/skills/dev-design/assets/templates/poc-design.md` |
-| Task Overview | `~/.claude/skills/dev-cycle/assets/templates/overview.md` |
-| Implementation Plan | `~/.claude/skills/dev-cycle/assets/templates/implementation-plan.md` |
-| Results | `~/.claude/skills/dev-cycle/assets/templates/implementation-results.md` |
+| Task Design | `~/.claude/skills/dev-cycle/assets/templates/1-design.md` |
+| Plan | `~/.claude/skills/dev-cycle/assets/templates/2-plan.md` |
+| Results | `~/.claude/skills/dev-cycle/assets/templates/3-results.md` |
 
 Check:
 - Required sections present
@@ -70,7 +70,7 @@ Check:
 - Terminology consistency
 - Feasibility of proposed approach
 
-**Task Overview** (NO CODE - design only):
+**Task Design** (NO CODE - design only):
 - Alignment with poc-design or milestone design
 - Clear problem statement
 - Defined success criteria
@@ -78,11 +78,12 @@ Check:
 - **Approach is sound** - makes technical sense
 - **Approach is incremental** - builds on existing code, doesn't require big-bang rewrites
 - **No code in document** - this is design phase only
-- **Single task only** - Overview should not list "Task 1, Task 2, Task 3" (each task gets its own overview)
-- **No "Steps"** - Steps are for Implementation Plan; Overview uses "Scope" to describe what task delivers
+- **Single task only** - Design should not list "Task 1, Task 2, Task 3" (each task gets its own design)
+- **Problem Analysis is non-sequential** - Each problem analyzed independently
+- **Proposed Steps reference problems** - Each step says which problem(s) it addresses
 
-**Implementation Plan**:
-- Steps match overview goals
+**Plan**:
+- Steps match design's Proposed Steps
 - Dependency chain complete (each step sets up the next)
 - Self-contained steps (code + tests together)
 - No missing prerequisites
@@ -126,12 +127,13 @@ Apply to all document types:
 - Consistent terminology
 - No missing context (assumes knowledge not stated)
 
-**Terminology** (critical for Overview docs)
-- **Task** = a unit of work (PoC, Feature, Issue, Refactor) - each task gets its own Overview
-- **Step** = implementation sub-unit - only used in Implementation Plans (Stage 2)
-- **Scope** = what a task delivers (use in Overview instead of "Steps")
-- Flag if Overview lists multiple tasks ("Task 1, Task 2" or "Phase 1, Phase 2") - should be a single task
-- Flag if Overview uses "Steps" or "Implementation Steps" (that's Stage 2's job)
+**Terminology** (critical for Design docs)
+- **Task** = a unit of work (PoC, Feature, Issue, Refactor) - each task gets its own Design
+- **Problem Analysis** = non-sequential section analyzing each problem independently
+- **Proposed Steps** = sequential section synthesizing problems into ordered steps
+- **Step** = implementation sub-unit - used in Proposed Steps and Plans
+- Flag if Design lists multiple tasks ("Task 1, Task 2" or "Phase 1, Phase 2") - should be a single task
+- Flag if Problem Analysis implies order (that's for Proposed Steps)
 
 **Hunt for Surprises**
 - Hidden dependencies: assumes something exists that isn't explicitly created
@@ -249,7 +251,7 @@ By the end of verification, answer:
 1. **Identify** - Match filename to doc type
 2. **Load** - Read cross-reference docs for context
 3. **Template** - Check doc follows its template structure
-4. **Type-specific** - Checks per doc type (overview = NO CODE, sound, incremental)
+4. **Type-specific** - Checks per doc type (design = NO CODE, sound, incremental)
 5. **Universal** - Soundness, flow, dependencies, contradictions, clarity, surprises
 6. **Codebase** - Verify against existing code
 7. **External** - WebSearch if needed for APIs/versions

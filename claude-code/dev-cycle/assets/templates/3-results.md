@@ -16,7 +16,7 @@
 ---
 
 ## Success Criteria
-From `docs/[milestone-slug]-[task-slug]-implementation.md`:
+From `docs/[milestone-slug]-[task-slug]-plan.md`:
 
 - [ ] [Criterion 1]
 - [ ] [Criterion 2]

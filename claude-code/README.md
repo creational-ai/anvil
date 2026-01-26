@@ -7,7 +7,7 @@ Skills for the **implementation phase** of idea-to-mvp, designed for Claude Code
 | Skill | Purpose |
 |-------|---------|
 | **dev-design** | 5-stage design workflow (North Star → Architecture → Milestones → Milestone Design → PoC Design) |
-| **dev-cycle** | 3-stage development loop (Overview → Plan → Execute) |
+| **dev-cycle** | 3-stage development loop (Design → Plan → Execute) |
 | **market-research** | Market validation with Go/Pivot/Kill recommendation |
 
 ## Installation
@@ -37,7 +37,7 @@ DESIGN PHASE (dev-design)
 
 DEVELOPMENT PHASE (dev-cycle)
 ─────────────────────────────
-/dev-overview               → Analyze task (NO CODE)
+/dev-design                 → Analyze task (NO CODE)
         ↓
 /dev-plan                   → Plan implementation steps
         ↓
@@ -64,7 +64,7 @@ Repeat for next task
 
 | Command | Purpose |
 |---------|---------|
-| `/dev-overview` | Create high-level design (Stage 1, NO CODE) |
+| `/dev-design` | Create design document (Stage 1, NO CODE) |
 | `/dev-plan` | Plan implementation steps (Stage 2) |
 | `/dev-execute` | Execute step-by-step (Stage 3) |
 | `/dev-lessons` | Consolidate lessons learned |
@@ -77,7 +77,7 @@ Repeat for next task
 
 | Command | Purpose |
 |---------|---------|
-| `/agent-dev-overview` | Overview agent for Stage 1 |
+| `/agent-dev-design` | Design agent for Stage 1 |
 | `/agent-dev-plan` | Plan agent for Stage 2 |
 | `/agent-dev-execute` | Execute agent for Stage 3 |
 | `/agent-dev-finalize` | Finalize agent (timestamp + lessons + diagram + health) |
@@ -107,8 +107,8 @@ Repeat for next task
 - `docs/[slug]-poc-design.md`
 
 **dev-cycle creates:**
-- `docs/[milestone]-[task]-overview.md`
-- `docs/[milestone]-[task]-implementation.md`
+- `docs/[milestone]-[task]-design.md`
+- `docs/[milestone]-[task]-plan.md`
 - `docs/[milestone]-[task]-results.md`
 - `docs/[milestone]-milestone-details.md`
 

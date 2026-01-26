@@ -154,9 +154,9 @@ MILESTONE COMPLETION MAP
 
 ## References
 
-- [Task 0 Overview](./[milestone]-[task0]-overview.md)
+- [Task 0 Design](./[milestone]-[task0]-design.md)
 - [Task 0 Results](./[milestone]-[task0]-results.md)
-- [Task 1 Overview](./[milestone]-[task1]-overview.md)
+- [Task 1 Design](./[milestone]-[task1]-design.md)
 - [Task 1 Results](./[milestone]-[task1]-results.md)
 - [Architecture](./[milestone]-architecture.md)
 - [PoC Design](./[milestone]-poc-design.md)

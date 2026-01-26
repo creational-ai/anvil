@@ -18,8 +18,8 @@ Examples:
 Read all matching docs to synthesize the diagram:
 
 ```
-docs/[slug]-overview.md
-docs/[slug]-implementation.md
+docs/[slug]-design.md
+docs/[slug]-plan.md
 docs/[slug]-results.md
 ```
 
@@ -95,7 +95,7 @@ See template for diagram format and examples.
 
 ## Quick Reference
 
-1. **Read** - All `docs/[slug]-*.md` files (overview, implementation, results)
+1. **Read** - All `docs/[slug]-*.md` files (design, plan, results)
 2. **Extract** - Task ID, short name (1 word CAPS), status, features/metrics
 3. **Group** - Organize items under section headers (Data Shapes, MCP Tools, etc.)
 4. **Focus** - Features and achievements only. NEVER files, test counts, or test results

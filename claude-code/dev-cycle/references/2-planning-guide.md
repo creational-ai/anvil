@@ -32,14 +32,14 @@ Only generate implementation plan for:
 
 One document is created:
 
-**Implementation Plan**: `docs/[milestone-slug]-[task-slug]-implementation.md` using `assets/templates/implementation-plan.md`
+**Plan**: `docs/[milestone-slug]-[task-slug]-plan.md` using `assets/templates/2-plan.md`
 - Prerequisites with setup instructions
 - Step-by-step implementation guide
 - Code snippets, commands, configs
 - Verification commands
 - **NO status indicators** - keep it clean and focused on "how to implement"
 
-**Examples**: `docs/core-poc6-implementation.md`, `docs/cloud-auth-fix-implementation.md`
+**Examples**: `docs/core-poc6-plan.md`, `docs/cloud-auth-fix-plan.md`
 
 **Note**: The results tracking document (`docs/[milestone-slug]-[task-slug]-results.md`) will be created later during Stage 3 (Execution) when `/dev-execute` is run.
 
@@ -68,7 +68,7 @@ project structure, and that AWS RDS is accessible...
 ```
 
 ## Verification Checklist
-- [ ] Implementation doc created (`docs/[milestone-slug]-[task-slug]-implementation.md`)
+- [ ] Plan doc created (`docs/[milestone-slug]-[task-slug]-plan.md`)
 - [ ] Prerequisites explicitly listed with setup instructions
 - [ ] **Affected test files identified** in Prerequisites section
 - [ ] Each step is small enough to verify independently

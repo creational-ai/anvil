@@ -11,14 +11,14 @@ Stage 3 of dev-cycle: Implement one step at a time with pytest verification.
 **Read these for guidance**:
 - `~/.claude/skills/dev-cycle/SKILL.md` - See "Stage 3: Execution" section
 - `~/.claude/skills/dev-cycle/references/3-execution-guide.md` - Detailed process
-- `docs/[milestone-slug]-[task-slug]-implementation.md` - The plan to execute
+- `docs/[milestone-slug]-[task-slug]-plan.md` - The plan to execute
 - `docs/[milestone-slug]-[task-slug]-results.md` - Track progress here
 
 ## Input
 
 **First argument (required):**
-- File path to implementation plan (e.g., `docs/core-poc6-implementation.md`)
-- Task name (e.g., `core-poc6`, `cloud-feature-x`) → Will look for `docs/[task-name]-implementation.md`
+- File path to plan (e.g., `docs/core-poc6-plan.md`)
+- Task name (e.g., `core-poc6`, `cloud-feature-x`) → Will look for `docs/[task-name]-plan.md`
 
 **Second argument (optional):**
 - Step number or identifier (e.g., `3`, `step-3`, `Step 3`)
@@ -33,17 +33,17 @@ Stage 3 of dev-cycle: Implement one step at a time with pytest verification.
 **Examples:**
 ```bash
 # Execute next incomplete step
-/dev-execute docs/core-poc6-implementation.md
+/dev-execute docs/core-poc6-plan.md
 
 # Execute specific step
-/dev-execute docs/core-poc6-implementation.md 3 --notes "Skip database migration for now"
+/dev-execute docs/core-poc6-plan.md 3 --notes "Skip database migration for now"
 
 # Using task name
 /dev-execute core-poc6 step-5
 ```
 
 **Required files:**
-- `docs/[milestone-slug]-[task-slug]-implementation.md` - The plan to execute
+- `docs/[milestone-slug]-[task-slug]-plan.md` - The plan to execute
 - `docs/[milestone-slug]-[task-slug]-results.md` - Will be created if doesn't exist, then updated with progress after each step
 
 ## Key Requirements
@@ -60,7 +60,7 @@ Stage 3 of dev-cycle: Implement one step at a time with pytest verification.
 
 Follow the guidance in `3-execution-guide.md`:
 
-**First time setup**: If `docs/[milestone-slug]-[task-slug]-results.md` doesn't exist, create it using the template (`assets/templates/implementation-results.md`). Fill in Summary, Goal, Success Criteria (from implementation.md), and Prerequisites. Mark all steps as "Pending". **Record Started timestamp** (ISO 8601 with timezone, e.g., `2024-01-08T22:45:00-08:00`).
+**First time setup**: If `docs/[milestone-slug]-[task-slug]-results.md` doesn't exist, create it using the template (`assets/templates/3-results.md`). Fill in Summary, Goal, Success Criteria (from plan.md), and Prerequisites. Mark all steps as "Pending". **Record Started timestamp** (ISO 8601 with timezone, e.g., `2024-01-08T22:45:00-08:00`).
 
 **Execution Mode**: Execute ONLY ONE step, then STOP
 - If step number provided: Execute that specific step

@@ -102,7 +102,7 @@ Before completing, verify:
 - [ ] Document type correctly identified
 - [ ] Cross-reference docs loaded and checked
 - [ ] Template alignment verified
-- [ ] Type-specific checks completed (overview = NO CODE, sound, incremental)
+- [ ] Type-specific checks completed (design = NO CODE, sound, incremental)
 - [ ] Universal checks completed (soundness, flow, dependencies, contradictions, clarity, surprises)
 - [ ] Codebase verification done
 - [ ] All issues documented with location and impact

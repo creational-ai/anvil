@@ -1,12 +1,12 @@
 ---
 description: Execute implementation step with tests (Stage 3)
-argument-hint: <implementation-doc> [step-number]
+argument-hint: <plan-doc> [step-number]
 ---
 
-Use the **dev-execute-agent** subagent to execute an implementation step.
+Use the **dev-execute-agent** subagent to execute a plan step.
 
 **Input**: $ARGUMENTS
 
 **Examples**:
-- `/agent-dev-execute docs/core-poc6-implementation.md` - Execute next incomplete step
-- `/agent-dev-execute docs/core-poc6-implementation.md 3` - Execute step 3 specifically
+- `/agent-dev-execute docs/core-poc6-plan.md` - Execute next incomplete step
+- `/agent-dev-execute docs/core-poc6-plan.md 3` - Execute step 3 specifically

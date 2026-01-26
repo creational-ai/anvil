@@ -8,7 +8,7 @@ Verify design or implementation documents are sound, logical, consistent, and fr
 
 ```bash
 /verify-doc core-architecture.md
-/verify-doc docs/core-poc2-implementation.md check dependency chain
+/verify-doc docs/core-poc2-plan.md check dependency chain
 ```
 
 ## Input

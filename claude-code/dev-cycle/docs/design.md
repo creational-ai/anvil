@@ -4,8 +4,8 @@
 
 `/dev-cycle` is a Claude Code skill that guides developers through a complete feature development workflow from high-level design to production-grade implementation. It enforces a structured 3-stage process:
 
-1. **Overview** - High-level design (no code) defining what and why
-2. **Implementation Plan** - Step-by-step breakdown with code snippets
+1. **Design** - Problem analysis and solution design (no code)
+2. **Planning** - Step-by-step breakdown with code snippets
 3. **Execution** - Actual implementation with testing and verification
 
 The skill is designed to reduce confusion, enforce best practices, and maintain production-grade code quality throughout the development process.
@@ -21,19 +21,19 @@ User Request
 │         /dev-cycle Skill               │
 │                                        │
 │  ┌──────────────────────────────────┐ │
-│  │  Stage 1: Overview               │ │
-│  │  - Analyze feature/issue         │ │
-│  │  - Document architecture         │ │
-│  │  - Break into PoCs               │ │
-│  │  Output: overview.md             │ │
+│  │  Stage 1: Design                 │ │
+│  │  - Problem Analysis (parallel)   │ │
+│  │  - Proposed Steps (sequential)   │ │
+│  │  - NO CODE allowed               │ │
+│  │  Output: design.md               │ │
 │  └────────────┬─────────────────────┘ │
 │               ↓                        │
 │  ┌──────────────────────────────────┐ │
-│  │  Stage 2: Implementation Plan    │ │
+│  │  Stage 2: Planning               │ │
 │  │  - List prerequisites            │ │
 │  │  - Break into steps              │ │
 │  │  - Define verification           │ │
-│  │  Output: implementation.md       │ │
+│  │  Output: plan.md                 │ │
 │  │          results.md              │ │
 │  └────────────┬─────────────────────┘ │
 │               ↓                        │
@@ -52,35 +52,35 @@ User Request
 
 ### Components
 
-#### Stage 1: Overview
-- **Purpose**: Create high-level design document analyzing feature/issue/bug
+#### Stage 1: Design
+- **Purpose**: Analyze problems and propose solution steps (no code)
 - **Inputs**:
   - Feature/issue/bug description from user
   - Current architecture (from codebase)
   - Existing docs ([slug]-poc-design.md, [slug]-architecture.md)
 - **Outputs**:
-  - `docs/[name]-overview.md` - Design document (e.g., database-abstraction-overview.md, fix-auth-bug-overview.md)
+  - `docs/[name]-design.md` - Design document with Problem Analysis + Proposed Steps
   - Updated `[slug]-poc-design.md` - With new PoCs added (if applicable)
-- **Dependencies**: Templates (overview.md), References (1-overview-guide.md)
+- **Dependencies**: Templates (design.md), References (1-design-guide.md)
 - **Code Allowed**: NO - Pure design and analysis
-- **Command**: `/dev-overview <notes>`
+- **Command**: `/dev-design <notes>`
 
-#### Stage 2: Implementation Plan
+#### Stage 2: Planning
 - **Purpose**: Break down work into actionable steps
 - **Inputs**:
   - Single PoC from poc-design.md OR feature/bug to implement
-  - Overview document (if from Stage 1)
+  - Design document (if from Stage 1)
 - **Outputs**:
-  - `docs/[name]-implementation.md` - Evergreen implementation guide (e.g., poc6-implementation.md)
+  - `docs/[name]-plan.md` - Evergreen implementation guide (e.g., poc6-plan.md)
   - `docs/[name]-results.md` - Progress tracking document
-- **Dependencies**: Templates (implementation-plan.md, implementation-results.md), References (2-planning-guide.md)
+- **Dependencies**: Templates (plan.md, results.md), References (2-planning-guide.md)
 - **Code Allowed**: YES - Code snippets, configs, examples
 - **Command**: `/dev-plan <notes>`
 
 #### Stage 3: Execution
 - **Purpose**: Implement the plan one step at a time
 - **Inputs**:
-  - `docs/[name]-implementation.md` - The plan
+  - `docs/[name]-plan.md` - The plan
   - `docs/[name]-results.md` - Progress tracker
   - Current step to work on
 - **Outputs**:
@@ -88,7 +88,7 @@ User Request
   - Test files (`tests/test_[name]_*.py`)
   - Updated `docs/[name]-results.md`
   - Updated `PROJECT_STATE.md` (when complete)
-- **Dependencies**: pytest, implementation plan, References (3-execution-guide.md)
+- **Dependencies**: pytest, plan, References (3-execution-guide.md)
 - **Code Allowed**: YES - Full implementation
 - **Command**: `/dev-execute <notes>`
 
@@ -99,19 +99,19 @@ User Request
 ```
 1. User: "I need to add [feature]"
 
-2. Stage 1 (Overview):
-   - Analyzes current architecture
-   - Defines target architecture
+2. Stage 1 (Design):
+   - Problem Analysis (each problem independently)
+   - Proposed Steps (synthesized, sequential)
    - Breaks into self-contained PoCs
    - Updates [slug]-poc-design.md
-   → Outputs: overview.md, updated [slug]-poc-design.md
+   → Outputs: design.md, updated [slug]-poc-design.md
 
-3. Stage 2 (Implementation Plan):
+3. Stage 2 (Planning):
    - Takes NEXT PoC from plan
    - Breaks into ~30min steps
    - Defines verification for each step
    - Creates tracking document
-   → Outputs: pocN-implementation.md, pocN-results.md
+   → Outputs: pocN-plan.md, pocN-results.md
 
 4. Stage 3 (Execution):
    - For each step:
@@ -129,11 +129,11 @@ User Request
 ```
 1. User: "Fix bug in [component]"
 
-2. Stage 1 (Overview):
-   - Analyzes bug and root cause
-   - Defines what needs to change
+2. Stage 1 (Design):
+   - Problem Analysis of bug and root cause
+   - Proposed Steps to fix
    - Creates single PoC for fix
-   → Outputs: overview.md
+   → Outputs: design.md
 
 3. → Continues to Stage 2 & 3 (same as Flow 1)
 ```
@@ -143,7 +143,7 @@ User Request
 ```
 1. User: "Continue working on PoC 3"
 
-2. Skill detects existing pocN-implementation.md and pocN-results.md
+2. Skill detects existing pocN-plan.md and pocN-results.md
 
 3. → Jumps directly to Stage 3 (Execution)
    - Reads current step from results.md
@@ -176,7 +176,7 @@ User Request
 - **Contract**:
   - Skill is loaded when user is in project with dev-cycle
   - Detects current state from filesystem (what docs exist?)
-  - User makes natural requests: "create overview", "implement PoC 3", "continue execution"
+  - User makes natural requests: "create design", "implement PoC 3", "continue execution"
   - Skill instructions guide Claude to follow 3-stage process
 
 ### Project Documentation
@@ -184,29 +184,29 @@ User Request
 - **Purpose**: Reads/writes project docs
 - **Contract**:
   - Reads: `[slug]-poc-design.md`, `[slug]-architecture.md`, `PROJECT_STATE.md`
-  - Writes: `docs/*-overview.md`, `docs/*-implementation.md`, `docs/*-results.md`
+  - Writes: `docs/*-design.md`, `docs/*-plan.md`, `docs/*-results.md`
   - Updates: `[slug]-poc-design.md`, `PROJECT_STATE.md`
 
 ## Key Design Decisions
 
 ### Decision 1: Single Skill vs Three Commands
-- **Context**: Each stage (overview, plan, execution) could be a separate command
+- **Context**: Each stage (design, plan, execution) could be a separate command
 - **Options Considered**:
-  - **Option A**: Three separate commands (`/overview`, `/plan`, `/execute`)
+  - **Option A**: Three separate commands (`/design`, `/plan`, `/execute`)
   - **Option B**: Single skill with three stages (`/dev-cycle`)
 - **Decision**: Option B - Single skill
 - **Rationale**:
-  - Stages are sequential and dependent (overview → plan → execute)
+  - Stages are sequential and dependent (design → plan → execute)
   - Reduces confusion about "which command do I use next?"
   - Single source of truth for all dev-cycle logic
   - Better state management (skill knows where you are)
   - Still flexible (can jump to specific stage if needed)
 
-### Decision 2: Two Documents per Work Item (implementation.md + results.md)
+### Decision 2: Two Documents per Work Item (plan.md + results.md)
 - **Context**: Stage 2 creates planning docs, Stage 3 updates them
 - **Options Considered**:
   - **Option A**: Single doc with status indicators mixed in
-  - **Option B**: Two docs - clean implementation guide + live progress tracker
+  - **Option B**: Two docs - clean plan guide + live progress tracker
 - **Decision**: Option B - Two separate documents
 - **Rationale**:
   - Implementation doc stays evergreen (pure "how to do it")
@@ -251,9 +251,9 @@ User Request
   - Steps are small (~30min), so testing overhead is minimal
 
 ### Decision 6: Stage 1 Updates poc-design.md (When Applicable)
-- **Context**: Where should new PoCs from overview be tracked?
+- **Context**: Where should new PoCs from design be tracked?
 - **Options Considered**:
-  - **Option A**: Keep in overview.md only
+  - **Option A**: Keep in design.md only
   - **Option B**: Update central poc-design.md
 - **Decision**: Option B - Update poc-design.md when work involves PoCs
 - **Rationale**:
@@ -267,7 +267,7 @@ User Request
 - **Context**: Should we provide command shortcuts for each stage?
 - **Options Considered**:
   - **Option A**: Skill only (natural language requests)
-  - **Option B**: Add optional commands (/dev-overview, /dev-plan, /dev-execute)
+  - **Option B**: Add optional commands (/dev-design, /dev-plan, /dev-execute)
 - **Decision**: Option B - Provide both skill and commands
 - **Rationale**:
   - Commands provide explicit stage invocation when desired
@@ -298,29 +298,29 @@ User Request
 User: "I need to add database abstraction layer"
 
 Claude: [Following dev-cycle skill instructions]
-  "I'll create an overview for this feature:
+  "I'll create a design document for this feature:
 
-   Stage 1: Overview (Design)
-   - Analyzing current architecture...
-   - Defining target architecture...
+   Stage 1: Design
+   - Problem Analysis (each problem independently)...
+   - Proposed Steps (synthesized sequence)...
    - Breaking into PoCs...
 
-   Created: docs/database-abstraction-overview.md
+   Created: docs/database-abstraction-design.md
    Updated: [slug]-poc-design.md (added PoC 6, 7, 8)"
 
 User: [Reviews docs, runs /verify-doc, fixes issues]
 
-User: "Create the implementation plan for PoC 6"
+User: "Create the plan for PoC 6"
 
 Claude: [Following dev-cycle skill instructions]
-  "Stage 2: Implementation Plan (PoC 6)
+  "Stage 2: Planning (PoC 6)
 
    Creating step-by-step plan...
 
-   Created: docs/poc6-implementation.md
+   Created: docs/poc6-plan.md
    Created: docs/poc6-results.md"
 
-User: [Reviews implementation plan, verifies it's sound]
+User: [Reviews plan, verifies it's sound]
 
 User: "Let's execute PoC 6"
 
@@ -396,15 +396,15 @@ dev-cycle/
 ├── docs/
 │   └── design.md                      # This document
 ├── assets/templates/
-│   ├── overview.md                    # Stage 1 output template
-│   ├── implementation-plan.md         # Stage 2 output template
-│   └── implementation-results.md      # Stage 3 tracking template
+│   ├── design.md                      # Stage 1 output template
+│   ├── plan.md                        # Stage 2 output template
+│   └── results.md                     # Stage 3 tracking template
 ├── references/                        # Detailed guides
-│   ├── 1-overview-guide.md            # Stage 1 guidance
+│   ├── 1-design-guide.md              # Stage 1 guidance
 │   ├── 2-planning-guide.md            # Stage 2 guidance
 │   └── 3-execution-guide.md           # Stage 3 guidance
 └── commands/                          # Optional commands
-    ├── dev-overview.md                # /dev-overview command
+    ├── dev-design.md                  # /dev-design command
     ├── dev-plan.md                    # /dev-plan command
     └── dev-execute.md                 # /dev-execute command
 ```
@@ -412,30 +412,30 @@ dev-cycle/
 ## Template and Command Naming
 
 ### Templates (in assets/templates/)
-- `overview.md` - Stage 1 output (generic: works for features, PoCs, bugs, milestones)
-- `implementation-plan.md` - Stage 2 output
-- `implementation-results.md` - Stage 3 tracking
+- `design.md` - Stage 1 output (Problem Analysis + Proposed Steps, NO CODE)
+- `plan.md` - Stage 2 output
+- `results.md` - Stage 3 tracking
 
 ### References (in references/)
-- `1-overview-guide.md` - Stage 1 detailed guidance
+- `1-design-guide.md` - Stage 1 detailed guidance
 - `2-planning-guide.md` - Stage 2 detailed guidance
 - `3-execution-guide.md` - Stage 3 detailed guidance
 
 ### Commands (in commands/)
-- `/dev-overview <notes>` - Create high-level design/overview
-- `/dev-plan <notes>` - Create implementation plan
+- `/dev-design <notes>` - Create design document (Problem Analysis + Proposed Steps)
+- `/dev-plan <notes>` - Create plan
 - `/dev-execute <notes>` - Execute the plan step-by-step
 
 ### User Output Files
-- `docs/[name]-overview.md` - e.g., database-abstraction-overview.md, fix-auth-bug-overview.md, poc6-overview.md
-- `docs/[name]-implementation.md` - e.g., poc6-implementation.md
+- `docs/[name]-design.md` - e.g., database-abstraction-design.md, fix-auth-bug-design.md, poc6-design.md
+- `docs/[name]-plan.md` - e.g., poc6-plan.md
 - `docs/[name]-results.md` - e.g., poc6-results.md
 
 ## Next Steps
 
 1. Create SKILL.md with stage definitions
-2. Create templates (overview.md, implementation-plan.md, implementation-results.md)
-3. Create references (1-overview-guide.md, 2-planning-guide.md, 3-execution-guide.md)
-4. Create commands (dev-overview.md, dev-plan.md, dev-execute.md)
+2. Create templates (design.md, plan.md, results.md)
+3. Create references (1-design-guide.md, 2-planning-guide.md, 3-execution-guide.md)
+4. Create commands (dev-design.md, dev-plan.md, dev-execute.md)
 5. Test with real feature implementation
 6. Deploy to ~/.claude/skills/dev-cycle/

@@ -103,8 +103,8 @@ cd claude-desktop
 
 **dev-cycle creates:**
 - `PROJECT_STATE.md` - Task and milestone tracking
-- `docs/[milestone-slug]-[task-slug]-overview.md` - Feature/bug design analysis
-- `docs/[milestone-slug]-[task-slug]-implementation.md` - Implementation guide
+- `docs/[milestone-slug]-[task-slug]-design.md` - Feature/bug design analysis
+- `docs/[milestone-slug]-[task-slug]-plan.md` - Implementation guide
 - `docs/[milestone-slug]-[task-slug]-results.md` - Progress tracking
 - `tests/test_[task-slug]_*.py` - Tests grouped by task
 
@@ -118,9 +118,9 @@ cd claude-desktop
 - `poc-design.md` - Stage 5 template
 
 **dev-cycle** (`claude-code/dev-cycle/assets/templates/`):
-- `overview.md` - Stage 1 output
-- `implementation-plan.md` - Stage 2 output
-- `implementation-results.md` - Stage 3 output
+- `design.md` - Stage 1 output (Problem Analysis + Proposed Steps)
+- `plan.md` - Stage 2 output
+- `results.md` - Stage 3 output
 - `lessons-learned.md` - Lessons consolidation
 - `diagram.md` - Task diagram template
 - `milestone-details.md` - Milestone summary template
@@ -131,7 +131,7 @@ cd claude-desktop
 - `1-north-star-guide.md` through `5-poc-design-guide.md`
 
 **dev-cycle** (`claude-code/dev-cycle/references/`):
-- `1-overview-guide.md` through `3-execution-guide.md`
+- `1-design-guide.md` through `3-execution-guide.md`
 - `lessons-guide.md`, `diagram-guide.md`, `milestone-details-guide.md`
 - `verify-doc-guide.md`
 
@@ -145,7 +145,7 @@ cd claude-desktop
 - `/design-poc-design` - Create PoC breakdown (Stage 5)
 
 **dev-cycle commands**:
-- `/dev-overview` - Create high-level design (Stage 1)
+- `/dev-design` - Create design document (Stage 1)
 - `/dev-plan` - Plan implementation steps (Stage 2)
 - `/dev-execute` - Execute step-by-step (Stage 3)
 - `/dev-lessons` - Consolidate lessons learned
@@ -155,7 +155,7 @@ cd claude-desktop
 - `/dev-health` - Project health check (standalone, also included in finalize)
 
 **Agent commands**:
-- `/agent-dev-overview` - Overview agent for Stage 1
+- `/agent-dev-design` - Design agent for Stage 1
 - `/agent-dev-plan` - Plan agent for Stage 2
 - `/agent-dev-execute` - Execute agent for Stage 3
 - `/agent-dev-finalize` - Finalize agent (timestamp + lessons + diagram + health)
@@ -206,3 +206,18 @@ git push
 - Deploy before pushing to verify changes work
 - dev-design is pure design (NO CODE)
 - dev-cycle allows code (Stage 1 is design-only, Stages 2-3 allow code)
+
+---
+
+## Mission Control Integration
+
+**This project is tracked in Mission Control portfolio system.**
+
+When using Mission Control MCP tools (`mcp__mission-control__*`) to manage tasks, milestones, or project status, you are acting as the **PM (Project Manager) role**. Read these docs to understand the workflow, timestamp conventions, and scope:
+
+- **Slug:** `idea-to-mvp`
+- **Role:** PM (Project Manager)
+- **Read 1st:** [PM_GUIDE.md](file:///Users/docchang/Development/Mission%20Control/docs/PM_GUIDE.md)
+- **Read 2nd:** [MCP_TOOLS_REFERENCE.md](file:///Users/docchang/Development/Mission%20Control/docs/MCP_TOOLS_REFERENCE.md)
+
+---

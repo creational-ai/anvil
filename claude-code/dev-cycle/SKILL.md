@@ -23,17 +23,17 @@ Project (e.g., "mission-control")
 
 This skill operates at the **Task level** - one task at a time through a 3-stage workflow:
 
-1. **Stage 1: Overview** - High-level design (what and why)
-2. **Stage 2: Implementation Plan** - Step-by-step breakdown
+1. **Stage 1: Design** - Problem analysis and solution design (what and why)
+2. **Stage 2: Planning** - Step-by-step breakdown
 3. **Stage 3: Execution** - Actual implementation with tests
 
 ## Quick Reference
 
 | Stage | Code? | Guide | Template | Output |
 |-------|-------|-------|----------|--------|
-| 1. Overview | ❌ NO | `references/1-overview-guide.md` | `assets/templates/overview.md` | `docs/[milestone-slug]-[task-slug]-overview.md` |
-| 2. Planning | ✅ YES | `references/2-planning-guide.md` | `assets/templates/implementation-plan.md` | `docs/[milestone-slug]-[task-slug]-implementation.md` |
-| 3. Execution | ✅ YES | `references/3-execution-guide.md` | `assets/templates/implementation-results.md` | `docs/[milestone-slug]-[task-slug]-results.md`<br>Implementation files<br>Test files |
+| 1. Design | ❌ NO | `references/1-design-guide.md` | `assets/templates/1-design.md` | `docs/[milestone-slug]-[task-slug]-design.md` |
+| 2. Planning | ✅ YES | `references/2-planning-guide.md` | `assets/templates/2-plan.md` | `docs/[milestone-slug]-[task-slug]-plan.md` |
+| 3. Execution | ✅ YES | `references/3-execution-guide.md` | `assets/templates/3-results.md` | `docs/[milestone-slug]-[task-slug]-results.md`<br>Implementation files<br>Test files |
 
 | Utility | Template | Output |
 |---------|----------|--------|
@@ -43,19 +43,19 @@ This skill operates at the **Task level** - one task at a time through a 3-stage
 ## Optional Commands
 
 Users can invoke stages explicitly via commands:
-- `/dev-overview <notes>` - Start Stage 1
+- `/dev-design <notes>` - Start Stage 1
 - `/dev-plan <notes>` - Start Stage 2
 - `/dev-execute <notes>` - Start Stage 3
 - `/dev-diagram <slug>` - Generate ASCII diagram for task
 - `/dev-lessons <slug>` - Consolidate lessons learned
 
-Or use natural language: "Create overview for database abstraction", "Plan the implementation", "Execute step 1"
+Or use natural language: "Create design for database abstraction", "Plan the implementation", "Execute step 1"
 
 ---
 
 ## ⛔ CRITICAL: NO-CODE STAGE (Stage 1)
 
-**Stage 1 (Overview) is strictly a NO-CODE zone.**
+**Stage 1 (Design) is strictly a NO-CODE zone.**
 
 ### What IS allowed in Stage 1:
 - High-level architecture diagrams
@@ -76,9 +76,9 @@ Or use natural language: "Create overview for database abstraction", "Plan the i
 
 ---
 
-## Stage 1: Overview
+## Stage 1: Design
 
-**Goal**: Create high-level design document analyzing the feature/bug/issue.
+**Goal**: Analyze problems and design solutions before implementation planning.
 
 **Code Allowed**: NO - Pure design and analysis
 
@@ -88,64 +88,78 @@ Run Stage 1 when:
 - Starting a new feature
 - Planning how to fix a complex bug
 - Breaking down a milestone into PoCs
-- User explicitly requests an overview
+- User explicitly requests a design
+
+### Two-Section Structure
+
+Stage 1 produces a design document with two distinct sections:
+
+**Part A: Problem Analysis** (Non-Sequential)
+- Each problem gets its own subsection
+- Analyzed independently - no implied order
+- Format: What (the issue) → Why (impact) → Approach (solution concept)
+- NO CODE - concepts and reasoning only
+
+**Part B: Proposed Steps** (Sequential)
+- Synthesizes Problem Analysis into ordered implementation steps
+- Each step references which problem(s) it addresses
+- Shows logical flow and dependencies
+- Still NO CODE - just the ordering and rationale
 
 ### Process
 
-See `references/1-overview-guide.md` for detailed guidance on:
-- Document current architecture
-- Define target architecture
-- Identify what needs to change
-- Break down into self-contained tasks
-- Evaluate implementation approaches
+See `references/1-design-guide.md` for detailed guidance on:
+- Document current vs target state
+- Identify and analyze each problem independently
+- Propose solution approach for each problem
+- Synthesize into ordered implementation steps
 - Document design decisions
 - Update PoC plan (if applicable)
 
 ### Output
 
-Create using `assets/templates/overview.md`:
+Create using `assets/templates/1-design.md`:
 
-**File**: `docs/[milestone-slug]-[task-slug]-overview.md`
+**File**: `docs/[milestone-slug]-[task-slug]-design.md`
 
 **Examples**:
-- `core-poc6-overview.md` (PoC 6 in Core milestone)
-- `core-database-abstraction-overview.md` (feature in Core milestone)
-- `cloud-fix-auth-bug-overview.md` (bug fix in Cloud milestone)
+- `core-poc6-design.md` (PoC 6 in Core milestone)
+- `core-database-abstraction-design.md` (feature in Core milestone)
+- `cloud-fix-auth-bug-design.md` (bug fix in Cloud milestone)
 
 **Contents**:
-- Executive summary
-- Current vs target architecture
-- What needs to change
-- Task breakdown
-- Implementation approaches
+- Executive summary (problem + solution one-liners)
+- Context (current state, target state)
+- Problem Analysis (non-sequential, each problem independently)
+- Proposed Steps (sequential, synthesized from analysis)
+- Success criteria
 - Risks and mitigations
-- Design decisions
+- Decisions log
 
 ### Stage 1 Complete Checklist
 
-- [ ] Overview document created with all sections
-- [ ] Current architecture documented with code examples
-- [ ] Target architecture clearly defined
-- [ ] All files requiring changes identified
-- [ ] 🔒 **Each task is self-contained** (works independently; doesn't break existing functionality/tests)
-- [ ] Task dependency order makes sense
-- [ ] Implementation approaches evaluated
-- [ ] Recommended approach selected with rationale
+- [ ] Design document created with all sections
+- [ ] Current and target state clearly defined
+- [ ] Each problem analyzed with What/Why/Approach
+- [ ] Proposed steps synthesized from problem analysis
+- [ ] Each step references which problem(s) it addresses
+- [ ] 🔒 **Task is self-contained** (works independently; doesn't break existing functionality/tests)
+- [ ] Step dependencies make sense
 - [ ] Risks identified with mitigations
 - [ ] Design decisions documented
 - [ ] `docs/[slug]-poc-design.md` updated (if applicable)
 - [ ] No code written (only diagrams and descriptions)
-- [ ] Run `/verify-doc docs/[milestone-slug]-[task-slug]-overview.md`
+- [ ] Run `/verify-doc docs/[milestone-slug]-[task-slug]-design.md`
 
 ### Next Stage
 
-→ **Stage 2: Implementation Plan** (use `references/2-planning-guide.md`)
+→ **Stage 2: Planning** (use `references/2-planning-guide.md`)
 
-User should review overview, run `/verify-doc`, fix issues, then request Stage 2.
+User should review design, run `/verify-doc`, fix issues, then request Stage 2.
 
 ---
 
-## Stage 2: Implementation Plan
+## Stage 2: Planning
 
 **Goal**: Break down a single task into bite-sized, production-grade implementation steps.
 
@@ -154,7 +168,7 @@ User should review overview, run `/verify-doc`, fix issues, then request Stage 2
 ### When to Use
 
 Run Stage 2 when:
-- Overview is complete and verified
+- Design is complete and verified
 - Ready to plan implementation for next task
 - User explicitly requests implementation plan
 
@@ -182,7 +196,7 @@ See `references/2-planning-guide.md` for detailed guidance on:
 
 Create using templates:
 
-**Output**: `docs/[milestone-slug]-[task-slug]-implementation.md` (from `assets/templates/implementation-plan.md`)
+**Output**: `docs/[milestone-slug]-[task-slug]-plan.md` (from `assets/templates/2-plan.md`)
 - Prerequisites with setup instructions
 - Step-by-step implementation guide
 - Code snippets, commands, configs
@@ -193,7 +207,7 @@ Create using templates:
 
 ### Stage 2 Complete Checklist
 
-- [ ] Implementation doc created (`docs/[milestone-slug]-[task-slug]-implementation.md`)
+- [ ] Plan doc created (`docs/[milestone-slug]-[task-slug]-plan.md`)
 - [ ] Prerequisites explicitly listed with setup instructions
 - [ ] Each step is small (~30 min) and independently verifiable
 - [ ] Each step has clear verification criteria with commands
@@ -201,7 +215,7 @@ Create using templates:
 - [ ] 🏗️ **OOP + Pydantic + Type hints enforced**
 - [ ] ⚠️ **No mock data where real data needed**
 - [ ] 🔒 **Work is self-contained** (add alongside, don't replace; works independently)
-- [ ] Run `/verify-doc docs/[milestone-slug]-[task-slug]-implementation.md`
+- [ ] Run `/verify-doc docs/[milestone-slug]-[task-slug]-plan.md`
 
 ### Next Stage
 
@@ -316,14 +330,14 @@ See `references/3-execution-guide.md` for detailed per-step workflow:
 
 The skill should detect where the user is in the workflow:
 
-1. **No docs exist**: Start with Stage 1 (Overview)
-2. **Only overview exists**: Move to Stage 2 (Planning)
-3. **Implementation plan exists**: Move to Stage 3 (Execution)
+1. **No docs exist**: Start with Stage 1 (Design)
+2. **Only design exists**: Move to Stage 2 (Planning)
+3. **Plan exists**: Move to Stage 3 (Execution)
 4. **Results doc shows progress**: Continue Stage 3 from current step
 
 Use Glob/Grep to check for existing documents:
-- `docs/[milestone-slug]-[task-slug]-overview.md`
-- `docs/[milestone-slug]-[task-slug]-implementation.md`
+- `docs/[milestone-slug]-[task-slug]-design.md`
+- `docs/[milestone-slug]-[task-slug]-plan.md`
 - `docs/[milestone-slug]-[task-slug]-results.md`
 
 ---
@@ -366,8 +380,8 @@ Use Glob/Grep to check for existing documents:
 - Keep it concise - remove resolved questions, keep only latest health check
 
 **Per Task**:
-- `docs/[milestone-slug]-[task-slug]-overview.md` - e.g., `core-poc6-overview.md`, `cloud-auth-fix-overview.md`
-- `docs/[milestone-slug]-[task-slug]-implementation.md` - e.g., `core-poc6-implementation.md`, `cloud-auth-fix-implementation.md`
+- `docs/[milestone-slug]-[task-slug]-design.md` - e.g., `core-poc6-design.md`, `cloud-auth-fix-design.md`
+- `docs/[milestone-slug]-[task-slug]-plan.md` - e.g., `core-poc6-plan.md`, `cloud-auth-fix-plan.md`
 - `docs/[milestone-slug]-[task-slug]-results.md` - e.g., `core-poc6-results.md`
 
 **Test Files**:

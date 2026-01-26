@@ -13,8 +13,8 @@ Milestone slug (e.g., `core`, `cloud`, `auth`)
 Read ALL docs for this milestone:
 
 ```
-docs/[milestone]-*-overview.md
-docs/[milestone]-*-implementation.md
+docs/[milestone]-*-design.md
+docs/[milestone]-*-plan.md
 docs/[milestone]-*-results.md
 docs/[milestone]-architecture.md (if exists)
 docs/[milestone]-poc-design.md (if exists)

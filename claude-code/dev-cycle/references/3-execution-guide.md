@@ -29,11 +29,11 @@ A step is NOT complete until:
 **When tests pass**: Update docs and STOP. DO NOT continue to next step.
 
 ## Input
-- Implementation plan from Stage 2 (Planning) (`docs/[milestone-slug]-[task-slug]-implementation.md`)
+- Plan from Stage 2 (Planning) (`docs/[milestone-slug]-[task-slug]-plan.md`)
 - Results tracking doc (`docs/[milestone-slug]-[task-slug]-results.md`)
 - Current step to work on
 
-**Before starting**: If `docs/[milestone-slug]-[task-slug]-results.md` doesn't exist yet, create it using `assets/templates/implementation-results.md` template. Fill in the Summary, Goal, Success Criteria (from implementation.md), and Prerequisites sections. Leave Implementation Progress steps as "Pending". **Record Started timestamp** (ISO 8601 with timezone, e.g., `2024-01-08T22:45:00-08:00`).
+**Before starting**: If `docs/[milestone-slug]-[task-slug]-results.md` doesn't exist yet, create it using `assets/templates/3-results.md` template. Fill in the Summary, Goal, Success Criteria (from plan.md), and Prerequisites sections. Leave Implementation Progress steps as "Pending". **Record Started timestamp** (ISO 8601 with timezone, e.g., `2024-01-08T22:45:00-08:00`).
 
 ## Per-Step Workflow (Loop Until Tests Pass)
 

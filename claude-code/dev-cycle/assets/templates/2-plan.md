@@ -1,4 +1,4 @@
-# [Milestone-Slug]-[Task-Slug] Implementation Plan
+# [Milestone-Slug]-[Task-Slug] Plan
 
 > **Track Progress**: See `docs/[milestone-slug]-[task-slug]-results.md` for implementation status, test results, and issues.
 

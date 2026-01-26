@@ -16,13 +16,13 @@ Execute implementation plans one step at a time, with tests, looping until tests
 Before starting any work, read these files:
 
 1. **Execution Guide**: `~/.claude/skills/dev-cycle/references/3-execution-guide.md`
-2. **Results Template**: `~/.claude/skills/dev-cycle/assets/templates/implementation-results.md`
+2. **Results Template**: `~/.claude/skills/dev-cycle/assets/templates/3-results.md`
 
 Follow the execution guide exactly.
 
 ## Input
 
-- **Required**: Path to implementation plan (`docs/[milestone-slug]-[task-slug]-implementation.md`)
+- **Required**: Path to plan (`docs/[milestone-slug]-[task-slug]-plan.md`)
 - **Optional**: Step number (if omitted, execute next incomplete step)
 - **Optional**: Notes from the user
 
@@ -37,7 +37,7 @@ Follow the execution guide exactly.
 1. Read the execution guide and results template (listed above)
 2. Read the implementation plan
 3. Check if results doc exists:
-   - If NOT: Create it using the template, fill in Summary/Goal/Success Criteria from implementation plan
+   - If NOT: Create it using the template, fill in Summary/Goal/Success Criteria from plan
    - If EXISTS: Read it to find current progress
 4. Determine which step to execute:
    - If step number provided: Execute that step
