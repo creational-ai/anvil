@@ -15,6 +15,7 @@ This repo contains skills for both Claude Code and Claude Desktop:
 1. **dev-design** - Same 5-stage design workflow (outputs artifacts)
 2. **market-research** - Market validation with Go/Pivot/Kill recommendation
 3. **business-validation** - Business validation roadmaps with PoC-based experiments
+4. **framework-alignment** - Strategic framework analysis (Four Loops, Flywheel, Dangerous Intelligence)
 
 ## Repo Structure
 
@@ -42,6 +43,7 @@ idea-to-mvp/
     ├── dev-design/             # Design skill (v1.5.0)
     ├── market-research/        # Market validation (v1.1.0)
     ├── business-validation/    # Business validation (v1.1.0)
+    ├── framework-alignment/    # Framework analysis (v1.0.0)
     └── releases/               # Packaged .skill files
 ```
 
@@ -182,6 +184,7 @@ Commands are deployed to `~/.claude/commands/`
 - `releases/dev-design.skill`
 - `releases/market-research.skill`
 - `releases/business-validation.skill`
+- `releases/framework-alignment.skill`
 
 ## Git Workflow
 

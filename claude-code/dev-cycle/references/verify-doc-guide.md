@@ -219,10 +219,13 @@ Output verification report:
 
 ### 9. Offer Fixes
 
-If issues found, ask user:
-- Apply all fixes
-- Let user pick which to apply
-- Just the report
+If issues found, **prompt the user** with options:
+
+1. **Apply all fixes** - Automatically fix all identified issues
+2. **Pick which to apply** - Let user select specific fixes
+3. **Just the report** - No changes, only the report
+
+Use AskUserQuestion to present these options. Wait for user response before proceeding.
 
 ---
 

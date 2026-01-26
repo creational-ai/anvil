@@ -9,6 +9,7 @@ Skills for the **design and validation phase** of idea-to-mvp, optimized for Cla
 | **dev-design** | 1.5.0 | 5-stage design workflow (North Star → Architecture → Milestones → Milestone Design → PoC Design) |
 | **market-research** | 1.1.0 | Market validation with Go/Pivot/Kill recommendation |
 | **business-validation** | 1.1.0 | Business validation roadmaps with PoC-based experiments |
+| **framework-alignment** | 1.0.0 | Strategic framework analysis (Four Loops, Flywheel, Dangerous Intelligence) |
 
 ## Installation
 
@@ -18,6 +19,7 @@ Skills for the **design and validation phase** of idea-to-mvp, optimized for Cla
    - `dev-design.skill`
    - `market-research.skill`
    - `business-validation.skill`
+   - `framework-alignment.skill`
 
 2. In Claude Desktop: **Settings → Skills → Import Skill**
 
@@ -89,6 +91,19 @@ Pulls full context from Mission Control (project → milestones → tasks), chal
 
 **Output**: Business validation roadmap with PoC-based experiments and success criteria.
 
+### framework-alignment
+
+When you need strategic alignment analysis:
+
+> "Framework alignment for [project]"
+> "Are we building the right loops?"
+> "What signals are we missing?"
+> "How do we build a moat?"
+
+Analyzes against Three Strategic Frameworks (Four Loops, Flywheel, Dangerous Intelligence). Identifies signal infrastructure gaps.
+
+**Output**: Framework alignment doc with net inventory and implementation priorities.
+
 ## Philosophy: 200 Users First
 
 Both skills follow the "200 users first" principle:
@@ -119,7 +134,7 @@ get_project(slug) extracts:
 | **Output** | Artifacts | `docs/` files |
 | **Invocation** | Natural language | Slash commands |
 | **Best for** | Exploration, research | Implementation |
-| **Skills** | dev-design, market-research, business-validation | dev-design, dev-cycle, market-research |
+| **Skills** | dev-design, market-research, business-validation, framework-alignment | dev-design, dev-cycle, market-research |
 
 ## Development
 
