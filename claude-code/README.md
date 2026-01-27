@@ -41,7 +41,9 @@ DEVELOPMENT PHASE (dev skill)
         ↓
 /dev-plan                   → Plan implementation steps
         ↓
-/dev-execute                → Execute step-by-step with tests
+/dev-execute                → Execute one step with tests
+        ↓ (or)
+/dev-execute-run            → Run all steps to completion (auto-finalize)
         ↓
 /dev-finalize               → Wrap up (timestamp + lessons + diagram + health)
         ↓
@@ -66,7 +68,8 @@ Repeat for next task
 |---------|---------|
 | `/dev-design` | Create design document (Stage 1, NO CODE) |
 | `/dev-plan` | Plan implementation steps (Stage 2) |
-| `/dev-execute` | Execute step-by-step (Stage 3) |
+| `/dev-execute` | Execute one step (Stage 3) |
+| `/dev-execute-run` | Run all steps to completion (auto-finalize) |
 | `/dev-lessons` | Consolidate lessons learned |
 | `/dev-diagram` | Generate ASCII summary diagram |
 | `/dev-finalize` | Wrap up task (timestamp + lessons + diagram + health) |

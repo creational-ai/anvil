@@ -147,7 +147,8 @@ cd claude-desktop
 **dev commands**:
 - `/dev-design` - Create design document (Stage 1)
 - `/dev-plan` - Plan implementation steps (Stage 2)
-- `/dev-execute` - Execute step-by-step (Stage 3)
+- `/dev-execute` - Execute one step (Stage 3)
+- `/dev-execute-run` - Run all steps to completion (auto-finalize)
 - `/dev-lessons` - Consolidate lessons learned
 - `/dev-diagram` - Generate task diagram
 - `/dev-finalize` - Wrap up task (timestamp + lessons + diagram + health)

@@ -68,11 +68,13 @@ When a Design doc exists, follow this process:
 **Example:**
 ```
 Design #1: Async Conversion
-  → Plan Step 1: get_transcript_async + tests
-  → Plan Step 2: get_metadata_async + tests
-  → Plan Step 3: get_video_data_async + tests
-  → Plan Step 4: Update routes.py + tests
+  → Plan Step 1: get_transcript_async
+  → Plan Step 2: get_metadata_async
+  → Plan Step 3: get_video_data_async
+  → Plan Step 4: Update routes.py
 ```
+
+(Tests are inherent to each step - no need to append "+ tests")
 
 ### 4. Use Analysis Approach for Code
 
@@ -171,7 +173,9 @@ Each step should be:
 
 **Never separate code and tests into different steps:**
 - ❌ Step 1: Write the class → Step 2: Write tests for the class
-- ✅ Step 1: Write the class + tests → verify all pass → move on
+- ✅ Step 1: Write the class (includes tests) → verify all pass → move on
+
+Note: Step names should NOT have "+ Tests" suffix. Tests are inherent to every step.
 
 **Why?**
 - Catch bugs immediately while context is fresh
