@@ -15,11 +15,13 @@ Stage 2 of dev-cycle: Break down one task into bite-sized, production-grade step
 
 ## Input
 
-**First argument (required):**
-- PoC identifier (e.g., `PoC 6`, `poc6`) → Reads from `[slug]-poc-design.md`
-- File path to design doc (e.g., `docs/feature-x-design.md`)
-- File path to poc-design doc (e.g., `core-poc-design.md`) with PoC identifier in notes
-- File path to plan doc + `update` → Updates to match current template
+**First argument (recommended):**
+- Design doc path: `docs/[slug]-design.md` → use as blueprint
+- If omitted → plan from scratch (for simple tasks)
+
+**Other input modes:**
+- PoC identifier (e.g., `PoC 6`) → Reads from `[slug]-poc-design.md`
+- Plan doc path + `update` → Updates to match current template
 
 **User notes (optional):**
 ```
@@ -28,24 +30,24 @@ Stage 2 of dev-cycle: Break down one task into bite-sized, production-grade step
 
 **Examples:**
 ```bash
+# Plan from design document (recommended)
+/dev-plan docs/cloud-mcp-ux-design.md
+
 # Plan a specific PoC from poc-design.md
 /dev-plan "PoC 6" --notes "Focus on error handling"
 
-# Plan from design document
-/dev-plan docs/feature-x-design.md
-
-# Specify PoC and poc-design file explicitly
-/dev-plan core-poc-design.md --notes "Plan PoC 6"
+# Plan from scratch (simple task, no design doc)
+/dev-plan --notes "Add logging to cache_service.py"
 
 # Update existing plan doc to match current template
 /dev-plan docs/core-poc6-plan.md update
 ```
 
 **The command will:**
-1. Read PoC definition from poc-design.md if PoC identifier provided
-2. Read design doc if file path provided
-3. Combine with user notes
-4. Create implementation plan
+1. Read design doc if provided
+2. Verify Proposed Sequence against codebase
+3. Break each Design item into bite-sized steps
+4. Add code + tests + verification for each step
 
 **Update mode** (when input is plan doc + `update`):
 1. Read the current template
@@ -57,8 +59,6 @@ Stage 2 of dev-cycle: Break down one task into bite-sized, production-grade step
 
 ✅ **CODE ALLOWED** - Use concrete code snippets, configs, commands
 
-⚠️ **ONE TASK AT A TIME** - Only plan the next logical task
-
 🏗️ **PRODUCTION-GRADE** - OOP, Pydantic models, type hints, real data
 
 🔒 **SELF-CONTAINED** - Add alongside, don't replace; works independently
@@ -68,9 +68,18 @@ Stage 2 of dev-cycle: Break down one task into bite-sized, production-grade step
 ## Process
 
 Follow the guidance in `2-planning-guide.md`:
+
+**If Design doc provided:**
+1. Read Design's Proposed Sequence (order and dependencies)
+2. Verify by researching codebase
+3. Break each Design item into bite-sized steps
+4. Use Analysis "Approach" for code details
+5. Inherit Success Criteria, respect Decisions Log
+
+**For all plans:**
 1. List prerequisites
 2. Break into bite-sized steps
-3. Define verification for each step
+3. Define verification for each step (code + tests together)
 4. Include specific code snippets
 5. Ensure production-grade (OOP, Pydantic, typing)
 6. Ensure self-contained

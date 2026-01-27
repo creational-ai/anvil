@@ -1,5 +1,7 @@
 # [Milestone-Slug]-[Task-Slug] Plan
 
+> **Design**: See `docs/[milestone-slug]-[task-slug]-design.md` for analysis and approach.
+>
 > **Track Progress**: See `docs/[milestone-slug]-[task-slug]-results.md` for implementation status, test results, and issues.
 
 ## Overview
@@ -72,7 +74,7 @@ python -c "[quick verification command]"
 
 ## Success Criteria
 
-From `docs/[source-doc].md`:
+From Design doc (refined with verification commands):
 
 - [ ] [Criterion 1 - specific, measurable]
 - [ ] [Criterion 2 - specific, measurable]

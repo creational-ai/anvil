@@ -1,17 +1,15 @@
 ---
 description: Generate comprehensive milestone summary document
 argument-hint: <milestone-slug> [update]
+context: fork
+agent: milestone-details-agent
+disable-model-invocation: true
 ---
 
-Use the **milestone-details-agent** subagent to generate milestone details.
+Generate a comprehensive milestone summary document.
 
 **Input**: $ARGUMENTS
 
 **Examples**:
-```bash
-# Create new milestone details doc
-/agent-milestone-details core
-
-# Update existing doc with current progress
-/agent-milestone-details core update
-```
+- `/agent-milestone-details core` - Create new milestone details doc
+- `/agent-milestone-details core update` - Update existing doc with current progress

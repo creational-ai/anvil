@@ -1,9 +1,12 @@
 ---
 description: Execute implementation step with tests (Stage 3)
 argument-hint: <plan-doc> [step-number]
+context: fork
+agent: dev-execute-agent
+disable-model-invocation: true
 ---
 
-Use the **dev-execute-agent** subagent to execute a plan step.
+Execute an implementation step following the dev-cycle Stage 3 workflow.
 
 **Input**: $ARGUMENTS
 

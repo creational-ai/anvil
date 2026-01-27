@@ -1,17 +1,18 @@
 ---
 description: Finalize task with timestamp, lessons, diagram, and health check (all 4 steps)
 argument-hint: <task-slug>
+context: fork
+agent: dev-finalize-agent
+disable-model-invocation: true
 ---
 
-Use the **dev-finalize-agent** subagent to finalize a completed task.
+Finalize a completed task following the dev-cycle finalization workflow.
 
 **Input**: $ARGUMENTS
 
 **Examples**:
-```bash
-/agent-dev-finalize core-poc2
-/agent-dev-finalize cloud-auth-fix
-```
+- `/agent-dev-finalize core-poc2` - Finalize PoC 2 in core milestone
+- `/agent-dev-finalize cloud-auth-fix` - Finalize auth fix in cloud milestone
 
 The agent will complete ALL 4 steps without stopping:
 1. Timestamp the results doc

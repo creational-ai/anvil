@@ -6,19 +6,12 @@ Break the task (PoC, feature, bug fix, refactor) into bite-sized, production-gra
 ## Code Allowed
 YES
 
-## ⚠️ ONE TASK AT A TIME
-
-Only generate implementation plan for:
-- The next logical task (based on dependency graph), OR
-- The specific task you explicitly choose
-
-**Why one at a time?**
-- Learnings from one task often change subsequent tasks
-- Keeps planning nimble and agile
-- Avoids wasted effort on plans that become obsolete
-
 ## Input
-- Single task from `docs/[slug]-poc-design.md` OR feature/bug to implement
+
+**Recommended**: Design document from Stage 1: `docs/[milestone-slug]-[task-slug]-design.md`
+
+If Design doc provided → read and use as blueprint
+If no Design doc → plan from scratch (for simple tasks, quick fixes)
 
 ## Process
 1. List all prerequisites (setup Supabase, configure AWS, API keys, etc.)
@@ -42,6 +35,64 @@ One document is created:
 **Examples**: `docs/core-poc6-plan.md`, `docs/cloud-auth-fix-plan.md`
 
 **Note**: The results tracking document (`docs/[milestone-slug]-[task-slug]-results.md`) will be created later during Stage 3 (Execution) when `/dev-execute` is run.
+
+## From Design to Plan
+
+**Design provides order and approach. Planning provides bite-sized steps.**
+
+When a Design doc exists, follow this process:
+
+### 1. Read Design's Proposed Sequence
+
+- Understand order and dependencies
+- Note the rationale for each item's placement
+- This is the **starting point**, not the final plan
+
+### 2. Verify by Researching Codebase
+
+- Read files mentioned in Design's "Files to Modify"
+- Verify approach is still valid
+- Identify gaps or additional work needed
+
+**Planning may discover:**
+- Design item needs to be split differently
+- Additional prerequisites not in Design
+- Order needs adjustment based on code dependencies
+
+### 3. Break Each Item into Steps
+
+- Each Design item (#1, #2, etc.) → multiple Plan steps
+- Each step bite-sized, independently verifiable
+- Code + tests together in each step
+
+**Example:**
+```
+Design #1: Async Conversion
+  → Plan Step 1: get_transcript_async + tests
+  → Plan Step 2: get_metadata_async + tests
+  → Plan Step 3: get_video_data_async + tests
+  → Plan Step 4: Update routes.py + tests
+```
+
+### 4. Use Analysis Approach for Code
+
+Design's Analysis has technical details:
+- Files to modify
+- Patterns to use
+- Validation strategy
+
+Planning adds actual code snippets.
+
+### 5. Inherit and Expand
+
+| Design Section | How Plan Uses It |
+|----------------|------------------|
+| **Proposed Sequence** | Guides order, Planning creates actual steps |
+| **Analysis Approach** | Technical details → actual code |
+| **Files to Modify** | Starting point, verify against codebase |
+| **Success Criteria** | Copy to Plan, add verification commands |
+| **Testing Strategy** | Expand into specific test cases per step |
+| **Decisions Log** | Respect - don't re-decide |
 
 ## Type Field
 

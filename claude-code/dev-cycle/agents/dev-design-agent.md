@@ -25,33 +25,33 @@ Follow the guide exactly. Use the template exactly.
 
 Your output must have two distinct sections:
 
-**Part A: Problem Analysis** (Non-Sequential)
-- Each problem gets its own subsection
+**Part A: Analysis** (Non-Sequential)
+- Each item gets its own numbered subsection (1, 2, 3...)
 - Analyzed independently - no implied order
-- Format: What (issue) → Why (impact) → Approach (solution concept)
+- Format: What (to build/fix/prove) → Why (impact) → Approach (detailed technical approach)
 
-**Part B: Proposed Steps** (Sequential)
-- Synthesizes Problem Analysis into ordered steps
-- Each step references which problem(s) it addresses
-- Format: Addresses → What → Why Here → Dependencies
+**Part B: Proposed Sequence** (Sequential)
+- Shows recommended order using item notation (#1 → #2 → #3)
+- Each item gets its own subsection with: Depends On, Rationale, Notes
+- Planning stage will create actual implementation steps from this
 
 ## Process
 
 1. Read the guide and template (listed above)
 2. Read the input file if provided
 3. Analyze current vs target state
-4. Identify and analyze each problem independently
-5. Synthesize into ordered implementation steps
+4. Identify and analyze each item independently (Analysis section)
+5. Define proposed sequence with rationale (Proposed Sequence section)
 6. Document design decisions
 7. Create the design document using the template
 8. Update `docs/[slug]-poc-design.md` if applicable
 
 ## Critical Rules
 
-- **NO CODE** - This is design only (architecture, flows, diagrams)
+- **NO CODE** - This is design only (architecture, flows, diagrams, patterns)
 - **Self-Contained Task** - Task must work independently
-- **Problem Analysis is Non-Sequential** - Don't imply order in Part A
-- **Proposed Steps Reference Problems** - Each step says which problem(s) it addresses
+- **Analysis is Non-Sequential** - Each item analyzed independently, no implied order
+- **Proposed Sequence has Rationale** - Each item explains Depends On, Rationale, Notes
 - **Add Alongside** - Don't replace, add new alongside existing
 
 ## Output
@@ -76,8 +76,8 @@ When done, report:
 **Summary**:
 - Current: [Brief current state]
 - Target: [Brief target state]
-- Problems Analyzed: [count]
-- Proposed Steps: [count]
+- Items Analyzed: [count]
+- Proposed Sequence: [count] items
 
 **Next**: Run `/verify-doc docs/[slug]-design.md` then proceed to Stage 2
 ```
@@ -89,11 +89,11 @@ Before completing, verify:
 - [ ] Template structure followed exactly
 - [ ] NO CODE in the document (design only)
 - [ ] Current and target state clearly defined
-- [ ] Each problem analyzed with What/Why/Approach
-- [ ] Problems are independent (no sequencing in Problem Analysis)
-- [ ] Proposed Steps synthesized from Problem Analysis
-- [ ] Each step references which problem(s) it addresses
-- [ ] Step order is logical with clear dependencies
+- [ ] Each item analyzed with What/Why/Approach
+- [ ] Analysis items are independent (no sequencing implied)
+- [ ] Proposed Sequence defined (#1 → #2 → ...)
+- [ ] Each sequence item has Depends On, Rationale, Notes
+- [ ] Sequence order is logical with clear dependencies
 - [ ] Task is self-contained (works independently)
 - [ ] Risks identified with mitigations
 - [ ] Design decisions documented

@@ -29,11 +29,17 @@ This skill operates at the **Task level** - one task at a time through a 3-stage
 
 ## Quick Reference
 
-| Stage | Code? | Guide | Template | Output |
-|-------|-------|-------|----------|--------|
-| 1. Design | ❌ NO | `references/1-design-guide.md` | `assets/templates/1-design.md` | `docs/[milestone-slug]-[task-slug]-design.md` |
-| 2. Planning | ✅ YES | `references/2-planning-guide.md` | `assets/templates/2-plan.md` | `docs/[milestone-slug]-[task-slug]-plan.md` |
-| 3. Execution | ✅ YES | `references/3-execution-guide.md` | `assets/templates/3-results.md` | `docs/[milestone-slug]-[task-slug]-results.md`<br>Implementation files<br>Test files |
+| Stage | Input | Output | Code? |
+|-------|-------|--------|-------|
+| 1. Design | Bug/feature spec, user notes | `*-design.md` | ❌ NO |
+| 2. Planning | `*-design.md` (recommended) | `*-plan.md` | ✅ YES |
+| 3. Execution | `*-plan.md` | `*-results.md` + code + tests | ✅ YES |
+
+| Stage | Guide | Template |
+|-------|-------|----------|
+| 1. Design | `references/1-design-guide.md` | `assets/templates/1-design.md` |
+| 2. Planning | `references/2-planning-guide.md` | `assets/templates/2-plan.md` |
+| 3. Execution | `references/3-execution-guide.md` | `assets/templates/3-results.md` |
 
 | Utility | Template | Output |
 |---------|----------|--------|
@@ -164,6 +170,9 @@ User should review design, run `/verify-doc`, fix issues, then request Stage 2.
 
 ## Stage 2: Planning
 
+**Input**: `docs/[milestone-slug]-[task-slug]-design.md` from Stage 1 (recommended)
+**Output**: `docs/[milestone-slug]-[task-slug]-plan.md`
+
 **Goal**: Break down a single task into bite-sized, production-grade implementation steps.
 
 **Code Allowed**: YES - Code snippets, configs, examples
@@ -174,8 +183,6 @@ Run Stage 2 when:
 - Design is complete and verified
 - Ready to plan implementation for next task
 - User explicitly requests implementation plan
-
-⚠️ **ONE TASK AT A TIME** - Only plan the next logical task to keep planning agile
 
 ✅ **CODE IS ALLOWED** - Unlike Stage 1, use concrete code snippets, commands, and configs
 
@@ -358,17 +365,12 @@ Use Glob/Grep to check for existing documents:
    - Results docs track live progress
    - Use `/dev-health` for PROJECT_STATE.md updates
 
-3. **One task at a time**
-   - Stage 1: Can plan multiple tasks
-   - Stage 2: Only plan one task
-   - Stage 3: Only execute one task
-
-4. **Tests are mandatory**
+3. **Tests are mandatory**
    - Every step requires passing tests
    - No step is complete without tests
    - Catches issues early
 
-5. **Self-contained is non-negotiable**
+4. **Self-contained is non-negotiable**
    - Add alongside, don't replace
    - System works at every task boundary
    - No "TODO: will work after next task" comments

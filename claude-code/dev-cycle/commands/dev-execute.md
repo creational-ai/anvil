@@ -75,12 +75,6 @@ Follow the guidance in `3-execution-guide.md`:
 5. **IF TESTS PASS**: Update results.md (status + lessons learned) and STOP
 6. Report completion to user
 
-**Critical Rules:**
-- Execute ONLY the current step, then STOP
-- DO NOT move to next step automatically
-- A step is NOT complete until ALL tests pass
-- When tests pass, update docs and STOP - let user decide next action
-
 ## Output
 
 Per step:

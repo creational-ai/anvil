@@ -1,17 +1,15 @@
 ---
 description: Create design for feature/bug/PoC (Stage 1, NO CODE)
 argument-hint: [file-path] [notes]
+context: fork
+agent: dev-design-agent
+disable-model-invocation: true
 ---
 
-Use the **dev-design-agent** subagent to create a design document.
+Create a design document following the dev-cycle Stage 1 workflow.
 
 **Input**: $ARGUMENTS
 
 **Examples**:
-```bash
-# From bug report file
-/agent-dev-design docs/bug-123.md "Focus on performance impact"
-
-# From user description only
-/agent-dev-design "Add caching layer to reduce API calls"
-```
+- `/agent-dev-design docs/bug-123.md "Focus on performance impact"` - From bug report file
+- `/agent-dev-design "Add caching layer to reduce API calls"` - From user description only

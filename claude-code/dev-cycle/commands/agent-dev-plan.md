@@ -1,17 +1,15 @@
 ---
 description: Create implementation plan from design document (Stage 2)
 argument-hint: <doc-path> [update]
+context: fork
+agent: dev-plan-agent
+disable-model-invocation: true
 ---
 
-Use the **dev-plan-agent** subagent to create an implementation plan.
+Create an implementation plan following the dev-cycle Stage 2 workflow.
 
 **Input**: $ARGUMENTS
 
 **Examples**:
-```bash
-# Create new implementation plan from design doc
-/agent-dev-plan docs/core-poc6-design.md
-
-# Update existing plan doc to match current template
-/agent-dev-plan docs/core-poc6-plan.md update
-```
+- `/agent-dev-plan docs/core-poc6-design.md` - Create new plan from design doc
+- `/agent-dev-plan docs/core-poc6-plan.md update` - Update existing plan to match template
