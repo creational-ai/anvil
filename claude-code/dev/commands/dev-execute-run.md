@@ -42,22 +42,17 @@ Orchestrates Stage 3 execution by looping through steps, launching a fresh `dev-
 
 ### 2. Execute Loop
 
-For each incomplete step (in order):
-
+**First call**: Prereqs + Step 0 (if exists)
 ```
-1. Log: "Starting Step [N] of [Total]..."
-
-2. Spawn subagent using Task tool:
-   - subagent_type: dev-execute-agent
-   - prompt: "Execute step [N] of [plan-path]. Stop after this step completes."
-   - Wait for completion
-
-3. Check result:
-   - If FAILED (tests failing, errors): STOP loop, report failure
-   - If SUCCESS (tests passing): Continue to next step
-
-4. Brief pause for user visibility
+Spawn dev-execute-agent: "[plan-path] Prereqs + Step 0 (if exists)"
 ```
+
+**Then**: Step 1, 2, 3...
+```
+Spawn dev-execute-agent: "[plan-path] [N]"
+```
+
+Stop on failure, continue on success.
 
 ### 3. Completion
 
@@ -96,27 +91,12 @@ Fix issues, then run `/dev-execute-run [plan]` to continue
 
 ## Task Tool Invocation
 
-For each step, call the **Task** tool with these parameters:
+Agent input: `[plan-path] [step-number] [notes]`
 
-| Parameter | Value |
-|-----------|-------|
-| `subagent_type` | `dev-execute-agent` |
-| `description` | `Execute step N of [task-slug]` |
-| `prompt` | See below |
-
-**Prompt template:**
-```
-Execute step [N] of the plan at [plan-path].
-
-This is step [N] of [Total] total steps.
-
-Execute ONLY this step, then return with results.
-Do not continue to the next step.
-
-[Any user notes if provided]
-```
-
-The Task tool will spawn a fresh subagent, wait for completion, and return the result.
+| Call | Prompt |
+|------|--------|
+| First | `[plan-path] 0 Prereqs + Step 0 (if exists)` |
+| Step N | `[plan-path] [N]` |
 
 ## After All Steps Complete
 

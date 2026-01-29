@@ -105,6 +105,17 @@ for skill in "${SKILLS[@]}"; do
     echo ""
 done
 
+# Deploy common commands (no skill, just commands)
+if [ -d "$SCRIPT_DIR/common/commands" ]; then
+    echo "--- Deploying common commands ---"
+    count=$(ls -1 "$SCRIPT_DIR/common/commands/"*.md 2>/dev/null | wc -l | tr -d ' ')
+    if [ "$count" -gt "0" ]; then
+        cp -r "$SCRIPT_DIR/common/commands/"*.md "$COMMANDS_DIR/"
+        echo "  ✓ Copied $count common commands"
+    fi
+    echo ""
+fi
+
 echo "=============================================="
 echo "✓ Deployment complete!"
 echo "=============================================="
