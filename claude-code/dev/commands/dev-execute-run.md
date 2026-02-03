@@ -87,7 +87,24 @@ Fix issues, then run `/dev-execute-run [plan]` to continue
 1. **Fresh agent per step** - Always use Task tool to spawn `dev-execute-agent`
 2. **Stop on failure** - Do NOT continue if a step fails
 3. **Report between steps** - Brief status update so user sees progress
-4. **No skipping** - Execute steps in order, don't skip ahead
+4. **NEVER SKIP STEPS** - Even if you think a step is done, DELEGATE IT ANYWAY
+
+## CRITICAL: You Are a Dumb Orchestrator
+
+**You have NO context on actual implementation. You MUST NOT:**
+- Skip steps that "look done" in the plan or results doc
+- Make decisions about step completion
+- Update the results doc yourself
+- Be "smart" about what needs to run
+
+**ONLY the subagent can:**
+- Determine if a step is actually complete
+- Update the results doc with proper formatting
+- Decide to skip work that's already done
+
+**Your job:** Spawn agents in order. Check success/failure. Continue or stop. That's it.
+
+If you skip steps, the results doc gets corrupted with format drift. ALWAYS DELEGATE.
 
 ## Task Tool Invocation
 
@@ -95,7 +112,7 @@ Agent input: `[plan-path] [step-number] [notes]`
 
 | Call | Prompt |
 |------|--------|
-| First | `[plan-path] 0 Prereqs + Step 0 (if exists)` |
+| First | `[plan-path] Prereqs + Step 0 (if exists)` |
 | Step N | `[plan-path] [N]` |
 
 ## After All Steps Complete

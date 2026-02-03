@@ -1,238 +1,232 @@
 ---
 name: framework-alignment
-description: "Analyze any project against Three Strategic Frameworks (Four Loops, Flywheel, Dangerous Intelligence) to identify gaps and required signal infrastructure. Use when user asks: 'framework alignment', 'are we building the right loops', 'what signals are we missing', 'how do we build a moat', 'what nets do we need', 'pre-launch checklist', 'are we ready to launch', or any question about strategic readiness. Pulls full Mission Control data (project → milestones → tasks), applies all three frameworks, identifies what mechanisms must exist BEFORE users arrive so loops spin from day 1. Produces actionable alignment doc with net inventory and implementation priorities."
+description: >
+  Run focused strategic assessments on any project using a builder-first, trading-mindset approach.
+  Four framework lenses available:
+  (1) FOUR LOOPS - feedback loop design, signal capture, compounding mechanics,
+  (2) FLYWHEEL - GTM stage design, delivery signals, stage-to-stage flow,
+  (3) DANGEROUS INTELLIGENCE - Zone 1 vs Zone 2 work ratio, capped vs uncapped effort,
+  (4) AI HIGH GROUND - RAIL test, flood zone risk, layer positioning.
+  Triggers: 'four loops assessment', 'flywheel assessment', 'zone analysis', 'RAIL test',
+  'flood zone check', 'framework alignment', 'what loops are working', 'are we in the flood zone'.
+  If user doesn't specify which assessment, ask which one.
+  Each assessment pulls Mission Control data and market research, defines the trade thesis,
+  identifies what the framework requires us to build, and produces an actionable roadmap.
 ---
 
 # framework-alignment
 
-Analyze projects against strategic frameworks and identify required signal infrastructure.
+Run focused strategic assessments on projects. Choose one framework lens at a time for deep analysis.
 
-**Version**: 1.0.0
+**Version**: 3.0.0
 
 ## Philosophy
 
-**Don't launch a product. Launch a learning machine.**
+**We are builders entering markets, not graders of finished products.**
 
-Competitors can copy features in weeks. They can't copy 6 months of compounding signal data and the product decisions that emerged from it.
+Think of every venture like a trade:
+
+- **Market conditions** — What's happening in the space? What's shifting?
+- **Patterns** — What's working? What's underserved? What's done poorly?
+- **Signals** — Real data points that confirm or deny our thesis. Not opinions.
+- **The bet** — What we're building, how we're positioning, why it compounds into a big payout.
+
+The framework provides the lens. This skill provides the discipline. Revenue is the payout when the thesis is right and the position is built correctly.
 
 **The "Nets" Strategy:** Build signal infrastructure INTO the foundation. When you launch, loops are already spinning. Day 1 users start generating the moat.
 
-**Pre-launch focus:** Most projects haven't launched yet. The question isn't "are loops working?" — it's "are the nets designed so loops START working from user #1?"
+---
+
+## Assessment Selection
+
+**If user specifies assessment:** Run that assessment directly.
+
+**If user says "framework alignment" without specifying:** Ask which lens:
+
+> Which framework lens do you want to assess through?
+> 
+> 1. **Four Loops** — What feedback loops do we need to design so they compound from day 1?
+> 2. **Flywheel** — What GTM stages need to exist and how does each feed the next?
+> 3. **Dangerous Intelligence** — Are we building Zone 2 (uncapped/compounding) or Zone 1 (capped/fixed)?
+> 4. **AI High Ground** — RAIL test: Are we positioned on high ground or in the flood zone?
 
 ---
 
-## Three Frameworks Applied
+## Trigger Phrases → Assessment Mapping
 
-| Framework | Core Question | Pre-Launch Application |
-|-----------|---------------|------------------------|
-| **Four Loops** | Are we building compounding feedback loops? | What nets capture signals for each loop? |
-| **Flywheel** | Does each stage feed the next? | Is signal infrastructure built into Delivery? |
-| **Dangerous Intelligence** | Zone 2 (uncapped) focus? | Are we building nets (Zone 2) not just features (Zone 1)? |
-
-→ See `references/framework-*.md` files for complete framework details
-
----
-
-## When to Use
-
-**Direct triggers:**
-- "Framework alignment for [project]"
-- "Are we building the right loops?"
-- "What signals are we missing?"
-- "How do we build a moat?"
-- "What nets do we need?"
-- "Pre-launch checklist"
-- "Are we ready to launch?"
-
-**Situational triggers:**
-- Project has features but unclear signal capture
-- User asking about competitive moat
-- Launch planning discussions
-- Post-milestone strategic review
-- "What should we build next?" questions
+| Trigger Phrase | Assessment |
+|----------------|------------|
+| "four loops", "feedback loops", "what loops", "signal capture", "nets" | Four Loops |
+| "flywheel", "GTM stages", "lead gen", "delivery signals" | Flywheel |
+| "zone analysis", "zone 1 vs zone 2", "capped vs uncapped", "dangerous intelligence" | Dangerous Intelligence |
+| "RAIL test", "flood zone", "high ground", "market position", "are we safe" | AI High Ground |
+| "framework alignment" (unqualified), "strategic assessment", "pre-launch check" | **Ask user** |
 
 ---
 
-## Context Extraction
+## Core Process (All Assessments)
 
-### 1. Mission Control MCP (Required)
+Every assessment follows these steps in order.
 
-Pull **all three tiers**:
+### Step 1: Pull Real Data
 
-| Tier | MCP Calls | Key Fields |
-|------|-----------|------------|
+No memory. No assumptions. No guessing.
+
+**Mission Control — all three tiers:**
+
+| Tier | MCP Call | Key Fields |
+|------|----------|------------|
 | **Project** | `get_project(slug)` | objective, business_value, phase, status, notes |
 | **Milestones** | `list_milestones(project_slug)` | goal, status, risks, design_decisions |
-| **Tasks** | `list_tasks(project_slug)` | objective, unlocks, lessons_learned, status |
+| **Tasks** | `list_tasks(project_slug)` | objective, unlocks, lessons_learned, status, timestamps |
 
-**Why all tiers:** Tasks reveal what's actually built. Milestones show what's planned. Project shows the vision. Gaps between them = alignment opportunities.
+**Market Research:**
+- Web search for market conditions, competitors, patterns
+- Identify what's working, what's underserved, what's shifting
 
-### 2. Project Files
+This is the market scan. A trader doesn't place a bet without reading the chart.
 
-Check for existing docs:
-- Framework alignment docs (`*-framework-alignment*.md`)
-- Product specs
-- Architecture docs
-- Pricing/GTM docs
+### Step 2: Define the Trade
 
-### 3. Portfolio Context
+Based on the chosen framework and data pulled, answer:
 
-Check `list_projects()` for:
-- Shared infrastructure potential
-- Products that feed each other (VP → MC pattern)
-- Ecosystem leverage
+- **What are we betting on?** — The specific position we're building toward
+- **Why does it pay off?** — Signals supporting the thesis, market conditions in our favor
+- **What's our edge?** — What compounds over time, what's hard to replicate
+- **What could invalidate it?** — Signals against, honest risks
 
----
+If the thesis can't be articulated clearly, flag it — we're not ready to build.
 
-## Process
+### Step 3: Framework Alignment Check
 
-### Phase 1: Current State Assessment
+Apply the chosen framework as the lens. For each component the framework defines:
 
-1. Extract all MC data
-2. List what's built (completed tasks)
-3. List what's planned (active/planned tasks)
-4. Identify current signal capture (any analytics, feedback, tracking?)
+- **Required** — What the framework says we need to have
+- **Have** — What actually exists (from MC data)
+- **Gap** — The delta, stated as a specific build item
 
-### Phase 2: Four Loops Analysis
+"Improve feedback loops" is noise. "Implement usage event tracking that captures X signal and feeds it into Y decision" is a signal.
 
-For each loop, assess:
+### Step 4: Sequence the Roadmap
 
-**Loop 1: Balance (Advantage ↔ Pain)**
-- What's the claimed advantage?
-- What's the claimed pain point?
-- Is either validated or assumed?
-- What net would capture validation signal?
+Order by dependency and leverage:
 
-**Loop 2: Speed to Revenue (Ship → Learn)**
-- What's the shipping velocity? (Check task timestamps)
-- Are we learning from external users or just internal use?
-- What net captures learning signals?
+- What unblocks what?
+- What builds the position fastest?
+- What creates compounding value earliest?
 
-**Loop 3: Signal to Innovation (User → Improve)**
-- Where do user signals come from currently?
-- How often are signals reviewed?
-- What nets are missing?
+Every action must be **concrete** (know exactly what to build), **completable** (has a done state), **sequenced** (knows what comes before/after), and **justified** (ties back to the thesis and framework requirements).
 
-**Loop 4: Sweat Equity (Conviction)**
-- Evidence of deep work? (session lengths, quality)
-- This loop is usually ✅ if other work exists
+### Step 5: Output the Assessment
 
-### Phase 3: Flywheel Analysis
-
-Assess each stage:
-
-| Stage | Status | Signal Captured? |
-|-------|--------|------------------|
-| Lead Gen | ❌/⚠️/✅ | [What net?] |
-| Nurturing | ❌/⚠️/✅ | [What net?] |
-| Closing | ❌/⚠️/✅ | [What net?] |
-| Delivery | ❌/⚠️/✅ | [What net?] |
-| Reputation | ❌/⚠️/✅ | [What net?] |
-
-Key insight: "Delivery" isn't just "working product" — it's "working product WITH signal infrastructure."
-
-### Phase 4: Dangerous Intelligence Analysis
-
-Categorize recent/planned work:
-
-| Work Item | Zone 1 (Capped) or Zone 2 (Uncapped)? |
-|-----------|---------------------------------------|
-| [Task/feature] | [Assessment + reasoning] |
-
-**Zone 2 (Uncapped):** Signal infrastructure, architecture decisions, what we learn from
-**Zone 1 (Capped):** Features, polish, things that don't compound
-
-Calculate ratio. Flag if Zone 1 heavy.
-
-### Phase 5: Net Inventory
-
-Check status of Seven Standard Nets:
-
-| Net | Purpose | Status | Implementation Scope |
-|-----|---------|--------|---------------------|
-| Usage Analytics | Track every action | ❌/⚠️/✅ | [What's needed] |
-| submit_feedback | Zero-friction qualitative signal | ❌/⚠️/✅ | [What's needed] |
-| Cohort Tracking | Behavior by segment | ❌/⚠️/✅ | [What's needed] |
-| Feature Flags | A/B test without deploys | ❌/⚠️/✅ | [What's needed] |
-| Churn Signals | Activity drop detection | ❌/⚠️/✅ | [What's needed] |
-| Error Tracking | Know when things break | ❌/⚠️/✅ | [What's needed] |
-| Onboarding Funnel | Where users drop off | ❌/⚠️/✅ | [What's needed] |
-
-### Phase 6: Gap Prioritization
-
-Prioritize missing nets by:
-
-1. **P0 (Launch blocker):** Without this, no signal loop starts
-2. **P1 (Week 1):** Needed to learn from first users
-3. **P2 (Month 1):** Needed for optimization
-4. **Defer:** Nice to have, not day 1
-
-### Phase 7: Competitive Moat Timeline
-
-Project what we'll have vs. what competitors would need:
-
-| Month | What We Have | What Competitor Needs |
-|-------|--------------|----------------------|
-| 0 (Launch) | Nets in place, 0 data | Build nets from scratch |
-| 1 | X tool calls analyzed | Still building |
-| 3 | Patterns emerging | Starting from zero |
-| 6 | Signal-informed v2 | 6 months behind |
+Use the template in `references/alignment-template.md`. Produce a document artifact.
 
 ---
 
-## Output: Framework Alignment Document
+## Framework-Specific Guidance
 
-→ See `references/alignment-template.md` for full template
+Each section below describes what the framework lens looks for. Full framework details are in reference files — read the relevant one before running the assessment.
 
-### Required Sections
+### Assessment 1: Four Loops
 
-1. **Strategic Context** — The moat thesis
-2. **Framework Summary** — Three frameworks, one table
-3. **Four Loops Assessment** — Status + net needs per loop
-4. **Flywheel Assessment** — Stage status + signal gaps
-5. **Zone Analysis** — Zone 1 vs Zone 2 work ratio
-6. **Net Inventory** — Seven nets with status and scope
-7. **Implementation Priorities** — P0/P1/P2/Defer
-8. **Pre-Launch Checklist** — Binary yes/no checks
-9. **Post-Launch Signals** — What to watch
-10. **Competitive Moat Timeline** — Month-by-month projection
-11. **Success Definition** — What "launch" actually means
+**Core Question:** What feedback loops do we need to design so they compound from day 1?
+
+**Reference:** `references/framework-four-loops-ai-wealth.md`
+
+**What this lens evaluates:**
+
+| Loop | Builder Question |
+|------|-----------------|
+| **Loop 1: Balance** | What's our asymmetric advantage? What acute pain are we solving? Are we testing or assuming? |
+| **Loop 2: Speed to Revenue** | How fast can we ship and learn? What nets capture that learning? |
+| **Loop 3: Signal to Innovation** | What signal sources do we need to build in? How do they feed back into product decisions? |
+| **Loop 4: Sweat Equity** | Is there deep conviction and obsessive execution? (Usually ✅ if work exists) |
+
+**Key nets to consider:** Usage Analytics, submit_feedback, Cohort Tracking
 
 ---
 
-## Verification Checklist
+### Assessment 2: Flywheel
 
-Before finalizing alignment doc:
+**Core Question:** What GTM stages need to exist and how does each feed the next?
 
-- [ ] MC data extracted (all three tiers)
-- [ ] All four loops assessed with net recommendations
-- [ ] All flywheel stages assessed
-- [ ] Zone 1 vs Zone 2 ratio calculated
-- [ ] All seven nets inventoried
-- [ ] Gaps prioritized (P0/P1/P2/Defer)
-- [ ] Pre-launch checklist is answerable (yes/no)
-- [ ] Success definition is concrete, not vague
-- [ ] Moat timeline shows compounding advantage
+**Reference:** `references/framework-ai-flywheel-tools.md`
+
+**What this lens evaluates:**
+
+| Stage | Builder Question |
+|-------|-----------------|
+| **Lead Gen** | How will prospects discover us? What signal do we capture from discovery? |
+| **Nurturing** | How do prospects learn value? What keeps us in their head? |
+| **Closing** | What triggers conversion? Where is friction? |
+| **Delivery** | Is the product working AND capturing signals? |
+| **Reputation** | How does success spread? What amplifies it? |
+
+**Key focus:** Identify broken connections between stages. Each stage must feed the next.
+
+**Key nets to consider:** Onboarding Funnel, Churn Signals, Error Tracking
+
+---
+
+### Assessment 3: Dangerous Intelligence
+
+**Core Question:** Are we building Zone 2 (uncapped/compounding) or Zone 1 (capped/fixed)?
+
+**Reference:** `references/framework-dangerous-intelligence.md`
+
+**What this lens evaluates:**
+
+| Zone | Definition | Examples |
+|------|------------|----------|
+| **Zone 2 (Uncapped)** | Compounds over time, builds moat | Signal infrastructure, architecture, data flywheels |
+| **Zone 1 (Capped)** | Fixed value, doesn't compound | Features, polish, one-time improvements |
+
+**Process:** Categorize all recent/planned work → Calculate ratio → Flag if Zone 1 heavy (>60%) → Identify Zone 2 opportunities
+
+**Builder focus:** What should we build differently so the work compounds instead of caps out?
+
+---
+
+### Assessment 4: AI High Ground
+
+**Core Question:** Are we positioned on high ground or in the flood zone?
+
+**Reference:** `references/framework-ai-high-ground.md`
+
+**What this lens evaluates:**
+
+| Letter | Question | Red Flag |
+|--------|----------|----------|
+| **R** – Revenue | Real paying customers? | "We're still piloting" |
+| **A** – Acceleration | Ship something real in 2 weeks? | No clear path to ship fast |
+| **I** – In-market | Real users with real data? | Sitting in test environment |
+| **L** – Learning | Learning from real customer use? | Internal testing only |
+
+**Scoring:** 0-1 ❌ = High ground | 2+ ❌ = Flood zone
+
+**Builder focus:** If in flood zone, what's the fastest path to high ground? Apply Three-Layer Map for positioning. Project competitive moat timeline.
 
 ---
 
 ## Anti-Patterns
 
-**Don't:**
-- Assess launched product patterns against pre-launch project
-- Skip MC data extraction
-- Declare loop "working" when only internal use exists
-- Treat all features as equal (Zone 1 vs Zone 2 matters)
-- Create alignment doc without net inventory
-- Define success as "it works" (success = "loops are spinning")
+- Evaluating like a report card instead of building a trade thesis
+- Running all four assessments when user only needs one
+- Skipping MC data extraction or market research
+- Declaring something "working" when only internal use exists
+- Vague actions ("improve signals" vs specific net to implement)
+- Actions that don't tie back to the thesis
+- Treating all work as equal (Zone 1 vs Zone 2 matters)
+- Ignoring signals against the thesis
 
 ---
 
 ## Reference Files
 
-| When to Read | Reference File |
-|--------------|----------------|
-| Four Loops details | `references/framework-four-loops-ai-wealth.md` |
-| Flywheel details | `references/framework-ai-flywheel-tools.md` |
-| Dangerous Intelligence details | `references/framework-dangerous-intelligence.md` |
-| Creating alignment doc | `references/alignment-template.md` |
+| File | Purpose | When to Read |
+|------|---------|--------------|
+| `references/framework-four-loops-ai-wealth.md` | Four Loops framework details | Before running Four Loops assessment |
+| `references/framework-ai-flywheel-tools.md` | Flywheel framework details | Before running Flywheel assessment |
+| `references/framework-dangerous-intelligence.md` | Dangerous Intelligence framework details | Before running Dangerous Intelligence assessment |
+| `references/framework-ai-high-ground.md` | AI High Ground framework details | Before running AI High Ground assessment |
+| `references/alignment-template.md` | Assessment output template | Before producing any assessment output |
