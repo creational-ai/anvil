@@ -28,6 +28,10 @@ OLD_SKILLS=(
 OLD_COMMANDS=(
     "vp-transcript.md"
     "vp-meta.md"
+    "design-northstar.md"
+    "design-milestones-overview.md"
+    "design-milestone-design.md"
+    "design-poc-design.md"
 )
 #=============================================================================
 
@@ -87,15 +91,17 @@ for skill in "${SKILLS[@]}"; do
         echo "  ✓ Copied SKILL.md"
     fi
 
-    # Copy assets/templates/
+    # Copy assets/templates/ (wipe first to remove old-named files)
     if [ -d "$SKILL_SRC/assets/templates" ]; then
+        rm -rf "$SKILL_DST/assets/templates"
         mkdir -p "$SKILL_DST/assets/templates"
         cp -r "$SKILL_SRC/assets/templates/"* "$SKILL_DST/assets/templates/"
         echo "  ✓ Copied assets/templates/"
     fi
 
-    # Copy references/
+    # Copy references/ (wipe first to remove old-named files)
     if [ -d "$SKILL_SRC/references" ]; then
+        rm -rf "$SKILL_DST/references"
         mkdir -p "$SKILL_DST/references"
         cp -r "$SKILL_SRC/references/"* "$SKILL_DST/references/"
         echo "  ✓ Copied references/"

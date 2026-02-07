@@ -1,4 +1,4 @@
-# [Project Name] - North Star
+# [Project Name] - Product Vision
 
 ## Vision
 [One paragraph describing the end state - what does success look like?]

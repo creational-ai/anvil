@@ -2,6 +2,8 @@
 
 Structured workflow for taking ideas from concept to executable task plan.
 
+**Version**: 2.0.0
+
 ## Hierarchy
 
 ```
@@ -13,90 +15,88 @@ Project (e.g., "mission-control")
     └── Task ...
 ```
 
-**Task Types:**
-- **PoC** - Proof of Concept (validate technical approach)
-- **Feature** - New functionality
-- **Issue** - Bug fix
-- **Refactor** - Code improvement
+**Task Types**: PoC (validate approach) | Feature | Issue | Refactor
 
-**Philosophy**: The design skill handles the **design phase** (0 to 1) at Project, Milestone, and Task levels. Once you have a task plan, hand off to the **dev skill** for the **development loop** (1 to N).
+**Philosophy**: design handles the **design phase** (0 to 1). Once you have a task plan, hand off to the **dev skill** for the **development loop** (1 to N).
 
 ## Stage Overview
 
-| Stage | Output | Environment |
-|-------|--------|-------------|
-| 1. North Star | `docs/[slug]-north-star.md` | Claude Desktop |
-| 2. Architecture | `docs/[slug]-architecture.md` | Claude Desktop |
-| 3. Milestones Overview | `docs/[slug]-milestones-overview.md` | Claude Code |
-| 4. Milestone Design | `docs/[slug]-milestone.md` | Claude Code |
-| 5. PoC Design | `docs/[slug]-poc-design.md` | Claude Code |
-
-**Environment Split**:
-- **Claude Desktop** (Stages 1-2): Free-form exploration and research
-- **Claude Code** (Stages 3-5): Template-driven structured design
+| Stage | Output | Purpose |
+|-------|--------|---------|
+| 1. Product Vision | `docs/[slug]-product-vision.md` | Vision & feasibility |
+| 2. Architecture | `docs/[slug]-architecture.md` | Technical design |
+| 3. Product Roadmap | `docs/[slug]-product-roadmap.md` | Strategic milestone breakdown |
+| 4. Milestone Spec | `docs/[slug]-milestone-spec.md` | Detailed per-milestone plan |
+| 5. PoC Spec | `docs/[slug]-poc-spec.md` | Atomic proof-of-concepts |
 
 **File Naming**:
-- `[slug]`: Project slug for project-level docs (north-star, architecture, milestones-overview)
-- `[slug]`: Milestone slug for milestone-level docs (milestone, poc-design)
+- `[slug]`: Project slug for project-level docs (product-vision, architecture, product-roadmap)
+- `[slug]`: Milestone slug for milestone-level docs (milestone-spec, poc-spec)
 
-**Next**: → Hand off to `dev` skill for implementation
+**Next**: Hand off to **dev skill** for implementation
 
 ---
 
-## ⛔ CRITICAL: NO-CODE SKILL
+## CRITICAL: TEMPLATE & OUTPUT RULES
+
+**THIS IS NOT FREEFORM DOCUMENTATION.**
+
+Templates are mandatory. They define the exact structure curated over months of iteration.
+
+**For EVERY stage output:**
+1. **READ the template FIRST** from `assets/templates/[name].md`
+2. **FOLLOW the template structure EXACTLY** -- every section, every heading, in order
+3. **Fill in project-specific content** within that structure
+4. **Write to `docs/` directory** using the naming convention for that stage
+
+**DO NOT:** Skip template | Invent structure | Omit sections | Reorder sections | Add sections
+
+---
+
+## Design Philosophy: 200 Users First
+
+**This skill is for inception** -- structuring ideas into well-defined milestones and PoCs.
+
+**Production-grade, but right-sized:**
+- Build with production-quality from day one
+- BUT size everything for your first 200 users
+- Security, data modeling, HA -- include them, but don't over-engineer
+- Break 200 paying users, THEN dedicate a milestone to scale
+
+**Why 200?** Enough to validate product-market fit. No users = scaling is a problem you don't have.
+
+---
+
+## CRITICAL: NO-CODE SKILL
 
 **All stages (1-5) are strictly NO-CODE zones.**
 
-### What IS allowed:
-- High-level architecture diagrams
-- Data flow descriptions
-- Workflow descriptions
-- Concept explanations
-- Pseudocode for complex logic (sparingly)
-- API contract descriptions (endpoints, payloads)
-- Technology stack decisions with rationale
+**Allowed**: Architecture diagrams, data flow descriptions, workflow descriptions, pseudocode (sparingly), API contracts, tech stack decisions
 
-### What is NOT allowed:
-- Python/JavaScript/any implementation code
-- Function definitions
-- Class implementations
-- Code snippets that could be copy-pasted
-- "Here's how you'd implement this..." with actual code
+**NOT allowed**: Implementation code, function definitions, class implementations, copy-paste snippets
 
-### Why This Matters:
-- Preserves token space for what matters: thinking and design
-- Prevents premature implementation decisions
-- Forces clear conceptual understanding before coding
-
-### If Asked to Write Code:
-Respond: "We're in the [North Star/Architecture/Milestones Overview/Milestone Design/PoC Design] stage — let's keep focus on [vision/architecture/strategy/design/proof-of-concepts]. Code comes later in the dev skill. For now, let me describe how this would work at a high level..."
+**If asked for code**: "We're in design stage -- code comes later in the dev skill. Let me describe how this would work at a high level..."
 
 ---
 
-## Stage 1: North Star
+## Stage 1: Product Vision
 
 **Goal**: Refine the idea into a clear, feasible vision
 
 **Input**: Idea (verbal, notes, rough sketch)
+**Template**: `assets/templates/1-product-vision.md`
+**Output**: `docs/[slug]-product-vision.md` (e.g., `docs/mc-product-vision.md`)
 
-**Template**: `assets/templates/north-star.md`
-
-**Process**:
-1. Understand the core problem being solved
-2. Define how it would work (high-level)
-3. Identify key components and their relationships
-4. Surface assumptions and unknowns
-
-**Output**: `docs/[slug]-north-star.md` (e.g., `docs/mc-north-star.md`)
+> See `references/1-product-vision-guide.md` for detailed process
 
 ### Stage 1 Complete Checklist
-- [ ] `docs/[slug]-north-star.md` created using template
+- [ ] `docs/[slug]-product-vision.md` created using template
 - [ ] Problem clearly stated
 - [ ] Solution approach makes sense
 - [ ] Technical feasibility seems reasonable
 - [ ] No obvious blockers identified
 
-**Next**: → Stage 2: Architecture
+**Next**: Stage 2: Architecture
 
 ---
 
@@ -104,20 +104,19 @@ Respond: "We're in the [North Star/Architecture/Milestones Overview/Milestone De
 
 **Goal**: Create technical architecture and integration plan
 
-**Input**: North Star doc (`docs/[slug]-north-star.md`)
-
-**Template**: `assets/templates/architecture.md`
-
-**Naming**: `docs/[slug]-architecture.md` where `[slug]` is your project slug
-
-**Process**:
-1. Define system architecture
-2. Identify technology stack
-3. Map data flows
-4. Design component interactions
-5. Identify integration points
-
+**Input**: Product Vision doc (`docs/[slug]-product-vision.md`)
+**Template**: `assets/templates/2-architecture.md`
 **Output**: `docs/[slug]-architecture.md` (e.g., `docs/mc-architecture.md`)
+
+> See `references/2-architecture-guide.md` for detailed process
+
+### Market Research Checkpoint (Optional)
+
+Once you have enough context (typically after Stage 2 or 3), consider validating the market:
+
+*"Do market research for this product. Do we have a play in this space? Is it worth pursuing?"*
+
+Validate early. The more context you have, the better the research -- but don't over-design before confirming market fit.
 
 ### Stage 2 Complete Checklist
 - [ ] `docs/[slug]-architecture.md` created using template
@@ -128,170 +127,119 @@ Respond: "We're in the [North Star/Architecture/Milestones Overview/Milestone De
 - [ ] No code written (only diagrams and descriptions)
 - [ ] Run `/verify-doc docs/[slug]-architecture.md`
 
-**Next**: → Stage 3: Milestones Overview
+**Next**: Stage 3: Product Roadmap
 
 ---
 
-## Stage 3: Milestones Overview
+## Stage 3: Product Roadmap
 
-**Goal**: Break North Star + Architecture into strategic milestones with clear progression, detailed architecture per milestone, and measurable outcomes
+**Goal**: Break Product Vision + Architecture into strategic milestones with clear progression
 
 **Input**:
-- North Star doc (`docs/[slug]-north-star.md`)
+- Product Vision doc (`docs/[slug]-product-vision.md`)
 - Architecture doc (`docs/[slug]-architecture.md`)
 
-**Template**: `assets/templates/milestones-overview.md`
+**Template**: `assets/templates/3-product-roadmap.md`
+**Output**: `docs/[slug]-product-roadmap.md` (e.g., `docs/mc-product-roadmap.md`)
 
-**Output**: `docs/[slug]-milestones-overview.md` (e.g., `docs/mc-milestones-overview.md`)
-
-**Process**:
-1. Create Milestone Progression diagram (visual roadmap)
-2. Define first milestone (Core) with full detail (Goal, Architecture, What Gets Built, Metrics, Outcomes, Why)
-3. Assess path clarity (can you see the giant steps?)
-4. Design milestone progression (each should build, validate, progress)
-5. Define additional milestones (if clear path visible)
-6. Add Strategic Decisions section (explain milestone order rationale)
-7. Document Success Criteria (per milestone + long-term)
-8. Add Next Steps
-
-**Key Principles**:
-- **Every project starts with a Core milestone** (core functionality)
-- **Clear path to north star**: Plan multiple milestones upfront if you can see the giant steps
-- **Unclear path**: Start with just Core - add milestones as clarity emerges through execution
-- **Each milestone should**: Build on previous learnings, validate a capability, progress toward north star
-- **Design-focused, not timeline-focused**: Focus on WHAT gets built and WHY, not rigid WHEN
-- **Visual-first**: Diagrams communicate strategy faster than text
-
-**Per-Milestone Sections**:
-- **Goal**: 2-3 sentences on what this achieves and why
-- **Architecture Diagram**: Visual specific to this milestone
-- **What Gets Built**: Phases with specific deliverables
-- **Success Metrics**: Measurable outcomes grouped by category
-- **Key Outcomes**: Checkbox list of what this proves
-- **Why [This Approach/Order]?**: Strategic rationale
+> See `references/3-product-roadmap-guide.md` for detailed process
 
 ### Stage 3 Complete Checklist
-- [ ] `docs/[slug]-milestones-overview.md` created using template
+- [ ] `docs/[slug]-product-roadmap.md` created using template
 - [ ] Milestone Progression diagram shows overall strategy
 - [ ] First milestone (Core) fully defined with all sections
 - [ ] Each milestone has Goal, Architecture, What Gets Built, Metrics, Outcomes, Why
 - [ ] Strategic Decisions section explains milestone order
 - [ ] Success Criteria defined for each milestone
 - [ ] Next Steps clear
-- [ ] Run `/verify-doc docs/[slug]-milestones-overview.md`
+- [ ] Run `/verify-doc docs/[slug]-product-roadmap.md`
 
-**Next**: → Stage 4: Milestone Design (detailed design per milestone)
+**Next**: Stage 4: Milestone Spec (detailed design per milestone)
 
 ---
 
-## Stage 4: Milestone Design
+## Stage 4: Milestone Spec
 
-**Goal**: Expand a single milestone into comprehensive, self-contained design document with implementation details
+**Goal**: Expand a single milestone into comprehensive, self-contained design document
 
 **Input**:
-- Milestones Overview (`docs/[slug]-milestones-overview.md`)
+- Product Roadmap (`docs/[slug]-product-roadmap.md`)
 - Architecture doc (`docs/[slug]-architecture.md`)
 
-**Template**: `assets/templates/milestone-design.md`
+**Template**: `assets/templates/4-milestone-spec.md`
+**Output**: `docs/[slug]-milestone-spec.md` (e.g., `docs/web-core-milestone-spec.md`)
 
-**Output**: `docs/[slug]-milestone.md` (e.g., `docs/web-core-milestone.md`)
-
-**Process**:
-1. Write Executive Summary (2-3 paragraphs + key principle)
-2. Expand Goal section (what it proves + what it doesn't include)
-3. Expand Architecture Overview (diagram, tech stack, cost structure)
-4. Design Core Components (3-6 components with full detail)
-5. Detail Implementation Phases (expand from overview with specifics)
-6. Expand Success Metrics (add measurement details and rationale)
-7. Add Key Outcomes (copy from overview, optionally expand)
-8. Add "Why This Approach?" section
-9. Document Design Decisions & Rationale
-10. Identify Risks & Mitigation strategies
-11. Document Open Questions (grouped by category)
-12. Define Next Steps (three time horizons)
-
-**Key Principles**:
-- **Self-Contained**: Document focuses ONLY on this milestone (no forward references to other milestones)
-- **Implementation Perspective**: Production-grade design, not prototypes
-- **Design-Focused**: Focus on WHAT and WHY, not rigid WHEN
-- **Visual Communication**: Diagrams show architecture and flows clearly
+> See `references/4-milestone-spec-guide.md` for detailed process
 
 ### Stage 4 Complete Checklist
-- [ ] `docs/[slug]-milestone.md` created using template
+- [ ] `docs/[slug]-milestone-spec.md` created using template
 - [ ] Executive Summary provides clear context
 - [ ] Goal section includes what it proves AND what it doesn't
 - [ ] Architecture has all three subsections (Diagram, Stack, Cost)
 - [ ] Core Components (3-6) each have all subsections
 - [ ] Implementation Phases expanded from overview with details
+- [ ] Testing Strategy defines approach and priorities
 - [ ] Success Metrics have measurement details and rationale
 - [ ] Design Decisions explain why this approach
 - [ ] Risks identified with mitigation strategies
 - [ ] Open Questions grouped by category
 - [ ] Next Steps have three time horizons
-- [ ] NO forward references to other milestones (use names like "mobile integration" instead of numbered references)
+- [ ] NO forward references to other milestones
+- [ ] Run `/verify-doc docs/[slug]-milestone-spec.md`
 
-**Next**: → Stage 5: PoC Design (break milestone into atomic PoCs)
+**Next**: Stage 5: PoC Spec (break milestone into atomic PoCs)
 
 ---
 
-## Stage 5: PoC Design
+## Stage 5: PoC Spec
 
-**Goal**: Define what needs to be proven and in what order — with PRODUCTION-GRADE thin slices
+**Goal**: Define what needs to be proven and in what order -- PRODUCTION-GRADE thin slices
 
 **Input**:
-- Milestone design from `docs/[slug]-milestone.md` (Stage 4 output)
-- Milestones overview from `docs/[slug]-milestones-overview.md` (Stage 3 output)
-- Architecture doc (`docs/[slug]-architecture.md`) (Stage 2 output)
+- Milestone Spec (`docs/[slug]-milestone-spec.md`)
+- Product Roadmap (`docs/[slug]-product-roadmap.md`)
+- Architecture doc (`docs/[slug]-architecture.md`)
 
-**Template**: `assets/templates/poc-design.md`
+**Template**: `assets/templates/5-poc-spec.md`
+**Output**: `docs/[slug]-poc-spec.md` (e.g., `docs/core-poc-spec.md`)
 
-**Naming**: `docs/[slug]-poc-design.md` where `[slug]` comes from your milestone in `docs/[project-slug]-milestones-overview.md`
-
-**Examples**: `docs/core-poc-design.md`, `docs/cloud-deployment-poc-design.md`
-
-**Process**:
-1. Refine architecture with implementation perspective
-2. Identify atomic things to prove (PoCs)
-3. Map dependencies between PoCs
-4. Create PoC diagram
-5. Define success criteria for each PoC
-
-**PoC Requirements**:
-
-Each PoC must be:
-- **Atomic**: Proves one specific thing (one capability/assumption, NOT one task - may include multiple related tasks)
+**PoC Requirements** (critical):
+- **Atomic**: Proves ONE specific thing
 - **Measurable**: Clear success criteria
-- **🔒 Self-contained**: Works independently; doesn't break existing functionality and existing tests
+- **Self-contained**: Works independently, doesn't break existing functionality
 
-**Golden Rule**: One feature = One PoC (minimize the number of PoCs; group related work)
+**Golden Rule**: One feature = One PoC (minimize PoCs; group related work)
 
-**Output**: `docs/[slug]-poc-design.md`
+> See `references/5-poc-spec-guide.md` for detailed process
 
 ### Stage 5 Complete Checklist
-- [ ] `docs/[slug]-poc-design.md` created using template
+- [ ] `docs/[slug]-poc-spec.md` created using template
 - [ ] Each PoC proves one specific thing
 - [ ] Dependencies mapped (which PoCs unlock others)
 - [ ] Success criteria measurable
 - [ ] Order of execution clear
-- [ ] Run `/verify-doc docs/[slug]-poc-design.md`
+- [ ] Run `/verify-doc docs/[slug]-poc-spec.md`
 
-**Next**: → Hand off to **dev skill** for implementation
+**Next**: Hand off to **dev skill** for implementation
 
 ---
 
-## Next: Hand Off to dev
+## Handoff to dev
 
-Once you have `docs/[slug]-poc-design.md` completed, hand off to the **dev** skill for implementation.
+Once `docs/[slug]-poc-spec.md` is complete, hand off to the **dev skill** for implementation.
 
-**dev** handles all development work through a repeating cycle: plan tasks → execute step-by-step → test → repeat.
+**dev** handles all development work through a repeating cycle: plan tasks, execute step-by-step, test, repeat.
 
 ---
 
 ## Reference Guides
 
-For detailed guidance on each stage:
-- `references/1-north-star-guide.md` - Stage 1 process
-- `references/2-architecture-guide.md` - Stage 2 process
-- `references/3-milestones-overview-guide.md` - Stage 3 process
-- `references/4-milestone-design-guide.md` - Stage 4 process
-- `references/5-poc-design-guide.md` - Stage 5 process
+Read when you need detailed process, examples, or edge case handling.
+
+| When to Read | Reference File |
+|--------------|----------------|
+| Starting Stage 1 or refining vision | `references/1-product-vision-guide.md` |
+| Starting Stage 2 or designing architecture | `references/2-architecture-guide.md` |
+| Starting Stage 3 or breaking into milestones | `references/3-product-roadmap-guide.md` |
+| Starting Stage 4 or expanding a milestone | `references/4-milestone-spec-guide.md` |
+| Starting Stage 5 or defining PoCs | `references/5-poc-spec-guide.md` |

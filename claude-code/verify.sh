@@ -26,6 +26,10 @@ OLD_SKILLS=(
 OLD_COMMANDS=(
     "vp-transcript.md"
     "vp-meta.md"
+    "design-northstar.md"
+    "design-milestones-overview.md"
+    "design-milestone-design.md"
+    "design-poc-design.md"
 )
 
 # Key commands that must exist (sanity check)

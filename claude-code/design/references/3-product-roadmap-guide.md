@@ -1,7 +1,7 @@
-# Stage 3: Milestones Overview
+# Stage 3: Product Roadmap
 
 ## Goal
-Break North Star + Architecture into strategic milestones with clear progression, detailed architecture per milestone, and measurable outcomes.
+Break Product Vision + Architecture into strategic milestones with clear progression, detailed architecture per milestone, and measurable outcomes.
 
 ## Code Allowed
 NO - This is pure strategic planning
@@ -10,7 +10,7 @@ NO - This is pure strategic planning
 NOT NEEDED - Focus on WHAT and WHY, not WHEN. Avoid timeline estimates (e.g., "Week 1-2", "2 weeks", "3 months"). Design phases don't need schedules.
 
 ## Input
-- Completed North Star doc (`docs/[slug]-north-star.md`)
+- Completed Product Vision doc (`docs/[slug]-product-vision.md`)
 - Completed Architecture doc (`docs/[slug]-architecture.md`)
 - Optional: Research findings
 
@@ -75,9 +75,9 @@ User Acquisition:
 #### Key Outcomes
 Checkbox list of what this milestone proves:
 ```
-✅ Core platform works
-✅ AI validated
-✅ Ready for next milestone
+ Core platform works
+ AI validated
+ Ready for next milestone
 ```
 
 #### Why [This Approach/Order]?
@@ -90,10 +90,10 @@ Rationale for strategic decisions:
 
 ### 3. Assess Path Clarity
 
-**Ask**: Can you see the giant steps to reach the north star?
+**Ask**: Can you see the giant steps to reach the product vision?
 
 **Clear Path Visible** (plan multiple milestones upfront):
-- You can articulate major phases (e.g., "Web-First → Mobile → Scale → Enterprise")
+- You can articulate major phases (e.g., "Web-First -> Mobile -> Scale -> Enterprise")
 - Each phase has a clear theme and proof point
 - Dependencies between phases are obvious
 - Example: Platform with known scaling path
@@ -110,14 +110,14 @@ Rationale for strategic decisions:
 **Core Principle**: Each milestone should:
 1. **Build** on the previous milestone's validated learnings
 2. **Validate** a specific capability or assumption
-3. **Progress** meaningfully toward the north star
+3. **Progress** meaningfully toward the product vision
 
 **Example Progression**:
 ```
-Core → Validates basic functionality works
-Mobile → Builds on Core, validates mobile integration
-Scale → Builds on Mobile, validates multi-tenant architecture
-Enterprise → Builds on Scale, validates B2B features
+Core -> Validates basic functionality works
+Mobile -> Builds on Core, validates mobile integration
+Scale -> Builds on Mobile, validates multi-tenant architecture
+Enterprise -> Builds on Scale, validates B2B features
 ```
 
 Each milestone unlocks the next. Don't skip steps - the progression should feel natural and logical.
@@ -134,7 +134,7 @@ Use same format as the first milestone for each additional milestone:
 
 **Keep each milestone focused** on a single theme or major capability expansion.
 
-**How many milestones?** As many as needed to reach your north star. Common patterns:
+**How many milestones?** As many as needed to reach your product vision. Common patterns:
 - Small projects: 1-2 milestones
 - Medium projects: 2-4 milestones
 - Large platforms: 4-6+ milestones
@@ -148,7 +148,7 @@ Explain the rationale for the sequence:
 ```
 Web-First (Core):
 - Validate core features without mobile complexity
-- Faster iteration: No app store dependencies
+- Faster iteration: No app store reviews
 - Build adapter pattern from the start
 
 Mobile Integration:
@@ -191,15 +191,15 @@ Current Status: Design complete, ready to start Core
 Next Action: Begin Core implementation
 
 Detailed Plans (to be created):
-- Core (./core-milestone.md)
-- Mobile (./mobile-milestone.md)
+- Core (./core-milestone-spec.md)
+- Mobile (./mobile-milestone-spec.md)
 ```
 
 ## Output
 
-`docs/[slug]-milestones-overview.md` using `assets/templates/milestones-overview.md`
+`docs/[slug]-product-roadmap.md` using `assets/templates/3-product-roadmap.md`
 
-Example: `docs/mc-milestones-overview.md`
+Example: `docs/mc-product-roadmap.md`
 
 ## Key Principles
 
@@ -225,13 +225,15 @@ Example: `docs/mc-milestones-overview.md`
 
 ## Verification Checklist
 
+- [ ] Template read from `assets/templates/3-product-roadmap.md`
+- [ ] Output follows template structure exactly
 - [ ] Milestone Progression diagram shows overall strategy
 - [ ] First milestone (Core) is fully defined with all sections
 - [ ] Each milestone has Goal, Architecture, What Gets Built, Metrics, Outcomes, Why
 - [ ] Strategic Decisions section explains milestone order
 - [ ] Success Criteria defined for each milestone
 - [ ] Next Steps clear
-- [ ] Run `/verify-doc docs/[slug]-milestones-overview.md`
+- [ ] Run `/verify-doc docs/[slug]-product-roadmap.md`
 
 ## Examples
 
@@ -240,7 +242,7 @@ Example: `docs/mc-milestones-overview.md`
 ```markdown
 ## Milestone Progression
 
-[Visual diagram showing: Core → Mobile: Game 1 → Mobile: Game 2]
+[Visual diagram showing: Core -> Mobile: Game 1 -> Mobile: Game 2]
 
 ## Core
 
@@ -266,9 +268,9 @@ Platform Functionality:
 - AI Quality: >80% positive feedback
 
 Key Outcomes:
-✅ Core platform works on web
-✅ Email list collection started
-✅ Ready for mobile
+ Core platform works on web
+ Email list collection started
+ Ready for mobile
 
 Why Web-First Wins?
 - Faster iteration: No app store reviews
@@ -297,8 +299,8 @@ Success Metrics:
 - Output quality acceptable
 
 Key Outcomes:
-✅ Pipeline functional
-✅ Ready to determine next steps
+ Pipeline functional
+ Ready to determine next steps
 
 ## Strategic Decisions
 
@@ -311,10 +313,10 @@ viability. Path unclear - need to validate core concept first.
 - **Too timeline-focused**: Avoid rigid month/week commitments - focus on phases and deliverables
 - **Not visual enough**: Add diagrams! They communicate strategy faster than text
 - **Missing rationale**: Always explain WHY this order makes sense
-- **Vague metrics**: "Works well" → "Responds in <3 seconds with >80% positive feedback"
+- **Vague metrics**: "Works well" -> "Responds in <3 seconds with >80% positive feedback"
 - **Planning too far ahead**: If path is unclear, start with just Core
 - **Skipping architecture diagrams**: Each milestone needs its own architecture view
 
 ## Next Stage
 
-→ Stage 4: Milestone Design (run once per milestone, starting with Core)
+-> Stage 4: Milestone Spec (run once per milestone, starting with Core)

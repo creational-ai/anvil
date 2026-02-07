@@ -1,4 +1,4 @@
-# Stage 5: PoC Design
+# Stage 5: PoC Spec
 
 ## Goal
 Define what needs to be proven and in what order — with PRODUCTION-GRADE thin slices.
@@ -10,8 +10,8 @@ NO
 NOT NEEDED - Focus on WHAT and WHY, not WHEN. Avoid timeline estimates (e.g., "Week 1-2", "2 weeks", "3 months"). Design phases don't need schedules.
 
 ## Input
-- Milestone design from `[slug]-milestone.md` (Stage 4 output)
-- Milestones overview from `[slug]-milestones-overview.md` (Stage 3 output)
+- Milestone Spec from `[slug]-milestone-spec.md` (Stage 4 output)
+- Product Roadmap from `[slug]-product-roadmap.md` (Stage 3 output)
 - Architecture doc (`[slug]-architecture.md`) (Stage 2 output)
 
 **Note**: Run this stage once per milestone, starting with Core.
@@ -24,12 +24,12 @@ NOT NEEDED - Focus on WHAT and WHY, not WHEN. Avoid timeline estimates (e.g., "W
 5. Define success criteria for each PoC
 
 ## Output
-`[slug]-poc-design.md` artifact using `assets/templates/poc-design.md`
+`[slug]-poc-spec.md` artifact using `assets/templates/5-poc-spec.md`
 
-Example: `core-poc-design.md`, `cloud-deployment-poc-design.md`
+Example: `core-poc-spec.md`, `cloud-deployment-poc-spec.md`
 
 ## Verification Checklist
-- [ ] Template read from `assets/templates/poc-design.md`
+- [ ] Template read from `assets/templates/5-poc-spec.md`
 - [ ] Artifact follows template structure exactly
 - [ ] Each PoC proves one specific thing
 - [ ] Dependencies mapped (which PoCs unlock others)
@@ -180,7 +180,7 @@ When a PoC doesn't meet success criteria:
 2. **Assess impact** — Does this invalidate the milestone approach? Or just this PoC?
 3. **Decide next action**:
    - **Retry with different approach** — Update PoC design and re-attempt
-   - **Pivot the milestone** — Revisit milestone-design with new constraints
+   - **Pivot the milestone** — Revisit milestone-spec with new constraints
    - **Revisit architecture** — If fundamental assumption was wrong
    - **Kill the milestone** — If the capability isn't achievable/valuable
 

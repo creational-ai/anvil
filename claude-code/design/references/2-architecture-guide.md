@@ -10,7 +10,7 @@ NO
 NOT NEEDED - Focus on WHAT and WHY, not WHEN. Avoid timeline estimates (e.g., "Week 1-2", "2 weeks", "3 months"). Design phases don't need schedules.
 
 ## Input
-- North Star doc from Stage 1 (`docs/[slug]-north-star.md`)
+- Product Vision doc from Stage 1 (`docs/[slug]-product-vision.md`)
 
 ## Process
 1. Define system architecture
@@ -20,16 +20,22 @@ NOT NEEDED - Focus on WHAT and WHY, not WHEN. Avoid timeline estimates (e.g., "W
 5. Identify integration points
 
 ## Output
-`docs/[slug]-architecture.md` using `assets/templates/architecture.md`
+`docs/[slug]-architecture.md` using `assets/templates/2-architecture.md`
 
 Example: `docs/mc-architecture.md`
 
 ## Verification Checklist
+- [ ] Template read from `assets/templates/2-architecture.md`
+- [ ] Output follows template structure exactly
 - [ ] Architecture diagram complete
 - [ ] Tech stack justified
 - [ ] Data flows documented
+- [ ] Data model documented (entities, relationships)
+- [ ] Security considerations addressed
+- [ ] Observability approach defined
 - [ ] Integration points identified
 - [ ] No code written (only diagrams and descriptions)
+- [ ] Run `/verify-doc docs/[slug]-architecture.md`
 
 ## What IS Allowed
 - High-level architecture diagrams (ASCII or descriptions)
@@ -57,4 +63,4 @@ Example: `docs/mc-architecture.md`
 - Not considering failure modes
 
 ## Next Stage
-→ Stage 3: Milestones Overview
+-> Stage 3: Product Roadmap

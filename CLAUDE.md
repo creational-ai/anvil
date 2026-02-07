@@ -42,7 +42,7 @@ idea-to-mvp/
     ├── README.md               # CD-specific documentation
     ├── package.sh              # Build .skill files
     ├── unpackage.sh            # Extract .skill files (single or all)
-    ├── design/                 # Design skill (v1.5.0)
+    ├── design/                 # Design skill (v2.0.0)
     ├── market-research/        # Market validation (v1.1.0)
     ├── business-validation/    # Business validation (v1.1.0)
     ├── framework-alignment/    # Framework analysis (v1.0.0)
@@ -64,15 +64,14 @@ idea-to-mvp/
 
 **IMPORTANT**: Always edit the source in `claude-code/`, then deploy. Never edit deployed files in `~/.claude/skills/` — they get overwritten on deploy.
 
+**IMPORTANT**: `deploy-genesis.sh` is a SEPARATE manual action. Do NOT run it as part of "deploy and verify" or any routine deploy. Only run it when the user explicitly asks to deploy to genesis.
+
 ## Key Commands
 
 ```bash
 # Deploy Claude Code skills and commands (local)
 cd claude-code
 ./deploy.sh
-
-# Deploy Claude Code skills to genesis (Raspberry Pi)
-./deploy-genesis.sh
 
 # Verify deployment
 ./verify.sh
@@ -92,11 +91,11 @@ cd claude-desktop
 ## File Naming Conventions
 
 **design skill creates:**
-- `[slug]-north-star.md` - Vision and goals (e.g., `mc-north-star.md`)
+- `[slug]-product-vision.md` - Vision and goals (e.g., `mc-product-vision.md`)
 - `[slug]-architecture.md` - Architecture (e.g., `mc-architecture.md`)
-- `[slug]-milestones-overview.md` - Strategic milestone roadmap
-- `[slug]-milestone.md` - Detailed milestone design (e.g., `core-milestone.md`)
-- `[slug]-poc-design.md` - PoC plan (e.g., `core-poc-design.md`)
+- `[slug]-product-roadmap.md` - Strategic milestone roadmap
+- `[slug]-milestone-spec.md` - Detailed milestone spec (e.g., `core-milestone-spec.md`)
+- `[slug]-poc-spec.md` - PoC spec (e.g., `core-poc-spec.md`)
 
 **dev skill creates:**
 - `PROJECT_STATE.md` - Task and milestone tracking
@@ -108,11 +107,11 @@ cd claude-desktop
 ## Templates
 
 **design** (`claude-code/design/assets/templates/`):
-- `north-star.md` - Stage 1 template
-- `architecture.md` - Stage 2 template
-- `milestones-overview.md` - Stage 3 template
-- `milestone-design.md` - Stage 4 template
-- `poc-design.md` - Stage 5 template
+- `1-product-vision.md` - Stage 1 template
+- `2-architecture.md` - Stage 2 template
+- `3-product-roadmap.md` - Stage 3 template
+- `4-milestone-spec.md` - Stage 4 template
+- `5-poc-spec.md` - Stage 5 template
 
 **dev** (`claude-code/dev/assets/templates/`):
 - `design.md` - Stage 1 output (Problem Analysis + Proposed Steps)
@@ -125,7 +124,7 @@ cd claude-desktop
 ## Reference Guides
 
 **design** (`claude-code/design/references/`):
-- `1-north-star-guide.md` through `5-poc-design-guide.md`
+- `1-product-vision-guide.md` through `5-poc-spec-guide.md`
 
 **dev** (`claude-code/dev/references/`):
 - `1-design-guide.md` through `3-execution-guide.md`
@@ -135,11 +134,11 @@ cd claude-desktop
 ## Slash Commands
 
 **design commands**:
-- `/design-northstar` - Create vision document (Stage 1)
+- `/design-product-vision` - Create vision document (Stage 1)
 - `/design-architecture` - Create architecture document (Stage 2)
-- `/design-milestones-overview` - Create milestone roadmap (Stage 3)
-- `/design-milestone-design` - Create detailed milestone design (Stage 4)
-- `/design-poc-design` - Create PoC breakdown (Stage 5)
+- `/design-product-roadmap` - Create milestone roadmap (Stage 3)
+- `/design-milestone-spec` - Create detailed milestone spec (Stage 4)
+- `/design-poc-spec` - Create PoC spec (Stage 5)
 
 **dev commands**:
 - `/dev-design` - Create design document (Stage 1)

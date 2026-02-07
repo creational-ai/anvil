@@ -1,7 +1,7 @@
-# Stage 3: Milestones Overview
+# Stage 3: Product Roadmap
 
 ## Goal
-Break North Star + Architecture into strategic milestones with clear progression, detailed architecture per milestone, and measurable outcomes.
+Break Product Vision + Architecture into strategic milestones with clear progression, detailed architecture per milestone, and measurable outcomes.
 
 ## Code Allowed
 NO - This is pure strategic planning
@@ -10,7 +10,7 @@ NO - This is pure strategic planning
 NOT NEEDED - Focus on WHAT and WHY, not WHEN. Avoid timeline estimates (e.g., "Week 1-2", "2 weeks", "3 months"). Design phases don't need schedules.
 
 ## Input
-- Completed North Star doc (`[slug]-north-star.md`)
+- Completed Product Vision doc (`[slug]-product-vision.md`)
 - Completed Architecture doc (`[slug]-architecture.md`)
 - Optional: Research findings
 
@@ -90,7 +90,7 @@ Rationale for strategic decisions:
 
 ### 3. Assess Path Clarity
 
-**Ask**: Can you see the giant steps to reach the north star?
+**Ask**: Can you see the giant steps to reach the product vision?
 
 **Clear Path Visible** (plan multiple milestones upfront):
 - You can articulate major phases (e.g., "Web-First → Mobile → Scale → Enterprise")
@@ -110,7 +110,7 @@ Rationale for strategic decisions:
 **Core Principle**: Each milestone should:
 1. **Build** on the previous milestone's validated learnings
 2. **Validate** a specific capability or assumption
-3. **Progress** meaningfully toward the north star
+3. **Progress** meaningfully toward the product vision
 
 **Example Progression**:
 ```
@@ -134,7 +134,7 @@ Use same format as the first milestone for each additional milestone:
 
 **Keep each milestone focused** on a single theme or major capability expansion.
 
-**How many milestones?** As many as needed to reach your north star. Common patterns:
+**How many milestones?** As many as needed to reach your product vision. Common patterns:
 - Small projects: 1-2 milestones
 - Medium projects: 2-4 milestones
 - Large platforms: 4-6+ milestones
@@ -191,15 +191,15 @@ Current Status: Design complete, ready to start Core
 Next Action: Begin Core implementation
 
 Detailed Plans (to be created):
-- Core (./core-milestone.md)
-- Mobile (./mobile-milestone.md)
+- Core (./core-milestone-spec.md)
+- Mobile (./mobile-milestone-spec.md)
 ```
 
 ## Output
 
-`[slug]-milestones-overview.md` artifact using `assets/templates/milestones-overview.md`
+`[slug]-product-roadmap.md` artifact using `assets/templates/3-product-roadmap.md`
 
-Example: `mc-milestones-overview.md`
+Example: `mc-product-roadmap.md`
 
 ## Key Principles
 
@@ -225,7 +225,7 @@ Example: `mc-milestones-overview.md`
 
 ## Verification Checklist
 
-- [ ] Template read from `assets/templates/milestones-overview.md`
+- [ ] Template read from `assets/templates/3-product-roadmap.md`
 - [ ] Artifact follows template structure exactly
 - [ ] Milestone Progression diagram shows overall strategy
 - [ ] First milestone (Core) is fully defined with all sections
@@ -318,4 +318,4 @@ viability. Path unclear - need to validate core concept first.
 
 ## Next Stage
 
-→ Stage 4: Milestone Design (run once per milestone, starting with Core)
+→ Stage 4: Milestone Spec (run once per milestone, starting with Core)

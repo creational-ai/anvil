@@ -1,4 +1,4 @@
-# /design-milestone-design
+# /design-milestone-spec
 
 Expand a single milestone into comprehensive, self-contained design document.
 
@@ -9,23 +9,23 @@ Stage 4 of design skill: Create detailed design for one milestone with implement
 ## Resources
 
 **Read these for guidance**:
-- `~/.claude/skills/design/SKILL.md` - See "Stage 4: Milestone Design" section
-- `~/.claude/skills/design/references/4-milestone-design-guide.md` - Detailed process
-- `~/.claude/skills/design/assets/templates/milestone-design.md` - Output template
+- `~/.claude/skills/design/SKILL.md` - See "Stage 4: Milestone Spec" section
+- `~/.claude/skills/design/references/4-milestone-spec-guide.md` - Detailed process
+- `~/.claude/skills/design/assets/templates/4-milestone-spec.md` - Output template
 
 ## Prerequisites
 
 Must complete before running this command:
-- [ ] Stage 3: Milestones Overview (`docs/[slug]-milestones-overview.md`)
+- [ ] Stage 3: Product Roadmap (`docs/[slug]-product-roadmap.md`)
 - [ ] Stage 2: Architecture (`docs/[slug]-architecture.md`)
 
 ## Input
 
 **First argument (required):**
-- Milestone slug (e.g., "core", "cloud") → Reads milestone from `docs/[project-slug]-milestones-overview.md`
+- Milestone slug (e.g., "core", "cloud") → Reads milestone from `docs/[project-slug]-product-roadmap.md`
 
 **Required docs (auto-read):**
-- `docs/[project-slug]-milestones-overview.md` - Milestone overview with high-level sections
+- `docs/[project-slug]-product-roadmap.md` - Product roadmap with high-level sections
 - `docs/[project-slug]-architecture.md` - Architecture document
 
 **User notes (optional):**
@@ -36,16 +36,16 @@ Must complete before running this command:
 **Examples:**
 ```bash
 # Design first milestone
-/design-milestone-design "core"
+/design-milestone-spec "core"
 
 # Later, design another milestone
-/design-milestone-design "cloud"
+/design-milestone-spec "cloud"
 ```
 
 **Output naming:**
-- Derives from milestone in `docs/[project-slug]-milestones-overview.md`
-- Creates `docs/[milestone-slug]-milestone.md`
-- Example: `docs/core-milestone.md`, `docs/cloud-milestone.md`
+- Derives from milestone in `docs/[project-slug]-product-roadmap.md`
+- Creates `docs/[milestone-slug]-milestone-spec.md`
+- Example: `docs/core-milestone-spec.md`, `docs/cloud-milestone-spec.md`
 
 ## Key Requirements
 
@@ -53,24 +53,25 @@ Must complete before running this command:
 
 ## Process
 
-Follow the guidance in `4-milestone-design-guide.md`:
-1. Select milestone from overview
+Follow the guidance in `4-milestone-spec-guide.md`:
+1. Select milestone from product roadmap
 2. Write Executive Summary (2-3 paragraphs + key principle)
 3. Expand Goal section (what it proves + what it doesn't)
 4. Expand Architecture Overview (diagram, stack, cost)
 5. Design Core Components (3-6 components with full detail)
 6. Detail Implementation Phases
 7. Expand Success Metrics
-8. Add Key Outcomes
-9. Document Design Decisions & Rationale
-10. Identify Risks & Mitigation
-11. Document Open Questions
-12. Define Next Steps (three time horizons)
+8. Define Testing Strategy
+9. Add Key Outcomes
+10. Document Design Decisions & Rationale
+11. Identify Risks & Mitigation
+12. Document Open Questions
+13. Define Next Steps (three time horizons)
 
 ## Output
 
 Creates:
-- `docs/[slug]-milestone.md` - Comprehensive milestone design
+- `docs/[slug]-milestone-spec.md` - Comprehensive milestone design
 
 ## Key Principles
 
@@ -82,6 +83,6 @@ Creates:
 
 ## After Completion
 
-User will run `/verify-doc docs/[slug]-milestone.md`, fix issues, then proceed to Stage 5 (PoC Design).
+User will run `/verify-doc docs/[slug]-milestone-spec.md`, fix issues, then proceed to Stage 5 (PoC Spec).
 
-**Next Stage**: Create PoC design for this milestone, breaking it into atomic proof-of-concepts.
+**Next Stage**: Create PoC spec for this milestone, breaking it into atomic proof-of-concepts.

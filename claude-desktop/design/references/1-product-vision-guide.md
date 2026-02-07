@@ -1,4 +1,4 @@
-# Stage 1: North Star
+# Stage 1: Product Vision
 
 ## Goal
 Refine the idea into a clear, feasible vision.
@@ -19,11 +19,13 @@ NOT NEEDED - Focus on WHAT and WHY, not WHEN. Avoid timeline estimates (e.g., "W
 4. Surface assumptions and unknowns
 
 ## Output
-`docs/[slug]-north-star.md` using `assets/templates/north-star.md`
+`[slug]-product-vision.md` artifact using `assets/templates/1-product-vision.md`
 
-Example: `docs/mc-north-star.md`
+Example: `mc-product-vision.md`
 
 ## Verification Checklist
+- [ ] Template read from `assets/templates/1-product-vision.md`
+- [ ] Artifact follows template structure exactly
 - [ ] Problem clearly stated
 - [ ] Solution approach makes sense
 - [ ] Technical feasibility seems reasonable
@@ -40,7 +42,7 @@ Example: `docs/mc-north-star.md`
 - Jumping to solutions before understanding the problem
 - Being too vague about the target user
 - Ignoring technical constraints
-- Scope creep at north star stage
+- Scope creep at vision stage
 
 ## Next Stage
 → Stage 2: Architecture

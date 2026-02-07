@@ -1,7 +1,7 @@
-# Stage 4: Milestone Design
+# Stage 4: Milestone Spec
 
 ## Goal
-Expand a single milestone from `docs/[slug]-milestones-overview.md` into a comprehensive, self-contained design document with implementation details.
+Expand a single milestone from `[slug]-product-roadmap.md` into a comprehensive, self-contained design document with implementation details.
 
 ## Code Allowed
 NO - This is pure design planning
@@ -10,8 +10,8 @@ NO - This is pure design planning
 NOT NEEDED - Focus on WHAT and WHY, not WHEN. Avoid timeline estimates (e.g., "Week 1-2", "2 weeks", "3 months"). Design phases don't need schedules.
 
 ## Input
-- Completed Milestones Overview (`docs/[slug]-milestones-overview.md`) (Stage 3 output)
-- Completed Architecture doc (`docs/[slug]-architecture.md`) (Stage 2 output)
+- Completed Product Roadmap (`[slug]-product-roadmap.md`) (Stage 3 output)
+- Completed Architecture doc (`[slug]-architecture.md`) (Stage 2 output)
 
 **Note**: Run this process once per milestone, starting with Core.
 
@@ -21,7 +21,7 @@ NOT NEEDED - Focus on WHAT and WHY, not WHEN. Avoid timeline estimates (e.g., "W
 
 Choose which milestone to detail (usually Core first).
 
-From `milestones-overview.md`, you already have:
+From `product-roadmap.md`, you already have:
 - Goal (2-3 sentences)
 - Architecture Diagram (high-level)
 - What Gets Built (phases with deliverables)
@@ -40,7 +40,7 @@ From `milestones-overview.md`, you already have:
   - What this milestone accomplishes
   - Why it's important
   - How it fits into the overall roadmap
-- Pull from the Goal section in milestones-overview.md and expand with context
+- Pull from the Goal section in product-roadmap.md and expand with context
 - Add a **Key Principle**: One sentence capturing the core philosophy
 
 **Example**:
@@ -62,7 +62,7 @@ then expand to mobile with proven patterns.
 
 ### 3. Expand the Goal Section
 
-**Copy** the Goal from milestones-overview.md, then **add**:
+**Copy** the Goal from product-roadmap.md, then **add**:
 
 **What This Milestone Proves**:
 - List 3-5 specific proof points
@@ -96,7 +96,7 @@ working perfectly before adding mobile complexity.
 
 ### 4. Expand Architecture Overview
 
-**Copy** the architecture diagram from milestones-overview.md into the High-Level System Diagram section.
+**Copy** the architecture diagram from product-roadmap.md into the High-Level System Diagram section.
 
 **Add three new subsections**:
 
@@ -173,7 +173,7 @@ Step 3
 
 ### 6. Detail Implementation Phases
 
-**Copy** the phases from milestones-overview.md, then **expand each**:
+**Copy** the phases from product-roadmap.md, then **expand each**:
 
 #### For Each Phase:
 ```markdown
@@ -230,7 +230,7 @@ Step 3
 
 ### 7. Expand Success Metrics
 
-**Copy** metrics from milestones-overview.md, then **add detail**:
+**Copy** metrics from product-roadmap.md, then **add detail**:
 
 For each metric, include:
 - Target from overview
@@ -252,9 +252,37 @@ For each metric, include:
 - Why: Validates AI provides genuine value, not just noise
 ```
 
-### 8. Add Key Outcomes
+### 8. Add Testing Strategy
 
-**Copy** from milestones-overview.md. Optionally **expand** with sub-bullets if helpful:
+**Philosophy**: Production-grade quality from day one, but sized for first 200 users.
+
+**Include**:
+- **Test Coverage Approach**: What gets unit tested, integration tested, E2E tested
+- **Quality Gates**: What must pass before deployment
+- **What We're NOT Testing (Yet)**: Tests deferred until scale milestone
+
+**Example**:
+```markdown
+## Testing Strategy
+
+### Test Coverage Approach
+- **Unit Tests**: Core business logic, data transformations, validation rules
+- **Integration Tests**: API endpoints, database operations, external service calls
+- **E2E Tests**: User registration flow, core purchase flow, AI chat conversation
+
+### Quality Gates
+- All tests pass before merge
+- Manual smoke test on staging before production deploy
+
+### What We're NOT Testing (Yet)
+- Load testing (deferred until 200+ users)
+- Penetration testing (deferred until security milestone)
+- Performance benchmarks (deferred until scale milestone)
+```
+
+### 9. Add Key Outcomes
+
+**Copy** from product-roadmap.md. Optionally **expand** with sub-bullets if helpful:
 
 ```markdown
 ✅ **Core platform works on web**
@@ -266,9 +294,9 @@ For each metric, include:
    - Response quality meets >80% positive feedback target
 ```
 
-### 9. Add "Why This Approach?" Section
+### 10. Add "Why This Approach?" Section
 
-If milestones-overview.md has a "Why [X]?" section, **copy and optionally expand**.
+If product-roadmap.md has a "Why [X]?" section, **copy and optionally expand**.
 
 If not, **create** based on strategic decisions in the architecture:
 
@@ -291,7 +319,7 @@ If not, **create** based on strategic decisions in the architecture:
 - Simpler to gather feedback
 ```
 
-### 10. Document Design Decisions & Rationale
+### 11. Document Design Decisions & Rationale
 
 For each major technology or approach choice, explain:
 - Why this was chosen
@@ -321,7 +349,7 @@ For each major technology or approach choice, explain:
 and vendor lock-in vs. Inngest's developer experience)
 ```
 
-### 11. Identify Risks & Mitigation
+### 12. Identify Risks & Mitigation
 
 For each significant risk:
 
@@ -349,7 +377,7 @@ For each significant risk:
 - Fallback: Downgrade to smaller instances or pause non-critical services
 ```
 
-### 12. Document Open Questions
+### 13. Document Open Questions
 
 Group related questions by category (Infrastructure, Features, Technical, etc.):
 
@@ -374,7 +402,7 @@ Group related questions by category (Infrastructure, Features, Technical, etc.):
   - Decision: Start with 7 days, extend to 14 days once stable
 ```
 
-### 13. Define Next Steps
+### 14. Define Next Steps
 
 Break into three time horizons:
 
@@ -412,13 +440,13 @@ Break into three time horizons:
 3. Document learnings for next milestone
 ```
 
-### 14. Add Document Metadata
+### 15. Add Document Metadata
 
 At the top:
 ```markdown
 **Status**: Planning | In Progress | Complete
-**Parent Document**: [Milestones Overview](./milestones-overview.md)
-**Architecture Reference**: [Architecture Doc](./[slug]-architecture.md)
+**Parent Document**: [Product Roadmap]([slug]-product-roadmap.md)
+**Architecture Reference**: [Architecture Doc]([slug]-architecture.md)
 ```
 
 At the bottom:
@@ -429,9 +457,9 @@ At the bottom:
 
 ## Output
 
-`docs/[slug]-milestone.md` using `assets/templates/milestone-design.md`
+`[slug]-milestone-spec.md` artifact using `assets/templates/4-milestone-spec.md`
 
-Example: `docs/web-core-milestone.md`
+Example: `web-core-milestone-spec.md`
 
 ## Key Principles
 
@@ -460,12 +488,15 @@ Example: `docs/web-core-milestone.md`
 
 ## Verification Checklist
 
+- [ ] Template read from `assets/templates/4-milestone-spec.md`
+- [ ] Artifact follows template structure exactly
 - [ ] Executive Summary provides clear context
 - [ ] Goal section includes what it proves AND what it doesn't
 - [ ] Architecture has all three subsections (Diagram, Stack, Cost)
 - [ ] Core Components (3-6) each have all five subsections
 - [ ] Implementation Phases expanded from overview with details
 - [ ] Success Metrics have measurement details and rationale
+- [ ] Testing Strategy defines coverage approach and quality gates
 - [ ] Design Decisions explain why this approach
 - [ ] Risks identified with mitigation strategies
 - [ ] Open Questions grouped by category
@@ -484,10 +515,10 @@ Example: `docs/web-core-milestone.md`
 
 ## Example Workflow
 
-1. Open `docs/[slug]-milestones-overview.md`
+1. Open `[slug]-product-roadmap.md`
 2. Find the milestone section to detail
-3. Use `assets/templates/milestone-design.md` template → save as `docs/web-core-milestone.md`
-4. Work through sections 1-14 above, expanding each area
+3. Use `assets/templates/4-milestone-spec.md` template → save as `web-core-milestone-spec.md`
+4. Work through sections 1-15 above, expanding each area
 5. Review architecture doc for technical details to include
 6. Add implementation perspective (how things connect, error handling, configuration)
 7. Remove any forward references to other milestones
@@ -496,5 +527,5 @@ Example: `docs/web-core-milestone.md`
 
 ## Next Stage
 
-After completing the detailed milestone design doc, proceed to:
-→ Stage 5: PoC Design (break milestone into atomic proof-of-concepts)
+After completing the detailed milestone spec doc, proceed to:
+→ Stage 5: PoC Spec (break milestone into atomic proof-of-concepts)

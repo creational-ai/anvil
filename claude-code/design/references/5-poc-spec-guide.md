@@ -1,7 +1,7 @@
-# Stage 5: PoC Design
+# Stage 5: PoC Spec
 
 ## Goal
-Define what needs to be proven and in what order — with PRODUCTION-GRADE thin slices.
+Define what needs to be proven and in what order -- with PRODUCTION-GRADE thin slices.
 
 ## Code Allowed
 NO
@@ -10,8 +10,8 @@ NO
 NOT NEEDED - Focus on WHAT and WHY, not WHEN. Avoid timeline estimates (e.g., "Week 1-2", "2 weeks", "3 months"). Design phases don't need schedules.
 
 ## Input
-- Milestone design from `docs/[slug]-milestone.md` (Stage 4 output)
-- Milestones overview from `docs/[slug]-milestones-overview.md` (Stage 3 output)
+- Milestone Spec from `docs/[slug]-milestone-spec.md` (Stage 4 output)
+- Product Roadmap from `docs/[slug]-product-roadmap.md` (Stage 3 output)
 - Architecture doc (`docs/[slug]-architecture.md`) (Stage 2 output)
 
 **Note**: Run this stage once per milestone, starting with Core.
@@ -24,15 +24,19 @@ NOT NEEDED - Focus on WHAT and WHY, not WHEN. Avoid timeline estimates (e.g., "W
 5. Define success criteria for each PoC
 
 ## Output
-`docs/[slug]-poc-design.md` using `assets/templates/poc-design.md`
+`docs/[slug]-poc-spec.md` using `assets/templates/5-poc-spec.md`
 
-Example: `docs/core-poc-design.md`, `docs/cloud-deployment-poc-design.md`
+Example: `docs/core-poc-spec.md`, `docs/cloud-deployment-poc-spec.md`
 
 ## Verification Checklist
+- [ ] Template read from `assets/templates/5-poc-spec.md`
+- [ ] Output follows template structure exactly
 - [ ] Each PoC proves one specific thing
 - [ ] Dependencies mapped (which PoCs unlock others)
 - [ ] Success criteria measurable
 - [ ] Order of execution clear
+- [ ] Feedback loop guidance included
+- [ ] Run `/verify-doc docs/[slug]-poc-spec.md`
 
 ## What Makes a Good PoC
 
@@ -62,7 +66,7 @@ Each PoC must be:
 - Clearly shows what it proves and what capabilities it opens up for dependent PoCs
 - Safe to pause work at any PoC boundary
 
-**⚠️ CRITICAL: Minimize the Number of PoCs**
+**CRITICAL: Minimize the Number of PoCs**
 
 **Golden Rule**: One feature = One PoC (unless it spans the entire stack)
 
@@ -80,7 +84,7 @@ Each PoC must be:
 
 **GOOD - Minimized PoCs:**
 ```
-✅ PoC 3: User Management (One PoC)
+PoC 3: User Management (One PoC)
    - Database schema for users
    - CRUD API endpoints
    - Authentication logic
@@ -90,21 +94,21 @@ Each PoC must be:
 
 **BAD - Too many micro-PoCs:**
 ```
-❌ PoC 3: User Database Schema
-❌ PoC 4: Create User API
-❌ PoC 5: Read User API
-❌ PoC 6: Update User API
-❌ PoC 7: Delete User API
-❌ PoC 8: User Authentication
+PoC 3: User Database Schema
+PoC 4: Create User API
+PoC 5: Read User API
+PoC 6: Update User API
+PoC 7: Delete User API
+PoC 8: User Authentication
 ```
 
 **When forced to split (e.g., full-stack feature):**
 ```
-✅ PoC 3: User Management Backend
+PoC 3: User Management Backend
    - Database + API + Auth (grouped)
    - Proves: "Backend handles users correctly"
 
-✅ PoC 4: User Management Frontend
+PoC 4: User Management Frontend
    - UI components + forms + state
    - Proves: "Frontend integrates with user API"
 ```
@@ -122,41 +126,41 @@ Create a diagram showing:
 
 Example:
 ```
-┌──────────────────────┐              ┌──────────────────────┐
-│  PoC 1: Database     │              │  PoC 2: API Server   │
-│  Schema              │              │  Basic               │
-└──────────┬───────────┘              └──────────┬───────────┘
-           │                                     │
-           └─────────────────┬───────────────────┘
-                             │
-                             ▼
-                  ┌──────────────────────┐
-                  │  PoC 3: CRUD         │
-                  │  Operations          │
-                  └──────────┬───────────┘
-                             │
-                 ┌───────────┴───────────┐
-                 │                       │
-                 ▼                       ▼
-      ┌──────────────────────┐   ┌──────────────────────┐
-      │  PoC 4: Analytics    │   │  PoC 5: Reports      │
-      └──────────┬───────────┘   └──────────┬───────────┘
-                 │                           │
-                 └───────────┬───────────────┘
-                             │
-                             ▼
-                  ┌──────────────────────┐
-                  │  PoC 6: E2E          │
-                  │  Integration         │
-                  └──────────────────────┘
++-----------------------+              +-----------------------+
+|  PoC 1: Database      |              |  PoC 2: API Server    |
+|  Schema               |              |  Basic                |
++-----------+-----------+              +-----------+-----------+
+            |                                      |
+            +------------------+-------------------+
+                               |
+                               v
+                   +-----------------------+
+                   |  PoC 3: CRUD          |
+                   |  Operations           |
+                   +-----------+-----------+
+                               |
+                  +------------+------------+
+                  |                         |
+                  v                         v
+      +-----------------------+   +-----------------------+
+      |  PoC 4: Analytics     |   |  PoC 5: Reports       |
+      +-----------+-----------+   +-----------+-----------+
+                  |                           |
+                  +------------+------------+
+                               |
+                               v
+                   +-----------------------+
+                   |  PoC 6: E2E           |
+                   |  Integration          |
+                   +-----------------------+
 ```
 
 **Key Points**:
 - Each PoC gets a box with its name and brief description
 - Use vertical flow (top to bottom) for main dependency path
 - Show parallel PoCs side by side at the same level
-- Use arrows (│ ▼ ─ └ ┌) to show dependencies
-- Keep it clean - NO status indicators (✅ ⬜) in the plan diagram
+- Use arrows to show dependencies
+- Keep it clean - NO status indicators in the plan diagram
 
 
 ## Production-Grade Reminder
@@ -167,6 +171,25 @@ Even at planning stage, think production:
 - Real error handling, not happy-path only
 - Patterns that scale
 
+## Feedback Loops: When PoCs Fail
+
+**A failed PoC is valuable information, not wasted effort.**
+
+When a PoC doesn't meet success criteria:
+
+1. **Document what we learned** -- What specifically failed? Why?
+2. **Assess impact** -- Does this invalidate the milestone approach? Or just this PoC?
+3. **Decide next action**:
+   - **Retry with different approach** -- Update PoC design and re-attempt
+   - **Pivot the milestone** -- Revisit milestone-spec with new constraints
+   - **Revisit architecture** -- If fundamental assumption was wrong
+   - **Kill the milestone** -- If the capability isn't achievable/valuable
+
+**Checkpoint Questions** (after each PoC):
+- Did we learn something that changes our assumptions?
+- Should we update subsequent PoC designs based on this learning?
+- Is the milestone still viable and valuable?
+
 ## Common Pitfalls
 - Planning too many PoCs
 - PoCs that are too large
@@ -174,4 +197,4 @@ Even at planning stage, think production:
 - Vague success criteria
 
 ## Next Stage
-→ PoC Planning (ONE PoC at a time) via dev
+-> Hand off to dev skill for implementation

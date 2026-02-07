@@ -1,10 +1,10 @@
-# [Milestone Name] PoC Design
+# [Milestone Name] PoC Spec
 
 ## Milestone Overview
 [What does completing this Milestone prove? What capability does it unlock?]
 
 ## Project
-[Parent project name - link to docs/[slug]-north-star.md]
+[Parent project name - link to [slug]-product-vision.md]
 
 ## PoC Dependency Diagram
 
@@ -71,3 +71,26 @@
 | PoC | Risk Level | Mitigation |
 |-----|------------|------------|
 | PoC 1 | [H/M/L] | [Strategy] |
+
+## Feedback Loops
+
+### If a PoC Fails
+
+**A failed PoC is valuable information, not wasted effort.**
+
+When a PoC doesn't meet success criteria:
+
+1. **Document what we learned** — What specifically failed? Why?
+2. **Assess impact** — Does this invalidate the milestone approach? Or just this PoC?
+3. **Decide next action**:
+   - **Retry with different approach** — Update PoC design and re-attempt
+   - **Pivot the milestone** — Revisit milestone spec with new constraints
+   - **Revisit architecture** — If fundamental assumption was wrong
+   - **Kill the milestone** — If the capability isn't achievable/valuable
+
+### Checkpoint Questions
+
+After each PoC, ask:
+- Did we learn something that changes our assumptions?
+- Should we update subsequent PoC designs based on this learning?
+- Is the milestone still viable and valuable?

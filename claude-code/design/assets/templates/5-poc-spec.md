@@ -1,10 +1,10 @@
-# [Milestone Name] PoC Design
+# [Milestone Name] PoC Spec
 
 ## Milestone Overview
 [What does completing this Milestone prove? What capability does it unlock?]
 
 ## Project
-[Parent project name - link to [slug]-north-star.md]
+[Parent project name - link to [slug]-product-vision.md]
 
 ## PoC Dependency Diagram
 
@@ -84,7 +84,7 @@ When a PoC doesn't meet success criteria:
 2. **Assess impact** — Does this invalidate the milestone approach? Or just this PoC?
 3. **Decide next action**:
    - **Retry with different approach** — Update PoC design and re-attempt
-   - **Pivot the milestone** — Revisit milestone-design with new constraints
+   - **Pivot the milestone** — Revisit milestone spec with new constraints
    - **Revisit architecture** — If fundamental assumption was wrong
    - **Kill the milestone** — If the capability isn't achievable/valuable
 

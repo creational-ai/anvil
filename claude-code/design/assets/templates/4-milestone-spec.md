@@ -1,14 +1,14 @@
 # Milestone [Number]: [Name]
 
 **Status**: Planning
-**Parent Document**: [Milestones Overview](./[slug]-milestones-overview.md)
+**Parent Document**: [Product Roadmap](./[slug]-product-roadmap.md)
 **Architecture Reference**: [Architecture Doc](./[slug]-architecture.md)
 
 ---
 
 ## Executive Summary
 
-[2-3 paragraphs describing what this milestone accomplishes, why it's important, and how it fits into the overall roadmap. Pull from the Goal section in [slug]-milestones-overview.md and expand with context.]
+[2-3 paragraphs describing what this milestone accomplishes, why it's important, and how it fits into the overall roadmap. Pull from the Goal section in [slug]-product-roadmap.md and expand with context.]
 
 **Key Principle**: [One sentence capturing the core philosophy of this milestone]
 
@@ -16,7 +16,7 @@
 
 ## Goal
 
-[Copy the Goal from milestones-overview.md and expand if needed]
+[Copy the Goal from product-roadmap.md and expand if needed]
 
 **What This Milestone Proves**:
 - [Proof point 1 - what capability or assumption gets validated]
@@ -35,7 +35,7 @@
 ### High-Level System Diagram
 
 ```
-[Copy the architecture diagram from milestones-overview.md]
+[Copy the architecture diagram from product-roadmap.md]
 ```
 
 ### Technology Stack
@@ -137,7 +137,7 @@ Step 3
 
 ### Phase 3: [Phase Name]
 
-[Repeat structure for each phase from milestones-overview.md]
+[Repeat structure for each phase from product-roadmap.md]
 
 ### Phase 4: [Phase Name]
 
@@ -152,7 +152,7 @@ Step 3
 
 ## Success Metrics
 
-[Expand the success metrics from milestones-overview.md with more detail]
+[Expand the success metrics from product-roadmap.md with more detail]
 
 ### [Category 1]
 
@@ -174,9 +174,27 @@ Step 3
 
 ---
 
+## Testing Strategy
+
+**Philosophy**: Production-grade quality from day one, but sized for first 200 users.
+
+### Test Coverage Approach
+- **Unit Tests**: [What gets unit tested - core business logic]
+- **Integration Tests**: [What integrations need testing]
+- **E2E Tests**: [Critical user flows to cover]
+
+### Quality Gates
+- [What must pass before deployment]
+- [Manual vs automated checks]
+
+### What We're NOT Testing (Yet)
+- [Tests deferred until scale milestone - e.g., load testing, penetration testing]
+
+---
+
 ## Key Outcomes
 
-[Copy from milestones-overview.md and optionally expand with sub-bullets]
+[Copy from product-roadmap.md and optionally expand with sub-bullets]
 
 ✅ **[Outcome 1]**
    - [Sub-detail if helpful]
@@ -191,7 +209,7 @@ Step 3
 
 ## Why [This Approach]?
 
-[Copy "Why [X]?" section from milestones-overview.md if it exists, or create based on strategic decisions]
+[Copy "Why [X]?" section from product-roadmap.md if it exists, or create based on strategic decisions]
 
 **[Reason Category 1]**:
 - [Explanation]
@@ -277,7 +295,7 @@ Step 3
 
 ## Related Documents
 
-- [Milestones Overview](./[slug]-milestones-overview.md) - Full milestone roadmap
+- [Product Roadmap](./[slug]-product-roadmap.md) - Full milestone roadmap
 - [Architecture Doc](./[slug]-architecture.md) - Complete technical architecture
 - [Other relevant doc] - Description
 

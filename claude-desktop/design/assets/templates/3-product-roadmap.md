@@ -1,6 +1,6 @@
-# [Project Name] - Milestones
+# [Project Name] - Product Roadmap
 
-**North Star**: [One sentence describing what this project achieves]
+**Product Vision**: [One sentence describing what this project achieves]
 
 **Related Documents**:
 - [Architecture Doc](./[slug]-architecture.md)
@@ -45,7 +45,7 @@
 
 ## [Milestone Name]
 
-**[📄 Detailed Plan](./[slug]-milestone.md)**
+**[📄 Detailed Plan](./[slug]-milestone-spec.md)**
 
 **Status**: Planning
 
@@ -118,7 +118,7 @@
 
 ## [Milestone Name]
 
-**[📄 Detailed Plan](./[slug]-milestone.md)**
+**[📄 Detailed Plan](./[slug]-milestone-spec.md)**
 
 **Status**: Planning
 
@@ -176,7 +176,7 @@
 
 ## [Milestone Name]
 
-**[📄 Detailed Plan](./[slug]-milestone.md)**
+**[📄 Detailed Plan](./[slug]-milestone-spec.md)**
 
 **Status**: Planning
 
@@ -275,6 +275,6 @@
 **Next Action**: [What to do next]
 
 **Detailed Plans** (to be created):
-- [📄 [Milestone Name]](./[slug]-milestone.md)
-- [📄 [Milestone Name]](./[slug]-milestone.md)
-- [📄 [Milestone Name]](./[slug]-milestone.md)
+- [📄 [Milestone Name]](./[slug]-milestone-spec.md)
+- [📄 [Milestone Name]](./[slug]-milestone-spec.md)
+- [📄 [Milestone Name]](./[slug]-milestone-spec.md)

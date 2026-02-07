@@ -11,12 +11,12 @@ Stage 2 of design skill: Design system architecture without writing code.
 **Read these for guidance**:
 - `~/.claude/skills/design/SKILL.md` - See "Stage 2: Architecture" section
 - `~/.claude/skills/design/references/2-architecture-guide.md` - Detailed process
-- `~/.claude/skills/design/assets/templates/architecture.md` - Output template
+- `~/.claude/skills/design/assets/templates/2-architecture.md` - Output template
 
 ## Input
 
 **First argument (required):**
-- Path to north-star (e.g., `docs/mc-north-star.md`)
+- Path to product vision (e.g., `docs/mc-product-vision.md`)
 
 **User notes (optional):**
 ```
@@ -25,10 +25,10 @@ Stage 2 of design skill: Design system architecture without writing code.
 
 **Mode Detection:**
 - If `docs/[slug]-architecture.md` exists → Update mode (refine existing document)
-- Otherwise → Create mode (new document from north star)
+- Otherwise → Create mode (new document from product vision)
 
 **Output naming:**
-- Uses same `[slug]` as north-star (e.g., `mc`)
+- Uses same `[slug]` as product vision (e.g., `mc`)
 - Creates/updates `docs/[slug]-architecture.md`
 
 ## Key Requirements
@@ -50,4 +50,4 @@ Create `docs/[slug]-architecture.md` using the template (e.g., `docs/mc-architec
 
 ## After Completion
 
-Run `/verify-doc docs/[slug]-architecture.md` to validate, then proceed to Stage 3: Milestones Overview.
+Run `/verify-doc docs/[slug]-architecture.md` to validate, then proceed to Stage 3: Product Roadmap.
