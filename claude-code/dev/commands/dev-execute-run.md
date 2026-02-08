@@ -62,7 +62,6 @@ Spawn dev-execute-agent: "[plan-path] Prereqs + Step 0 (if exists)"
    - Succeeds → Review.
 
 2. **Review** → `Spawn dev-review-agent: "[results-doc] [N]"`
-   - Skip for Exploratory risk profile → next step.
    - **PASS** → Next step.
    - **FLAG** → Re-execute using the **fix prompt** below, then review again. Repeat up to `MAX_FIX_ATTEMPTS` times. Still flagged → stop for human.
 
@@ -133,8 +132,8 @@ When all steps complete successfully:
 1. **Fresh agent per step** - Always use Task tool to spawn agents
 2. **Stop on failure** - Do NOT continue if a step fails (tests or review)
 3. **Report between steps** - Brief status update so user sees progress
-4. **NEVER SKIP STEPS** - Even if you think a step is done, DELEGATE IT ANYWAY
-5. **Review gate is mandatory** for Critical and Standard risk profiles
+4. **NEVER SKIP STEPS on your own judgment** - Even if you think a step is done, DELEGATE IT ANYWAY. User notes override this (e.g., user says "skip step 3" → respect that)
+5. **Review gate is mandatory** - Always spawn the review agent after each step
 
 ## CRITICAL: You Are a Dumb Orchestrator
 

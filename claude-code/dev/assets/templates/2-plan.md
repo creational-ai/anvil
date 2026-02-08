@@ -8,7 +8,7 @@
 
 | Attribute | Value |
 |-----------|-------|
-| **Created** | [YYYY-MM-DDTHH:MM:SS-TZ] |
+| **Created** | [YYYY-MM-DDTHH:MM:SS±HHMM] |
 | **Name** | [Name] |
 | **Type** | [PoC or Feature or Issue or Refactor] |
 | **Environment** | [Python / Web / Unity / ...] — see `references/[env]-guide.md` |
@@ -274,12 +274,12 @@ Before marking task complete, verify:
 
 ## Files to Create/Modify
 
-| File | Action | Status |
-|------|--------|--------|
-| `[path/to/new-file]` | Create | Pending: [purpose] |
-| `[path/to/existing-file]` | Modify | Pending: [what changes] |
-| `[test-files]` | Create | Pending: all tests |
-| `[dependency-file]` | Modify | Pending: [dependencies] |
+| File | Action | Purpose |
+|------|--------|---------|
+| `[path/to/new-file]` | Create | [purpose] |
+| `[path/to/existing-file]` | Modify | [what changes] |
+| `[test-files]` | Create | All tests |
+| `[dependency-file]` | Modify | [dependencies] |
 
 ---
 

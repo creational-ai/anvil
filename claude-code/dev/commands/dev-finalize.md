@@ -1,3 +1,9 @@
+---
+description: Finalize completed task with timestamp, lessons, diagram, and health check. Runs in main conversation.
+argument-hint: <task-slug>
+disable-model-invocation: true
+---
+
 # /dev-finalize
 
 Wrap up a completed task by running all finalization steps.
@@ -48,7 +54,7 @@ The slug is used to find: `docs/[slug]-results.md`
 
 1. Read the guide: `~/.claude/skills/dev/references/health-guide.md`
 2. Read the template: `~/.claude/skills/dev/assets/templates/PROJECT_STATE.md`
-3. Run the 5-point health assessment
+3. Run the 6-point health assessment
 4. Update `PROJECT_STATE.md` with findings
 
 ---

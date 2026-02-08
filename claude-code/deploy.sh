@@ -14,6 +14,7 @@ SKILLS=(
     "dev"
     "market-research"
     "video-professor"
+    "skill-reviewer"
 )
 
 # Old skill directories to clean up (add deprecated skills here)
@@ -32,6 +33,7 @@ OLD_COMMANDS=(
     "design-milestones-overview.md"
     "design-milestone-design.md"
     "design-poc-design.md"
+    "dev-lessons.md"
 )
 #=============================================================================
 

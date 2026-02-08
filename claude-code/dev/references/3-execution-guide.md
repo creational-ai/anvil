@@ -33,7 +33,7 @@ A step is NOT complete until:
 - Results tracking doc (`docs/[milestone-slug]-[task-slug]-results.md`)
 - Current step to work on
 
-**Before starting**: If `docs/[milestone-slug]-[task-slug]-results.md` doesn't exist yet, create it using `assets/templates/3-results.md` template. Fill in the Summary, Goal, Success Criteria (from plan.md), and Prerequisites sections. Leave Implementation Progress steps as "Pending". **Record Started timestamp** (ISO 8601 with timezone, e.g., `2024-01-08T22:45:00-08:00`).
+**Before starting**: If `docs/[milestone-slug]-[task-slug]-results.md` doesn't exist yet, create it using `assets/templates/3-results.md` template. Fill in the Summary, Goal, Success Criteria (from plan.md), and Prerequisites sections. Leave Implementation Progress steps as "Pending". **Record Started timestamp** (ISO 8601 with timezone, e.g., `2024-01-08T22:45:00-0800`).
 
 ## Per-Step Workflow (Loop Until Tests Pass)
 
@@ -141,9 +141,11 @@ The plan doc's Overview table contains a Risk Profile field. This determines rev
 
 ## After All Steps Complete
 
-When all steps are complete and all success criteria are met:
-1. Record **Completed timestamp** (ISO 8601 with local timezone, e.g., `2024-01-08T22:45:00-08:00`)
-2. Update Status to ✅ Complete
+When all steps are complete and all success criteria are met, run `/dev-finalize` which handles:
+1. Record **Completed timestamp** (ISO 8601 with local timezone)
+2. Consolidate lessons learned
+3. Generate ASCII diagram
+4. Run health check and update PROJECT_STATE.md
 
 ## Next Stage
 → Return to Stage 2 for next task (after task complete)

@@ -1,3 +1,9 @@
+---
+description: Verify design or implementation documents for soundness and consistency. Runs in main conversation.
+argument-hint: <doc-path> [notes]
+disable-model-invocation: true
+---
+
 # /verify-doc
 
 Verify design or implementation documents are sound, logical, consistent, and free of surprises.

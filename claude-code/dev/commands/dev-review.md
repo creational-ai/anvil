@@ -30,7 +30,9 @@ Post-execution conceptual review. Compares the implementation output against the
 - Step number just completed (e.g., `3`)
 
 **User notes (optional):**
+```
 {{notes}}
+```
 
 **Examples:**
 ```
@@ -40,7 +42,7 @@ Post-execution conceptual review. Compares the implementation output against the
 
 ## Key Rules
 
-- READ-ONLY — Do not modify implementation code
+- Do not modify implementation code — only write to results.md
 - DESIGN-ANCHORED — Compare against design intent, not just code correctness
 - RISK-CALIBRATED — Apply checks at depth matching the plan's Risk Profile
 - HONEST — Flag real concerns. Don't rubber-stamp.
@@ -54,7 +56,7 @@ Follow `review-guide.md`:
 3. Read results.md → find step output + Trade-offs & Decisions section
 4. Read actual code changes (git diff or file reads)
 5. Run Conceptual Review Checklist at appropriate depth
-6. Append review findings to the step in results.md
+6. Write review findings to the step in results.md (replace if re-reviewing after fix)
 7. Report PASS or FLAG
 
 ## Output

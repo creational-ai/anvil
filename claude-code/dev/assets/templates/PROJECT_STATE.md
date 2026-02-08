@@ -1,6 +1,6 @@
 # Project State: [Project Name]
 
-> **Last Updated**: [YYYY-MM-DDTHH:MM:SS-TZ]
+> **Last Updated**: [YYYY-MM-DDTHH:MM:SS±HHMM]
 
 **[Project Name]** is [one-sentence description of what this project does].
 

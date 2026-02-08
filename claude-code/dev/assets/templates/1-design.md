@@ -8,7 +8,7 @@
 
 | Attribute | Value |
 |-----------|-------|
-| **Created** | [YYYY-MM-DDTHH:MM:SS-TZ] |
+| **Created** | [YYYY-MM-DDTHH:MM:SS±HHMM] |
 | **Task** | [Brief description of what needs to be done] |
 | **Type** | [PoC / Feature / Issue / Refactor] |
 | **Scope** | [What areas/components are affected] |

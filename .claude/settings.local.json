@@ -78,5 +78,6 @@
       "Bash(pip3 show:*)",
       "Bash(ssh:*)"
     ]
-  }
+  },
+  "spinnerTipsEnabled": false
 }

@@ -4,14 +4,14 @@
 | Attribute | Value |
 |-----------|-------|
 | **Status** | ✅ Complete / 🔄 In Progress / ❌ Failed |
-| **Started** | [YYYY-MM-DDTHH:MM:SS-TZ] |
+| **Started** | [YYYY-MM-DDTHH:MM:SS±HHMM] |
 | **Completed** | — |
 | **Proves** | [What this validated] |
 
 ---
 
 ## Goal
-[What this PoC aims to achieve]
+[What this task aims to achieve]
 
 ---
 
@@ -84,7 +84,7 @@ From `docs/[milestone-slug]-[task-slug]-plan.md`:
 [Full test suite output showing all tests passing]
 ```
 
-**Total**: [X] tests passing ([Y] existing + [Z] new PoC tests)
+**Total**: [X] tests passing ([Y] existing + [Z] new tests)
 
 ---
 
@@ -96,7 +96,7 @@ From `docs/[milestone-slug]-[task-slug]-plan.md`:
 ---
 
 ## What This Unlocks
-[Which PoCs can now proceed?]
+[Which tasks can now proceed?]
 
 ---
 

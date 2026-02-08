@@ -75,7 +75,7 @@ Stage 3 of dev: Implement one step at a time with test verification.
 
 Follow the guidance in `3-execution-guide.md`:
 
-**First time setup**: If `docs/[milestone-slug]-[task-slug]-results.md` doesn't exist, create it using the template (`assets/templates/3-results.md`). Fill in Summary, Goal, Success Criteria (from plan.md), and Prerequisites. Mark all steps as "Pending". **Record Started timestamp** (ISO 8601 with timezone, e.g., `2024-01-08T22:45:00-08:00`).
+**First time setup**: If `docs/[milestone-slug]-[task-slug]-results.md` doesn't exist, create it using the template (`assets/templates/3-results.md`). Fill in Summary, Goal, Success Criteria (from plan.md), and Prerequisites. Mark all steps as "Pending". **Record Started timestamp** (ISO 8601 with timezone, e.g., `2024-01-08T22:45:00-0800`).
 
 **Execution Mode**: Execute ONLY ONE step, then STOP
 - If step number provided: Execute that specific step
@@ -109,6 +109,5 @@ When current step tests pass and docs are updated:
 
 When all task steps are complete and all success criteria are met:
 1. **Ask user**: "All steps complete and tests passing. Mark task as complete?"
-2. **If user confirms**: Record **Completed timestamp** (ISO 8601 with timezone), update Status to ✅ Complete
-3. **Run `/dev-lessons`** to consolidate per-step lessons into final summary section
-4. Return to Stage 2 for next task
+2. **If user confirms**: Run `/dev-finalize` to record timestamp, consolidate lessons, generate diagram, and run health check
+3. Return to Stage 2 for next task

@@ -1,3 +1,9 @@
+---
+description: Generate ASCII box diagram for task results. Runs in main conversation.
+argument-hint: <slug>
+disable-model-invocation: true
+---
+
 # /dev-diagram
 
 Generate ASCII box summary for a task, insert into results doc.

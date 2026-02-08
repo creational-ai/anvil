@@ -92,7 +92,7 @@ Read the Risk Profile from the plan doc's Overview table.
 
 **Critical**: All 5 checks. Every flag matters.
 **Standard**: Checks 1, 2, 5. Focus on "did we build the right thing" and "does it fit."
-**Exploratory**: Check 5 only. Advisory — log findings in results.md but don't trigger the fix loop.
+**Exploratory**: Check 5 only. Advisory — log findings in results.md, always report **PASS** (never FLAG).
 
 ---
 

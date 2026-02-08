@@ -1,3 +1,9 @@
+---
+description: Generate comprehensive milestone summary document from all task docs. Runs in main conversation.
+argument-hint: <milestone-slug> [update]
+disable-model-invocation: true
+---
+
 # /milestone-details
 
 Generate comprehensive milestone summary document from all task docs.

@@ -12,6 +12,7 @@ SKILLS=(
     "dev"
     "market-research"
     "video-professor"
+    "skill-reviewer"
 )
 
 # Old skill directories that should NOT exist
@@ -30,6 +31,7 @@ OLD_COMMANDS=(
     "design-milestones-overview.md"
     "design-milestone-design.md"
     "design-poc-design.md"
+    "dev-lessons.md"
 )
 
 # Key commands that must exist (sanity check)
@@ -44,6 +46,7 @@ REQUIRED_COMMANDS=(
 # Key agents that must exist (sanity check)
 REQUIRED_AGENTS=(
     "vp-chapter-cleaner.md"
+    "skill-review-agent.md"
 )
 #=============================================================================
 

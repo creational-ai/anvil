@@ -49,7 +49,6 @@ This skill operates at the **Task level** - one task at a time through a 3-stage
 | Utility | Template | Output |
 |---------|----------|--------|
 | `/dev-diagram <slug>` | `assets/templates/diagram.md` | Inserts ASCII box into results doc |
-| `/dev-lessons <slug>` | `assets/templates/lessons-learned.md` | Consolidates lessons from results |
 
 ## Optional Commands
 
@@ -59,8 +58,9 @@ Users can invoke stages explicitly via commands:
 - `/dev-execute <notes>` - Start Stage 3 (one step)
 - `/dev-execute-run <plan>` - Run all steps to completion (auto-finalize, with review gate)
 - `/dev-review <results-doc> <step>` - Review completed step against design
+- `/dev-finalize <slug>` - Finalize task (timestamp, lessons, diagram, health check)
+- `/dev-health` - Project health check
 - `/dev-diagram <slug>` - Generate ASCII diagram for task
-- `/dev-lessons <slug>` - Consolidate lessons learned
 
 Or use natural language: "Create design for database abstraction", "Plan the implementation", "Execute step 1"
 
@@ -249,7 +249,7 @@ Run Stage 3 when:
 
 ---
 
-**First time setup**: If results doc doesn't exist, create it from template. **Record Started timestamp** (ISO 8601 with timezone, e.g., `2024-01-08T22:45:00-08:00`).
+**First time setup**: If results doc doesn't exist, create it from template. **Record Started timestamp** (ISO 8601 with timezone, e.g., `2024-01-08T22:45:00-0800`).
 
 Execute the implementation plan:
 - Execute ONLY the current step (DO NOT do multiple steps)
@@ -259,7 +259,7 @@ Execute the implementation plan:
 - When tests pass → update results doc → STOP
 - Keep implementation doc clean (no status updates)
 
-**After all steps complete**: Ask user "Mark task as complete?" → If confirmed, record **Completed timestamp**, update Status to ✅ Complete, then run `/dev-lessons` to consolidate lessons.
+**After all steps complete**: Ask user "Mark task as complete?" → If confirmed, run `/dev-finalize` to record timestamp, consolidate lessons, generate diagram, and run health check.
 
 ### Review Gate (after each execution step)
 
@@ -269,7 +269,7 @@ After each step's tests pass, a review agent examines the output:
 - Checks for conceptual errors at depth matching the Risk Profile
 - Reports PASS or FLAG
 
-If flagged, the orchestrator sends findings back to a fresh executor for up to `MAX_FIX_ATTEMPTS` fix→re-review cycles (default: 1). If still flagged after all attempts, it stops for human intervention. Most steps pass review on first try — the fix loop is the exception, not the norm.
+If flagged, the orchestrator sends findings back to a fresh executor for up to `MAX_FIX_ATTEMPTS` fix→re-review cycles. If still flagged after all attempts, it stops for human intervention. Most steps pass review on first try — the fix loop is the exception, not the norm.
 
 Review runs automatically in `/dev-execute-run`. Can also run standalone via `/dev-review [results-doc] [step-number]`.
 
@@ -328,6 +328,7 @@ See `references/3-execution-guide.md` for detailed per-step workflow:
 - [ ] Implementation code works as expected
 - [ ] ⚠️ **Tests pass** (run test suite per environment guide)
 - [ ] `docs/[milestone-slug]-[task-slug]-results.md` updated with step progress and **lessons learned**
+- [ ] Review gate passed (Critical/Standard risk profiles; Exploratory is advisory only)
 
 **After all steps (work complete)**:
 - [ ] All tests pass (new + existing)

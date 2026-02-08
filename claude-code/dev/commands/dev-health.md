@@ -1,3 +1,8 @@
+---
+description: Project health check to verify alignment with product vision. Runs in main conversation.
+disable-model-invocation: true
+---
+
 # /dev-health
 
 Project health check to verify alignment with product vision.

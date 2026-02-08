@@ -115,7 +115,7 @@ After updating PROJECT_STATE.md, report:
 ```markdown
 ## Health Check Report
 
-**Date**: [YYYY-MM-DDTHH:MM:SS-TZ]
+**Date**: [YYYY-MM-DDTHH:MM:SS±HHMM]
 **Current Milestone**: [Milestone name]
 **Recent Work**: [Task name]
 

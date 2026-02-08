@@ -11,6 +11,7 @@ This repo contains skills for both Claude Code and Claude Desktop:
 2. **dev** - Development loop (plan to working code)
 3. **market-research** - Market validation with Go/Pivot/Kill recommendation
 4. **video-professor** - YouTube video to structured markdown document
+5. **skill-reviewer** - Audit skills for structure, frontmatter, and consistency
 
 **Claude Desktop** (`claude-desktop/`):
 1. **design** - Same 5-stage design workflow (outputs artifacts)
@@ -149,7 +150,6 @@ cd claude-desktop
 - `/dev-execute` - Execute one step (Stage 3)
 - `/dev-execute-run` - Run all steps to completion (auto-finalize, with review gate)
 - `/dev-review` - Review completed step against design (conceptual review)
-- `/dev-lessons` - Consolidate lessons learned
 - `/dev-diagram` - Generate task diagram
 - `/dev-finalize` - Wrap up task (timestamp + lessons + diagram + health)
 - `/milestone-details` - Generate milestone summary
@@ -172,6 +172,10 @@ cd claude-desktop
 - `/vp` - Extract YouTube video as formatted markdown document
 - `/vp-comments` - Get video comments
 
+**Skill maintenance commands**:
+- `/skill-review` - Audit a skill for structure, frontmatter, architecture, and consistency
+- `/agent-skill-review` - Skill review agent (background)
+
 **Utility commands**:
 - `/verify-doc` - Document verification
 
@@ -184,6 +188,7 @@ Commands are deployed to `~/.claude/commands/`
 - `~/.claude/skills/dev/`
 - `~/.claude/skills/market-research/`
 - `~/.claude/skills/video-professor/`
+- `~/.claude/skills/skill-reviewer/`
 - `~/.claude/commands/` (collected from each skill's `commands/` folder)
 - `~/.claude/agents/`
 

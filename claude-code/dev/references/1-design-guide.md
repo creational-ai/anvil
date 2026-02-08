@@ -193,7 +193,7 @@ Use the Decisions Log table in the template.
 
 **Design document**: `docs/[milestone-slug]-[task-slug]-design.md` using `assets/templates/1-design.md`
 
-**Created timestamp**: Use ISO 8601 with timezone (e.g., `2024-01-08T22:45:00-08:00`). Run `date "+%Y-%m-%dT%H:%M:%S%z"` to get current timestamp.
+**Created timestamp**: Use ISO 8601 with timezone (e.g., `2024-01-08T22:45:00-0800`). Run `date "+%Y-%m-%dT%H:%M:%S%z"` to get current timestamp.
 
 **Required sections:**
 - Executive summary (challenge + solution one-liners)
