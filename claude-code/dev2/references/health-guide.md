@@ -1,6 +1,6 @@
 # Health Guide
 
-Project health check to verify alignment with north star vision.
+Project health check to verify alignment with product vision.
 
 **Template**: `assets/templates/PROJECT_STATE.md`
 
@@ -20,7 +20,7 @@ Project health check to verify alignment with north star vision.
 
 Scan the project for these artifacts (names may vary):
 
-1. **North Star** - `docs/*north-star*.md` - Vision, milestones, success metrics
+1. **Product Vision** - `docs/*product-vision*.md` - Vision, milestones, success metrics
 2. **Design** - `docs/*design*.md` - Architecture and end goals
 3. **Project State** - `PROJECT_STATE.md` - Current status tracking
 4. **Results** - `docs/*-results.md` - Completed work
@@ -32,7 +32,7 @@ Use Glob and Grep tools to search. If files don't exist, note their absence.
 ## Assessment Criteria
 
 ### 1. Alignment Check
-- Are completed tasks aligned with the North Star vision?
+- Are completed tasks aligned with the product vision?
 - Does the work support the target architecture?
 - Are we on track for current milestone?
 
@@ -135,7 +135,7 @@ After updating PROJECT_STATE.md, report:
 1. [Action item]
 2. [Action item]
 
-### 🎯 North Star Check
+### 🎯 Product Vision Check
 [Still aligned? / Drifting? / Need to revisit?]
 ```
 
