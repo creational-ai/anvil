@@ -117,9 +117,9 @@ Testing is about **scope and intentionality**, not speed. Know exactly what you'
 - **Fill "Deviation from Plan" field** for every step. When the executor deviates from the plan's specification (different files, different approach, different structure), document what changed and why. If no deviation, write: "None -- implemented per plan specification."
 - Keep implementation doc clean (no status updates there)
 
-## Conceptual Review
+## Conceptual Review (Opt-In)
 
-After each step, a review agent runs 5 checks at depth determined by the Risk Profile. See `review-guide.md` for the full checklist, depth table, and risk profile behavior.
+Review is off by default. Run `/dev-review-run` separately after execution to review all completed steps in parallel. The review agent runs 5 checks at depth determined by the Risk Profile. See `review-guide.md` for the full checklist, depth table, and risk profile behavior.
 
 ## After All Steps Complete
 

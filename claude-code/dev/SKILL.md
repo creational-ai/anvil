@@ -45,6 +45,7 @@ This skill operates at the **Task level** - one task at a time through a 3-stage
 | Environment | Guide |
 |-------------|-------|
 | Python | `references/python-guide.md` |
+| Unity | `references/unity-guide.md` |
 
 | Utility | Template | Output |
 |---------|----------|--------|
@@ -56,8 +57,9 @@ Users can invoke stages explicitly via commands:
 - `/dev-design <notes>` - Start Stage 1
 - `/dev-plan <notes>` - Start Stage 2
 - `/dev-execute <notes>` - Start Stage 3 (one step)
-- `/dev-execute-run <plan>` - Run all steps to completion (auto-finalize, with review gate)
+- `/dev-execute-run <plan>` - Run all steps to completion (auto-finalize)
 - `/dev-review <results-doc> <step>` - Review completed step against design
+- `/dev-review-run <results-doc>` - Review all completed steps in parallel
 - `/dev-finalize <slug>` - Finalize task (timestamp, lessons, diagram, health check)
 - `/dev-health` - Project health check
 - `/dev-diagram <slug>` - Generate ASCII diagram for task
@@ -117,7 +119,7 @@ Or use natural language: "Create design for database abstraction", "Plan the imp
 - ⚠️ LOOP UNTIL TESTS PASS — if tests fail, fix and re-test
 - 📝 DOCUMENT AND STOP — when tests pass, update results doc and stop
 
-**Review gate**: After each step, a review agent checks implementation against design intent and plan acceptance criteria. See `references/review-guide.md` for the 5 checks and risk profile depth.
+**Review gate** (opt-in): Use `--review` flag on `/dev-execute-run` to enable. When active, a review agent checks implementation against design intent after each step. See `references/review-guide.md`.
 
 **After all steps**: Run `/dev-finalize` to record timestamp, consolidate lessons, generate diagram, and run health check.
 

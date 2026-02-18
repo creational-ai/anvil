@@ -1,7 +1,7 @@
 ---
 name: dev-design-agent
 description: "Stage 1 design specialist. Analyzes problems and designs solutions without writing code. Only invoke when explicitly requested."
-tools: Glob, Grep, Read, WebFetch, TodoWrite, WebSearch, ListMcpResourcesTool, ReadMcpResourceTool
+tools: Glob, Grep, Read, Write, WebFetch, TodoWrite, WebSearch, ListMcpResourcesTool, ReadMcpResourceTool
 model: opus
 ---
 

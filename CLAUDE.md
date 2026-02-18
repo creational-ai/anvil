@@ -148,8 +148,9 @@ cd claude-desktop
 - `/dev-design` - Create design document (Stage 1)
 - `/dev-plan` - Plan implementation steps (Stage 2)
 - `/dev-execute` - Execute one step (Stage 3)
-- `/dev-execute-run` - Run all steps to completion (auto-finalize, with review gate)
+- `/dev-execute-run` - Run all steps to completion (auto-finalize)
 - `/dev-review` - Review completed step against design (conceptual review)
+- `/dev-review-run` - Review all completed steps in parallel
 - `/dev-diagram` - Generate task diagram
 - `/dev-finalize` - Wrap up task (timestamp + lessons + diagram + health)
 - `/milestone-details` - Generate milestone summary

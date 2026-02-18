@@ -1,7 +1,6 @@
 ---
 name: dev-execute-agent
 description: "Stage 3 execution specialist. Implements one step at a time with tests. Only invoke when explicitly requested."
-tools: Bash, Edit, Write, NotebookEdit, Glob, Grep, Read, WebFetch, TodoWrite, WebSearch, ListMcpResourcesTool, ReadMcpResourceTool
 model: opus
 ---
 
