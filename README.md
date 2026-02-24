@@ -1,46 +1,49 @@
 # Anvil
 
-![Claude Skill](https://img.shields.io/badge/Claude-Skill-blue)
-
-A production-grade product engineering toolkit for Claude Code and Claude Desktop. Provides structured workflows for design, market validation, development, and quality assurance — from concept to working product.
+A production-grade product engineering toolkit for Claude Code and Claude Desktop. Structured workflows for design, development, market validation, and quality assurance — from concept to working product.
 
 ## Two Environments, One Methodology
 
 ```
 ┌─────────────────────────────────────────────────────────────────┐
-│                     CLAUDE DESKTOP                              │
-│              (Design & Market Validation)                       │
+│                      CLAUDE DESKTOP                             │
+│               (Design & Strategic Analysis)                     │
 ├─────────────────────────────────────────────────────────────────┤
 │                                                                 │
-│  design (v1.5.0)              market-research (v1.1.0)         │
-│  ├── North Star               ├── Market size                  │
+│  design (v2.0.0)              market-research (v1.1.0)         │
+│  ├── Vision                   ├── Market size                  │
 │  ├── Architecture             ├── Competitors                  │
-│  ├── Milestones Overview      ├── Positioning                  │
-│  ├── Milestone Design         ├── GTM strategy                 │
-│  └── PoC Design               └── Go/Pivot/Kill                │
+│  ├── Roadmap                  ├── Positioning                  │
+│  ├── Milestone Spec           ├── GTM strategy                 │
+│  └── PoC Spec                 └── Go/Pivot/Kill                │
 │                                                                 │
-│  Output: Artifacts            Output: Artifacts                 │
-│  Trigger: Natural language    Trigger: Natural language         │
+│  business-validation (v1.1.0) framework-alignment (v1.0.0)     │
+│  └── PoC-based experiments    └── Four Loops, Flywheel, etc.   │
 │                                                                 │
+│  Output: Artifacts            Trigger: Natural language         │
 └─────────────────────────────────────────────────────────────────┘
-                               ↓
-                    Hand off design docs
-                               ↓
+                              ↓
+                   Hand off design docs
+                              ↓
 ┌─────────────────────────────────────────────────────────────────┐
-│                      CLAUDE CODE                                │
-│                   (Implementation)                              │
+│                       CLAUDE CODE                               │
+│              (Implementation & Quality)                         │
 ├─────────────────────────────────────────────────────────────────┤
 │                                                                 │
-│  design                       dev                                │
-│  ├── North Star               ├── Overview (no code)           │
-│  ├── Architecture             ├── Implementation Plan          │
-│  ├── Milestones Overview      └── Execution + Tests            │
-│  ├── Milestone Design                                          │
-│  └── PoC Design               market-research                  │
-│                               └── Go/Pivot/Kill                │
-│  Output: docs/ folder                                           │
-│  Trigger: /slash-commands     Output: docs/ + code files       │
+│  design                       dev                               │
+│  ├── Vision                   ├── Design (no code)             │
+│  ├── Architecture             ├── Plan                         │
+│  ├── Roadmap                  ├── Execute + Tests              │
+│  ├── Milestone Spec           ├── Review (opt-in)              │
+│  └── PoC Spec                 └── Finalize                     │
 │                                                                 │
+│  market-research              video-professor                   │
+│  └── Go/Pivot/Kill            └── YouTube → Markdown           │
+│                                                                 │
+│  skill-reviewer                                                 │
+│  └── Audit skill structure                                     │
+│                                                                 │
+│  Output: docs/ + code         Trigger: /slash-commands          │
 └─────────────────────────────────────────────────────────────────┘
 ```
 
@@ -49,7 +52,7 @@ A production-grade product engineering toolkit for Claude Code and Claude Deskto
 ### Claude Desktop
 
 1. Download `.skill` files from [`claude-desktop/releases/`](claude-desktop/releases/)
-2. In Claude Desktop: **Settings → Skills → Import Skill**
+2. In Claude Desktop: **Settings > Skills > Import Skill**
 
 See [`claude-desktop/README.md`](claude-desktop/README.md) for details.
 
@@ -71,7 +74,7 @@ See [`claude-code/README.md`](claude-code/README.md) for details.
 CLAUDE DESKTOP
 ──────────────
 1. design Stages 1-2
-   → North Star artifact
+   → Vision artifact
    → Architecture artifact
 
 2. Market Research Checkpoint
@@ -79,45 +82,65 @@ CLAUDE DESKTOP
    → Go / Pivot / Kill?
 
 3. design Stages 3-5 (if GO)
-   → Milestones Overview artifact
-   → Milestone Design artifact
-   → PoC Design artifact
+   → Roadmap artifact
+   → Milestone Spec artifact
+   → PoC Spec artifact
 
 CLAUDE CODE
 ───────────
 4. Import design docs to project
 
 5. dev loop (per task)
-   → /dev-overview
+   → /dev-design
    → /dev-plan
-   → /dev-execute
-   → /dev-finalize (includes health check)
+   → /dev-execute-run (all steps + auto-finalize)
+   → /dev-review-run (parallel reviews, opt-in)
    → Repeat
 ```
 
 ### Claude Code Only Workflow
 
 ```
-1. /design-northstar → Vision document
+1. /design-vision → Vision document
 2. /design-architecture → Technical design
-3. /design-milestones-overview → Strategic roadmap
-4. /design-milestone-design → Detailed milestone design
-5. /design-poc-design → Atomic proof-of-concepts
+3. /design-roadmap → Strategic milestone roadmap
+4. /design-milestone-spec → Detailed milestone design
+5. /design-poc-spec → Atomic proof-of-concepts
 
-6. /dev-overview → Analyze first task
+6. /dev-design → Analyze first task
 7. /dev-plan → Plan implementation
-8. /dev-execute → Execute step-by-step
-9. /dev-finalize → Wrap up task (includes health check)
+8. /dev-execute-run → Execute all steps + finalize
+9. /dev-review-run → Review all steps (opt-in)
 10. Repeat 6-9 for each task
 ```
+
+## Skills
+
+### Claude Code
+
+| Skill | Purpose |
+|-------|---------|
+| **design** | 5-stage design workflow: Vision, Architecture, Roadmap, Milestone Spec, PoC Spec |
+| **dev** | Development loop: design analysis, planning, step-by-step execution with tests, review, finalization |
+| **market-research** | Market validation with Go/Pivot/Kill recommendation |
+| **video-professor** | Extract YouTube videos into structured markdown documents |
+| **skill-reviewer** | Audit skills for structure, frontmatter, cross-references, and consistency |
+
+### Claude Desktop
+
+| Skill | Purpose |
+|-------|---------|
+| **design** (v2.0.0) | Same 5-stage design workflow (outputs as artifacts) |
+| **market-research** (v1.1.0) | Market validation with Go/Pivot/Kill recommendation |
+| **business-validation** (v1.1.0) | Business validation roadmaps with PoC-based experiments |
+| **framework-alignment** (v1.0.0) | Strategic framework analysis (Four Loops, Flywheel, Dangerous Intelligence) |
 
 ## Key Principles
 
 - **design skill is NO-CODE** — Pure design and planning
 - **dev skill allows code** — Stage 1 is design-only, Stages 2-3 allow code
 - **One task at a time** — Plan and execute incrementally
-- **Production-grade quality** — OOP, Pydantic, type hints, tests required
-- **Self-contained work** — Each item works independently
+- **Production-grade quality** — OOP, validated data models, type hints, tests required
 - **200-users-first** — Right-sized for early users, scale comes later
 - **Validate early** — Market research before heavy investment
 
@@ -125,24 +148,31 @@ CLAUDE CODE
 
 ```
 anvil/
-├── README.md                   # This file
+├── README.md
+├── CLAUDE.md
 ├── LICENSE
 │
 ├── claude-code/                # Claude Code skills
-│   ├── README.md               # CC documentation
-│   ├── deploy.sh
-│   ├── verify.sh
-│   ├── sync-from-user.sh
-│   ├── design/
-│   ├── dev/
-│   └── commands/
+│   ├── README.md
+│   ├── deploy.sh              # Deploy skills and commands (local)
+│   ├── deploy-genesis.sh      # Deploy skills to genesis (Raspberry Pi)
+│   ├── verify.sh              # Verify deployment
+│   ├── sync-from-user.sh      # Sync from deployed skills
+│   ├── design/                # 5-stage design workflow
+│   ├── dev/                   # Development loop
+│   ├── market-research/       # Market validation
+│   ├── video-professor/       # YouTube → Markdown
+│   └── skill-reviewer/        # Skill auditing
 │
 └── claude-desktop/             # Claude Desktop skills
-    ├── README.md               # CD documentation
-    ├── package.sh
-    ├── design/
-    ├── market-research/
-    └── releases/
+    ├── README.md
+    ├── package.sh             # Build .skill files
+    ├── unpackage.sh           # Extract .skill files
+    ├── design/                # Design skill (v2.0.0)
+    ├── market-research/       # Market validation (v1.1.0)
+    ├── business-validation/   # Business validation (v1.1.0)
+    ├── framework-alignment/   # Framework analysis (v1.0.0)
+    └── releases/              # Packaged .skill files
 ```
 
 ## License
