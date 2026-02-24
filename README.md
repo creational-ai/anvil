@@ -1,4 +1,16 @@
-# Anvil
+```
+                               ┌────────────────────────────┐
+         ╭─────────────────────┤                            │
+          ╰──╮                 │      🔨 A N V I L 🔨        │
+             ╰──╮              └───┐                  ┌─────┘
+                ╰──────────────────┤                  │
+                                   └────┐        ┌────┘
+                                        │        │
+                                   ┌────┘        └────┐
+                                   │                  │
+                                   └──────────────────┘
+                       🔥 Forge ideas into production code. 🔥
+```
 
 A production-grade product engineering toolkit for Claude Code and Claude Desktop. Structured workflows for design, development, market validation, and quality assurance — from concept to working product.
 
