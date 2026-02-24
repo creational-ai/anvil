@@ -1,3 +1,9 @@
+---
+description: "Define atomic PoCs with success criteria (Stage 5 of design skill)"
+argument-hint: "<milestone-slug-or-path>"
+disable-model-invocation: true
+---
+
 # /design-poc-spec
 
 Define what needs to be proven and in what order -- with PRODUCTION-GRADE thin slices.
@@ -17,18 +23,18 @@ Stage 5 of design skill: Plan atomic PoCs with clear success criteria and depend
 
 Must complete before running this command:
 - [ ] Stage 4: Milestone Spec (`docs/[milestone-slug]-milestone-spec.md`)
-- [ ] Stage 3: Product Roadmap (`docs/[project-slug]-product-roadmap.md`)
+- [ ] Stage 3: Roadmap (`docs/[project-slug]-roadmap.md`)
 
 ## Input
 
 **First argument (optional):**
 - Milestone slug (e.g., "core", "cloud") → Finds `docs/[milestone-slug]-milestone-spec.md`
-- If not provided, uses first milestone from `docs/[project-slug]-product-roadmap.md`
+- If not provided, uses first milestone from `docs/[project-slug]-roadmap.md`
 - OR path to existing PoC spec (e.g., `docs/core-poc-spec.md`) → Update mode
 
 **Required docs (auto-read):**
 - `docs/[milestone-slug]-milestone-spec.md` - Detailed milestone design
-- `docs/[project-slug]-product-roadmap.md` - Milestone context
+- `docs/[project-slug]-roadmap.md` - Milestone context
 
 **User notes (optional):**
 ```
@@ -36,7 +42,7 @@ Must complete before running this command:
 ```
 
 **Mode Detection:**
-- If argument is milestone name/number (or empty) → **Create mode** (new PoC spec from milestone spec)
+- If argument is milestone name (or empty) → **Create mode** (new PoC spec from milestone spec)
 - If argument is `docs/*-poc-spec.md` → **Update mode** (add new PoCs)
 
 **Output naming:**

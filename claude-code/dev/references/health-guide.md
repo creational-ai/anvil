@@ -20,7 +20,7 @@ Project health check to verify alignment with product vision.
 
 Scan the project for these artifacts (names may vary):
 
-1. **Product Vision** - `docs/*product-vision*.md` - Vision, milestones, success metrics
+1. **Vision** - `docs/*vision*.md` - Vision, milestones, success metrics
 2. **Design** - `docs/*design*.md` - Architecture and end goals
 3. **Project State** - `PROJECT_STATE.md` - Current status tracking
 4. **Results** - `docs/*-results.md` - Completed work
@@ -135,7 +135,7 @@ After updating PROJECT_STATE.md, report:
 1. [Action item]
 2. [Action item]
 
-### 🎯 Product Vision Check
+### 🎯 Vision Check
 [Still aligned? / Drifting? / Need to revisit?]
 ```
 

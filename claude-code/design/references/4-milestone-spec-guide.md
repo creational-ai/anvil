@@ -1,7 +1,7 @@
 # Stage 4: Milestone Spec
 
 ## Goal
-Expand a single milestone from `docs/[slug]-product-roadmap.md` into a comprehensive, self-contained design document with implementation details.
+Expand a single milestone from `docs/[slug]-roadmap.md` into a comprehensive, self-contained design document with implementation details.
 
 ## Code Allowed
 NO - This is pure design planning
@@ -10,7 +10,7 @@ NO - This is pure design planning
 NOT NEEDED - Focus on WHAT and WHY, not WHEN. Avoid timeline estimates (e.g., "Week 1-2", "2 weeks", "3 months"). Design phases don't need schedules.
 
 ## Input
-- Completed Product Roadmap (`docs/[slug]-product-roadmap.md`) (Stage 3 output)
+- Completed Roadmap (`docs/[slug]-roadmap.md`) (Stage 3 output)
 - Completed Architecture doc (`docs/[slug]-architecture.md`) (Stage 2 output)
 
 **Note**: Run this process once per milestone, starting with Core.
@@ -21,7 +21,7 @@ NOT NEEDED - Focus on WHAT and WHY, not WHEN. Avoid timeline estimates (e.g., "W
 
 Choose which milestone to detail (usually Core first).
 
-From `product-roadmap.md`, you already have:
+From `roadmap.md`, you already have:
 - Goal (2-3 sentences)
 - Architecture Diagram (high-level)
 - What Gets Built (phases with deliverables)
@@ -40,7 +40,7 @@ From `product-roadmap.md`, you already have:
   - What this milestone accomplishes
   - Why it's important
   - How it fits into the overall roadmap
-- Pull from the Goal section in product-roadmap.md and expand with context
+- Pull from the Goal section in roadmap.md and expand with context
 - Add a **Key Principle**: One sentence capturing the core philosophy
 
 **Example**:
@@ -62,7 +62,7 @@ then expand to mobile with proven patterns.
 
 ### 3. Expand the Goal Section
 
-**Copy** the Goal from product-roadmap.md, then **add**:
+**Copy** the Goal from roadmap.md, then **add**:
 
 **What This Milestone Proves**:
 - List 3-5 specific proof points
@@ -96,7 +96,7 @@ working perfectly before adding mobile complexity.
 
 ### 4. Expand Architecture Overview
 
-**Copy** the architecture diagram from product-roadmap.md into the High-Level System Diagram section.
+**Copy** the architecture diagram from roadmap.md into the High-Level System Diagram section.
 
 **Add three new subsections**:
 
@@ -173,7 +173,7 @@ Step 3
 
 ### 6. Detail Implementation Phases
 
-**Copy** the phases from product-roadmap.md, then **expand each**:
+**Copy** the phases from roadmap.md, then **expand each**:
 
 #### For Each Phase:
 ```markdown
@@ -230,7 +230,7 @@ Step 3
 
 ### 7. Expand Success Metrics
 
-**Copy** metrics from product-roadmap.md, then **add detail**:
+**Copy** metrics from roadmap.md, then **add detail**:
 
 For each metric, include:
 - Target from overview
@@ -282,7 +282,7 @@ For each metric, include:
 
 ### 9. Add Key Outcomes
 
-**Copy** from product-roadmap.md. Optionally **expand** with sub-bullets if helpful:
+**Copy** from roadmap.md. Optionally **expand** with sub-bullets if helpful:
 
 ```markdown
 **Core platform works on web**
@@ -296,7 +296,7 @@ For each metric, include:
 
 ### 10. Add "Why This Approach?" Section
 
-If product-roadmap.md has a "Why [X]?" section, **copy and optionally expand**.
+If roadmap.md has a "Why [X]?" section, **copy and optionally expand**.
 
 If not, **create** based on strategic decisions in the architecture:
 
@@ -445,7 +445,7 @@ Break into three time horizons:
 At the top:
 ```markdown
 **Status**: Planning | In Progress | Complete
-**Parent Document**: [Product Roadmap](./[slug]-product-roadmap.md)
+**Parent Document**: [Roadmap](./[slug]-roadmap.md)
 **Architecture Reference**: [Architecture Doc](./[slug]-architecture.md)
 ```
 
@@ -516,7 +516,7 @@ Example: `docs/web-core-milestone-spec.md`
 
 ## Example Workflow
 
-1. Open `docs/[slug]-product-roadmap.md`
+1. Open `docs/[slug]-roadmap.md`
 2. Find the milestone section to detail
 3. Use `assets/templates/4-milestone-spec.md` template -> save as `docs/web-core-milestone-spec.md`
 4. Work through sections 1-15 above, expanding each area

@@ -2,7 +2,7 @@
   "permissions": {
     "allow": [
       "Bash(chmod:*)",
-      "Bash(/Users/docchang/Development/idea-to-mvp/deploy.sh)",
+      "Bash(/Users/docchang/Development/anvil/deploy.sh)",
       "Bash(tree:*)",
       "Bash(git init:*)",
       "Bash(git remote add:*)",
@@ -26,10 +26,10 @@
       "Bash(head:*)",
       "Bash(__NEW_LINE__ echo \"\")",
       "Bash(./sync-from-user.sh)",
-      "Bash(for f in /Users/docchang/Development/idea-to-mvp/dev-design/references/[0-9]-*.md)",
-      "Bash(for f in /Users/docchang/Development/idea-to-mvp/dev-cycle/references/*.md)",
+      "Bash(for f in /Users/docchang/Development/anvil/dev-design/references/[0-9]-*.md)",
+      "Bash(for f in /Users/docchang/Development/anvil/dev-cycle/references/*.md)",
       "Bash(for template in overview.md implementation-plan.md implementation-results.md PROJECT_STATE.md)",
-      "Bash(do if [ -f \"/Users/docchang/Development/idea-to-mvp/dev-cycle/assets/templates/$template\" ])",
+      "Bash(do if [ -f \"/Users/docchang/Development/anvil/dev-cycle/assets/templates/$template\" ])",
       "Bash(then echo \"✓ $template\")",
       "Bash(else echo \"✗ MISSING: $template\")",
       "Bash(fi)",
@@ -67,16 +67,18 @@
       "Bash(mkdir:*)",
       "Bash(curl:*)",
       "Bash(echo:*)",
-      "Bash(SP=/private/tmp/claude-501/-Users-docchang-Development-idea-to-mvp/c301c912-dbb8-41c2-92ef-896db56bc803/scratchpad)",
-      "Bash(SCRIPT=/Users/docchang/Development/idea-to-mvp/claude-code/video-professor/scripts/vp-assemble.sh)",
+      "Bash(SP=/private/tmp/claude-501/-Users-docchang-Development-anvil/c301c912-dbb8-41c2-92ef-896db56bc803/scratchpad)",
+      "Bash(SCRIPT=/Users/docchang/Development/anvil/claude-code/video-professor/scripts/vp-assemble.sh)",
       "Bash(TARGET=$SP/test-target4.md)",
-      "Bash(SCRATCHPAD=\"/private/tmp/claude-501/-Users-docchang-Development-idea-to-mvp/c301c912-dbb8-41c2-92ef-896db56bc803/scratchpad\")",
+      "Bash(SCRATCHPAD=\"/private/tmp/claude-501/-Users-docchang-Development-anvil/c301c912-dbb8-41c2-92ef-896db56bc803/scratchpad\")",
       "WebFetch(domain:www.npmjs.com)",
       "WebFetch(domain:gofastmcp.com)",
       "WebFetch(domain:glama.ai)",
       "WebFetch(domain:raw.githubusercontent.com)",
       "Bash(pip3 show:*)",
-      "Bash(ssh:*)"
+      "Bash(ssh:*)",
+      "Bash(tail:*)",
+      "Bash(rsync:*)"
     ]
   },
   "spinnerTipsEnabled": false

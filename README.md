@@ -1,8 +1,8 @@
-# idea-to-mvp
+# Anvil
 
 ![Claude Skill](https://img.shields.io/badge/Claude-Skill-blue)
 
-A structured workflow for taking ideas from concept to working product. Supports both **Claude Code** (implementation) and **Claude Desktop** (design & research).
+A production-grade product engineering toolkit for Claude Code and Claude Desktop. Provides structured workflows for design, market validation, development, and quality assurance — from concept to working product.
 
 ## Two Environments, One Methodology
 
@@ -124,7 +124,7 @@ CLAUDE CODE
 ## Repository Structure
 
 ```
-idea-to-mvp/
+anvil/
 ├── README.md                   # This file
 ├── LICENSE
 │

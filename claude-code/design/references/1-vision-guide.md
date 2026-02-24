@@ -1,4 +1,4 @@
-# Stage 1: Product Vision
+# Stage 1: Vision
 
 ## Goal
 Refine the idea into a clear, feasible vision.
@@ -19,17 +19,18 @@ NOT NEEDED - Focus on WHAT and WHY, not WHEN. Avoid timeline estimates (e.g., "W
 4. Surface assumptions and unknowns
 
 ## Output
-`[slug]-product-vision.md` artifact using `assets/templates/1-product-vision.md`
+`docs/[slug]-vision.md` using `assets/templates/1-vision.md`
 
-Example: `mc-product-vision.md`
+Example: `docs/mc-vision.md`
 
 ## Verification Checklist
-- [ ] Template read from `assets/templates/1-product-vision.md`
-- [ ] Artifact follows template structure exactly
+- [ ] Template read from `assets/templates/1-vision.md`
+- [ ] Output follows template structure exactly
 - [ ] Problem clearly stated
 - [ ] Solution approach makes sense
 - [ ] Technical feasibility seems reasonable
 - [ ] No obvious blockers identified
+- [ ] Run `/verify-doc docs/[slug]-vision.md`
 
 ## Key Questions to Answer
 - What problem are we solving?
@@ -45,4 +46,4 @@ Example: `mc-product-vision.md`
 - Scope creep at vision stage
 
 ## Next Stage
-→ Stage 2: Architecture
+-> Stage 2: Architecture

@@ -1,3 +1,9 @@
+---
+description: "Expand a milestone into detailed design document (Stage 4 of design skill)"
+argument-hint: "<milestone-slug>"
+disable-model-invocation: true
+---
+
 # /design-milestone-spec
 
 Expand a single milestone into comprehensive, self-contained design document.
@@ -16,16 +22,16 @@ Stage 4 of design skill: Create detailed design for one milestone with implement
 ## Prerequisites
 
 Must complete before running this command:
-- [ ] Stage 3: Product Roadmap (`docs/[slug]-product-roadmap.md`)
+- [ ] Stage 3: Roadmap (`docs/[slug]-roadmap.md`)
 - [ ] Stage 2: Architecture (`docs/[slug]-architecture.md`)
 
 ## Input
 
 **First argument (required):**
-- Milestone slug (e.g., "core", "cloud") → Reads milestone from `docs/[project-slug]-product-roadmap.md`
+- Milestone slug (e.g., "core", "cloud") → Reads milestone from `docs/[project-slug]-roadmap.md`
 
 **Required docs (auto-read):**
-- `docs/[project-slug]-product-roadmap.md` - Product roadmap with high-level sections
+- `docs/[project-slug]-roadmap.md` - Roadmap with high-level sections
 - `docs/[project-slug]-architecture.md` - Architecture document
 
 **User notes (optional):**
@@ -43,7 +49,7 @@ Must complete before running this command:
 ```
 
 **Output naming:**
-- Derives from milestone in `docs/[project-slug]-product-roadmap.md`
+- Derives from milestone in `docs/[project-slug]-roadmap.md`
 - Creates `docs/[milestone-slug]-milestone-spec.md`
 - Example: `docs/core-milestone-spec.md`, `docs/cloud-milestone-spec.md`
 

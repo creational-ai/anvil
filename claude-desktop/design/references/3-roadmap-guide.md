@@ -1,7 +1,7 @@
-# Stage 3: Product Roadmap
+# Stage 3: Roadmap
 
 ## Goal
-Break Product Vision + Architecture into strategic milestones with clear progression, detailed architecture per milestone, and measurable outcomes.
+Break Vision + Architecture into strategic milestones with clear progression, detailed architecture per milestone, and measurable outcomes.
 
 ## Code Allowed
 NO - This is pure strategic planning
@@ -10,8 +10,8 @@ NO - This is pure strategic planning
 NOT NEEDED - Focus on WHAT and WHY, not WHEN. Avoid timeline estimates (e.g., "Week 1-2", "2 weeks", "3 months"). Design phases don't need schedules.
 
 ## Input
-- Completed Product Vision doc (`docs/[slug]-product-vision.md`)
-- Completed Architecture doc (`docs/[slug]-architecture.md`)
+- Completed Vision doc (`[slug]-vision.md`)
+- Completed Architecture doc (`[slug]-architecture.md`)
 - Optional: Research findings
 
 ## Process
@@ -75,9 +75,9 @@ User Acquisition:
 #### Key Outcomes
 Checkbox list of what this milestone proves:
 ```
- Core platform works
- AI validated
- Ready for next milestone
+✅ Core platform works
+✅ AI validated
+✅ Ready for next milestone
 ```
 
 #### Why [This Approach/Order]?
@@ -93,7 +93,7 @@ Rationale for strategic decisions:
 **Ask**: Can you see the giant steps to reach the product vision?
 
 **Clear Path Visible** (plan multiple milestones upfront):
-- You can articulate major phases (e.g., "Web-First -> Mobile -> Scale -> Enterprise")
+- You can articulate major phases (e.g., "Web-First → Mobile → Scale → Enterprise")
 - Each phase has a clear theme and proof point
 - Dependencies between phases are obvious
 - Example: Platform with known scaling path
@@ -114,10 +114,10 @@ Rationale for strategic decisions:
 
 **Example Progression**:
 ```
-Core -> Validates basic functionality works
-Mobile -> Builds on Core, validates mobile integration
-Scale -> Builds on Mobile, validates multi-tenant architecture
-Enterprise -> Builds on Scale, validates B2B features
+Core → Validates basic functionality works
+Mobile → Builds on Core, validates mobile integration
+Scale → Builds on Mobile, validates multi-tenant architecture
+Enterprise → Builds on Scale, validates B2B features
 ```
 
 Each milestone unlocks the next. Don't skip steps - the progression should feel natural and logical.
@@ -197,9 +197,9 @@ Detailed Plans (to be created):
 
 ## Output
 
-`docs/[slug]-product-roadmap.md` using `assets/templates/3-product-roadmap.md`
+`[slug]-roadmap.md` artifact using `assets/templates/3-roadmap.md`
 
-Example: `docs/mc-product-roadmap.md`
+Example: `mc-roadmap.md`
 
 ## Key Principles
 
@@ -225,15 +225,14 @@ Example: `docs/mc-product-roadmap.md`
 
 ## Verification Checklist
 
-- [ ] Template read from `assets/templates/3-product-roadmap.md`
-- [ ] Output follows template structure exactly
+- [ ] Template read from `assets/templates/3-roadmap.md`
+- [ ] Artifact follows template structure exactly
 - [ ] Milestone Progression diagram shows overall strategy
 - [ ] First milestone (Core) is fully defined with all sections
 - [ ] Each milestone has Goal, Architecture, What Gets Built, Metrics, Outcomes, Why
 - [ ] Strategic Decisions section explains milestone order
 - [ ] Success Criteria defined for each milestone
 - [ ] Next Steps clear
-- [ ] Run `/verify-doc docs/[slug]-product-roadmap.md`
 
 ## Examples
 
@@ -242,7 +241,7 @@ Example: `docs/mc-product-roadmap.md`
 ```markdown
 ## Milestone Progression
 
-[Visual diagram showing: Core -> Mobile: Game 1 -> Mobile: Game 2]
+[Visual diagram showing: Core → Mobile: Game 1 → Mobile: Game 2]
 
 ## Core
 
@@ -268,9 +267,9 @@ Platform Functionality:
 - AI Quality: >80% positive feedback
 
 Key Outcomes:
- Core platform works on web
- Email list collection started
- Ready for mobile
+✅ Core platform works on web
+✅ Email list collection started
+✅ Ready for mobile
 
 Why Web-First Wins?
 - Faster iteration: No app store reviews
@@ -299,8 +298,8 @@ Success Metrics:
 - Output quality acceptable
 
 Key Outcomes:
- Pipeline functional
- Ready to determine next steps
+✅ Pipeline functional
+✅ Ready to determine next steps
 
 ## Strategic Decisions
 
@@ -313,10 +312,10 @@ viability. Path unclear - need to validate core concept first.
 - **Too timeline-focused**: Avoid rigid month/week commitments - focus on phases and deliverables
 - **Not visual enough**: Add diagrams! They communicate strategy faster than text
 - **Missing rationale**: Always explain WHY this order makes sense
-- **Vague metrics**: "Works well" -> "Responds in <3 seconds with >80% positive feedback"
+- **Vague metrics**: "Works well" → "Responds in <3 seconds with >80% positive feedback"
 - **Planning too far ahead**: If path is unclear, start with just Core
 - **Skipping architecture diagrams**: Each milestone needs its own architecture view
 
 ## Next Stage
 
--> Stage 4: Milestone Spec (run once per milestone, starting with Core)
+→ Stage 4: Milestone Spec (run once per milestone, starting with Core)

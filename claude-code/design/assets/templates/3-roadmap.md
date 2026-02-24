@@ -1,6 +1,6 @@
-# [Project Name] - Product Roadmap
+# [Project Name] - Roadmap
 
-**Product Vision**: [One sentence describing what this project achieves]
+**Vision**: [One sentence describing what this project achieves]
 
 **Related Documents**:
 - [Architecture Doc](./[slug]-architecture.md)

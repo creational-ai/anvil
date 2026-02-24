@@ -23,17 +23,25 @@ Project (e.g., "mission-control")
 
 | Stage | Output | Purpose |
 |-------|--------|---------|
-| 1. Product Vision | `docs/[slug]-product-vision.md` | Vision & feasibility |
+| 1. Vision | `docs/[slug]-vision.md` | Vision & feasibility |
 | 2. Architecture | `docs/[slug]-architecture.md` | Technical design |
-| 3. Product Roadmap | `docs/[slug]-product-roadmap.md` | Strategic milestone breakdown |
+| 3. Roadmap | `docs/[slug]-roadmap.md` | Strategic milestone breakdown |
 | 4. Milestone Spec | `docs/[slug]-milestone-spec.md` | Detailed per-milestone plan |
 | 5. PoC Spec | `docs/[slug]-poc-spec.md` | Atomic proof-of-concepts |
 
 **File Naming**:
-- `[slug]`: Project slug for project-level docs (product-vision, architecture, product-roadmap)
+- `[slug]`: Project slug for project-level docs (vision, architecture, roadmap)
 - `[slug]`: Milestone slug for milestone-level docs (milestone-spec, poc-spec)
 
 **Next**: Hand off to **dev skill** for implementation
+
+## Commands
+
+- `/design-vision` - Create or refine Vision document (Stage 1)
+- `/design-architecture` - Create architecture and integration plan (Stage 2)
+- `/design-roadmap` - Create roadmap with strategic milestones (Stage 3)
+- `/design-milestone-spec` - Expand a milestone into detailed design (Stage 4)
+- `/design-poc-spec` - Define atomic PoCs with success criteria (Stage 5)
 
 ---
 
@@ -79,18 +87,18 @@ Templates are mandatory. They define the exact structure curated over months of 
 
 ---
 
-## Stage 1: Product Vision
+## Stage 1: Vision
 
 **Goal**: Refine the idea into a clear, feasible vision
 
 **Input**: Idea (verbal, notes, rough sketch)
-**Template**: `assets/templates/1-product-vision.md`
-**Output**: `docs/[slug]-product-vision.md` (e.g., `docs/mc-product-vision.md`)
+**Template**: `assets/templates/1-vision.md`
+**Output**: `docs/[slug]-vision.md` (e.g., `docs/mc-vision.md`)
 
-> See `references/1-product-vision-guide.md` for detailed process
+> See `references/1-vision-guide.md` for detailed process
 
 ### Stage 1 Complete Checklist
-- [ ] `docs/[slug]-product-vision.md` created using template
+- [ ] `docs/[slug]-vision.md` created using template
 - [ ] Problem clearly stated
 - [ ] Solution approach makes sense
 - [ ] Technical feasibility seems reasonable
@@ -104,7 +112,7 @@ Templates are mandatory. They define the exact structure curated over months of 
 
 **Goal**: Create technical architecture and integration plan
 
-**Input**: Product Vision doc (`docs/[slug]-product-vision.md`)
+**Input**: Vision doc (`docs/[slug]-vision.md`)
 **Template**: `assets/templates/2-architecture.md`
 **Output**: `docs/[slug]-architecture.md` (e.g., `docs/mc-architecture.md`)
 
@@ -127,32 +135,32 @@ Validate early. The more context you have, the better the research -- but don't 
 - [ ] No code written (only diagrams and descriptions)
 - [ ] Run `/verify-doc docs/[slug]-architecture.md`
 
-**Next**: Stage 3: Product Roadmap
+**Next**: Stage 3: Roadmap
 
 ---
 
-## Stage 3: Product Roadmap
+## Stage 3: Roadmap
 
-**Goal**: Break Product Vision + Architecture into strategic milestones with clear progression
+**Goal**: Break Vision + Architecture into strategic milestones with clear progression
 
 **Input**:
-- Product Vision doc (`docs/[slug]-product-vision.md`)
+- Vision doc (`docs/[slug]-vision.md`)
 - Architecture doc (`docs/[slug]-architecture.md`)
 
-**Template**: `assets/templates/3-product-roadmap.md`
-**Output**: `docs/[slug]-product-roadmap.md` (e.g., `docs/mc-product-roadmap.md`)
+**Template**: `assets/templates/3-roadmap.md`
+**Output**: `docs/[slug]-roadmap.md` (e.g., `docs/mc-roadmap.md`)
 
-> See `references/3-product-roadmap-guide.md` for detailed process
+> See `references/3-roadmap-guide.md` for detailed process
 
 ### Stage 3 Complete Checklist
-- [ ] `docs/[slug]-product-roadmap.md` created using template
+- [ ] `docs/[slug]-roadmap.md` created using template
 - [ ] Milestone Progression diagram shows overall strategy
 - [ ] First milestone (Core) fully defined with all sections
 - [ ] Each milestone has Goal, Architecture, What Gets Built, Metrics, Outcomes, Why
 - [ ] Strategic Decisions section explains milestone order
 - [ ] Success Criteria defined for each milestone
 - [ ] Next Steps clear
-- [ ] Run `/verify-doc docs/[slug]-product-roadmap.md`
+- [ ] Run `/verify-doc docs/[slug]-roadmap.md`
 
 **Next**: Stage 4: Milestone Spec (detailed design per milestone)
 
@@ -163,7 +171,7 @@ Validate early. The more context you have, the better the research -- but don't 
 **Goal**: Expand a single milestone into comprehensive, self-contained design document
 
 **Input**:
-- Product Roadmap (`docs/[slug]-product-roadmap.md`)
+- Roadmap (`docs/[slug]-roadmap.md`)
 - Architecture doc (`docs/[slug]-architecture.md`)
 
 **Template**: `assets/templates/4-milestone-spec.md`
@@ -197,7 +205,7 @@ Validate early. The more context you have, the better the research -- but don't 
 
 **Input**:
 - Milestone Spec (`docs/[slug]-milestone-spec.md`)
-- Product Roadmap (`docs/[slug]-product-roadmap.md`)
+- Roadmap (`docs/[slug]-roadmap.md`)
 - Architecture doc (`docs/[slug]-architecture.md`)
 
 **Template**: `assets/templates/5-poc-spec.md`
@@ -238,8 +246,8 @@ Read when you need detailed process, examples, or edge case handling.
 
 | When to Read | Reference File |
 |--------------|----------------|
-| Starting Stage 1 or refining vision | `references/1-product-vision-guide.md` |
+| Starting Stage 1 or refining vision | `references/1-vision-guide.md` |
 | Starting Stage 2 or designing architecture | `references/2-architecture-guide.md` |
-| Starting Stage 3 or breaking into milestones | `references/3-product-roadmap-guide.md` |
+| Starting Stage 3 or breaking into milestones | `references/3-roadmap-guide.md` |
 | Starting Stage 4 or expanding a milestone | `references/4-milestone-spec-guide.md` |
 | Starting Stage 5 or defining PoCs | `references/5-poc-spec-guide.md` |

@@ -11,7 +11,7 @@ NOT NEEDED - Focus on WHAT and WHY, not WHEN. Avoid timeline estimates (e.g., "W
 
 ## Input
 - Milestone Spec from `docs/[slug]-milestone-spec.md` (Stage 4 output)
-- Product Roadmap from `docs/[slug]-product-roadmap.md` (Stage 3 output)
+- Roadmap from `docs/[slug]-roadmap.md` (Stage 3 output)
 - Architecture doc (`docs/[slug]-architecture.md`) (Stage 2 output)
 
 **Note**: Run this stage once per milestone, starting with Core.

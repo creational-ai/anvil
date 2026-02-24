@@ -34,6 +34,8 @@ OLD_COMMANDS=(
     "design-milestone-design.md"
     "design-poc-design.md"
     "dev-lessons.md"
+    "design-product-vision.md"
+    "design-product-roadmap.md"
 )
 #=============================================================================
 

@@ -4,7 +4,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Project Overview
 
-This repo contains skills for both Claude Code and Claude Desktop:
+**Anvil** — A production-grade product engineering toolkit for Claude Code and Claude Desktop.
 
 **Claude Code** (`claude-code/`):
 1. **design** - Design phase (concept to executable plan)
@@ -22,7 +22,7 @@ This repo contains skills for both Claude Code and Claude Desktop:
 ## Repo Structure
 
 ```
-idea-to-mvp/
+anvil/
 ├── README.md                   # Overview linking both environments
 ├── LICENSE
 │
@@ -92,11 +92,11 @@ cd claude-desktop
 ## File Naming Conventions
 
 **design skill creates:**
-- `[slug]-product-vision.md` - Vision and goals (e.g., `mc-product-vision.md`)
-- `[slug]-architecture.md` - Architecture (e.g., `mc-architecture.md`)
-- `[slug]-product-roadmap.md` - Strategic milestone roadmap
-- `[slug]-milestone-spec.md` - Detailed milestone spec (e.g., `core-milestone-spec.md`)
-- `[slug]-poc-spec.md` - PoC spec (e.g., `core-poc-spec.md`)
+- `docs/[slug]-vision.md` - Vision and goals (e.g., `docs/mc-vision.md`)
+- `docs/[slug]-architecture.md` - Architecture (e.g., `docs/mc-architecture.md`)
+- `docs/[slug]-roadmap.md` - Strategic milestone roadmap
+- `docs/[slug]-milestone-spec.md` - Detailed milestone spec (e.g., `docs/core-milestone-spec.md`)
+- `docs/[slug]-poc-spec.md` - PoC spec (e.g., `docs/core-poc-spec.md`)
 
 **dev skill creates:**
 - `PROJECT_STATE.md` - Task and milestone tracking
@@ -108,9 +108,9 @@ cd claude-desktop
 ## Templates
 
 **design** (`claude-code/design/assets/templates/`):
-- `1-product-vision.md` - Stage 1 template
+- `1-vision.md` - Stage 1 template
 - `2-architecture.md` - Stage 2 template
-- `3-product-roadmap.md` - Stage 3 template
+- `3-roadmap.md` - Stage 3 template
 - `4-milestone-spec.md` - Stage 4 template
 - `5-poc-spec.md` - Stage 5 template
 
@@ -126,7 +126,7 @@ cd claude-desktop
 ## Reference Guides
 
 **design** (`claude-code/design/references/`):
-- `1-product-vision-guide.md` through `5-poc-spec-guide.md`
+- `1-vision-guide.md` through `5-poc-spec-guide.md`
 
 **dev** (`claude-code/dev/references/`):
 - `1-design-guide.md` through `3-execution-guide.md`
@@ -138,9 +138,9 @@ cd claude-desktop
 ## Slash Commands
 
 **design commands**:
-- `/design-product-vision` - Create vision document (Stage 1)
+- `/design-vision` - Create vision document (Stage 1)
 - `/design-architecture` - Create architecture document (Stage 2)
-- `/design-product-roadmap` - Create milestone roadmap (Stage 3)
+- `/design-roadmap` - Create milestone roadmap (Stage 3)
 - `/design-milestone-spec` - Create detailed milestone spec (Stage 4)
 - `/design-poc-spec` - Create PoC spec (Stage 5)
 
@@ -210,7 +210,7 @@ git commit -m "Description"
 git push
 ```
 
-**Remote**: `git@github-creational:creational-ai/idea-to-mvp.git`
+**Remote**: `git@github-creational:creational-ai/anvil.git`
 
 ## Contributing Guidelines
 
@@ -230,7 +230,7 @@ git push
 
 When using Mission Control MCP tools (`mcp__mission-control__*`) to manage tasks, milestones, or project status, you are acting as the **PM (Project Manager) role**. Read these docs to understand the workflow, timestamp conventions, and scope:
 
-- **Slug:** `idea-to-mvp`
+- **Slug:** `anvil`
 - **Role:** PM (Project Manager)
 - **Read 1st:** [PM_GUIDE.md](file:///Users/docchang/Development/Mission%20Control/docs/PM_GUIDE.md)
 - **Read 2nd:** [MCP_TOOLS_REFERENCE.md](file:///Users/docchang/Development/Mission%20Control/docs/MCP_TOOLS_REFERENCE.md)

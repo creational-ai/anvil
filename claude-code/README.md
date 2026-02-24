@@ -1,6 +1,6 @@
 # Claude Code Skills
 
-Skills for the **implementation phase** of idea-to-mvp, designed for Claude Code (CLI).
+Skills for the **implementation phase** of Anvil, designed for Claude Code (CLI).
 
 ## Skills
 

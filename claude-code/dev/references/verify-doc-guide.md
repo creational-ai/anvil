@@ -15,10 +15,10 @@ Identify document type from filename pattern:
 
 | Pattern | Type | Cross-Reference |
 |---------|------|-----------------|
-| `*-product-vision.md` | Product Vision | None (root document) |
-| `*-architecture.md` | Architecture | product-vision |
-| `*-product-roadmap.md` | Product Roadmap | architecture, product-vision |
-| `[milestone]-milestone-spec.md` | Milestone Spec | product-roadmap, architecture |
+| `*-vision.md` | Vision | None (root document) |
+| `*-architecture.md` | Architecture | vision |
+| `*-roadmap.md` | Roadmap | architecture, vision |
+| `[milestone]-milestone-spec.md` | Milestone Spec | roadmap, architecture |
 | `[milestone]-poc-spec.md` | PoC Spec | milestone-spec |
 
 ### Dev Docs (dev skill)
@@ -48,9 +48,9 @@ Each doc type has a template. Verify the document follows its template structure
 
 | Doc Type | Template Location |
 |----------|-------------------|
-| Product Vision | `~/.claude/skills/design/assets/templates/1-product-vision.md` |
+| Vision | `~/.claude/skills/design/assets/templates/1-vision.md` |
 | Architecture | `~/.claude/skills/design/assets/templates/2-architecture.md` |
-| Product Roadmap | `~/.claude/skills/design/assets/templates/3-product-roadmap.md` |
+| Roadmap | `~/.claude/skills/design/assets/templates/3-roadmap.md` |
 | Milestone Spec | `~/.claude/skills/design/assets/templates/4-milestone-spec.md` |
 | PoC Spec | `~/.claude/skills/design/assets/templates/5-poc-spec.md` |
 | Task Design | `~/.claude/skills/dev/assets/templates/1-design.md` |
@@ -64,7 +64,7 @@ Check:
 
 ### 4. Type-Specific Checks
 
-**Design Docs** (product-vision, architecture, product-roadmap, milestone-spec, poc-spec):
+**Design Docs** (vision, architecture, roadmap, milestone-spec, poc-spec):
 - Vision alignment with parent docs
 - Scope consistency
 - Terminology consistency

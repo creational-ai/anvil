@@ -1,4 +1,4 @@
-# [Project Name] - Product Vision
+# [Project Name] - Vision
 
 ## Vision
 [One paragraph describing the end state - what does success look like?]

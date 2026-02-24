@@ -3,8 +3,8 @@ name: design
 description: >
   Structured workflow for taking ideas from concept to executable task plan.
   Use when starting a new project, designing architecture, planning milestones,
-  or creating PoC designs. Covers 5 stages - Product Vision (refine idea into
-  vision), Architecture (technical design), Product Roadmap (strategic milestone
+  or creating PoC designs. Covers 5 stages - Vision (refine idea into
+  vision), Architecture (technical design), Roadmap (strategic milestone
   breakdown), Milestone Spec (detailed per-milestone planning), PoC Spec
   (atomic proof-of-concept definitions). This is a NO-CODE skill focused on
   design and planning only.
@@ -35,9 +35,9 @@ Project (e.g., "mission-control")
 
 | Stage | Output | Purpose |
 |-------|--------|---------|
-| 1. Product Vision | `[slug]-product-vision.md` | Vision & feasibility |
+| 1. Vision | `[slug]-vision.md` | Vision & feasibility |
 | 2. Architecture | `[slug]-architecture.md` | Technical design |
-| 3. Product Roadmap | `[slug]-product-roadmap.md` | Strategic milestone breakdown |
+| 3. Roadmap | `[slug]-roadmap.md` | Strategic milestone breakdown |
 | 4. Milestone Spec | `[slug]-milestone-spec.md` | Detailed per-milestone plan |
 | 5. PoC Spec | `[slug]-poc-spec.md` | Atomic proof-of-concepts |
 
@@ -87,15 +87,15 @@ Templates are mandatory. They define the exact structure curated over months of 
 
 ---
 
-## Stage 1: Product Vision
+## Stage 1: Vision
 
 **Goal**: Refine the idea into a clear, feasible vision
 
 **Input**: Idea (verbal, notes, rough sketch)
-**Template**: `assets/templates/1-product-vision.md`
-**Output**: `[slug]-product-vision.md` artifact
+**Template**: `assets/templates/1-vision.md`
+**Output**: `[slug]-vision.md` artifact
 
-→ See `references/1-product-vision-guide.md` for detailed process
+→ See `references/1-vision-guide.md` for detailed process
 
 ---
 
@@ -103,7 +103,7 @@ Templates are mandatory. They define the exact structure curated over months of 
 
 **Goal**: Create technical architecture and integration plan
 
-**Input**: Product Vision doc
+**Input**: Vision doc
 **Template**: `assets/templates/2-architecture.md`
 **Output**: `[slug]-architecture.md` artifact
 
@@ -119,15 +119,15 @@ Validate early. The more context you have, the better the research — but don't
 
 ---
 
-## Stage 3: Product Roadmap
+## Stage 3: Roadmap
 
-**Goal**: Break Product Vision + Architecture into strategic milestones with clear progression
+**Goal**: Break Vision + Architecture into strategic milestones with clear progression
 
-**Input**: Product Vision doc, Architecture doc
-**Template**: `assets/templates/3-product-roadmap.md`
-**Output**: `[slug]-product-roadmap.md` artifact
+**Input**: Vision doc, Architecture doc
+**Template**: `assets/templates/3-roadmap.md`
+**Output**: `[slug]-roadmap.md` artifact
 
-→ See `references/3-product-roadmap-guide.md` for detailed process
+→ See `references/3-roadmap-guide.md` for detailed process
 
 ---
 
@@ -135,7 +135,7 @@ Validate early. The more context you have, the better the research — but don't
 
 **Goal**: Expand a single milestone into comprehensive, self-contained design document
 
-**Input**: Product Roadmap, Architecture doc
+**Input**: Roadmap, Architecture doc
 **Template**: `assets/templates/4-milestone-spec.md`
 **Output**: `[slug]-milestone-spec.md` artifact
 
@@ -147,7 +147,7 @@ Validate early. The more context you have, the better the research — but don't
 
 **Goal**: Define what needs to be proven and in what order — PRODUCTION-GRADE thin slices
 
-**Input**: Milestone Spec, Product Roadmap, Architecture doc
+**Input**: Milestone Spec, Roadmap, Architecture doc
 **Template**: `assets/templates/5-poc-spec.md`
 **Output**: `[slug]-poc-spec.md` artifact
 
@@ -178,8 +178,8 @@ Read when you need detailed process, examples, or edge case handling.
 
 | When to Read | Reference File |
 |--------------|----------------|
-| Starting Stage 1 or refining vision | `references/1-product-vision-guide.md` |
+| Starting Stage 1 or refining vision | `references/1-vision-guide.md` |
 | Starting Stage 2 or designing architecture | `references/2-architecture-guide.md` |
-| Starting Stage 3 or breaking into milestones | `references/3-product-roadmap-guide.md` |
+| Starting Stage 3 or breaking into milestones | `references/3-roadmap-guide.md` |
 | Starting Stage 4 or expanding a milestone | `references/4-milestone-spec-guide.md` |
 | Starting Stage 5 or defining PoCs | `references/5-poc-spec-guide.md` |

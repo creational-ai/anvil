@@ -43,9 +43,9 @@ If mission-control MCP is available, **use it first**. It contains the most up-t
 ### 2. Documents in Project
 
 If MCP not available, check for documents:
-- Product Vision doc (`docs/[slug]-product-vision.md`)
+- Vision doc (`docs/[slug]-vision.md`)
 - Architecture doc (`docs/[slug]-architecture.md`)
-- Product Roadmap doc (`docs/[slug]-product-roadmap.md`)
+- Roadmap doc (`docs/[slug]-roadmap.md`)
 - PRD, pitch deck, or other product docs
 
 ### 3. Ask User

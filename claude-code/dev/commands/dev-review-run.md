@@ -29,31 +29,60 @@ Review all completed steps in parallel by spawning a `dev-review-agent` for each
 1. Resolve the results path (if task name given, convert to `docs/[name]-results.md`)
 2. Read the results doc to find all completed steps (status: ✅ Complete)
 3. Find the corresponding plan doc (linked at top of results doc)
+4. Read the plan doc's Overview table → extract the **Risk Profile**
 
 ### 2. Spawn Reviews in Parallel
 
-For each completed step, spawn a `dev-review-agent` in background with a modified prompt that tells it to **return findings only, do NOT write to results.md**:
+For each completed step, spawn a `dev-review-agent` in background. Each agent writes to its own temp file in the session scratchpad — agents never touch results.md.
+
+**Temp file pattern**: `[session-scratchpad]/review-step-{N}.md`
+
+Use the session scratchpad path from the system prompt. If no scratchpad path is available, fall back to `/tmp/`.
 
 ```
 Spawn dev-review-agent (run_in_background: true):
-"[results-doc] step [N]
+"[results-doc-path] step [N]
 
-IMPORTANT: Do NOT write to results.md. Return your review findings
-and completion report as text output only. The orchestrator will
-write all reviews to results.md after collecting all results."
+output: [session-scratchpad]/review-step-[N].md
+
+Write your review to the output file above. Do NOT write to results.md."
 ```
 
 Launch ALL review agents in a single message — do not wait between spawns.
 
-### 3. Collect and Write As They Complete
+### 3. Collect and Merge (stream as they finish)
 
-Poll background agents. As each one finishes, immediately write its review section into the corresponding step block in results.md. Don't wait for all agents — write as they come in.
+**Do NOT wait for all agents.** Use `block: false` polling to check each agent, merge whichever is done, then loop back for the rest.
 
-Use the review output from each agent to add/replace the `**Review**:` section in each step block.
+```
+remaining = [all spawned agent IDs]
+
+while remaining is not empty:
+  for each agent_id in remaining:
+    check agent_id with TaskOutput (block: false)
+    if done:
+      1. Read [session-scratchpad]/review-step-{N}.md
+      2. Insert **Review** section into step {N} block in results.md
+      3. Report to user: "Step {N} review: PASS/FLAG"
+      4. Remove agent_id from remaining
+  if remaining is not empty:
+    wait briefly, then poll again (block: true, timeout: 15000 on first remaining agent)
+```
+
+**Format for results.md** (adapt from agent output, add timestamp):
+```markdown
+**Review**: PASS / FLAG
+**Reviewed**: [ISO 8601 with timezone, e.g., 2026-02-24T12:09:07-0800]
+- **Architectural drift**: [verdict] — [one sentence]
+- **[other checks if applied]**: [verdict] — [one sentence]
+- **Advisory**: [if any]
+```
+
+The **Reviewed** timestamp is the time the orchestrator merges the review into results.md. Run `date "+%Y-%m-%dT%H:%M:%S%z"` to get it.
 
 ### 4. Report Summary
 
-After all agents have completed:
+After all agents have completed and all reviews merged into results.md:
 
 ```markdown
 ## Review Summary
@@ -78,7 +107,8 @@ After all agents have completed:
 ## Key Rules
 
 1. **All reviews in parallel** — spawn all agents in a single message with `run_in_background: true`
-2. **Agents do NOT write** — agents return findings as text; orchestrator writes to results.md
-3. **Write as they arrive** — as each agent completes, immediately write its review to results.md
-4. **Only review completed steps** — skip steps that are Pending or In Progress
-5. **Report all results** — even if all PASS, show the summary table
+2. **Temp file per agent** — each agent writes to `[session-scratchpad]/review-step-{N}.md`, never to results.md
+3. **Orchestrator merges** — only the orchestrator writes to results.md
+4. **Write as they arrive** — as each agent completes, read its temp file and merge immediately
+5. **Only review completed steps** — skip steps that are Pending or In Progress
+6. **Report all results** — even if all PASS, show the summary table

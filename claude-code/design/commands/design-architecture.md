@@ -1,3 +1,9 @@
+---
+description: "Create architecture and integration plan (Stage 2 of design skill)"
+argument-hint: "<path-to-vision>"
+disable-model-invocation: true
+---
+
 # /design-architecture
 
 Create technical architecture and integration plan.
@@ -16,7 +22,7 @@ Stage 2 of design skill: Design system architecture without writing code.
 ## Input
 
 **First argument (required):**
-- Path to product vision (e.g., `docs/mc-product-vision.md`)
+- Path to vision (e.g., `docs/mc-vision.md`)
 
 **User notes (optional):**
 ```
@@ -50,4 +56,4 @@ Create `docs/[slug]-architecture.md` using the template (e.g., `docs/mc-architec
 
 ## After Completion
 
-Run `/verify-doc docs/[slug]-architecture.md` to validate, then proceed to Stage 3: Product Roadmap.
+Run `/verify-doc docs/[slug]-architecture.md` to validate, then proceed to Stage 3: Roadmap.

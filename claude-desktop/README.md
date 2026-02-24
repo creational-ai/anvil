@@ -1,6 +1,6 @@
 # Claude Desktop Skills
 
-Skills for the **design and validation phase** of idea-to-mvp, optimized for Claude Desktop (claude.ai).
+Skills for the **design and validation phase** of Anvil, optimized for Claude Desktop (claude.ai).
 
 ## Skills
 

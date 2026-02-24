@@ -1,28 +1,34 @@
-# /design-product-roadmap
+---
+description: "Create roadmap breaking Vision into strategic milestones (Stage 3 of design skill)"
+argument-hint: "<notes>"
+disable-model-invocation: true
+---
 
-Create product roadmap breaking Product Vision into strategic phases.
+# /design-roadmap
+
+Create roadmap breaking Vision into strategic phases.
 
 ## What This Does
 
-Stage 3 of design skill: Break Product Vision + Architecture into strategic milestones.
+Stage 3 of design skill: Break Vision + Architecture into strategic milestones.
 
 ## Resources
 
 **Read these for guidance**:
-- `~/.claude/skills/design/SKILL.md` - See "Stage 3: Product Roadmap" section
-- `~/.claude/skills/design/references/3-product-roadmap-guide.md` - Detailed process
-- `~/.claude/skills/design/assets/templates/3-product-roadmap.md` - Template
+- `~/.claude/skills/design/SKILL.md` - See "Stage 3: Roadmap" section
+- `~/.claude/skills/design/references/3-roadmap-guide.md` - Detailed process
+- `~/.claude/skills/design/assets/templates/3-roadmap.md` - Template
 
 ## Prerequisites
 
 Must complete before running this command:
-- [ ] Stage 1: Product Vision (`docs/[slug]-product-vision.md`)
+- [ ] Stage 1: Vision (`docs/[slug]-vision.md`)
 - [ ] Stage 2: Architecture (`docs/[slug]-architecture.md`)
 
 ## Input
 
 **Required docs (auto-read):**
-- `docs/[slug]-product-vision.md` - Vision and goals
+- `docs/[slug]-vision.md` - Vision and goals
 - `docs/[slug]-architecture.md` - Architecture document
 - Research findings (if any exist)
 
@@ -34,13 +40,13 @@ Must complete before running this command:
 **Examples:**
 ```bash
 # Basic usage (reads all docs + user context)
-/design-product-roadmap
+/design-roadmap
 
 # With specific guidance
-/design-product-roadmap "Clear path: Core → Mobile → Enterprise"
+/design-roadmap "Clear path: Core → Mobile → Enterprise"
 
 # For unclear path
-/design-product-roadmap "Small project - just start with Core milestone"
+/design-roadmap "Small project - just start with Core milestone"
 ```
 
 ## Key Requirements
@@ -50,12 +56,12 @@ Must complete before running this command:
 ## Process
 
 1. **Read all prerequisite docs:**
-   - Read `docs/[slug]-product-vision.md`
+   - Read `docs/[slug]-vision.md`
    - Read `docs/[slug]-architecture.md`
    - Read any research findings (Stage 3 outputs)
    - Review user notes
 
-2. **Follow the guidance in `3-product-roadmap-guide.md`:**
+2. **Follow the guidance in `3-roadmap-guide.md`:**
    - Start with Core milestone (always)
    - Assess path clarity (can you see the giant steps?)
    - Define milestones based on strategic phases
@@ -64,7 +70,7 @@ Must complete before running this command:
 ## Output
 
 Creates:
-- `docs/[slug]-product-roadmap.md` - Strategic milestone roadmap (e.g., `docs/mc-product-roadmap.md`)
+- `docs/[slug]-roadmap.md` - Strategic milestone roadmap (e.g., `docs/mc-roadmap.md`)
 
 ## Key Decisions
 
@@ -76,6 +82,6 @@ Creates:
 
 ## After Completion
 
-User will run `/verify-doc docs/[slug]-product-roadmap.md`, fix issues, then proceed to Stage 4 (Milestone Spec).
+User will run `/verify-doc docs/[slug]-roadmap.md`, fix issues, then proceed to Stage 4 (Milestone Spec).
 
 **Next Stage**: Create detailed design for Core milestone, then proceed to PoC spec for Core. Repeat for subsequent milestones as needed.

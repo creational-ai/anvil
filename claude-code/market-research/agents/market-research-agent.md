@@ -33,7 +33,7 @@ Follow the research guide exactly. Use the template exactly.
 ## Context Extraction Priority
 
 1. **Mission Control MCP** (if available): Call `get_project(slug)` to extract objective, target_market, revenue_model, monthly_cost, projected_mrr, architecture_summary
-2. **Project docs**: Look for `docs/[slug]-product-vision.md`, `docs/[slug]-architecture.md`
+2. **Project docs**: Look for `docs/[slug]-vision.md`, `docs/[slug]-architecture.md`
 3. **Ask user**: If neither available, request key information
 
 ## Output

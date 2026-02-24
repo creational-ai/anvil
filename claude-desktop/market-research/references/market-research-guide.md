@@ -37,9 +37,9 @@ get_project(slug) returns:
 ### Priority 2: Documents in Context
 
 If MCP not available, look for documents:
-- `[slug]-product-vision.md` → Vision, problem, value prop
+- `[slug]-vision.md` → Vision, problem, value prop
 - `[slug]-architecture.md` → Tech approach, cost structure
-- `[slug]-product-roadmap.md` → Strategic approach, what gets built
+- `[slug]-roadmap.md` → Strategic approach, what gets built
 - PRD, pitch deck, or other product docs
 
 ### Priority 3: Ask User

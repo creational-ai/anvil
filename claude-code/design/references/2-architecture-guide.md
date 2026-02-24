@@ -10,7 +10,7 @@ NO
 NOT NEEDED - Focus on WHAT and WHY, not WHEN. Avoid timeline estimates (e.g., "Week 1-2", "2 weeks", "3 months"). Design phases don't need schedules.
 
 ## Input
-- Product Vision doc from Stage 1 (`docs/[slug]-product-vision.md`)
+- Vision doc from Stage 1 (`docs/[slug]-vision.md`)
 
 ## Process
 1. Define system architecture
@@ -63,4 +63,4 @@ Example: `docs/mc-architecture.md`
 - Not considering failure modes
 
 ## Next Stage
--> Stage 3: Product Roadmap
+-> Stage 3: Roadmap

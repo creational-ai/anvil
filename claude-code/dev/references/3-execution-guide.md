@@ -111,7 +111,7 @@ Testing is about **scope and intentionality**, not speed. Know exactly what you'
 
 ## Documentation Guidelines
 - Update `docs/[milestone-slug]-[task-slug]-results.md` after each step
-- Include: step status (⬜ Pending / 🔄 In Progress / ✅ Complete), test results, issues encountered, bug fixes
+- Include: step status (⬜ Pending / 🔄 In Progress / ✅ Complete) with full timestamp (ISO 8601 with timezone, e.g., `2026-02-24T12:09:07-0800`), test results, issues encountered, bug fixes
 - **Add "Lessons Learned" section** for each step documenting key insights, patterns, and gotchas
 - **Fill "Trade-offs & Decisions" section** for every step. If no meaningful decisions were made, write: "No significant trade-offs — straightforward implementation per plan."
 - **Fill "Deviation from Plan" field** for every step. When the executor deviates from the plan's specification (different files, different approach, different structure), document what changed and why. If no deviation, write: "None -- implemented per plan specification."

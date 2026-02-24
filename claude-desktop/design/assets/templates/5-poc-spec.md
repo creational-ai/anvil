@@ -4,7 +4,7 @@
 [What does completing this Milestone prove? What capability does it unlock?]
 
 ## Project
-[Parent project name - link to [slug]-product-vision.md]
+[Parent project name - link to [slug]-vision.md]
 
 ## PoC Dependency Diagram
 

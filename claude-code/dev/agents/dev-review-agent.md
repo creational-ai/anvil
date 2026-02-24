@@ -43,12 +43,42 @@ Before starting any work, read these files:
 - Do NOT modify implementation code files
 - Do NOT re-run tests (the executor already verified those)
 - Do NOT fix problems — flag them
-- **Only write to results.md.** All other files are read-only.
+- **Only write to the designated output file.** All other files are read-only.
 
-## Output
+## Output Destination
 
-Updated `docs/[milestone-slug]-[task-slug]-results.md` with review section for the step.
+The orchestrator specifies where to write via `output:` in the prompt.
+
+- If `output: <path>` is provided → write your review to that file
+- If no output path → write to results.md (default for single-step reviews)
+
+## Output Format
+
+Write **only** the structured review block to the output file. No preamble, no extra narrative.
+
+```markdown
+## Step [N] Review: [Step Name]
+
+**Verdict**: PASS / FLAG
+**Reviewed**: [YYYY-MM-DDTHH:MM:SS±HHMM]
+**Risk Profile**: [from plan]
+**Checks Applied**: [X] of 5
+
+**Architectural drift**: PASS/FLAG — [one sentence]
+**Intent match**: PASS/FLAG — [one sentence] (if applied)
+**Assumption audit**: PASS/FLAG — [one sentence] (if applied)
+**Silent trade-offs**: PASS/FLAG — [one sentence] (if applied)
+**Complexity proportionality**: PASS/FLAG — [one sentence] (if applied)
+
+**Advisory** (if any):
+- [one-line note]
+
+**Issues** (if FLAG):
+1. [Check name]: [What was found, why it's a concern]
+```
+
+Omit check lines that were skipped per risk profile. Keep each line to one sentence.
 
 ## Completion Report
 
-When done, report using the format defined in the review guide's Completion Report section.
+When done, report the verdict (PASS/FLAG) and confirm the output file was written.

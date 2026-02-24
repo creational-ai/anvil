@@ -1,14 +1,14 @@
-# Milestone [Number]: [Name]
+# [Milestone Name]
 
 **Status**: Planning
-**Parent Document**: [Product Roadmap](./[slug]-product-roadmap.md)
+**Parent Document**: [Roadmap](./[slug]-roadmap.md)
 **Architecture Reference**: [Architecture Doc](./[slug]-architecture.md)
 
 ---
 
 ## Executive Summary
 
-[2-3 paragraphs describing what this milestone accomplishes, why it's important, and how it fits into the overall roadmap. Pull from the Goal section in [slug]-product-roadmap.md and expand with context.]
+[2-3 paragraphs describing what this milestone accomplishes, why it's important, and how it fits into the overall roadmap. Pull from the Goal section in [slug]-roadmap.md and expand with context.]
 
 **Key Principle**: [One sentence capturing the core philosophy of this milestone]
 
@@ -16,7 +16,7 @@
 
 ## Goal
 
-[Copy the Goal from product-roadmap.md and expand if needed]
+[Copy the Goal from roadmap.md and expand if needed]
 
 **What This Milestone Proves**:
 - [Proof point 1 - what capability or assumption gets validated]
@@ -35,7 +35,7 @@
 ### High-Level System Diagram
 
 ```
-[Copy the architecture diagram from product-roadmap.md]
+[Copy the architecture diagram from roadmap.md]
 ```
 
 ### Technology Stack
@@ -137,7 +137,7 @@ Step 3
 
 ### Phase 3: [Phase Name]
 
-[Repeat structure for each phase from product-roadmap.md]
+[Repeat structure for each phase from roadmap.md]
 
 ### Phase 4: [Phase Name]
 
@@ -152,7 +152,7 @@ Step 3
 
 ## Success Metrics
 
-[Expand the success metrics from product-roadmap.md with more detail]
+[Expand the success metrics from roadmap.md with more detail]
 
 ### [Category 1]
 
@@ -194,7 +194,7 @@ Step 3
 
 ## Key Outcomes
 
-[Copy from product-roadmap.md and optionally expand with sub-bullets]
+[Copy from roadmap.md and optionally expand with sub-bullets]
 
 ✅ **[Outcome 1]**
    - [Sub-detail if helpful]
@@ -209,7 +209,7 @@ Step 3
 
 ## Why [This Approach]?
 
-[Copy "Why [X]?" section from product-roadmap.md if it exists, or create based on strategic decisions]
+[Copy "Why [X]?" section from roadmap.md if it exists, or create based on strategic decisions]
 
 **[Reason Category 1]**:
 - [Explanation]
@@ -295,7 +295,7 @@ Step 3
 
 ## Related Documents
 
-- [Product Roadmap](./[slug]-product-roadmap.md) - Full milestone roadmap
+- [Roadmap](./[slug]-roadmap.md) - Full milestone roadmap
 - [Architecture Doc](./[slug]-architecture.md) - Complete technical architecture
 - [Other relevant doc] - Description
 

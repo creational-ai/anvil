@@ -35,7 +35,7 @@ From `docs/[milestone-slug]-[task-slug]-plan.md`:
 ## Implementation Progress
 
 ### Step [N]: [Step Name] ✅/🔄/⬜
-**Status**: Complete / In Progress / Pending ([Date])
+**Status**: Complete / In Progress / Pending ([YYYY-MM-DDTHH:MM:SS±HHMM])
 **Expected**: [What should be built]
 
 **Implementation**:
@@ -64,6 +64,7 @@ From `docs/[milestone-slug]-[task-slug]-plan.md`:
 - [Key insight 3]
 
 **Review**: ✅ Pass / ⚠️ Flagged
+**Reviewed**: [YYYY-MM-DDTHH:MM:SS±HHMM]
 > Review checks validate against both the design doc's intent (higher-level what/why) and the plan's per-step acceptance criteria (immediate contract for this step).
 - **Intent match**: ✅ / ⚠️ [details — check against design intent AND plan acceptance criteria]
 - **Assumption audit**: ✅ / ⚠️ [details]
