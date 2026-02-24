@@ -1,4 +1,7 @@
-# A N V I L
+# A N V I L  -  🔥 Forges raw ideas into polished products. 🔥
+
+A product engineering toolkit for Claude Code and Claude Desktop — built by a developer, for developers. Anvil applies software engineering discipline to AI-assisted development: mandatory templates prevent structural drift, stage gates enforce design-before-code, spec-driven plans eliminate hallucinated implementations, test loops catch failures on every step, and a 5-check conceptual review targets the failure modes unique to AI — silent assumptions, unsurfaced trade-offs, and architectural drift. The result is production-grade code, not demo code.
+
 
 ```
                                ┌────────────────────────────┐
@@ -11,10 +14,7 @@
                                    ┌────┘        └────┐
                                    │                  │
                                    └──────────────────┘
-                       🔥 Forge ideas into production code. 🔥
 ```
-
-A production-grade product engineering toolkit for Claude Code and Claude Desktop. Structured workflows for design, development, market validation, and quality assurance — from concept to working product.
 
 ## Two Environments, One Methodology
 
