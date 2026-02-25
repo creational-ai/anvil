@@ -69,13 +69,15 @@ while remaining is not empty:
     wait briefly, then poll again (block: true, timeout: 15000 on first remaining agent)
 ```
 
-**Format for results.md** (adapt from agent output, add timestamp):
+**Format for results.md** (matches review guide and results template):
 ```markdown
 **Review**: ✅ Pass / ⚠️ Flagged
-**Reviewed**: [ISO 8601 with timezone, e.g., 2026-02-24T12:09:07-0800]
+**Reviewed**: [YYYY-MM-DDTHH:MM:SS±HHMM]
+- **Intent match**: ✅ / ⚠️ — [one sentence]
+- **Assumption audit**: ✅ / ⚠️ — [one sentence]
+- **Silent trade-offs**: ✅ / ⚠️ — [one sentence]
+- **Complexity proportionality**: ✅ / ⚠️ — [one sentence]
 - **Architectural drift**: ✅ / ⚠️ — [one sentence]
-- **[other checks if applied]**: ✅ / ⚠️ — [one sentence]
-- **Advisory**: [if any]
 ```
 
 The **Reviewed** timestamp is the time the orchestrator merges the review into results.md. Run `date "+%Y-%m-%dT%H:%M:%S%z"` to get it.

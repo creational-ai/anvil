@@ -54,27 +54,16 @@ The orchestrator specifies where to write via `output:` in the prompt.
 
 ## Output Format
 
-Write **only** the structured review block to the output file. No preamble, no extra narrative.
+Write **only** the structured review block to the output file. No preamble, no extra narrative. Use the same format defined in the review guide (matches the results template):
 
 ```markdown
-## Step [N] Review: [Step Name]
-
-**Verdict**: ✅ Pass / ⚠️ Flagged
+**Review**: ✅ Pass / ⚠️ Flagged
 **Reviewed**: [YYYY-MM-DDTHH:MM:SS±HHMM]
-**Risk Profile**: [from plan]
-**Checks Applied**: [X] of 5
-
-**Architectural drift**: ✅ / ⚠️ — [one sentence]
-**Intent match**: ✅ / ⚠️ — [one sentence] (if applied)
-**Assumption audit**: ✅ / ⚠️ — [one sentence] (if applied)
-**Silent trade-offs**: ✅ / ⚠️ — [one sentence] (if applied)
-**Complexity proportionality**: ✅ / ⚠️ — [one sentence] (if applied)
-
-**Advisory** (if any):
-- [one-line note]
-
-**Issues** (if FLAG):
-1. [Check name]: [What was found, why it's a concern]
+- **Intent match**: ✅ / ⚠️ — [one sentence]
+- **Assumption audit**: ✅ / ⚠️ — [one sentence]
+- **Silent trade-offs**: ✅ / ⚠️ — [one sentence]
+- **Complexity proportionality**: ✅ / ⚠️ — [one sentence]
+- **Architectural drift**: ✅ / ⚠️ — [one sentence]
 ```
 
 Omit check lines that were skipped per risk profile. Keep each line to one sentence.

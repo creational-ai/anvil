@@ -65,9 +65,8 @@ Must complete before running this command:
 **Update Mode** - Add new tasks to existing design:
 1. Read existing `docs/[slug]-task-spec.md`
 2. Identify new tasks needed based on user notes
-3. **Append** new tasks with next sequential numbers
+3. **Append** new tasks (identified by name, not number)
 4. Update dependency diagram to show where new tasks fit
-5. **DO NOT renumber** existing tasks
 
 ## Examples
 

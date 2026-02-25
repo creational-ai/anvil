@@ -12,9 +12,9 @@
 
 | Task | Status | What It Proved |
 |------|--------|----------------|
-| [Task 0] | ✅ Complete | [One-liner summary] |
-| [Task 1] | ✅ Complete | [One-liner summary] |
-| [Task 2] | 🔄 In Progress | [One-liner summary] |
+| [Task Name] | ✅ Complete | [One-liner summary] |
+| [Task Name] | ✅ Complete | [One-liner summary] |
+| [Task Name] | 🔄 In Progress | [One-liner summary] |
 
 **Current State**: [Paragraph summarizing where the milestone stands, key capabilities, test status, what's ready for next milestone]
 
@@ -39,8 +39,7 @@
                     [MILESTONE] PROGRESS ([STATUS])
     ═══════════════════════════════════════════════════════════════════════════════
 
-    Task 0              Task 1              Task 2              Task 3
-    [NAME]              [NAME]              [NAME]              [NAME]
+    [Task Name]         [Task Name]         [Task Name]         [Task Name]
     ─────────────       ─────────────       ─────────────       ─────────────
     ✅ Complete         ✅ Complete         ✅ Complete         🔄 In Progress
 
@@ -53,7 +52,7 @@
 
 ---
 
-## What [Task 0] Delivered: [Short Name]
+## What [Task Name] Delivered
 
 **Duration**: [YYYY-MM-DD] to [YYYY-MM-DD]
 
@@ -79,7 +78,7 @@
 ### [N]. Lessons Learned
 
 ```
-KEY LESSONS FROM [TASK 0]
+KEY LESSONS FROM [TASK NAME]
 ══════════════════════════════════════════════════════
 
 1. [Lesson one - what was learned]
@@ -89,7 +88,7 @@ KEY LESSONS FROM [TASK 0]
 3. [Lesson three - what was learned]
 ```
 
-### [Task 0] Artifacts
+### [Task Name] Artifacts
 
 | File | Purpose | Lines |
 |------|---------|-------|
@@ -98,11 +97,11 @@ KEY LESSONS FROM [TASK 0]
 
 ---
 
-## What [Task 1] Delivered: [Short Name]
+## What [Task Name] Delivered
 
-**Duration**: [YYYY-MM-DD HH:MM] to [HH:MM] (~X hours)
+**Duration**: [YYYY-MM-DD] to [YYYY-MM-DD]
 
-[Repeat structure from Task 0 - numbered sections + Lessons Learned + Artifacts table]
+[Repeat structure from first task - numbered sections + Lessons Learned + Artifacts table]
 
 ---
 
@@ -154,9 +153,7 @@ MILESTONE COMPLETION MAP
 
 ## References
 
-- [Task 0 Design](./[milestone]-[task0]-design.md)
-- [Task 0 Results](./[milestone]-[task0]-results.md)
-- [Task 1 Design](./[milestone]-[task1]-design.md)
-- [Task 1 Results](./[milestone]-[task1]-results.md)
+- [Task Name Design](./[milestone]-[task-slug]-design.md)
+- [Task Name Results](./[milestone]-[task-slug]-results.md)
 - [Architecture](./[milestone]-architecture.md)
 - [Task Spec](./[milestone]-task-spec.md)

@@ -58,7 +58,7 @@ Must complete before running this command:
 1. **Read all prerequisite docs:**
    - Read `docs/[slug]-vision.md`
    - Read `docs/[slug]-architecture.md`
-   - Read any research findings (Stage 3 outputs)
+   - Read any research findings (from market-research, if available)
    - Review user notes
 
 2. **Follow the guidance in `3-roadmap-guide.md`:**
@@ -84,4 +84,4 @@ Creates:
 
 User will run `/verify-doc docs/[slug]-roadmap.md`, fix issues, then proceed to Stage 4 (Milestone Spec).
 
-**Next Stage**: Create detailed design for Core milestone, then proceed to PoC spec for Core. Repeat for subsequent milestones as needed.
+**Next Stage**: Create detailed design for Core milestone, then proceed to Task Spec for Core. Repeat for subsequent milestones as needed.

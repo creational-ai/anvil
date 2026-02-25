@@ -214,7 +214,7 @@ Step 3
 - AWS App Runner service configured with Python 3.11 runtime
 - RDS PostgreSQL database (db.t4g.micro, 20GB gp3)
 - S3 buckets for templates, logs, backups
-- SES configured and verified for mochibits.com domain
+- SES configured and verified for example.com domain
 - CloudFront distribution (if needed)
 
 **Configuration**:

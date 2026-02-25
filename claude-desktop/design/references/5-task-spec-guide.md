@@ -78,7 +78,7 @@ Each task has a Type that determines its framing:
 
 **New projects** typically start with PoC-type tasks (proving technical feasibility).
 **Established projects** mix Feature, Issue, and Refactor tasks.
-**A single task spec can contain mixed types** -- e.g., Task 1 (PoC), Task 2 (Feature).
+**A single task spec can contain mixed types** -- e.g., Database Schema (PoC), User Management (Feature).
 
 **CRITICAL: Minimize the Number of Tasks**
 
@@ -98,7 +98,7 @@ Each task has a Type that determines its framing:
 
 **GOOD - Minimized tasks:**
 ```
-Task 3: User Management (One task)
+User Management (One task)
    - Database schema for users
    - CRUD API endpoints
    - Authentication logic
@@ -108,21 +108,21 @@ Task 3: User Management (One task)
 
 **BAD - Too many micro-tasks:**
 ```
-Task 3: User Database Schema
-Task 4: Create User API
-Task 5: Read User API
-Task 6: Update User API
-Task 7: Delete User API
-Task 8: User Authentication
+User Database Schema
+Create User API
+Read User API
+Update User API
+Delete User API
+User Authentication
 ```
 
 **When forced to split (e.g., full-stack feature):**
 ```
-Task 3: User Management Backend
+User Management Backend
    - Database + API + Auth (grouped)
    - Validates: "Backend handles users correctly"
 
-Task 4: User Management Frontend
+User Management Frontend
    - UI components + forms + state
    - Validates: "Frontend integrates with user API"
 ```
@@ -141,31 +141,28 @@ Create a diagram showing:
 Example:
 ```
 +-----------------------+              +-----------------------+
-|  Task 1: Database     |              |  Task 2: API Server   |
-|  Schema               |              |  Basic                |
+|  Database Schema      |              |  API Server Basic     |
 +-----------+-----------+              +-----------+-----------+
             |                                      |
             +------------------+-------------------+
                                |
                                v
                    +-----------------------+
-                   |  Task 3: CRUD         |
-                   |  Operations           |
+                   |  CRUD Operations      |
                    +-----------+-----------+
                                |
                   +------------+------------+
                   |                         |
                   v                         v
       +-----------------------+   +-----------------------+
-      |  Task 4: Analytics    |   |  Task 5: Reports      |
+      |  Analytics            |   |  Reports              |
       +-----------+-----------+   +-----------+-----------+
                   |                           |
                   +------------+------------+
                                |
                                v
                    +-----------------------+
-                   |  Task 6: E2E          |
-                   |  Integration          |
+                   |  E2E Integration      |
                    +-----------------------+
 ```
 
@@ -195,7 +192,7 @@ When a task doesn't meet success criteria:
 2. **Assess impact** -- Does this invalidate the milestone approach? Or just this task?
 3. **Decide next action**:
    - **Retry with different approach** -- Update task design and re-attempt
-   - **Pivot the milestone** -- Revisit milestone-spec with new constraints
+   - **Pivot the milestone** -- Revisit milestone spec with new constraints
    - **Revisit architecture** -- If fundamental assumption was wrong
    - **Kill the milestone** -- If the capability isn't achievable/valuable
 

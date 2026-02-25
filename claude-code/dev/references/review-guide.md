@@ -135,15 +135,16 @@ The threshold: would this matter in a code review between two experienced develo
 
 ## Output Format
 
-Write the review section into the step block in results.md:
+Write the review section into the step block in results.md. This format matches the results template (`assets/templates/3-results.md`):
 
 ```markdown
 **Review**: ✅ Pass / ⚠️ Flagged
-- **Intent match**: ✅ / ⚠️ [details if flagged]
-- **Assumption audit**: ✅ / ⚠️ [details if flagged]
-- **Silent trade-offs**: ✅ / ⚠️ [details if flagged]
-- **Complexity proportionality**: ✅ / ⚠️ [details if flagged]
-- **Architectural drift**: ✅ / ⚠️ [details if flagged]
+**Reviewed**: [YYYY-MM-DDTHH:MM:SS±HHMM]
+- **Intent match**: ✅ / ⚠️ — [one sentence]
+- **Assumption audit**: ✅ / ⚠️ — [one sentence]
+- **Silent trade-offs**: ✅ / ⚠️ — [one sentence]
+- **Complexity proportionality**: ✅ / ⚠️ — [one sentence]
+- **Architectural drift**: ✅ / ⚠️ — [one sentence]
 ```
 
 For checks that were skipped (per risk profile), omit them from the list — only show checks that were actually run.

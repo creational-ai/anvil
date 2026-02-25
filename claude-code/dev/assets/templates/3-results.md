@@ -66,12 +66,11 @@ From `docs/[milestone-slug]-[task-slug]-plan.md`:
 
 **Review**: ✅ Pass / ⚠️ Flagged
 **Reviewed**: [YYYY-MM-DDTHH:MM:SS±HHMM]
-> Review checks validate against both the design doc's intent (higher-level what/why) and the plan's per-step acceptance criteria (immediate contract for this step).
-- **Intent match**: ✅ / ⚠️ [details — check against design intent AND plan acceptance criteria]
-- **Assumption audit**: ✅ / ⚠️ [details]
-- **Silent trade-offs**: ✅ / ⚠️ [details]
-- **Complexity proportionality**: ✅ / ⚠️ [details]
-- **Architectural drift**: ✅ / ⚠️ [details]
+- **Intent match**: ✅ / ⚠️ — [one sentence]
+- **Assumption audit**: ✅ / ⚠️ — [one sentence]
+- **Silent trade-offs**: ✅ / ⚠️ — [one sentence]
+- **Complexity proportionality**: ✅ / ⚠️ — [one sentence]
+- **Architectural drift**: ✅ / ⚠️ — [one sentence]
 
 **Result**: [Summary of step completion and readiness for next step]
 
