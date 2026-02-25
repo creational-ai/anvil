@@ -207,6 +207,15 @@ git push
 
 **Remote**: `git@github-creational:creational-ai/anvil.git`
 
+### git-crypt
+
+`docs/` is encrypted with git-crypt (appears as binary blobs on GitHub, readable locally).
+
+- **Config**: `.gitattributes` defines encrypted paths
+- **Check status**: `git-crypt status -e` (list encrypted files)
+- **New clone**: `git-crypt unlock` after cloning (requires GPG key for `dominic@creational.ai`)
+- **Adding encrypted paths**: Edit `.gitattributes`, add pattern with `filter=git-crypt diff=git-crypt`
+
 ## Contributing Guidelines
 
 - Keep each skill's SKILL.md as the source of truth
