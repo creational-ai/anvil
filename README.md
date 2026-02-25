@@ -1,7 +1,7 @@
 ```
                                ┌────────────────────────────┐
          ╭─────────────────────┤                            │
-          ╰──╮                 │      🔨 A N V I L 🔨        │
+          ╰──╮                 │      🔨 A N V I L 🔨       │
              ╰──╮              └───┐                  ┌─────┘
                 ╰──────────────────┤                  │
                                    └────┐        ┌────┘
@@ -45,37 +45,37 @@ architectural thinking before any implementation.
 
 ```
          ┌──────────────────────┐
-         │      Raw Idea         │
+         │      Raw Idea        │
          └──────────┬───────────┘
                     │
                     ▼
          ┌──────────────────────┐
-         │  1. Vision            │  Problem, solution, feasibility
+         │  1. Vision           │  Problem, solution, feasibility
          └──────────┬───────────┘
                     │
                     ▼
          ┌──────────────────────┐
-         │  2. Architecture      │  Tech stack, data flows, integrations
+         │  2. Architecture     │  Tech stack, data flows, integrations
          └──────────┬───────────┘
                     │
               ┌─────┴──────┐
-              │  Market     │
-              │  Research   │  Go / Pivot / Kill?
+              │  Market    │
+              │  Research  │  Go / Pivot / Kill?
               └─────┬──────┘
                     │ GO
                     ▼
          ┌──────────────────────┐
-         │  3. Roadmap           │  Strategic milestone breakdown
+         │  3. Roadmap          │  Strategic milestone breakdown
          └──────────┬───────────┘
                     │
                     ▼
          ┌──────────────────────┐
-         │  4. Milestone Spec    │  Detailed per-milestone design
+         │  4. Milestone Spec   │  Detailed per-milestone design
          └──────────┬───────────┘
                     │
                     ▼
          ┌──────────────────────┐
-         │  5. Task Spec          │  Atomic tasks + success criteria
+         │  5. Task Spec        │  Atomic tasks + success criteria
          └──────────┬───────────┘
                     │
                     ▼
@@ -92,19 +92,19 @@ specifications, not from pre-written code it might hallucinate.
 
 ```
          ┌──────────────────────┐
-    ┌───▶│  Pick task from plan  │
+    ┌───▶│  Pick task from plan │
     │    └──────────┬───────────┘
     │               │
     │               ▼
     │    ┌──────────────────────┐
-    │    │  1. Design (no code)  │  Analyze, risk profile, constraints
-    │    │     /verify-doc ✓     │  Approach per item, sequence
+    │    │  1. Design (no code) │  Analyze, risk profile, constraints
+    │    │     /verify-doc ✓    │  Approach per item, sequence
     │    └──────────┬───────────┘
     │               │
     │               ▼
     │    ┌──────────────────────┐
-    │    │  2. Plan              │  Spec-driven steps (no code blocks)
-    │    │     /verify-doc ✓     │  Acceptance criteria per step
+    │    │  2. Plan             │  Spec-driven steps (no code blocks)
+    │    │     /verify-doc ✓    │  Acceptance criteria per step
     │    └──────────┬───────────┘
     │               │
     │               ▼
@@ -118,7 +118,7 @@ specifications, not from pre-written code it might hallucinate.
     │    │                    ▼         │
     │    │             Document + STOP  │
     │    │            ▼ next step       │
-    │    │    ┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄    │
+    │    │    ┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄      │
     │    │    all steps done:           │
     │    │    Timestamp, lessons,       │
     │    │    diagram, health check     │
@@ -126,8 +126,8 @@ specifications, not from pre-written code it might hallucinate.
     │                   │
     │                   ▼
     │    ┌──────────────────────┐
-    │    │  Review (opt-in)      │  5 checks: intent, assumptions,
-    │    │                       │  trade-offs, complexity, drift
+    │    │  Review (opt-in)     │  5 checks: intent, assumptions,
+    │    │                      │  trade-offs, complexity, drift
     │    └──────────┬───────────┘
     │               │
     └───────────────┘
