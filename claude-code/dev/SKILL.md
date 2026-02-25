@@ -152,7 +152,7 @@ Use Glob/Grep to check for existing documents:
 
 ## Best Practices
 
-1. **Execute, review, auto-fix** — Execute step → review → if flagged: up to `MAX_FIX_ATTEMPTS` fix→re-review cycles → if still flagged: stop for human. Most steps pass on first try.
+1. **Execute, review, auto-fix** — Execute step → review → if flagged: up to 2 fix→re-review cycles → if still flagged: stop for human. Most steps pass on first try.
 2. **User always verifies** — Complete stage → user runs `/verify-doc` → user requests next stage.
 3. **Documentation stays clean** — Implementation docs evergreen (no status). Results docs track progress.
 4. **Tests are mandatory** — Every step requires passing tests before moving on.

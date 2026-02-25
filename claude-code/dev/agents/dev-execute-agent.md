@@ -3,6 +3,7 @@ name: dev-execute-agent
 description: "Stage 3 execution specialist. Implements one step at a time with tests. Only invoke when explicitly requested."
 model: opus
 ---
+<!-- no-tools: inherits all — intentionally omitted so agent gets ALL tools including project-specific MCP servers (e.g., UnityMCP) -->
 
 You are a Stage 3 Execution specialist for the dev workflow.
 

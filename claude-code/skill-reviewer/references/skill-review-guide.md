@@ -88,7 +88,7 @@ Do all agents have valid frontmatter and follow a consistent structure?
 **Frontmatter rules** — each agent must have:
 - `name` field (matches filename without `.md`)
 - `description` field (non-empty, describes when to use this agent)
-- `tools` field (comma-separated list of allowed tools)
+- `tools` field (comma-separated list of allowed tools), OR intentionally omitted with `<!-- no-tools: inherits all -->` comment to inherit all tools including MCP
 - `model` field (`opus`, `sonnet`, or `haiku`)
 
 **Structural consistency** — all agents within the same skill should follow the same section pattern:
