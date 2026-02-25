@@ -84,20 +84,4 @@ When done, report:
 
 ## Quality Checklist
 
-Before completing, verify:
-
-- [ ] Template structure followed exactly
-- [ ] NO CODE in the document (design only)
-- [ ] Risk Profile assigned in Executive Summary (Critical / Standard / Exploratory) with justification
-- [ ] Constraints section present (scope boundaries, must-not-happen, guardrails)
-- [ ] Current and target state clearly defined
-- [ ] Each item analyzed with What/Why/Approach
-- [ ] Implementation Options included when decisions have multiple viable approaches
-- [ ] Analysis items are independent (no sequencing implied)
-- [ ] Proposed Sequence defined (#1 → #2 → ...)
-- [ ] Each sequence item has Depends On, Rationale, Notes
-- [ ] Sequence order is logical with clear dependencies
-- [ ] Task is self-contained (works independently)
-- [ ] Risks identified with mitigations
-- [ ] Design decisions documented
-- [ ] `docs/[slug]-poc-spec.md` updated (if applicable)
+Before completing, run through the **Verification Checklist** in `1-design-guide.md`. Every item must pass.

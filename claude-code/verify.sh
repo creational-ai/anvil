@@ -11,7 +11,6 @@ SKILLS=(
     "design"
     "dev"
     "market-research"
-    "video-professor"
     "skill-reviewer"
 )
 
@@ -39,13 +38,10 @@ REQUIRED_COMMANDS=(
     "verify-doc.md"
     "dev-health.md"
     "market-research.md"
-    "vp.md"
-    "vp-comments.md"
 )
 
 # Key agents that must exist (sanity check)
 REQUIRED_AGENTS=(
-    "vp-chapter-cleaner.md"
     "skill-review-agent.md"
 )
 #=============================================================================

@@ -10,8 +10,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 1. **design** - Design phase (concept to executable plan)
 2. **dev** - Development loop (plan to working code)
 3. **market-research** - Market validation with Go/Pivot/Kill recommendation
-4. **video-professor** - YouTube video to structured markdown document
-5. **skill-reviewer** - Audit skills for structure, frontmatter, and consistency
+4. **skill-reviewer** - Audit skills for structure, frontmatter, and consistency
 
 **Claude Desktop** (`claude-desktop/`):
 1. **design** - Same 5-stage design workflow (outputs artifacts)
@@ -132,6 +131,7 @@ cd claude-desktop
 - `1-design-guide.md` through `3-execution-guide.md`
 - `review-guide.md` - Conceptual review process (Stage 3b)
 - `python-guide.md` - Python environment guide
+- `unity-guide.md` - Unity/C# environment guide
 - `lessons-guide.md`, `diagram-guide.md`, `milestone-details-guide.md`
 - `health-guide.md`, `verify-doc-guide.md`
 
@@ -169,10 +169,6 @@ cd claude-desktop
 **Research commands**:
 - `/market-research` - Market validation with Go/Pivot/Kill recommendation
 
-**Video professor commands**:
-- `/vp` - Extract YouTube video as formatted markdown document
-- `/vp-comments` - Get video comments
-
 **Skill maintenance commands**:
 - `/skill-review` - Audit a skill for structure, frontmatter, architecture, and consistency
 - `/agent-skill-review` - Skill review agent (background)
@@ -188,7 +184,6 @@ Commands are deployed to `~/.claude/commands/`
 - `~/.claude/skills/design/`
 - `~/.claude/skills/dev/`
 - `~/.claude/skills/market-research/`
-- `~/.claude/skills/video-professor/`
 - `~/.claude/skills/skill-reviewer/`
 - `~/.claude/commands/` (collected from each skill's `commands/` folder)
 - `~/.claude/agents/`
@@ -221,6 +216,8 @@ git push
 - Deploy before pushing to verify changes work
 - design skill is pure design (NO CODE)
 - dev skill allows code (Stage 1 is design-only, Stages 2-3 allow code)
+
+**Agent `tools` field gotcha**: Do NOT add a `tools` field to agents that need MCP tools (e.g., `dev-execute-agent`). Specifying `tools` in agent frontmatter creates an allowlist that **excludes** all MCP tools (UnityMCP, mission-control, etc.). Omitting `tools` entirely lets the agent inherit ALL tools including MCP. This is intentional — execution agents work across different projects with different MCP servers, so the tool set cannot be hardcoded.
 
 ---
 

@@ -13,7 +13,6 @@ SKILLS=(
     "design"
     "dev"
     "market-research"
-    "video-professor"
     "skill-reviewer"
 )
 

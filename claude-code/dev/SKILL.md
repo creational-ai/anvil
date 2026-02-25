@@ -66,6 +66,15 @@ Users can invoke stages explicitly via commands:
 - `/verify-doc <path>` - Verify design or plan document
 - `/milestone-details <slug>` - Generate milestone summary
 
+**Agent commands** (run in background via subagents):
+- `/agent-dev-design <notes>` - Design agent for Stage 1
+- `/agent-dev-plan <design-doc>` - Plan agent for Stage 2
+- `/agent-dev-execute <plan>` - Execute agent for Stage 3
+- `/agent-dev-review <results-doc> <step>` - Review agent for conceptual review
+- `/agent-dev-finalize <slug>` - Finalize agent (timestamp + lessons + diagram + health)
+- `/agent-milestone-details <slug>` - Milestone details agent
+- `/agent-verify-doc <path>` - Document verification agent
+
 Or use natural language: "Create design for database abstraction", "Plan the implementation", "Execute step 1"
 
 ---
@@ -119,7 +128,7 @@ Or use natural language: "Create design for database abstraction", "Plan the imp
 - ⚠️ LOOP UNTIL TESTS PASS — if tests fail, fix and re-test
 - 📝 DOCUMENT AND STOP — when tests pass, update results doc and stop
 
-**Review gate** (opt-in): Use `--review` flag on `/dev-execute-run` to enable. When active, a review agent checks implementation against design intent after each step. See `references/review-guide.md`.
+**Review gate** (opt-in): Run `/dev-review-run` separately after execution to review all completed steps in parallel. See `references/review-guide.md`.
 
 **After all steps**: Run `/dev-finalize` to record timestamp, consolidate lessons, generate diagram, and run health check.
 

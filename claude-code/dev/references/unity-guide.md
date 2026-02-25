@@ -16,6 +16,7 @@ This guide maps the dev workflow's universal principles (OOP, validated data mod
 | **Dependency Install** | Unity Package Manager, or drop source into `Assets/` |
 | **Module Structure** | Folders under `Assets/Scripts/`, optional `.asmdef` assemblies |
 | **Inline Verification** | UnityMCP `read_console` (check for compile errors) |
+| **Async/Await** | UniTask (`com.cysharp.unitask`) — zero-allocation, PlayerLoop-based |
 | **Test File Convention** | `Assets/Tests/Editor/[Component]Test.cs` |
 
 ---
@@ -338,7 +339,9 @@ public class MissionService
 }
 
 // ❌ Deep inheritance chains
-public class SpecialMission : Mission : BaseEntity : MonoBehaviour { }
+public class BaseEntity : MonoBehaviour { }
+public class Mission : BaseEntity { }
+public class SpecialMission : Mission { }  // 3 levels deep
 ```
 
 ### Event Communication
@@ -358,6 +361,189 @@ onGameOver?.Invoke();
 
 ---
 
+## Async/Await: UniTask
+
+### Why UniTask (Not System.Threading.Tasks)
+
+Unity's `UnitySynchronizationContext.Post` is slow. Standard `Task<T>` captures `ExecutionContext` on every continuation (unnecessary in Unity) and allocates on the heap. UniTask eliminates all of this:
+
+- **Zero allocation** — struct-based, no heap pressure
+- **No SynchronizationContext capture** — no `Post` overhead
+- **No ExecutionContext flow** — no security context copying
+- **PlayerLoop-based scheduling** — runs on Unity's update loop, not thread pool
+
+**Package**: `com.cysharp.unitask` (install via UPM git URL)
+**Import**: `using Cysharp.Threading.Tasks;`
+
+### Key Types
+
+| Type | Purpose | Use When |
+|------|---------|----------|
+| `UniTask` | Awaitable (no result) | Default for async methods |
+| `UniTask<T>` | Awaitable with result | Async methods returning a value |
+| `UniTaskVoid` | Fire-and-forget | Truly no caller will ever await; MonoBehaviour `Start()` |
+| `UniTaskCompletionSource<T>` | Manual completion | Wrapping callback APIs into async |
+
+### async UniTask vs async UniTaskVoid vs async void
+
+```csharp
+// DEFAULT — use this. Caller can await, chain, cancel.
+async UniTask LoadDataAsync(CancellationToken ct)
+{
+    await UnityWebRequest.Get(url).SendWebRequest().WithCancellation(ct);
+}
+
+// FIRE-AND-FORGET — no completion tracking, slightly more efficient than UniTask
+async UniTaskVoid StartAsync()
+{
+    await LoadDataAsync(this.GetCancellationTokenOnDestroy());
+}
+
+// NEVER USE — exceptions swallowed silently, no cancellation, not trackable
+async void Bad() { await UniTask.Yield(); }
+```
+
+**Rule**: `async UniTask` is the default. `async UniTaskVoid` only for true fire-and-forget (boot sequences, event handlers). Never `async void`.
+
+### .Forget() — Suppressing Compiler Warnings
+
+When calling an `async UniTask` method without awaiting, the compiler warns. `.Forget()` suppresses it:
+
+```csharp
+// Fire-and-forget from synchronous context
+public void Init_OnLoad()
+{
+    InitServicesAsync().Forget();
+}
+
+static async UniTaskVoid InitServicesAsync()
+{
+    await UnityServices.InitializeAsync();
+}
+```
+
+**UniTaskVoid vs .Forget()**: If the method is *always* fire-and-forget, return `UniTaskVoid`. If it *might* be awaited at some call sites, return `UniTask` and use `.Forget()` at fire-and-forget call sites.
+
+### Coroutine Replacements
+
+| Coroutine | UniTask |
+|-----------|---------|
+| `yield return null` | `await UniTask.NextFrame()` |
+| `yield return new WaitForSeconds(n)` | `await UniTask.Delay(TimeSpan.FromSeconds(n))` |
+| `yield return new WaitForSecondsRealtime(n)` | `await UniTask.Delay(TimeSpan.FromSeconds(n), ignoreTimeScale: true)` |
+| `yield return new WaitForEndOfFrame()` | `await UniTask.WaitForEndOfFrame()` |
+| `yield return new WaitForFixedUpdate()` | `await UniTask.WaitForFixedUpdate()` |
+| `yield return new WaitUntil(() => cond)` | `await UniTask.WaitUntil(() => cond)` |
+| `yield return new WaitWhile(() => cond)` | `await UniTask.WaitWhile(() => cond)` |
+| `StartCoroutine(routine)` (fire-forget) | `MethodAsync().Forget()` |
+
+**Yield vs NextFrame**: `UniTask.Yield()` may return the *same frame* if called before that timing has run. `UniTask.NextFrame()` guarantees next frame. Use `NextFrame()` for `yield return null` semantics.
+
+### Cancellation
+
+Always pass `CancellationToken` through async chains. Without it, operations continue after object destruction → `MissingReferenceException`.
+
+```csharp
+// Tie to GameObject lifetime
+var ct = this.GetCancellationTokenOnDestroy();
+await UniTask.Delay(3000, cancellationToken: ct);
+
+// Manual control
+var cts = new CancellationTokenSource();
+cts.CancelAfterSlim(TimeSpan.FromSeconds(5)); // PlayerLoop-based, not thread pool
+
+// Combine both
+var linked = CancellationTokenSource.CreateLinkedTokenSource(
+    cts.Token, this.GetCancellationTokenOnDestroy());
+
+// Avoid exception overhead
+var (isCanceled, _) = await UniTask.Delay(5000, cancellationToken: ct)
+    .SuppressCancellationThrow();
+if (isCanceled) return;
+```
+
+**Note**: `CancelAfterSlim` is UniTask's replacement for `CancelAfter` — runs on PlayerLoop, not thread pool timer.
+
+### Parallel Execution
+
+```csharp
+// WhenAll — returns tuple, enables deconstruction
+var (config, assets, user) = await UniTask.WhenAll(
+    LoadConfigAsync(), LoadAssetsAsync(), LoadUserAsync());
+
+// WhenAny — first to complete wins
+var (winIndex, _) = await UniTask.WhenAny(task1, task2);
+```
+
+### Unity AsyncOperation Extensions
+
+```csharp
+// Direct await
+var asset = await Resources.LoadAsync<TextAsset>("foo");
+
+// With cancellation
+var asset = await Resources.LoadAsync<TextAsset>("foo")
+    .WithCancellation(ct);
+
+// Full control (progress + timing + cancellation)
+var asset = await Resources.LoadAsync<TextAsset>("foo")
+    .ToUniTask(progress: Progress.Create<float>(Debug.Log),
+               timing: PlayerLoopTiming.Update,
+               cancellationToken: ct);
+```
+
+### Threading
+
+```csharp
+// Offload CPU work to thread pool, return to main thread for Unity API calls
+async UniTask<int> ComputeAsync()
+{
+    await UniTask.SwitchToThreadPool();
+    var result = HeavyComputation();
+    await UniTask.SwitchToMainThread();
+    return result;
+}
+
+// One-shot version
+var result = await UniTask.RunOnThreadPool(() => HeavyComputation());
+```
+
+### Wrapping Callback APIs
+
+```csharp
+public UniTask<int> WrapCallbackAsync()
+{
+    var utcs = new UniTaskCompletionSource<int>();
+    SomeAPI(
+        onSuccess: result => utcs.TrySetResult(result),
+        onError: ex => utcs.TrySetException(ex));
+    return utcs.Task;
+}
+```
+
+### DOTween Integration
+
+Requires scripting define: `UNITASK_DOTWEEN_SUPPORT`
+
+```csharp
+var ct = this.GetCancellationTokenOnDestroy();
+
+// Sequential
+await transform.DOMoveX(2, 1f).WithCancellation(ct);
+await transform.DOMoveZ(5, 2f).WithCancellation(ct);
+
+// Parallel
+await UniTask.WhenAll(
+    transform.DOMoveX(10, 3).WithCancellation(ct),
+    transform.DOScale(2, 3).WithCancellation(ct));
+```
+
+### UniTask Tracker (Debug Window)
+
+**Window → UniTask Tracker** — monitors all active UniTask instances. Enable **StackTrace** for creation traces (high overhead, debug only).
+
+---
+
 ## Common Pitfalls (Unity/C#)
 
 - **Using raw dictionaries instead of typed classes** (loses compile-time safety, IDE support, self-documentation)
@@ -370,3 +556,7 @@ onGameOver?.Invoke();
 - **Not clearing console before verifying fixes** — console accumulates old errors, leading to false negatives
 - **Deleting `.cs` files without co-deleting `.meta` files** — causes Unity orphan warnings
 - **Using lambdas for message listeners** — prevents proper `RemoveListener` since lambda creates a new delegate instance each time
+- **Using `async void` instead of `async UniTaskVoid`** — `async void` swallows exceptions, has no cancellation support, and is not trackable; use `async UniTaskVoid` for fire-and-forget, `async UniTask` for everything else
+- **Forgetting cancellation tokens in async chains** — without `CancellationToken`, async operations continue after `Destroy()`, causing `MissingReferenceException`; always pass `GetCancellationTokenOnDestroy()` or equivalent
+- **Using `UniTask.Yield()` expecting next-frame** — `Yield()` may return same frame; use `UniTask.NextFrame()` for guaranteed next-frame behavior
+- **Using `async void` lambdas for Unity events** — `button.onClick.AddListener(async () => { ... })` compiles but uses `async void`; use `UniTask.UnityAction(async () => { ... })` instead

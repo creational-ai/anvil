@@ -215,7 +215,6 @@ anvil/
 │   ├── design/                # 5-stage design workflow
 │   ├── dev/                   # Development loop
 │   ├── market-research/       # Market validation
-│   ├── video-professor/       # YouTube → Markdown
 │   └── skill-reviewer/        # Skill auditing
 │
 └── claude-desktop/             # Claude Desktop skills

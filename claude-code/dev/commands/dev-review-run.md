@@ -71,10 +71,10 @@ while remaining is not empty:
 
 **Format for results.md** (adapt from agent output, add timestamp):
 ```markdown
-**Review**: PASS / FLAG
+**Review**: ✅ Pass / ⚠️ Flagged
 **Reviewed**: [ISO 8601 with timezone, e.g., 2026-02-24T12:09:07-0800]
-- **Architectural drift**: [verdict] — [one sentence]
-- **[other checks if applied]**: [verdict] — [one sentence]
+- **Architectural drift**: ✅ / ⚠️ — [one sentence]
+- **[other checks if applied]**: ✅ / ⚠️ — [one sentence]
 - **Advisory**: [if any]
 ```
 

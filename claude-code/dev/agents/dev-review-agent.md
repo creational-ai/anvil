@@ -59,16 +59,16 @@ Write **only** the structured review block to the output file. No preamble, no e
 ```markdown
 ## Step [N] Review: [Step Name]
 
-**Verdict**: PASS / FLAG
+**Verdict**: ✅ Pass / ⚠️ Flagged
 **Reviewed**: [YYYY-MM-DDTHH:MM:SS±HHMM]
 **Risk Profile**: [from plan]
 **Checks Applied**: [X] of 5
 
-**Architectural drift**: PASS/FLAG — [one sentence]
-**Intent match**: PASS/FLAG — [one sentence] (if applied)
-**Assumption audit**: PASS/FLAG — [one sentence] (if applied)
-**Silent trade-offs**: PASS/FLAG — [one sentence] (if applied)
-**Complexity proportionality**: PASS/FLAG — [one sentence] (if applied)
+**Architectural drift**: ✅ / ⚠️ — [one sentence]
+**Intent match**: ✅ / ⚠️ — [one sentence] (if applied)
+**Assumption audit**: ✅ / ⚠️ — [one sentence] (if applied)
+**Silent trade-offs**: ✅ / ⚠️ — [one sentence] (if applied)
+**Complexity proportionality**: ✅ / ⚠️ — [one sentence] (if applied)
 
 **Advisory** (if any):
 - [one-line note]
