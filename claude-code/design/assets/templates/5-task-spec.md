@@ -41,8 +41,6 @@
 
 **Parallel tracks**: [Describe which tasks can run in parallel]
 
-**Note**: This is a plan - NO status indicators (✅ ⬜) in diagram.
-
 ## Tasks
 
 ### Task: [Name]
@@ -72,7 +70,7 @@
 ## Risk Assessment
 | Task | Risk Level | Mitigation |
 |------|------------|------------|
-| Task: [Name] | [H/M/L] | [Strategy] |
+| Task: [Name] | [High/Medium/Low] | [Strategy] |
 
 ## Feedback Loops
 

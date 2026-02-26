@@ -16,7 +16,7 @@
 
 ## Goal
 
-[Copy the Goal from roadmap.md and expand if needed]
+[Goal statement — expanded from roadmap]
 
 **What This Milestone Proves**:
 - [Proof point 1 - what capability or assumption gets validated]
@@ -35,7 +35,7 @@
 ### High-Level System Diagram
 
 ```
-[Copy the architecture diagram from roadmap.md]
+[Architecture diagram]
 ```
 
 ### Technology Stack
@@ -194,7 +194,7 @@ Step 3
 
 ## Key Outcomes
 
-[Copy from roadmap.md and optionally expand with sub-bullets]
+[Key outcomes for this milestone]
 
 ✅ **[Outcome 1]**
    - [Sub-detail if helpful]
@@ -209,7 +209,7 @@ Step 3
 
 ## Why [This Approach]?
 
-[Copy "Why [X]?" section from roadmap.md if it exists, or create based on strategic decisions]
+[Strategic rationale for this approach]
 
 **[Reason Category 1]**:
 - [Explanation]

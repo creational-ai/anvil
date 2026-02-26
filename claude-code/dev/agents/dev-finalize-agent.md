@@ -50,6 +50,12 @@ After all 4 steps, verify:
 
 **If any are missing, complete them before reporting done.**
 
+## Output
+
+Per task finalization:
+- Updated `docs/[milestone-slug]-[task-slug]-results.md` (timestamp, lessons, diagram)
+- Updated `PROJECT_STATE.md` (health check results)
+
 ## Completion Report
 
 **Only after ALL 4 verified:**

@@ -37,6 +37,28 @@ Follow the guide exactly.
 
 Use the report format from `verify-doc-guide.md` (section "Generate Report"). Follow it exactly.
 
+## Completion Report
+
+When done, report:
+
+```
+## Verification Complete
+
+**File**: [document path]
+**Type**: [Design / Plan / Results / Task Spec / etc.]
+**Status**: [Pass (Sound) / Issues Found]
+
+**Checks**:
+- Template alignment: [Pass / Issues]
+- Type-specific checks: [Pass / Issues]
+- Universal checks: [Pass / Issues]
+- Codebase verification: [Pass / Issues]
+
+**Issues**: [count] ([X] HIGH, [X] MED, [X] LOW)
+
+**Next**: [Apply fixes / No action needed]
+```
+
 ## After Report
 
 Use AskUserQuestion to offer:

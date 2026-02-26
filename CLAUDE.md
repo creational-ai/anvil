@@ -96,6 +96,7 @@ cd claude-desktop
 - `docs/[slug]-roadmap.md` - Strategic milestone roadmap
 - `docs/[slug]-milestone-spec.md` - Detailed milestone spec (e.g., `docs/core-milestone-spec.md`)
 - `docs/[slug]-task-spec.md` - Task spec (e.g., `docs/core-task-spec.md`)
+- `docs/naming-research.md` - Naming research
 
 **dev skill creates:**
 - `PROJECT_STATE.md` - Task and milestone tracking
@@ -112,6 +113,7 @@ cd claude-desktop
 - `3-roadmap.md` - Stage 3 template
 - `4-milestone-spec.md` - Stage 4 template
 - `5-task-spec.md` - Stage 5 template
+- `naming-research.md` - Naming research template
 
 **dev** (`claude-code/dev/assets/templates/`):
 - `1-design.md` - Stage 1 output (Problem Analysis + Proposed Steps)
@@ -143,6 +145,8 @@ cd claude-desktop
 - `/design-roadmap` - Create milestone roadmap (Stage 3)
 - `/design-milestone-spec` - Create detailed milestone spec (Stage 4)
 - `/design-task-spec` - Create task spec (Stage 5)
+- `/design-naming-research` - Research and evaluate product/project name candidates
+- `/agent-naming-research` - Naming research agent (background)
 
 **dev commands**:
 - `/dev-design` - Create design document (Stage 1)

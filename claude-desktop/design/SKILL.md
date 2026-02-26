@@ -6,8 +6,9 @@ description: >
   or creating task specs. Covers 5 stages - Vision (refine idea into
   vision), Architecture (technical design), Roadmap (strategic milestone
   breakdown), Milestone Spec (detailed per-milestone planning), Task Spec
-  (atomic task definitions with dependencies). This is a NO-CODE skill focused
-  on design and planning only.
+  (atomic task definitions with dependencies). Also includes naming research
+  for evaluating product/project name candidates. This is a NO-CODE skill
+  focused on design and planning only.
 ---
 
 # design
@@ -162,6 +163,20 @@ Validate early. The more context you have, the better the research — but don't
 
 ---
 
+## Naming Research
+
+**Goal**: Research and evaluate product/project name candidates with scoring matrix
+
+**Input**: Project description + optional Vision/Architecture artifacts for context
+**Template**: `assets/templates/naming-research.md`
+**Output**: `naming-research.md` artifact
+
+**When to use**: At any point during design (typically after Vision or Architecture). The confirmed name feeds into all subsequent artifacts.
+
+→ See `references/naming-research-guide.md` for detailed process
+
+---
+
 ## Handoff to Implementation
 
 Once `[slug]-task-spec.md` is complete, you're ready to implement.
@@ -183,3 +198,4 @@ Read when you need detailed process, examples, or edge case handling.
 | Starting Stage 3 or breaking into milestones | `references/3-roadmap-guide.md` |
 | Starting Stage 4 or expanding a milestone | `references/4-milestone-spec-guide.md` |
 | Starting Stage 5 or defining tasks | `references/5-task-spec-guide.md` |
+| Naming a product or project | `references/naming-research-guide.md` |

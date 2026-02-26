@@ -21,7 +21,7 @@
 ## Risks & Mitigations
 | Risk | Likelihood | Impact | Mitigation |
 |------|------------|--------|------------|
-| [Risk 1] | [H/M/L] | [H/M/L] | [Strategy] |
+| [Risk 1] | [High/Medium/Low] | [High/Medium/Low] | [Strategy] |
 
 ## Open Questions
 - [ ] [Question 1]
