@@ -9,8 +9,9 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 **Claude Code** (`claude-code/`):
 1. **design** - Design phase (concept to executable plan)
 2. **dev** - Development loop (plan to working code)
-3. **market-research** - Market validation with Go/Pivot/Kill recommendation
-4. **skill-reviewer** - Audit skills for structure, frontmatter, and consistency
+3. **verify** - Document verification
+4. **research** - Market validation and naming research
+5. **skill-reviewer** - Audit skills for structure, frontmatter, and consistency
 
 **Claude Desktop** (`claude-desktop/`):
 1. **design** - Same 5-stage design workflow (outputs artifacts)
@@ -103,6 +104,7 @@ cd claude-desktop
 - `docs/[milestone-slug]-[task-slug]-design.md` - Feature/bug design analysis
 - `docs/[milestone-slug]-[task-slug]-plan.md` - Implementation guide
 - `docs/[milestone-slug]-[task-slug]-results.md` - Progress tracking
+- `docs/[milestone]-milestone-summary.md` - Milestone summary
 - `tests/` - Tests per environment conventions (e.g., Python: `test_[task-slug]_*.py`)
 
 ## Templates
@@ -113,7 +115,6 @@ cd claude-desktop
 - `3-roadmap.md` - Stage 3 template
 - `4-milestone-spec.md` - Stage 4 template
 - `5-task-spec.md` - Stage 5 template
-- `naming-research.md` - Naming research template
 
 **dev** (`claude-code/dev/assets/templates/`):
 - `1-design.md` - Stage 1 output (Problem Analysis + Proposed Steps)
@@ -122,7 +123,7 @@ cd claude-desktop
 - `PROJECT_STATE.md` - Project tracking template
 - `lessons-learned.md` - Lessons consolidation
 - `diagram.md` - Task diagram template
-- `milestone-details.md` - Milestone summary template
+- `milestone-summary.md` - Milestone summary template
 
 ## Reference Guides
 
@@ -134,8 +135,15 @@ cd claude-desktop
 - `review-guide.md` - Conceptual review process (Stage 3b)
 - `python-guide.md` - Python environment guide
 - `unity-guide.md` - Unity/C# environment guide
-- `lessons-guide.md`, `diagram-guide.md`, `milestone-details-guide.md`
-- `health-guide.md`, `verify-doc-guide.md`
+- `lessons-guide.md`, `diagram-guide.md`, `milestone-summary-guide.md`
+- `health-guide.md`
+
+**verify** (`claude-code/verify/references/`):
+- `verify-doc-guide.md` - Document verification guide
+
+**research** (`claude-code/research/references/`):
+- `market-research-guide.md` - Market research process guide
+- `naming-research-guide.md` - Naming research guide
 
 ## Slash Commands
 
@@ -145,8 +153,6 @@ cd claude-desktop
 - `/design-roadmap` - Create milestone roadmap (Stage 3)
 - `/design-milestone-spec` - Create detailed milestone spec (Stage 4)
 - `/design-task-spec` - Create task spec (Stage 5)
-- `/design-naming-research` - Research and evaluate product/project name candidates
-- `/agent-naming-research` - Naming research agent (background)
 
 **dev commands**:
 - `/dev-design` - Create design document (Stage 1)
@@ -157,28 +163,30 @@ cd claude-desktop
 - `/dev-review-run` - Review all completed steps in parallel
 - `/dev-diagram` - Generate task diagram
 - `/dev-finalize` - Wrap up task (timestamp + lessons + diagram + health)
-- `/milestone-details` - Generate milestone summary
+- `/dev-milestone-summary` - Generate milestone summary
 - `/dev-health` - Project health check (standalone, also included in finalize)
 
-**Agent commands**:
-- `/agent-dev-design` - Design agent for Stage 1
-- `/agent-dev-plan` - Plan agent for Stage 2
-- `/agent-dev-execute` - Execute agent for Stage 3
-- `/agent-dev-review` - Review agent for conceptual review (Stage 3b)
-- `/agent-dev-finalize` - Finalize agent (timestamp + lessons + diagram + health)
-- `/agent-milestone-details` - Milestone details agent
+**Spawn commands** (run in background via subagents):
+- `/spawn-dev-designer` - Design agent for Stage 1
+- `/spawn-dev-planner` - Plan agent for Stage 2
+- `/spawn-dev-executor` - Execute agent for Stage 3
+- `/spawn-dev-reviewer` - Review agent for conceptual review (Stage 3b)
+- `/spawn-dev-finalizer` - Finalize agent (timestamp + lessons + diagram + health)
+- `/spawn-dev-milestone-summarizer` - Milestone summary agent
+- `/spawn-market-researcher` - Market research agent
+- `/spawn-naming-researcher` - Naming research agent
 - `/agent-verify-doc` - Document verification agent
-- `/agent-market-research` - Market research agent
+- `/agent-skill-review` - Skill review agent
 
 **Research commands**:
 - `/market-research` - Market validation with Go/Pivot/Kill recommendation
+- `/naming-research` - Research and evaluate product/project name candidates
+
+**Verify commands**:
+- `/verify-doc` - Document verification
 
 **Skill maintenance commands**:
 - `/skill-review` - Audit a skill for structure, frontmatter, architecture, and consistency
-- `/agent-skill-review` - Skill review agent (background)
-
-**Utility commands**:
-- `/verify-doc` - Document verification
 
 Commands are deployed to `~/.claude/commands/`
 
@@ -187,7 +195,8 @@ Commands are deployed to `~/.claude/commands/`
 **Claude Code (local)**: `claude-code/deploy.sh` deploys to:
 - `~/.claude/skills/design/`
 - `~/.claude/skills/dev/`
-- `~/.claude/skills/market-research/`
+- `~/.claude/skills/verify/`
+- `~/.claude/skills/research/`
 - `~/.claude/skills/skill-reviewer/`
 - `~/.claude/commands/` (collected from each skill's `commands/` folder)
 - `~/.claude/agents/`
@@ -230,7 +239,7 @@ git push
 - design skill is pure design (NO CODE)
 - dev skill allows code (Stage 1 is design-only, Stages 2-3 allow code)
 
-**Agent `tools` field gotcha**: Do NOT add a `tools` field to agents that need MCP tools (e.g., `dev-execute-agent`). Specifying `tools` in agent frontmatter creates an allowlist that **excludes** all MCP tools (UnityMCP, mission-control, etc.). Omitting `tools` entirely lets the agent inherit ALL tools including MCP. This is intentional — execution agents work across different projects with different MCP servers, so the tool set cannot be hardcoded.
+**Agent `tools` field gotcha**: Do NOT add a `tools` field to agents that need MCP tools (e.g., `dev-executor`). Specifying `tools` in agent frontmatter creates an allowlist that **excludes** all MCP tools (UnityMCP, mission-control, etc.). Omitting `tools` entirely lets the agent inherit ALL tools including MCP. This is intentional — execution agents work across different projects with different MCP servers, so the tool set cannot be hardcoded.
 
 ---
 

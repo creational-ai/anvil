@@ -8,7 +8,9 @@ Skills for the **implementation phase** of Anvil, designed for Claude Code (CLI)
 |-------|---------|
 | **design** | 5-stage design workflow (Vision → Architecture → Roadmap → Milestone Spec → Task Spec) |
 | **dev** | 3-stage development loop (Design → Plan → Execute) |
-| **market-research** | Market validation with Go/Pivot/Kill recommendation |
+| **verify** | Document verification |
+| **research** | Market validation and naming research |
+| **skill-reviewer** | Audit skills for structure, frontmatter, and consistency |
 
 ## Installation
 
@@ -70,35 +72,46 @@ Repeat for next task
 | `/dev-plan` | Plan implementation steps (Stage 2) |
 | `/dev-execute` | Execute one step (Stage 3) |
 | `/dev-execute-run` | Run all steps to completion (auto-finalize) |
-| `/dev-lessons` | Consolidate lessons learned |
+| `/dev-review` | Review completed step against design |
+| `/dev-review-run` | Review all completed steps in parallel |
 | `/dev-diagram` | Generate ASCII summary diagram |
 | `/dev-finalize` | Wrap up task (timestamp + lessons + diagram + health) |
-| `/milestone-details` | Generate milestone summary document |
+| `/dev-milestone-summary` | Generate milestone summary document |
 | `/dev-health` | Project health check |
 
-### Agent Commands
+### Spawn Commands (Background Agents)
 
 | Command | Purpose |
 |---------|---------|
-| `/agent-dev-design` | Design agent for Stage 1 |
-| `/agent-dev-plan` | Plan agent for Stage 2 |
-| `/agent-dev-execute` | Execute agent for Stage 3 |
-| `/agent-dev-finalize` | Finalize agent (timestamp + lessons + diagram + health) |
-| `/agent-milestone-details` | Milestone details agent |
+| `/spawn-dev-designer` | Design agent for Stage 1 |
+| `/spawn-dev-planner` | Plan agent for Stage 2 |
+| `/spawn-dev-executor` | Execute agent for Stage 3 |
+| `/spawn-dev-reviewer` | Review agent for conceptual review |
+| `/spawn-dev-finalizer` | Finalize agent (timestamp + lessons + diagram + health) |
+| `/spawn-dev-milestone-summarizer` | Milestone summary agent |
+| `/spawn-market-researcher` | Market research agent |
+| `/spawn-naming-researcher` | Naming research agent |
 | `/agent-verify-doc` | Document verification agent |
-| `/agent-market-research` | Market research agent |
+| `/agent-skill-review` | Skill review agent |
 
 ### Research Commands
 
 | Command | Purpose |
 |---------|---------|
 | `/market-research` | Market validation with Go/Pivot/Kill recommendation |
+| `/naming-research` | Research and evaluate product/project name candidates |
 
-### Utility Commands
+### Verify Commands
 
 | Command | Purpose |
 |---------|---------|
 | `/verify-doc` | Verify design or implementation documents |
+
+### Skill Maintenance Commands
+
+| Command | Purpose |
+|---------|---------|
+| `/skill-review` | Audit skills for structure, frontmatter, and consistency |
 
 ## Output Files
 
@@ -113,10 +126,11 @@ Repeat for next task
 - `docs/[milestone]-[task]-design.md`
 - `docs/[milestone]-[task]-plan.md`
 - `docs/[milestone]-[task]-results.md`
-- `docs/[milestone]-milestone-details.md`
+- `docs/[milestone]-milestone-summary.md`
 
-**market-research creates:**
+**research creates:**
 - `docs/[slug]-market-research.md`
+- `docs/naming-research.md`
 
 ## Key Principles
 
@@ -144,7 +158,7 @@ claude-code/
     └── references/         # Detailed guides
 ```
 
-**Current skills:** design, dev, market-research
+**Current skills:** design, dev, verify, research, skill-reviewer
 
 **Deploys to:**
 - `~/.claude/skills/[skill-name]/` (SKILL.md, assets/, references/)

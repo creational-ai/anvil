@@ -12,7 +12,9 @@ set -e
 SKILLS=(
     "design"
     "dev"
-    "market-research"
+    "verify"
+    "research"
+    "skill-reviewer"
 )
 #=============================================================================
 

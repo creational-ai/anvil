@@ -10,7 +10,8 @@
 SKILLS=(
     "design"
     "dev"
-    "market-research"
+    "verify"
+    "research"
     "skill-reviewer"
 )
 
@@ -20,6 +21,7 @@ OLD_SKILLS=(
     "blueprint"
     "dev-design"
     "dev-cycle"
+    "market-research"
 )
 
 # Old commands that should NOT exist (replaced by skills or removed)
@@ -31,6 +33,30 @@ OLD_COMMANDS=(
     "design-milestone-design.md"
     "design-poc-design.md"
     "dev-lessons.md"
+    "agent-dev-design.md"
+    "agent-dev-plan.md"
+    "agent-dev-execute.md"
+    "agent-dev-review.md"
+    "agent-dev-finalize.md"
+    "agent-milestone-details.md"
+    "agent-market-research.md"
+    "agent-naming-research.md"
+    "milestone-details.md"
+    "design-naming-research.md"
+    "spawn-milestone-summarizer.md"
+)
+
+# Old agents that should NOT exist (renamed to role-based names)
+OLD_AGENTS=(
+    "dev-design-agent.md"
+    "dev-plan-agent.md"
+    "dev-execute-agent.md"
+    "dev-review-agent.md"
+    "dev-finalize-agent.md"
+    "milestone-details-agent.md"
+    "market-research-agent.md"
+    "naming-research-agent.md"
+    "milestone-summarizer.md"
 )
 
 # Key commands that must exist (sanity check)
@@ -91,6 +117,17 @@ for old_cmd in "${OLD_COMMANDS[@]}"; do
 done
 echo ""
 
+# Check old agents are removed
+echo "--- Checking old agents removed ---"
+for old_agent in "${OLD_AGENTS[@]}"; do
+    if [ ! -f "$AGENTS_DIR/$old_agent" ]; then
+        pass "$old_agent removed"
+    else
+        fail "$old_agent still exists at $AGENTS_DIR/$old_agent"
+    fi
+done
+echo ""
+
 # Check each skill
 for skill in "${SKILLS[@]}"; do
     echo "--- Checking $skill skill ---"
@@ -113,7 +150,7 @@ for skill in "${SKILLS[@]}"; do
             fail "SKILL.md missing"
         fi
 
-        # Check assets/templates/
+        # Check assets/templates/ (optional -- not all skills have templates)
         if [ -d "$SKILL_DST/assets/templates" ]; then
             pass "assets/templates/ exists"
 
@@ -124,7 +161,7 @@ for skill in "${SKILLS[@]}"; do
                 fail "No templates found"
             fi
         else
-            fail "assets/templates/ missing"
+            echo "  ℹ️  No assets/templates/ (this is OK for some skills)"
         fi
 
         # Check references/

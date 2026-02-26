@@ -10,7 +10,7 @@ Execute all remaining implementation steps, spawning a fresh subagent for each.
 
 ## What This Does
 
-Orchestrates Stage 3 execution by looping through steps, launching a fresh `dev-execute-agent` for each step. This avoids context exhaustion since each agent gets a clean context.
+Orchestrates Stage 3 execution by looping through steps, launching a fresh `dev-executor` for each step. This avoids context exhaustion since each agent gets a clean context.
 
 ## Input
 
@@ -44,12 +44,12 @@ Orchestrates Stage 3 execution by looping through steps, launching a fresh `dev-
 
 **First**: Prereqs + Step 0 (if exists)
 ```
-Spawn dev-execute-agent: "[plan-path] Prereqs + Step 0 (if exists)"
+Spawn dev-executor: "[plan-path] Prereqs + Step 0 (if exists)"
 ```
 
 **Then** Step 1, 2, 3... repeat:
 
-1. **Execute** → `Spawn dev-execute-agent: "[plan-path] [N]"`
+1. **Execute** → `Spawn dev-executor: "[plan-path] [N]"`
    - Fails → STOP.
    - Succeeds → Next step.
 
@@ -71,11 +71,11 @@ Fix issues, then run `/dev-execute-run [plan]` to continue
 
 When all steps complete successfully:
 1. Show brief summary
-2. Spawn `dev-finalize-agent`:
+2. Spawn `dev-finalizer`:
 
 | Parameter | Value |
 |-----------|-------|
-| `subagent_type` | `dev-finalize-agent` |
+| `subagent_type` | `dev-finalizer` |
 | `description` | `Finalize [task-slug]` |
 | `prompt` | `Finalize the task at [results-path]. Run all 4 steps: timestamp, lessons, diagram, health check.` |
 

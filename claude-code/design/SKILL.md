@@ -42,8 +42,6 @@ Project (e.g., "mission-control")
 - `/design-roadmap` - Create roadmap with strategic milestones (Stage 3)
 - `/design-milestone-spec` - Expand a milestone into detailed design (Stage 4)
 - `/design-task-spec` - Define atomic tasks with dependencies and success criteria (Stage 5)
-- `/design-naming-research` - Research and evaluate product/project name candidates
-- `/agent-naming-research` - Naming research agent (background)
 
 ---
 
@@ -253,4 +251,3 @@ Read when you need detailed process, examples, or edge case handling.
 | Starting Stage 3 or breaking into milestones | `references/3-roadmap-guide.md` |
 | Starting Stage 4 or expanding a milestone | `references/4-milestone-spec-guide.md` |
 | Starting Stage 5 or defining tasks | `references/5-task-spec-guide.md` |
-| Naming a product or project | `references/naming-research-guide.md` |

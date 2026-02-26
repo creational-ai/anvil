@@ -6,7 +6,7 @@ disable-model-invocation: true
 
 # /dev-review-run
 
-Review all completed steps in parallel by spawning a `dev-review-agent` for each.
+Review all completed steps in parallel by spawning a `dev-reviewer` for each.
 
 ## Input
 
@@ -33,14 +33,14 @@ Review all completed steps in parallel by spawning a `dev-review-agent` for each
 
 ### 2. Spawn Reviews in Parallel
 
-For each completed step, spawn a `dev-review-agent` in background. Each agent writes to its own temp file in the session scratchpad — agents never touch results.md.
+For each completed step, spawn a `dev-reviewer` in background. Each agent writes to its own temp file in the session scratchpad — agents never touch results.md.
 
 **Temp file pattern**: `[session-scratchpad]/review-step-{N}.md`
 
 Use the session scratchpad path from the system prompt. If no scratchpad path is available, fall back to `/tmp/`.
 
 ```
-Spawn dev-review-agent (run_in_background: true):
+Spawn dev-reviewer (run_in_background: true):
 "[results-doc-path] step [N]
 
 output: [session-scratchpad]/review-step-[N].md

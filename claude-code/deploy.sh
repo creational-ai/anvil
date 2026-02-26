@@ -12,7 +12,8 @@ set -e
 SKILLS=(
     "design"
     "dev"
-    "market-research"
+    "verify"
+    "research"
     "skill-reviewer"
 )
 
@@ -22,6 +23,20 @@ OLD_SKILLS=(
     "blueprint"
     "dev-design"
     "dev-cycle"
+    "market-research"
+)
+
+# Old agents to clean up (renamed to role-based names)
+OLD_AGENTS=(
+    "dev-design-agent.md"
+    "dev-plan-agent.md"
+    "dev-execute-agent.md"
+    "dev-review-agent.md"
+    "dev-finalize-agent.md"
+    "milestone-details-agent.md"
+    "market-research-agent.md"
+    "naming-research-agent.md"
+    "milestone-summarizer.md"
 )
 
 # Old commands to clean up (replaced by skills or removed)
@@ -36,6 +51,17 @@ OLD_COMMANDS=(
     "design-product-vision.md"
     "design-product-roadmap.md"
     "design-poc-spec.md"
+    "agent-dev-design.md"
+    "agent-dev-plan.md"
+    "agent-dev-execute.md"
+    "agent-dev-review.md"
+    "agent-dev-finalize.md"
+    "agent-milestone-details.md"
+    "agent-market-research.md"
+    "agent-naming-research.md"
+    "milestone-details.md"
+    "design-naming-research.md"
+    "spawn-milestone-summarizer.md"
 )
 #=============================================================================
 
@@ -65,6 +91,16 @@ for old_cmd in "${OLD_COMMANDS[@]}"; do
         echo "--- Removing old command: $old_cmd ---"
         rm -f "$COMMANDS_DIR/$old_cmd"
         echo "  ✓ Removed $COMMANDS_DIR/$old_cmd"
+        echo ""
+    fi
+done
+
+# Clean up old agents
+for old_agent in "${OLD_AGENTS[@]}"; do
+    if [ -f "$AGENTS_DIR/$old_agent" ]; then
+        echo "--- Removing old agent: $old_agent ---"
+        rm -f "$AGENTS_DIR/$old_agent"
+        echo "  ✓ Removed $AGENTS_DIR/$old_agent"
         echo ""
     fi
 done

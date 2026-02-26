@@ -63,17 +63,15 @@ Users can invoke stages explicitly via commands:
 - `/dev-finalize <slug>` - Finalize task (timestamp, lessons, diagram, health check)
 - `/dev-health` - Project health check
 - `/dev-diagram <slug>` - Generate ASCII diagram for task
-- `/verify-doc <path>` - Verify design or plan document
-- `/milestone-details <slug>` - Generate milestone summary
+- `/dev-milestone-summary <slug>` - Generate milestone summary
 
-**Agent commands** (run in background via subagents):
-- `/agent-dev-design <notes>` - Design agent for Stage 1
-- `/agent-dev-plan <design-doc>` - Plan agent for Stage 2
-- `/agent-dev-execute <plan>` - Execute agent for Stage 3
-- `/agent-dev-review <results-doc> <step>` - Review agent for conceptual review
-- `/agent-dev-finalize <slug>` - Finalize agent (timestamp + lessons + diagram + health)
-- `/agent-milestone-details <slug>` - Milestone details agent
-- `/agent-verify-doc <path>` - Document verification agent
+**Spawn commands** (run in background via subagents):
+- `/spawn-dev-designer <notes>` - Design agent for Stage 1
+- `/spawn-dev-planner <design-doc>` - Plan agent for Stage 2
+- `/spawn-dev-executor <plan>` - Execute agent for Stage 3
+- `/spawn-dev-reviewer <results-doc> <step>` - Review agent for conceptual review
+- `/spawn-dev-finalizer <slug>` - Finalize agent (timestamp + lessons + diagram + health)
+- `/spawn-dev-milestone-summarizer <slug>` - Milestone summary agent
 
 Or use natural language: "Create design for database abstraction", "Plan the implementation", "Execute step 1"
 
