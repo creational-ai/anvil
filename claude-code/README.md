@@ -90,7 +90,7 @@ Repeat for next task
 | `/spawn-dev-milestone-summarizer` | Milestone summary agent |
 | `/spawn-market-researcher` | Market research agent |
 | `/spawn-naming-researcher` | Naming research agent |
-| `/spawn-doc-reviewer` | Document review agent |
+| `/spawn-doc-reviewer` | Document review agent (supports --auto) |
 | `/spawn-skill-reviewer` | Skill review agent |
 
 ### Research Commands
@@ -104,8 +104,8 @@ Repeat for next task
 
 | Command | Purpose |
 |---------|---------|
-| `/review-doc` | Sequential document review |
-| `/review-doc-run` | Parallel document review with scatter-gather subagents |
+| `/review-doc` | Sequential document review (supports --auto) |
+| `/review-doc-run` | Parallel document review with background subagents (supports --auto) |
 | `/review-skill` | Audit skills for structure, frontmatter, and consistency |
 
 ## Output Files

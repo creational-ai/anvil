@@ -1,6 +1,6 @@
 # Review Document Guide (Parallel Orchestrator)
 
-Orchestrate a parallel doc review using scatter-gather subagents. This guide is used by `/review-doc-run` in the main conversation. The orchestrator reads the document, extracts items, spawns item + holistic agents in parallel, gathers results, merges findings, and generates the final report.
+Orchestrate a parallel doc review using background subagents with incremental processing. This guide is used by `/review-doc-run` in the main conversation. The orchestrator reads the document, extracts items, creates a review doc skeleton, spawns agents in the background, and writes findings incrementally as each agent completes.
 
 **This guide contains orchestration logic only.** Review check logic lives in the item and holistic guides. Report output formats live in the templates.
 
@@ -132,15 +132,26 @@ For item agents, prepare condensed cross-reference excerpts. Read the cross-refe
 
 Keep excerpts concise. The item agents have access to Read and can look up additional details themselves.
 
+### 1.8 Create Review Doc Skeleton
+
+Before spawning agents, create the review document structure so it exists while agents are running.
+
+1. **Derive review doc path**: Strip `.md` from the document path, append `-review.md`. Example: `docs/core-poc6-plan.md` becomes `docs/core-poc6-plan-review.md`.
+2. **Read tracking template**: Load `~/.claude/skills/review/assets/templates/review-tracking.md`.
+3. **Check if review doc exists** (Read):
+   - **Does not exist**: Create the skeleton — header table, summary tables with all items/concerns listed and a single review column where every cell is `...`, empty detail sections (headers only, no entries yet), empty holistic detail section, review log with a pending row. This is R1.
+   - **Exists**: Determine review number N by counting R columns in the item summary table header. Add RN column to summary tables with all cells set to `...`.
+4. **Write** the skeleton. The `...` cells indicate "in progress" — they will be replaced with issue counts or `✅` as each agent completes.
+
 ---
 
-## Phase 2: Parallel Verification (Subagents)
+## Phase 2: Background Spawning (Subagents)
 
-Spawn all agents in parallel using the Task tool. All agents run concurrently.
+**Spawn ALL agents in a SINGLE message with `run_in_background: true`** — one Task tool call per item agent plus one for the holistic agent, all in one response. Collect all returned agent task IDs. Proceed immediately to Phase 3 without waiting for any agent to complete.
 
-### 2.1 Spawn Item Agents
+### Item Agent Prompt (one per extracted item)
 
-For each extracted item, spawn one `item-reviewer` agent using the Task tool with this prompt:
+Spawn one `item-reviewer` agent per extracted item using the Task tool with this prompt:
 
 ```
 Review this {doc_type} item.
@@ -170,7 +181,7 @@ Replace the placeholders:
 - `{shared_context}`: The shared context sections extracted in Phase 1.5
 - `{cross_ref_excerpts}`: The condensed cross-reference excerpts from Phase 1.7
 
-### 2.2 Spawn Holistic Agent
+### Holistic Agent Prompt (exactly one)
 
 Spawn one `holistic-reviewer` agent using the Task tool with this prompt:
 
@@ -198,76 +209,118 @@ Replace the placeholders:
 - `{cross_ref_paths}`: List of cross-reference document paths (the holistic agent will read them itself)
 - `{template_path}`: Path to the template for this doc type (from the template mapping table in the holistic guide)
 
-### 2.3 Wait for Completion
-
-All Task calls (N item agents + 1 holistic agent) run in parallel. Wait for all to complete before proceeding to Phase 3.
+After spawning, proceed immediately to Phase 3.
 
 ---
 
 ## Phase 3: Report and Fix (Orchestrator, Sequential)
 
-### 3.1 Gather Results
+### 3.1 Process Agents as They Complete
 
-Collect the output from each completed agent:
-- **Item agent results**: Each returns a report following the item-report template (item name, status, correctness, codebase refs, issues table)
-- **Holistic agent result**: Returns a report following the holistic-report template (status, all cross-cutting check sections, issues table)
+Use incremental polling to process each agent's results as they finish, rather than waiting for all agents to complete.
 
-### 3.2 Merge Findings
+```
+remaining = [all spawned agent IDs]
 
-Apply these merging rules to combine all agent results into a unified report:
+while remaining is not empty:
+  for each agent_id in remaining:
+    check agent_id with TaskOutput (block: false)
+    if done:
+      1. Extract findings from the Task result
+      2. Cross-reference against item's prior entries (history check)
+      3. Write findings to review doc (update summary table cell from `...` to issue counts or `✅`, write detail entry)
+      4. Report to user: "[Item/Step/Task] N: Sound / X issues"
+      5. Remove agent_id from remaining
+  if remaining is not empty:
+    wait briefly, then poll again (block: true, timeout: 15000 on first remaining agent)
+```
 
-**Step 1 -- Collect**: Gather all issues from all agents into a flat list. For each issue, tag it with its source agent (item name or "Holistic").
+**For each completed item agent**:
 
-**Step 2 -- Deduplicate**: If two agents flag the same location (same section heading or same line range) for the same concern, keep the entry with more detail and the higher severity. Discard the duplicate.
+1. **Extract findings**: The item agent returns a report following the item-report template (item name, status, correctness, codebase refs, issues table).
+2. **History check**: If the review doc has prior entries for this item (i.e., this is not R1), read that item's detail section and scan prior review entries for matching issues:
+   - If a match is found in the **most recent** prior entry: annotate as `[Recurring from RN]`. Read the prior entry's suggested fix text and check the current document state to understand why the fix didn't resolve the issue. Append context to the annotation: `[Recurring from RN -- prior fix: <summary of what was applied>; root cause: <why it persists>]`. This gives the fix-applier visibility into the prior attempt so they can craft a more targeted fix.
+   - If a match is found in an **older** entry but not the most recent: annotate as `[Regression from RN]`
+   - If no match: leave as-is (new issue)
+   - **Matching guidance**: Match on issue description similarity. False negatives are acceptable -- false positives are worse. If unsure, treat as a new issue.
+3. **Write to review doc**: Update the item's summary table cell from `...` to issue counts (e.g., `1 HIGH 2 MED`) or `✅` for sound. Write the detail entry with timestamp, command (`review-doc-run`), and issues in `- [SEV] Description -> Suggested fix` format. Include history annotations if present.
+4. **Report**: Tell the user which item completed and its status.
 
-**Step 3 -- Elevate**: If an issue appears in both an item agent result AND the holistic agent result, elevate its severity by one level (LOW becomes MED, MED becomes HIGH, HIGH stays HIGH). This signals that the issue has both per-item and cross-cutting impact.
+**For the completed holistic agent**:
 
-**Step 4 -- Sort**: Sort the merged list by:
-1. Severity descending (HIGH first, then MED, then LOW)
-2. Document location (order of appearance in the document)
+1. **Extract findings**: The holistic agent returns a report following the holistic-report template (status, all cross-cutting check sections, issues table).
+2. **History check**: Same logic as item agents but applied to holistic detail entries.
+3. **Write to review doc**: Update each concern area's holistic summary table cell from `...` to issue counts or `✅`. Write the holistic detail entry with `- **[Concern]** [SEV] Description -> Suggested fix` format.
+4. **Report**: Tell the user holistic review completed and its status.
 
-**Step 5 -- Group**: Map findings to the final report sections:
+The orchestrator (main conversation) is the sole editor of the review document. Subagents never edit -- they only report.
 
-| Finding Source | Final Report Section |
-|----------------|---------------------|
-| Holistic: Template Alignment | Template Alignment |
-| Holistic: Soundness | Soundness |
-| Holistic: Step Flow | Step Flow |
-| Holistic: Dependency Chain | Dependency Chain |
-| Holistic: Contradictions | (merged into Issues table) |
-| Holistic: Clarity & Terminology | Clarity & Terminology |
-| Holistic: Surprises | Potential Surprises |
-| Holistic: Cross-Reference Alignment | Cross-Reference Check |
-| All item agents: Codebase Refs | Codebase Verification (merged, with Item column) |
-| All agents: Issues tables | Issues Found (merged, deduplicated) |
+### 3.2 Elevation Pass
 
-### 3.3 Assemble Final Report
+After all agents have completed and their findings are written to the review doc, perform a single elevation pass.
 
-Read the final report template at `~/.claude/skills/review/assets/templates/final-report.md`.
+Scan for issues that appear in both an item agent result AND the holistic agent result. If an issue appears in both:
+- Elevate its severity by one level: LOW becomes MED, MED becomes HIGH, HIGH stays HIGH
+- This signals that the issue has both per-item and cross-cutting impact
 
-Populate each section:
+Update the affected entries in the review doc (both the summary table cell counts and the detail entry severity tags).
 
-- **Document**: The document path
-- **Type**: The identified document type
-- **Status**: "Sound" if zero issues, "Issues Found" if any issues exist, "Needs Revision" if any HIGH severity issues
-- **Review Mode**: `Parallel (N item + 1 holistic)` where N is the number of item agents spawned
-- **Template Alignment**: From holistic report
-- **Document Analysis** sections (Soundness, Step Flow, Dependency Chain, Clarity & Terminology, Potential Surprises, Cross-Reference Check): From holistic report
-- **Codebase Verification**: Merge all item agents' Codebase Refs tables into one table, adding an **Item** column to identify which item each reference came from
-- **Issues Found**: Merged issues table with `**Total**` count line. The **Item** column shows which item agent found the issue (or "Holistic" for cross-cutting findings)
-- **Recommendations**: Generate a prioritized list of actionable fixes from the highest-severity issues
+**Why only elevation**: The old Collect/Deduplicate/Sort/Group merge steps are unnecessary because:
+- Item agents review disjoint sections, so there are no cross-item duplicates
+- Per-item structure already groups findings by item
+- Sort is implicit (items appear in document order)
 
-### 3.4 Present Report
+### 3.3 Set Review Log Entry
 
-Display the completed report to the user. The report is always shown regardless of the `--auto` flag.
+After the elevation pass, set the review log entry:
+- Timestamp: current ISO 8601 with timezone
+- Command: `review-doc-run`
+- Mode: `Parallel (N item + 1 holistic)` where N is the number of item agents spawned. Append ` --auto` if the `--auto` flag is active (e.g., `Parallel (10 item + 1 holistic) --auto`)
+- Issues: total counts (e.g., `1 HIGH 3 MED`) -- recalculated after elevation
+- Status: `Clean` (no issues) or `Pending` (issues found, not yet fixed)
 
-### 3.5 Apply Fixes (Branch on --auto)
+### 3.4 Present Simplified Summary and Apply Fixes
 
-**Default (no `--auto` flag)**: STOP here. The report is the final output. Wait for the user to decide what to do.
+Present a simplified summary to the conversation. The full report is already in the review document.
 
-**With `--auto` flag**: Immediately apply all fixes from the Issues table:
-1. Read each issue's "Suggested Fix" column
-2. Apply each fix to the document using Edit tool
-3. Report what was changed
+**If no issues found**:
+```
+Review #[N] complete: [review-doc-path]
+Status: Sound
+No issues found.
+```
 
-The orchestrator (main conversation) is the sole editor of the document. Subagents never edit -- they only report.
+**If issues found -- with `--auto`**:
+Show simplified summary, then apply all fixes immediately:
+```
+Review #[N] complete: [review-doc-path]
+Status: Issues Found
+Issues: [total] ([X] HIGH, [X] MED, [X] LOW)
+
+See [review-doc-path] for full details.
+```
+Apply each fix from the findings using Edit tool. Report each fix applied. If a fix cannot be applied (ambiguous target, already correct, or outside document scope), annotate the issue line in the review doc with `[Skipped: reason]` and report the skip to the user. Update the current review entry's Status from `Pending` to `Applied (X of Y)` where X is fixes applied and Y is total issues.
+
+**If issues found -- without `--auto`**:
+Show simplified summary with issue counts and pointer to review doc:
+```
+Review #[N] complete: [review-doc-path]
+Status: Issues Found
+Issues: [total] ([X] HIGH, [X] MED, [X] LOW)
+
+See [review-doc-path] for full details.
+```
+Then prompt user via AskUserQuestion:
+- Apply all fixes
+- Pick which fixes to apply
+- Done (no fixes)
+
+**Note**: When running in fork context (spawned as a background agent), skip the user prompt. If `--auto` is set, apply fixes. Otherwise, leave Fix Status as `Pending`.
+
+### 3.5 Update Review Doc Fix Status
+
+After user-chosen fixes in non-auto mode. Update the review document's Review Log entry for the current review based on what happened in Phase 3.4.
+
+- If user chose "Apply all" or "Pick which": apply selected fixes. For any fix the user explicitly declines, annotate the issue line in the review doc with `[Skipped: user declined]`. For fixes that cannot be applied, annotate with `[Skipped: reason]`. Update Status to `Applied (X of Y)` where X is fixes applied and Y is total issues.
+- If user chose "Done": leave Status as `Pending`.
+- For `--auto` mode: this phase is a no-op (status already updated in Phase 3.4).

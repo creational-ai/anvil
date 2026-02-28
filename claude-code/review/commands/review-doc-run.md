@@ -6,7 +6,7 @@ disable-model-invocation: true
 
 # /review-doc-run
 
-Review a document using parallel subagents -- item reviewers check each item, holistic reviewer checks cross-cutting concerns, orchestrator merges findings.
+Review a document using parallel subagents -- item reviewers check each item, holistic reviewer checks cross-cutting concerns, orchestrator writes findings incrementally.
 
 **Guide**: `~/.claude/skills/review/references/review-doc-run-guide.md`
 
@@ -28,8 +28,10 @@ Review a document using parallel subagents -- item reviewers check each item, ho
 
 1. Read the guide
 2. Identify document type and extract items
-3. Spawn item reviewers + holistic reviewer in parallel
-4. Merge findings and assemble report
-5. Present report (or apply fixes if `--auto`)
+3. Create review doc skeleton (or add column if exists)
+4. Spawn item reviewers + holistic reviewer in background
+5. Process findings incrementally as agents complete
+6. Run elevation pass after all agents complete
+7. Present simplified summary, apply fixes if --auto
 
 Read the guide. Follow it exactly.

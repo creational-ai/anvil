@@ -31,39 +31,36 @@ Review all completed steps in parallel by spawning a `dev-reviewer` for each.
 3. Find the corresponding plan doc (linked at top of results doc)
 4. Read the plan doc's Overview table → extract the **Risk Profile**
 
-### 2. Spawn Reviews in Parallel
+### 2. Spawn Reviews and Report
 
-For each completed step, spawn a `dev-reviewer` in background. Agents return their review block directly — no temp files needed.
+For each completed step, spawn a `dev-reviewer` in background with `--report-only` so agents return the review block without writing to files.
 
 ```
 Spawn dev-reviewer (run_in_background: true):
-"[results-doc-path] step [N]"
+"[results-doc-path] step [N] --report-only"
 ```
 
-Launch ALL review agents in a single message — do not wait between spawns.
-
-### 3. Collect and Merge (stream as they finish)
-
-**Do NOT wait for all agents.** Use `block: false` polling to check each agent, merge whichever is done, then loop back for the rest.
+Launch ALL review agents in a single message. Then immediately respond to the user:
 
 ```
-remaining = [all spawned agent IDs]
-
-while remaining is not empty:
-  for each agent_id in remaining:
-    check agent_id with TaskOutput (block: false)
-    if done:
-      1. Extract the review block from the Task result
-      2. Insert **Review** section into step {N} block in results.md
-      3. Report to user: "Step {N} review: PASS/FLAG"
-      4. Remove agent_id from remaining
-  if remaining is not empty:
-    wait briefly, then poll again (block: true, timeout: 15000 on first remaining agent)
+Spawned [N] review agents for steps [list]. Merging results as they complete.
 ```
+
+This response is important — it lets the background notifications arrive naturally.
+
+### 3. Merge Each Completion
+
+Each time a background agent completes, you receive a notification. On each notification:
+
+1. Extract the review block from the agent's result
+2. Insert the **Review** section into step {N} block in results.md
+3. Report to user: "Step {N} review: PASS/FLAG"
+
+Process each notification as it arrives. Continue until all agents have reported back.
 
 **Format for results.md**: Use `~/.claude/skills/dev/assets/templates/review.md` for the review block format.
 
-The **Reviewed** timestamp is the time the orchestrator merges the review into results.md. Run `date "+%Y-%m-%dT%H:%M:%S%z"` to get it.
+The **Reviewed** timestamp is the time you merge the review into results.md. Run `date "+%Y-%m-%dT%H:%M:%S%z"` to get it.
 
 ### 4. Update Summary Table
 
@@ -102,8 +99,7 @@ After all agents have completed, all reviews merged, and Summary table updated:
 ## Key Rules
 
 1. **All reviews in parallel** — spawn all agents in a single message with `run_in_background: true`
-2. **Agents return reviews directly** — no temp files; read the review block from the Task result
+2. **Wait for automatic notifications** — background agents notify you when done; merge each result as it arrives
 3. **Orchestrator merges** — only the orchestrator writes to results.md
-4. **Merge as they arrive** — as each agent completes, extract its review from the Task result and merge immediately
-5. **Only review completed steps** — skip steps that are Pending or In Progress
-6. **Report all results** — even if all PASS, show the summary table
+4. **Only review completed steps** — skip steps that are Pending or In Progress
+5. **Report all results** — even if all PASS, show the summary table

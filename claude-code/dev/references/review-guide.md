@@ -85,19 +85,19 @@ Does the code structure diverge from the architecture doc?
 
 ## Review Depth by Risk Profile
 
-Read the Risk Profile from the plan doc's Overview table.
+Read the Risk Profile from the plan doc's Overview table. Default to **Standard** if the field is missing or unclear.
 
 | Check | Critical | Standard | Exploratory |
 |-------|----------|----------|-------------|
-| 1. Intent match | Mandatory | Mandatory | Skip |
-| 2. Assumption audit | Mandatory | Mandatory | Skip |
+| 1. Intent match | Mandatory | Mandatory | Mandatory |
+| 2. Assumption audit | Mandatory | Mandatory | Mandatory |
 | 3. Silent trade-offs | Mandatory | Skip | Skip |
 | 4. Complexity proportionality | Mandatory | Skip | Skip |
 | 5. Architectural drift | Mandatory | Mandatory | Mandatory |
 
 **Critical**: All 5 checks. Every flag matters.
 **Standard**: Checks 1, 2, 5. Focus on "did we build the right thing" and "does it fit."
-**Exploratory**: Check 5 only. Advisory — log findings in results.md, always report **PASS** (never FLAG).
+**Exploratory**: Checks 1, 2, 5. Advisory — always report **PASS** (never FLAG).
 
 ---
 
@@ -137,10 +137,12 @@ The threshold: would this matter in a code review between two experienced develo
 
 Return the review block as your final output. Use the format from `assets/templates/review.md`.
 
-**Standalone** (`/dev-review`): Also write the review block into the step in results.md.
-**Background** (spawned by `/dev-review-run`): Only return the block — the orchestrator handles merging.
+Each check line should include evidence: what the design/plan specified, what was implemented, and why it matches or diverges. Reference specific files, line numbers, or acceptance criteria to support the verdict.
 
-For checks that were skipped (per risk profile), omit them from the list — only show checks that were actually run.
+Include only the checks applicable to the risk profile (see depth table above).
+
+**Default mode**: Write the review block into the step in results.md, then return it.
+**`--report-only` mode**: Return the review block only. The caller handles writing to results.md.
 
 **Hygiene rule:** If a Review section already exists (re-review after fix), **replace** it. Do not append a second one. The step block has exactly one Review section at all times.
 

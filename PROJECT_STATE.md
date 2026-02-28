@@ -1,10 +1,10 @@
 # Project State: Anvil
 
-> **Last Updated**: 2026-02-26T17:54:23-0800
+> **Last Updated**: 2026-02-27T18:08:21-0800
 
 **Anvil** is a structured workflow for taking ideas from concept to working product, supporting both Claude Code (implementation) and Claude Desktop (design & research).
 
-**Current Status**: Skills framework v2.0.0 with 4 Anvil skills (design, dev, research, review). Review skill consolidates verify + skill-reviewer with parallel subagent architecture. 73/73 verify.sh checks passing. Marketing milestone 1/6 tasks complete.
+**Current Status**: Skills framework v2.0.0 with 4 Anvil skills (design, dev, research, review). Review skill has persistent review tracking with per-item history and auto-fix support. 73/73 verify.sh checks passing. Marketing milestone 1/6 tasks complete.
 
 ---
 
@@ -24,6 +24,7 @@
 | poc-to-task | Stage 5 Rename: PoC Spec to Task Spec | refactor | ✅ Complete | `core-poc-to-task-*.md` |
 | naming-refactor | Naming Refactor (Claude Code Conventions) | refactor | ✅ Complete | `core-naming-refactor-*.md` |
 | review-skill | Unified Review Skill (verify + skill-reviewer consolidation) | refactor | ✅ Complete | `core-review-skill-*.md` |
+| review-tracking | Persistent Review Tracking with Per-Item History | feature | ✅ Complete | `core-review-tracking-*.md` |
 
 ### Milestone: Marketing
 
@@ -65,11 +66,11 @@
 2. Begin LinkedIn Launch task (profile optimization, first posts)
 3. Manual: Pin Anvil as flagship repo on creational-ai org page (GitHub web UI)
 
-**System Status**: ✅ **Production Ready + Review Consolidated**
+**System Status**: ✅ **Production Ready + Review Tracking**
 - 4 Anvil skills: design, dev, research, review
 - 5-stage design skill v2.0.0 (simplified naming: vision, roadmap, task-spec)
 - 3-stage dev skill with spec-driven plan workflow (full gap analysis complete)
-- review skill: parallel (/review-doc-run) and sequential (/review-doc) doc review + skill auditing (/review-skill)
+- review skill: persistent review tracking with per-item history, --auto support, parallel + sequential doc review, skill auditing
 - All agents use bare role names, all forked commands use /spawn-* prefix
 - research/ skill consolidates market-research and naming-research
 - 73/73 verify.sh checks passing
@@ -79,34 +80,34 @@
 
 ## Latest Health Check
 
-### 2026-02-26 - core-review-skill Finalization
+### 2026-02-27 - core-review-tracking Finalization
 **Status**: ✅ On Track
 
 **Context**:
-Finalizing the core-review-skill task -- consolidated verify/ and skill-reviewer/ skills into a unified review/ skill with parallel subagent architecture for doc review, sequential doc review, and skill auditing. Created 19 new files, updated deploy/verify scripts, deleted old directories.
+Finalizing the core-review-tracking task -- added persistent review tracking to the doc review workflow with a new review-tracking template, updated sequential and parallel guides, updated doc-reviewer agent, commands, SKILL.md, CLAUDE.md, and README.md. 1 file created, 9 files modified.
 
 **Findings**:
-- ✅ Alignment: 4-skill toolkit (design, dev, research, review) is cleaner and more cohesive than 5 skills. Parallel review architecture adds genuine capability for faster, more thorough doc reviews.
-- ✅ Production: All changes deployed via deploy.sh and verified via verify.sh (73/73 checks) -- real deployment, not mocks. Old verify/ and skill-reviewer/ artifacts fully cleaned up.
-- ✅ Scope: All 12 implementation steps (0-11) executed per plan specification. All 10 success criteria met. Minimal deviations (milestone-details->milestone-summary rename, fallback edge case addition).
-- ✅ Complexity: Proportionate -- 19 files is the natural count for 4 agents + 5 commands + 4 templates + 5 guides + 1 SKILL.md. Self-contained sequential guide duplicates check logic intentionally for architectural clarity.
-- ✅ Gap: No outstanding gaps. Cross-reference integrity validated across all 19 files. All internal and external paths resolve correctly.
-- ✅ Tests: 73/73 verify.sh checks passing (up from 66 baseline due to review skill additions and old skill cleanup checks).
+- ✅ Alignment: Persistent review tracking directly supports the review skill's purpose -- review history is no longer lost when sessions end. Per-item tracking and auto-fix mode make reviews more useful and save conversation context.
+- ✅ Production: All changes deployed via deploy.sh and verified via verify.sh (73/73 checks). Deployed files match source (8/8 diff-verified). --auto chain traceable end-to-end through command -> agent -> guide layers.
+- ✅ Scope: All 8 implementation steps (0-8 including baseline) executed per plan specification. All 8 success criteria met. Zero deviations from plan.
+- ✅ Complexity: Proportionate -- 1 new template + 9 targeted modifications. Sequential guide went from 9 to 11 steps; parallel guide from 5 to 7 phases. No unnecessary abstractions.
+- ✅ Gap: No stale behavioral references to final-report.md in modified files. SKILL.md catalog entry for final-report.md retained correctly (file still exists on disk; deprecation is a follow-up). Manual e2e testing is the recommended next step.
+- ✅ Tests: 73/73 verify.sh checks passing consistently across all 9 implementation steps.
 
 **Challenges**:
-- Self-contained vs cross-referencing guides: chose duplication for clear scope boundaries between sequential and parallel modes
-- Convention updates (agent- to spawn-) required semantic guide rewrites beyond simple path substitution
+- Downstream format changes cascaded to upstream grouping table (Phase 3.2) -- changing persistence target from final-report.md to review-tracking.md required updating merge grouping, not just downstream phases
+- Distinguishing catalog references (legitimate) from behavioral references (stale) during final-report.md migration
 
 **Results**:
-- ✅ 4 Anvil skills: design, dev, research, review
-- ✅ 4-agent review architecture: doc-reviewer, item-reviewer, holistic-reviewer, skill-reviewer
-- ✅ 5 commands: /review-doc, /review-doc-run, /review-skill, /spawn-doc-reviewer, /spawn-skill-reviewer
-- ✅ Old verify/ and skill-reviewer/ directories deleted from source and deployment
-- ✅ CLAUDE.md and README.md updated for 4-skill toolkit
+- ✅ review-tracking.md template with per-item structure (summary tables, detail sections, holistic section, review log)
+- ✅ Sequential guide: 11 steps with arg parsing, history cross-ref, persistence, simplified summary, fix status
+- ✅ Parallel guide: 7 phases (3.1-3.7) with same capabilities
+- ✅ --auto flag supported across all 3 review doc commands
+- ✅ All project docs (SKILL.md, CLAUDE.md, README.md) updated
 
 **Lessons Learned**:
-- Cross-check migrated content against current codebase state, not just the source file
-- Convention updates go beyond path search-and-replace -- guide logic may need semantic rewrites
-- Cleanup validation (old files absent) is as important as creation validation (new files present)
+- Deploy/verify pipeline auto-discovers new templates without configuration changes
+- Fork context handling is critical for spawn commands -- must handle absence of user for interactive prompts
+- Three-layer flag chain (command -> agent -> guide) requires end-to-end tracing during validation
 
-**Next**: Begin Marketing milestone tasks (Distribution Listings, LinkedIn Launch). Core milestone is fully complete.
+**Next**: Manual e2e test of review tracking. Follow-up: deprecate final-report.md template. Continue Marketing milestone tasks.

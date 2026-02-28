@@ -178,7 +178,7 @@ cd claude-desktop
 - `/spawn-dev-milestone-summarizer` - Milestone summary agent
 - `/spawn-market-researcher` - Market research agent
 - `/spawn-naming-researcher` - Naming research agent
-- `/spawn-doc-reviewer` - Document review agent
+- `/spawn-doc-reviewer` - Document review agent (supports --auto)
 - `/spawn-skill-reviewer` - Skill review agent
 
 **Research commands**:
@@ -186,8 +186,8 @@ cd claude-desktop
 - `/naming-research` - Research and evaluate product/project name candidates
 
 **Review commands**:
-- `/review-doc` - Sequential document review
-- `/review-doc-run` - Parallel document review with scatter-gather subagents
+- `/review-doc` - Sequential document review (supports --auto)
+- `/review-doc-run` - Parallel document review with background subagents (supports --auto)
 - `/review-skill` - Audit a skill for structure, frontmatter, and consistency
 
 Commands are deployed to `~/.claude/commands/`
@@ -242,24 +242,6 @@ git push
 - dev skill allows code (Stage 1 is design-only, Stages 2-3 allow code)
 
 **Agent `tools` field gotcha**: Do NOT add a `tools` field to agents that need MCP tools (e.g., `dev-executor`). Specifying `tools` in agent frontmatter creates an allowlist that **excludes** all MCP tools (UnityMCP, mission-control, etc.). Omitting `tools` entirely lets the agent inherit ALL tools including MCP. This is intentional — execution agents work across different projects with different MCP servers, so the tool set cannot be hardcoded.
-
----
-
-## Creational.ai GitHub Profile
-
-The org GitHub profile repo is managed here via symlink:
-
-```
-creational-github-profile → ~/Development/creational.ai/profile/profile/
-```
-
-- **Edit**: `creational-github-profile/README.md`
-- **Commit & push** (separate repo, not anvil):
-  ```bash
-  cd /Users/docchang/Development/creational.ai/profile && git add profile/README.md && git commit -m "message" && git push
-  ```
-- **Remote**: `git@github-creational:creational-ai/.github.git`
-- The symlink is gitignored in anvil
 
 ---
 

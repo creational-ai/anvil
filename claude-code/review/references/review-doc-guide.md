@@ -5,7 +5,24 @@ Review design or implementation documents for soundness, logic, consistency, and
 ## Input
 
 - **Document**: Single file path
+- **Flags**: Optional `--auto` (apply fixes immediately after report)
 - **Notes**: Optional user context
+
+### Argument Parsing
+
+Parse the arguments string to extract:
+
+1. **Document path**: The file path (required)
+2. **`--auto` flag**: If present, apply all fixes after report without prompting
+3. **Notes**: Any remaining text after path and flag
+
+Example inputs:
+- `docs/core-task-spec.md` -- path only, default mode (prompt user on fixes)
+- `docs/core-task-spec.md --auto` -- path + auto-fix
+- `docs/core-design.md --auto Fix the naming issues` -- path + auto-fix + notes
+- `docs/core-plan.md Some context about this review` -- path + notes, default mode
+
+Strip `--auto` from arguments before processing. Everything else is doc path + optional notes.
 
 ## Document Type Recognition
 
@@ -168,28 +185,100 @@ Use WebSearch only if document makes claims about:
 - Third-party service configurations
 - Best practices that might have changed
 
-### 8. Generate Report
+### Classification Guidance
 
-Use the `final-report.md` template at `~/.claude/skills/review/assets/templates/final-report.md` for report structure.
+The sequential reviewer must classify its findings into **per-item** vs **holistic** buckets for the review document. This classification is needed because the sequential path runs all checks in a single pass, unlike the parallel path which naturally separates them via distinct agents.
 
-Set the **Review Mode** field to `Sequential`.
+| Check Step | Bucket | Rationale |
+|------------|--------|-----------|
+| Step 3 (Template Alignment) | Holistic | Cross-cutting structural check |
+| Step 4 (Type-Specific Checks) | Per-item | Findings map to specific items/steps/tasks |
+| Step 5 (Universal Checks) | Holistic | Cross-cutting quality checks (soundness, flow, dependencies, contradictions, clarity, terminology, surprises) |
+| Step 6 (Codebase Verification) | Per-item | Findings reference specific items/steps/tasks |
 
-Populate all sections:
-- **Template Alignment**: results from Step 3
-- **Document Analysis**: results from Steps 4-5 (Soundness, Step Flow, Dependency Chain, Clarity & Terminology, Potential Surprises, Cross-Reference Check)
-- **Codebase Verification**: results from Step 6
-- **Issues Found**: consolidated table with severity, location, issue, and suggested fix. Set the **Item** column to `--` (sequential mode does not use item agents).
-- **Recommendations**: prioritized list of actionable fixes
+Per-item findings go into the Item/Step/Task Summary and Details sections. Holistic findings go into the Holistic Summary and Details sections.
 
-### 9. Offer Fixes
+### 8. Cross-Reference Issues Against History
 
-If issues found, **prompt the user** with options:
+If no issues were found in Steps 3-7, skip this step entirely.
 
-1. **Apply all fixes** - Automatically fix all identified issues
-2. **Pick which to apply** - Let user select specific fixes
-3. **Just the report** - No changes, only the report
+1. **Derive review doc path**: Strip `.md` from the document path, append `-review.md`. Example: `docs/core-poc6-plan.md` becomes `docs/core-poc6-plan-review.md`.
+2. **Check if review doc exists** (Read). If it does not exist, skip this step (first review, no history).
+3. If it exists, for each item that has issues in this review:
+   - Read that item's detail section in the review doc (e.g., "### Step 3: Build API endpoints").
+   - Scan prior review entries for matching issues (match by description similarity).
+   - If a match is found in a prior entry:
+     - If the issue was present in the **most recent** prior entry: annotate as `[Recurring from RN]`. Read the prior entry's suggested fix text and check the current document state to understand why the fix didn't resolve the issue. Append context to the annotation: `[Recurring from RN -- prior fix: <summary of what was applied>; root cause: <why it persists>]`. This gives the fix-applier visibility into the prior attempt so they can craft a more targeted fix.
+     - If the issue was **absent** in the most recent prior entry but present in an **earlier** one: annotate as `[Regression from RN]`
+   - If no match: leave as-is (new issue).
+4. Pass the annotated issues list forward to the write step.
 
-Use AskUserQuestion to present these options. Wait for user response before proceeding.
+**Matching guidance**: Compare issues within the same item's section, so context is already scoped. Match on issue description similarity. False negatives (missing a match) are acceptable -- false positives (wrong match) are worse. If unsure, treat as a new issue.
+
+### 9. Write to Review Document
+
+Write the full review findings to a persistent review document. The review doc is the primary output -- the conversation gets only a simplified summary (Step 10).
+
+1. **Derive path**: Strip `.md` from the document path, append `-review.md`. Example: `docs/core-poc6-plan.md` becomes `docs/core-poc6-plan-review.md`.
+2. **Read tracking template**: Load `~/.claude/skills/review/assets/templates/review-tracking.md`.
+3. **Check if review file exists** (Read):
+   - **Does not exist**: Create the full structure -- header table, summary tables with R1 column, all item detail sections with R1 entries, holistic sections with R1 entries, review log with R1 row.
+   - **Exists**: Determine review number N by counting R columns in the item summary table header. Add RN column to summary tables, append timestamped entries to each item detail section, append holistic entry, add review log row.
+4. **Populate per-item findings**: For each item/step/task, set the summary table cell to issue counts (e.g., `1 HIGH 2 MED`) or `✅` for sound. Write the detail entry with timestamp, command, and issues in `- [SEV] Description -> Suggested fix` format. Include history annotations from Step 8 if present (e.g., `[Recurring from R1]`).
+5. **Populate holistic findings**: For each concern area, set the holistic summary table cell. Write holistic detail entries by concern with `- **[Concern]** [SEV] Description -> Suggested fix` format.
+6. **Set review log entry**:
+   - Timestamp: current ISO 8601 with timezone
+   - Command: `review-doc`
+   - Mode: `Sequential`. Append ` --auto` if the `--auto` flag is active (e.g., `Sequential --auto`)
+   - Issues: total counts (e.g., `1 HIGH 3 MED`)
+   - Status: `Clean` (no issues) or `Pending` (issues found, not yet fixed)
+7. **Write** the review file (full rewrite since summary tables require column addition).
+
+### 10. Present Simplified Summary and Apply Fixes
+
+Present a simplified summary to the conversation. The full report is already in the review document (Step 9).
+
+**If no issues found**:
+```
+Review #[N] complete: [review-doc-path]
+Status: Sound
+No issues found.
+```
+
+**If issues found -- with `--auto`**:
+Show simplified summary, then apply all fixes immediately:
+```
+Review #[N] complete: [review-doc-path]
+Status: Issues Found
+Issues: [total] ([X] HIGH, [X] MED, [X] LOW)
+
+See [review-doc-path] for full details.
+```
+Apply each fix from the findings using Edit tool. Report each fix applied. If a fix cannot be applied (ambiguous target, already correct, or outside document scope), annotate the issue line in the review doc with `[Skipped: reason]` and report the skip to the user.
+
+**If issues found -- without `--auto`**:
+Show simplified summary with issue counts and pointer to review doc:
+```
+Review #[N] complete: [review-doc-path]
+Status: Issues Found
+Issues: [total] ([X] HIGH, [X] MED, [X] LOW)
+
+See [review-doc-path] for full details.
+```
+Then prompt user via AskUserQuestion:
+- Apply all fixes
+- Pick which fixes to apply
+- Done (no fixes)
+
+**Note**: When running in fork context (spawned as a background agent), skip the user prompt. If `--auto` is set, apply fixes. Otherwise, leave Fix Status as `Pending`.
+
+### 11. Update Review Doc Fix Status
+
+Update the review document's Review Log entry for the current review based on what happened in Step 10.
+
+- If fixes were applied (auto or user-chosen): for any fix the user explicitly declines or that cannot be applied, annotate the issue line in the review doc with `[Skipped: reason]`. Update the current review entry's Status from `Pending` to `Applied (X of Y)` where X is fixes applied and Y is total issues.
+- If user chose "Done" or no fixes were applied: leave Status as `Pending`.
+- If no issues were found (Status is `Clean`): no update needed.
 
 ---
 
@@ -217,5 +306,7 @@ By the end of review, answer:
 5. **Universal** - Soundness, flow, dependencies, contradictions, clarity, terminology, surprises
 6. **Codebase** - Verify against existing code
 7. **External** - WebSearch if needed for APIs/versions
-8. **Report** - Use final-report.md template
-9. **Fix** - Offer to apply changes
+8. **History** - Cross-reference issues against item's prior entries in review doc
+9. **Write** - Write per-item findings to review document (create or update)
+10. **Summary** - Present simplified summary, apply fixes if --auto or prompt user
+11. **Fix** - Apply fixes if requested, update Fix Status in review log

@@ -8,7 +8,7 @@ This skill consolidates document verification and skill auditing into a single r
 
 **Doc review** supports two modes:
 - **Sequential** (`/review-doc`) -- single-pass review, all checks run in order
-- **Parallel** (`/review-doc-run`) -- scatter-gather architecture with item + holistic agents for faster reviews of multi-item documents
+- **Parallel** (`/review-doc-run`) -- background spawning with incremental processing for faster reviews of multi-item documents
 
 **Skill review** (`/review-skill`) audits a skill's structure, frontmatter, architecture hierarchy, and cross-references.
 
@@ -23,7 +23,7 @@ This skill consolidates document verification and skill auditing into a single r
 | `holistic-reviewer` | Cross-cutting checks in parallel mode | Read-only |
 | `skill-reviewer` | Skill structure and convention audit | Read-only |
 
-**Architecture hierarchy**: Guides contain all logic; commands and agents are thin wrappers. In parallel mode, item and holistic agents are read-only reporters -- the orchestrator merges findings and is the sole editor.
+**Architecture hierarchy**: Guides contain all logic; commands and agents are thin wrappers. In parallel mode, item and holistic agents are read-only reporters -- the orchestrator writes findings incrementally and is the sole editor.
 
 ## Quick Reference
 
@@ -36,15 +36,15 @@ This skill consolidates document verification and skill auditing into a single r
 | Skill Review Guide | `references/skill-review-guide.md` |
 | Item Report Template | `assets/templates/item-report.md` |
 | Holistic Report Template | `assets/templates/holistic-report.md` |
-| Final Report Template | `assets/templates/final-report.md` |
+| Review Tracking Template | `assets/templates/review-tracking.md` |
 | Skill Review Report Template | `assets/templates/skill-review-report.md` |
 
 ## Commands
 
-- `/review-doc <path> [notes]` -- Sequential doc review (main conversation)
-- `/review-doc-run <path> [--auto] [notes]` -- Parallel doc review with scatter-gather agents (main conversation)
+- `/review-doc <path> [--auto] [notes]` -- Sequential doc review (main conversation)
+- `/review-doc-run <path> [--auto] [notes]` -- Parallel doc review with background agents (main conversation)
 - `/review-skill <skill-name>` -- Audit a skill for structure and conventions (main conversation)
-- `/spawn-doc-reviewer <path> [notes]` -- Sequential doc review (background agent)
+- `/spawn-doc-reviewer <path> [--auto] [notes]` -- Sequential doc review (background agent)
 - `/spawn-skill-reviewer <skill-name>` -- Skill audit (background agent)
 
 Or use natural language: "Review this document", "Check this plan for issues", "Audit the design skill"
@@ -63,6 +63,7 @@ Verifies design and implementation documents against templates, checks for:
 - Surprises (hidden deps, edge cases, environment assumptions)
 - Cross-reference alignment (scope, terminology, requirement coverage)
 - Codebase verification (referenced files and functions exist)
+- Review tracking: persists full review history to -review.md alongside reviewed documents
 
 Supports all Design docs (vision, architecture, roadmap, milestone-spec, task-spec) and Dev docs (design, plan, results).
 
