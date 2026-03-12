@@ -51,6 +51,25 @@ DEVELOPMENT PHASE (dev skill)
 Repeat for next task
 ```
 
+## Most Common Workflow
+
+The typical dev task workflow with review loops:
+
+```
+1.  /dev-design <description>                Design analysis (no code)
+2.  /review-doc-run <design doc> --auto      Review until solid (repeat as needed)
+3.  /dev-plan <design doc>                   Create implementation steps
+4.  /review-doc-run <plan doc> --auto        Review until solid (repeat as needed)
+5.  /dev-execute-run                         Execute all steps + auto-finalize
+6.  /dev-review-run <results doc>            Conceptual review of completed work
+```
+
+**Steps 2 and 4** are iterative — run reviews until all items are clean, fixing issues between rounds. The `--auto` flag auto-applies suggested fixes.
+
+**Step 5** runs all plan steps sequentially, then auto-finalizes (timestamp, lessons, diagram, health check).
+
+**Step 6** is optional but recommended — catches intent drift, silent assumptions, and architectural issues across the completed implementation.
+
 ## Commands
 
 ### design Commands
