@@ -177,6 +177,8 @@ Use Glob, Grep, Read to verify:
 - Dependencies already configured
 - PoC code matches what's described
 
+> **Environment-specific verification**: If the project has an environment guide (e.g., `~/.claude/skills/dev/references/unity-guide.md`, `python-guide.md`), consult it for additional verification tools (e.g., Unity MCP for hierarchy/component/wiring checks).
+
 ### 7. External Sources (if needed)
 
 Use WebSearch only if document makes claims about:
@@ -223,7 +225,7 @@ Write the full review findings to a persistent review document. The review doc i
 2. **Read tracking template**: Load `~/.claude/skills/review/assets/templates/review-tracking.md`.
 3. **Check if review file exists** (Read):
    - **Does not exist**: Create the full structure -- header table, summary tables with R1 column, all item detail sections with R1 entries, holistic sections with R1 entries, review log with R1 row.
-   - **Exists**: Determine review number N by counting R columns in the item summary table header. Add RN column to summary tables, append timestamped entries to each item detail section, append holistic entry, add review log row.
+   - **Exists**: Determine review number N by counting R columns in the item summary table header (count only R columns, not E columns from `/exam`). Add RN column to summary tables, append timestamped entries to each item detail section, append holistic entry, add review log row.
 4. **Populate per-item findings**: For each item/step/task, set the summary table cell to issue counts (e.g., `1 HIGH 2 MED`) or `✅` for sound. Write the detail entry with timestamp, command, and issues in `- [SEV] Description -> Suggested fix` format. Include history annotations from Step 8 if present (e.g., `[Recurring from R1]`). **Important**: When appending a new review entry (R2, R3, ...) after an existing entry that ends with list items, always insert a blank line before the `**RN**` line. Without the blank line, markdown renders the RN label as a continuation of the preceding list.
 5. **Populate holistic findings**: For each concern area, set the holistic summary table cell. Write holistic detail entries by concern with `- **[Concern]** [SEV] Description -> Suggested fix` format.
 6. **Set review log entry**:

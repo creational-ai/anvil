@@ -23,7 +23,7 @@ Run the checks for the matching doc type. Each check produces a pass/fail with a
 
 ### Task Spec Items
 
-Each item is a `### Task: [Name]` block. Shared context includes the Milestone Overview and Task Dependency Diagram.
+Each item is a `### Task N: [Name]` block. Shared context includes the Milestone Overview and Task Dependency Diagram.
 
 **Checks**:
 
@@ -141,6 +141,8 @@ Record each reference in the Codebase Refs table of your report:
 **For new files proposed by the design/plan**: Verify the parent directory exists. The file itself is expected to not exist yet -- that is not an issue.
 
 **For function/class references**: Search with Grep. If the reference is to something that will be created in a future step, note "To be created" rather than flagging it as missing.
+
+> **Environment-specific verification**: If the project has an environment guide (e.g., `~/.claude/skills/dev/references/unity-guide.md`, `python-guide.md`), consult it for additional verification tools (e.g., Unity MCP for hierarchy/component/wiring checks).
 
 ## Output Format
 

@@ -74,6 +74,8 @@ Stage 3 of dev: Implement one step at a time with test verification.
 
 ## Process
 
+**Run in main conversation. Do NOT spawn a subagent or fork.** Use `/spawn-dev-executor` for background execution.
+
 Follow `3-execution-guide.md` exactly. It contains the full per-step workflow, fix mode, and documentation requirements.
 
 **First time**: If results doc doesn't exist, create from template. Record Started timestamp.

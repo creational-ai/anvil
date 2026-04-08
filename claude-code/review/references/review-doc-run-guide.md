@@ -76,15 +76,15 @@ Parse the document to identify individual items based on doc type rules.
 
 #### Task Spec Extraction
 
-**Item boundary**: Each `### Task: [Name]` block.
-- Start: `### Task: [Name]` heading
-- End: Next `### Task:` heading, or `## Execution Order` section, or end of document
+**Item boundary**: Each `### Task N: [Name]` block.
+- Start: `### Task N: [Name]` heading (where N is a number)
+- End: Next `### Task` heading, or `## Execution Order` section, or end of document
 
 **Shared context** (same for all items): Extract and concatenate:
 - The **Milestone Overview** section (from `## Milestone Overview` to the next `##`)
 - The **Task Dependency Diagram** section (from `## Task Dependency Diagram` to the next `##`)
 
-**Item count**: Number of `### Task:` blocks found.
+**Item count**: Number of `### Task` blocks found.
 
 ---
 
@@ -140,7 +140,7 @@ Before spawning agents, create the review document structure so it exists while 
 2. **Read tracking template**: Load `~/.claude/skills/review/assets/templates/review-tracking.md`.
 3. **Check if review doc exists** (Read):
    - **Does not exist**: Create the skeleton — header table, summary tables with all items/concerns listed and a single review column where every cell is `...`, empty detail sections (headers only, no entries yet), empty holistic detail section, review log with a pending row. This is R1.
-   - **Exists**: Determine review number N by counting R columns in the item summary table header. Add RN column to summary tables with all cells set to `...`.
+   - **Exists**: Determine review number N by counting R columns in the item summary table header (count only R columns, not E columns from `/exam`). Add RN column to summary tables with all cells set to `...`.
 4. **Write** the skeleton. The `...` cells indicate "in progress" — they will be replaced with issue counts or `✅` as each agent completes.
 
 ---

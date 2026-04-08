@@ -12,6 +12,10 @@ This skill consolidates document verification and skill auditing into a single r
 
 **Skill review** (`/review-skill`) audits a skill's structure, frontmatter, architecture hierarchy, and cross-references.
 
+**Exam** provides independent critical assessment, deeper than automated review:
+- **Review mode** (`/exam`) -- deep-dive examination of a single document, challenging substance and architecture
+- **Monitor mode** (`/monitor`) -- real-time observation of plan execution with per-step cross-reference analysis
+
 ## Architecture
 
 4 agents, each with a distinct role:
@@ -24,6 +28,8 @@ This skill consolidates document verification and skill auditing into a single r
 | `skill-reviewer` | Skill structure and convention audit | Read-only |
 
 **Architecture hierarchy**: Guides contain all logic; commands and agents are thin wrappers. In parallel mode, item and holistic agents are read-only reporters -- the orchestrator writes findings incrementally and is the sole editor.
+
+**Exam commands** (`/exam`, `/monitor`) run directly in the main conversation with no subagents. The examiner reloads its guide on each invocation to prevent instruction drift in long sessions.
 
 ## Quick Reference
 
@@ -38,16 +44,20 @@ This skill consolidates document verification and skill auditing into a single r
 | Holistic Report Template | `assets/templates/holistic-report.md` |
 | Review Tracking Template | `assets/templates/review-tracking.md` |
 | Skill Review Report Template | `assets/templates/skill-review-report.md` |
+| Exam Guide | `references/exam-guide.md` |
+| Monitor Status Template | `assets/templates/monitor-status.md` |
 
 ## Commands
 
 - `/review-doc <path> [--auto] [notes]` -- Sequential doc review (main conversation)
 - `/review-doc-run <path> [--auto] [notes]` -- Parallel doc review with background agents (main conversation)
 - `/review-skill <skill-name>` -- Audit a skill for structure and conventions (main conversation)
+- `/exam <path> [notes]` -- Independent critical examination of a document (main conversation)
+- `/monitor <task-slug>` -- Monitor execution progress with periodic status reports (main conversation)
 - `/spawn-doc-reviewer <path> [--auto] [notes]` -- Sequential doc review (background agent)
 - `/spawn-skill-reviewer <skill-name>` -- Skill audit (background agent)
 
-Or use natural language: "Review this document", "Check this plan for issues", "Audit the design skill"
+Or use natural language: "Review this document", "Check this plan for issues", "Audit the design skill", "Exam the plan", "Monitor the execution"
 
 ## Capabilities
 
@@ -79,3 +89,10 @@ Audits Claude Code skills for quality and consistency across 8 categories:
 6. **Input/Output Chain** -- Stage outputs match next stage inputs, no dead ends
 7. **Terminology & Format** -- Consistent terms, timestamps, status indicators
 8. **Convention Compliance** -- No hardcoded values in templates, no stale references
+
+### Exam
+
+Independent critical assessment, deeper than automated review:
+
+- **Review mode** (`/exam`): Deep-dive examination of a single document. Reads the automated review doc first, then challenges substance, architectural decisions, unvalidated assumptions, and cross-document contradictions. Reports findings conversationally with a numbered table ranked by severity.
+- **Monitor mode** (`/monitor`): Real-time observation of plan execution. Periodically reads the results doc and performs per-step analysis as steps complete — cross-referencing against plan spec, plan review findings, design items, and expectations doc. The examiner adds judgment the mechanical reviewer cannot: was the concern substantive? Did the fix resolve the real risk?

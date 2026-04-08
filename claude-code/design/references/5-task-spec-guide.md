@@ -99,7 +99,7 @@ Each task has a Type that determines its framing:
 
 **GOOD - Minimized tasks:**
 ```
-Task: User Management (One task)
+Task 1: User Management (One task)
    - Database schema for users
    - CRUD API endpoints
    - Authentication logic
@@ -109,21 +109,21 @@ Task: User Management (One task)
 
 **BAD - Too many micro-tasks:**
 ```
-Task: User Database Schema
-Task: Create User API
-Task: Read User API
-Task: Update User API
-Task: Delete User API
-Task: User Authentication
+Task 1: User Database Schema
+Task 2: Create User API
+Task 3: Read User API
+Task 4: Update User API
+Task 5: Delete User API
+Task 6: User Authentication
 ```
 
 **When forced to split (e.g., full-stack feature):**
 ```
-Task: User Management Backend
+Task 1: User Management Backend
    - Database + API + Auth (grouped)
    - Validates: "Backend handles users correctly"
 
-Task: User Management Frontend
+Task 2: User Management Frontend
    - UI components + forms + state
    - Validates: "Frontend integrates with user API"
 ```
@@ -142,28 +142,28 @@ Create a diagram showing:
 Example:
 ```
 +-----------------------------+              +-----------------------------+
-|  Task: Database Schema      |              |  Task: API Server Basic     |
+|  Task 1: Database Schema    |              |  Task 2: API Server Basic   |
 +-------------+---------------+              +-------------+---------------+
               |                                            |
               +--------------------+-----------------------+
                                    |
                                    v
                      +-----------------------------+
-                     |  Task: CRUD Operations      |
+                     |  Task 3: CRUD Operations    |
                      +-------------+---------------+
                                    |
                       +------------+------------+
                       |                         |
                       v                         v
         +-----------------------------+   +-----------------------------+
-        |  Task: Analytics            |   |  Task: Reports              |
+        |  Task 4: Analytics          |   |  Task 5: Reports            |
         +-------------+---------------+   +-------------+---------------+
                       |                                 |
                       +------------+------------+-------+
                                    |
                                    v
                      +-----------------------------+
-                     |  Task: E2E Integration      |
+                     |  Task 6: E2E Integration    |
                      +-----------------------------+
 ```
 

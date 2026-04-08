@@ -10,10 +10,10 @@
 
 ## [Item/Step/Task] Summary
 
-| # | [Item/Step/Task] | R1 |
-|---|------------------|----|
-| 1 | [Name] | ✅ |
-| 2 | [Name] | 1 HIGH 1 MED |
+| # | [Item/Step/Task] | R1 | E1 | R2 |
+|---|------------------|----|----|-----|
+| 1 | [Name] | ✅ | ✅ | ✅ |
+| 2 | [Name] | 1 HIGH 1 MED | 1 MED | ✅ |
 
 > `...` = In Progress
 
@@ -23,11 +23,15 @@
 
 ### [Item/Step/Task] 1: [Name]
 **R1** ([ISO 8601 timestamp], [command]): Sound
+**E1** ([ISO 8601 timestamp], exam): Sound
 **R2** ([ISO 8601 timestamp], [command]): Sound
 
 ### [Item/Step/Task] 2: [Name]
 **R1** ([ISO 8601 timestamp], [command]):
 - [HIGH] Description -> Suggested fix
+- [MED] Description -> Suggested fix
+
+**E1** ([ISO 8601 timestamp], exam):
 - [MED] Description -> Suggested fix
 
 **R2** ([ISO 8601 timestamp], [command]):
@@ -37,8 +41,8 @@
 
 ## Holistic Summary
 
-| Concern | R1 |
-|---------|----|
+| Concern | R1 | E1 |
+|---------|----|----|
 | Template Alignment | ✅ |
 | Soundness | ✅ |
 | Flow & Dependencies | ✅ |
@@ -52,6 +56,9 @@
 ## Holistic Details
 
 **R1** ([ISO 8601 timestamp], [command]):
+- **[Concern]** [SEV] Description -> Suggested fix
+
+**E1** ([ISO 8601 timestamp], exam):
 - **[Concern]** [SEV] Description -> Suggested fix
 
 **R2** ([ISO 8601 timestamp], [command]):
@@ -71,6 +78,7 @@
 
 - **First review**: Creates the entire document -- header, summary tables with R1 column, all detail sections with R1 entries, holistic sections with R1 entries, review log with R1 row.
 - **Subsequent reviews**: Adds a new column (R2, R3, ...) to summary tables, appends new timestamped entries to each detail section, appends holistic entry, adds review log row.
+- **Exam rounds**: The `/exam` command writes E columns (E1, E2, ...) interleaved chronologically with R columns. Typical flow: R1 → E1 → R2 → E2. Exam rounds use the same structural pattern as review rounds but with E prefix. The exam determines its round number by counting existing E columns only (not R columns). Review determines its round number by counting existing R columns only (not E columns).
 - **[Item/Step/Task] placeholder**: Substitute based on document type: Design -> Item, Plan -> Step, Task Spec -> Task.
 - **Summary table cells**: Show issue counts using severity labels (e.g., `1 HIGH 2 MED`) or `✅` for sound. `...` in summary table cells indicates review is in progress (agent still running). Replaced with issue counts or `✅` when the agent completes.
 - **Detail entries**: Timestamped per review. Issues use `- [SEV] Description -> Suggested fix` format. Sound items show single-line "Sound" entry. **Blank line before each RN entry**: Always insert a blank line before `**R2**`, `**R3**`, etc. when the preceding entry ends with a list item (`- [SEV] ...`). Without the blank line, markdown renders the RN label as a continuation of the list. When the preceding entry is a single-line "Sound" entry (no list), no extra blank line is needed.

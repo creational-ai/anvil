@@ -73,6 +73,8 @@ Stage 2 of dev: Break down one task into bite-sized, production-grade steps.
 
 ## Process
 
+**Run in main conversation. Do NOT spawn a subagent or fork.** Use `/spawn-dev-planner` for background execution.
+
 Follow `2-planning-guide.md` exactly. It contains the full process for prerequisites, step breakdown, specifications, acceptance criteria, and trade-offs.
 
 ## Output

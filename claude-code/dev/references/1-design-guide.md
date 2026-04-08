@@ -106,6 +106,8 @@ For each distinct item to address (feature component, issue, proof point, etc.):
 
 **Implementation Options:** For each Analysis item where multiple viable approaches exist, include an Implementation Options comparison (pros/cons/recommendation) within that item's Approach. This is a standard part of thorough analysis -- not reserved for the task overall.
 
+> **Environment-specific context**: If the project has an environment guide (e.g., `~/.claude/skills/dev/references/unity-guide.md`, `python-guide.md`), consult it for platform-specific patterns, constraints, and tooling that should inform design decisions.
+
 **Guidelines:**
 - Each item is independent - no implied order
 - Don't reference "first we do X, then Y" - that's for Proposed Sequence

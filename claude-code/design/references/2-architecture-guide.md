@@ -50,6 +50,8 @@ Example: `docs/mc-architecture.md`
 - Class implementations
 - Code snippets that could be copy-pasted
 
+> **Environment-specific context**: If the project has an environment guide (e.g., `~/.claude/skills/dev/references/unity-guide.md`, `python-guide.md`), consult it for platform-specific patterns, constraints, and tooling that should inform architecture decisions.
+
 ## Key Deliverables
 1. **System Architecture**: How components relate
 2. **Technology Stack**: What tools/frameworks and why

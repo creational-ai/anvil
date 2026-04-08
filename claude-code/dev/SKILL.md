@@ -57,7 +57,7 @@ Users can invoke stages explicitly via commands:
 - `/dev-design <notes>` - Start Stage 1
 - `/dev-plan <notes>` - Start Stage 2
 - `/dev-execute <notes>` - Start Stage 3 (one step)
-- `/dev-execute-run <plan>` - Run all steps to completion (auto-finalize)
+- `/dev-execute-run <plan> [--auto]` - Run all steps to completion (auto-finalize, `--auto` adds review-run + mc-update)
 - `/dev-review <results-doc> <step>` - Review completed step against design
 - `/dev-review-run <results-doc>` - Review all completed steps in parallel
 - `/dev-finalize <slug>` - Finalize task (timestamp, lessons, diagram, health check)

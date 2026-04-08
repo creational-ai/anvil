@@ -10,7 +10,7 @@
 
 ```
 ┌──────────────────────┐              ┌──────────────────────┐
-│  Task: [Name]        │              │  Task: [Name]        │
+│  Task 1: [Name]      │              │  Task 2: [Name]      │
 │  [Description]       │              │  [Description]       │
 └──────────┬───────────┘              └──────────┬───────────┘
            │                                     │
@@ -18,7 +18,7 @@
                              │
                              ▼
                   ┌──────────────────────┐
-                  │  Task: [Name]        │
+                  │  Task 3: [Name]      │
                   │  [Description]       │
                   └──────────┬───────────┘
                              │
@@ -26,7 +26,7 @@
                  │                       │
                  ▼                       ▼
       ┌──────────────────────┐   ┌──────────────────────┐
-      │  Task: [Name]        │   │  Task: [Name]        │
+      │  Task 4: [Name]      │   │  Task 5: [Name]      │
       │  [Description]       │   │  [Description]       │
       └──────────┬───────────┘   └──────────┬───────────┘
                  │                           │
@@ -34,7 +34,7 @@
                              │
                              ▼
                   ┌──────────────────────┐
-                  │  Task: [Name]        │
+                  │  Task 6: [Name]      │
                   │  [Description]       │
                   └──────────────────────┘
 ```
@@ -43,25 +43,25 @@
 
 ## Tasks
 
-### Task: [Name]
+### Task 1: [Name]
 - **Type**: [PoC / Feature / Issue / Refactor]
 - **Validates**: [What this task proves/delivers/fixes]
 - **Unlocks**: [Which tasks depend on this]
 - **Success Criteria**: [Measurable outcome]
 
-### Task: [Name]
+### Task 2: [Name]
 - **Type**: [PoC / Feature / Issue / Refactor]
 - **Validates**: [What this task proves/delivers/fixes]
 - **Unlocks**: [Which tasks depend on this]
 - **Success Criteria**: [Measurable outcome]
 
-### Task: [Name]
+### Task 3: [Name]
 ...
 
 ## Execution Order
-1. Task: [Name] (no dependencies)
-2. Task: [Name] (no dependencies)
-3. Task: [Name] (requires [Name])
+1. Task 1: [Name] (no dependencies)
+2. Task 2: [Name] (no dependencies)
+3. Task 3: [Name] (requires Task 1, Task 2)
 4. ...
 
 ## Integration Points
@@ -70,7 +70,7 @@
 ## Risk Assessment
 | Task | Risk Level | Mitigation |
 |------|------------|------------|
-| Task: [Name] | [HIGH/MED/LOW] | [Strategy] |
+| Task 1: [Name] | [HIGH/MED/LOW] | [Strategy] |
 
 ## Feedback Loops
 

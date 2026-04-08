@@ -24,6 +24,8 @@ The slug is used to find: `docs/[slug]-results.md`
 
 ## Steps
 
+**Run in main conversation. Do NOT spawn a subagent or fork.** Use `/spawn-dev-finalizer` for background execution.
+
 **ALL 4 STEPS ARE REQUIRED. DO NOT STOP EARLY.**
 
 ### Step 1: Timestamp

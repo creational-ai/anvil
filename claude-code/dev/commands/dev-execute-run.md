@@ -1,6 +1,6 @@
 ---
 description: Execute all remaining steps, spawning fresh subagent for each step. Runs in main conversation.
-argument-hint: <plan-doc>
+argument-hint: <plan-doc> [--auto]
 disable-model-invocation: true
 ---
 
@@ -18,6 +18,8 @@ Orchestrates Stage 3 execution by looping through steps, launching a fresh `dev-
 - File path: `docs/[milestone-slug]-[task-slug]-plan.md`
 - Task name: `core-poc6` → looks for `docs/core-poc6-plan.md`
 
+**Flag (optional)**: `--auto` — after finalize, also run `/dev-review-run` and `/mc-update` automatically
+
 **User notes (optional)**:
 ```
 {{notes}}
@@ -26,7 +28,8 @@ Orchestrates Stage 3 execution by looping through steps, launching a fresh `dev-
 **Examples**:
 ```bash
 /dev-execute-run docs/core-poc6-plan.md
-/dev-execute-run core-poc6 --notes "Skip step 3, already done manually"
+/dev-execute-run core-poc6 --auto
+/dev-execute-run core-poc6 --auto --notes "Skip step 3, already done manually"
 ```
 
 ## Process
@@ -35,10 +38,11 @@ Orchestrates Stage 3 execution by looping through steps, launching a fresh `dev-
 
 ### 1. Setup
 
-1. Resolve the plan path (if task name given, convert to `docs/[name]-plan.md`)
-2. Read the plan and extract the ordered list of step identifiers by scanning for `### Step [ID]:` headings (e.g., `0, 1, 2, 3` or `0, 1, 2, 3a, 3b, 3c, 4`)
-3. Read or create results.md to find current progress
-4. Identify all incomplete steps
+1. Parse arguments: strip `--auto` flag and `--notes` if present. Remaining argument is the plan path.
+2. Resolve the plan path (if task name given, convert to `docs/[name]-plan.md`)
+3. Read the plan and extract the ordered list of step identifiers by scanning for `### Step [ID]:` headings (e.g., `0, 1, 2, 3` or `0, 1, 2, 3a, 3b, 3c, 4`)
+4. Read or create results.md to find current progress
+5. Identify all incomplete steps
 
 ### 2. For Each Step
 
@@ -80,6 +84,25 @@ When all steps complete successfully:
 | `prompt` | `Finalize the task at [results-path]. Run all 4 steps: timestamp, lessons, diagram, health check.` |
 
 3. Report final status
+
+### 4. Auto Post-Processing (only with `--auto`)
+
+If `--auto` flag is set, continue after finalizer completes:
+
+**Step 4a**: Run the review process inline (main conversation orchestrates):
+- Read `~/.claude/commands/dev-review-run.md` and follow its process with the results doc path
+- This spawns `dev-reviewer` agents in background, merges results as they complete
+- Wait for all reviews to finish
+
+**Step 4b**: Spawn `mc-update-agent`:
+
+| Parameter | Value |
+|-----------|-------|
+| `subagent_type` | `mc-update-agent` |
+| `description` | `MC update [task-slug]` |
+| `prompt` | `Sync task [task-slug] to Mission Control. Results doc: [results-path]` |
+
+Report final status after both complete.
 
 ## Key Rules
 

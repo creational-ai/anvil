@@ -143,6 +143,7 @@ cd claude-desktop
 - `review-item-guide.md` - Per-item review checks
 - `review-holistic-guide.md` - Cross-cutting review checks
 - `skill-review-guide.md` - Skill auditing guide
+- `exam-guide.md` - Independent examination guide (review + monitor modes)
 
 **research** (`claude-code/research/references/`):
 - `market-research-guide.md` - Market research process guide
@@ -161,7 +162,7 @@ cd claude-desktop
 - `/dev-design` - Create design document (Stage 1)
 - `/dev-plan` - Plan implementation steps (Stage 2)
 - `/dev-execute` - Execute one step (Stage 3)
-- `/dev-execute-run` - Run all steps to completion (auto-finalize)
+- `/dev-execute-run` - Run all steps to completion (auto-finalize, `--auto` adds review-run + mc-update)
 - `/dev-review` - Review completed step against design (conceptual review)
 - `/dev-review-run` - Review all completed steps in parallel
 - `/dev-diagram` - Generate task diagram
@@ -189,6 +190,8 @@ cd claude-desktop
 - `/review-doc` - Sequential document review (supports --auto)
 - `/review-doc-run` - Parallel document review with background subagents (supports --auto)
 - `/review-skill` - Audit a skill for structure, frontmatter, and consistency
+- `/exam` - Independent critical examination of a document
+- `/monitor` - Monitor execution progress with periodic status reports
 
 Commands are deployed to `~/.claude/commands/`
 

@@ -49,6 +49,8 @@ Post-execution conceptual review. Compares the implementation output against the
 
 ## Process
 
+**Run in main conversation. Do NOT spawn a subagent or fork.** Use `/spawn-dev-reviewer` for background execution.
+
 Follow `review-guide.md`:
 
 1. Read plan doc Overview → extract Risk Profile
