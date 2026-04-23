@@ -50,14 +50,14 @@ This skill consolidates document verification and skill auditing into a single r
 
 ## Commands
 
-- `/review-doc <path> [--auto] [notes]` -- Sequential doc review (main conversation)
-- `/review-doc-run <path> [--auto] [notes]` -- Parallel doc review with background agents (main conversation)
+- `/review-doc <doc-path> [--auto] [notes]` -- Sequential doc review (main conversation)
+- `/review-doc-run <doc-path> [--auto] [notes]` -- Parallel doc review with background agents (main conversation)
 - `/review-doc-run-loop <doc-path> [N] [--first | --follow] [notes]` -- long-running tick-driven loop coordinating with `/exam-loop` via the shared review doc; main conversation only. `N` defaults to 2
 - `/review-skill <skill-name>` -- Audit a skill for structure and conventions (main conversation)
-- `/exam <path> [notes]` -- Independent critical examination of a document (main conversation)
+- `/exam <doc-path> [--auto] [notes]` -- Independent critical examination of a document (main conversation)
 - `/exam-loop <doc-path> [N] [--first | --follow] [notes]` -- long-running tick-driven loop coordinating with `/review-doc-run-loop` via the shared review doc; main conversation only. `N` defaults to 2
 - `/monitor <task-slug>` -- Monitor execution progress with periodic status reports (main conversation)
-- `/spawn-doc-reviewer <path> [--auto] [notes]` -- Sequential doc review (background agent)
+- `/spawn-doc-reviewer <doc-path> [--auto] [notes]` -- Sequential doc review (background agent)
 - `/spawn-skill-reviewer <skill-name>` -- Skill audit (background agent)
 
 Or use natural language: "Review this document", "Check this plan for issues", "Audit the design skill", "Exam the plan", "Monitor the execution"

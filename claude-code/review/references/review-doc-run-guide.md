@@ -353,8 +353,10 @@ Play an audio notification and speak a brief one-line summary when the review is
 Run a single Bash command:
 
 ```bash
-afplay /System/Library/Sounds/Glass.aiff && say "Review run completed for [project] [task-slug] [doc-type] doc"
+command -v afplay >/dev/null 2>&1 && afplay /System/Library/Sounds/Glass.aiff; command -v say >/dev/null 2>&1 && say "Review run completed for [project] [task-slug] [doc-type] doc"
 ```
+
+The `command -v ... && ...` pattern makes both calls portable: on macOS where `afplay` and `say` exist, both run normally; on Linux (e.g. the genesis Raspberry Pi host), both silently skip without throwing a "command not found" error. The exit status of the whole line is always 0 on either platform.
 
 Replace placeholders:
 - `[project]`: basename of the current working directory (e.g., `anvil`).

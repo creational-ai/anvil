@@ -1,9 +1,3 @@
-# Monitor Status Template
-
-Output template for `/monitor` command. Two parts: status table (every tick) and per-step analysis (newly completed steps only).
-
----
-
 ## Status Table (every tick)
 
 ```markdown

@@ -43,13 +43,13 @@
 
 | Concern | R1 | E1 |
 |---------|----|----|
-| Template Alignment | ✅ |
-| Soundness | ✅ |
-| Flow & Dependencies | ✅ |
-| Contradictions | ✅ |
-| Clarity & Terminology | ✅ |
-| Surprises | ✅ |
-| Cross-References | ✅ |
+| Template Alignment | ✅ | ✅ |
+| Soundness | ✅ | ✅ |
+| Flow & Dependencies | ✅ | ✅ |
+| Contradictions | ✅ | ✅ |
+| Clarity & Terminology | ✅ | ✅ |
+| Surprises | ✅ | ✅ |
+| Cross-References | ✅ | ✅ |
 
 ---
 

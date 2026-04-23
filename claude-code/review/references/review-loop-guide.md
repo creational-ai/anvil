@@ -53,7 +53,7 @@ The command body does NOT validate arguments. All parsing happens here, in the l
 
 ### Semantics
 
-- **`N` is additive**. It counts rounds to run from the current state, not a cap on total rounds logged. Captured at Initial entry as `target_rounds = N`. Used alongside `entry_r_count` / `entry_e_count` (captured from the doc at entry) to compute `rounds_done = current_count - entry_count` on every tick. `N = 1` against a doc with R3/E3 runs R4 only (review side) or E4 only (exam side).
+- **`N` is additive**. It counts rounds RUN BY THIS INVOCATION, not a cap on total rounds logged. Captured at Initial entry as `target_rounds = N`. Used alongside `entry_r_done` / `entry_e_done` (completed-row counts captured from the doc at entry) to compute `rounds_done = current_done - entry_done` on every tick. `N = 1` against a doc with R3/E3 Applied runs R4 only (review side) or E4 only (exam side). Only rows whose Status is `Applied` or `Clean` count -- a `Pending` row represents an in-flight round that has not yet been consumed by this invocation's round budget.
 - **`N` defaults to `DEFAULT_ROUNDS = 2`** when omitted. This makes `/review-doc-run-loop <doc> --first` and `/exam-loop <doc> --follow` usable without typing a number -- the common case of "run 2 rounds with this role override" becomes a one-liner.
 - **`--first`** forces this side to `leader`, overriding the default.
 - **`--follow`** forces this side to `follower`, overriding the default.
@@ -153,59 +153,102 @@ The Review Log table in `docs/<slug>-review.md` is the only coordination channel
 
 ### Counter measurement
 
-On each tick, re-read `docs/<slug>-review.md` with the Read tool and locate the `## Review Log` heading. Within rows between that heading and the next `---` or `##`, count rows whose first column cell (after trimming whitespace) matches `R\d+` for `r_count` or `E\d+` for `e_count`.
+On each tick, re-read `docs/<slug>-review.md` with the Read tool and extract six counts. Two come from the Review Log; four come from the summary tables. All six feed the idle-reset signature; only `rD` / `eD` gate round progression.
 
-Tightened regex form, applied only inside the Review Log section:
+**Completed Review Log counts (`rD`, `eD`)** -- used by BOTH gate and idle reset. Scoped to the `## Review Log` section (between the heading and the next `---` or `##`). Only count rows whose Status column (the last pipe-separated cell) is `Applied` or `Clean`:
 
-- `^\|\s*R\d+\s*\|` matches R rows
-- `^\|\s*E\d+\s*\|` matches E rows
+- `^\|\s*R\d+\s*\|.*\|\s*(Applied|Clean)\b` -- matches completed R rows
+- `^\|\s*E\d+\s*\|.*\|\s*(Applied|Clean)\b` -- matches completed E rows
 
-Scoping to the Review Log section is defense-in-depth -- the tightened regex wouldn't match item-summary or holistic-summary rows today because their first-column cells are never `R\d+`/`E\d+`, but explicit scoping makes the intent clear and protects against future template changes.
+The greedy `.*` between the first pipe and the last spans the intermediate columns (Timestamp, Command, Mode, Issues). The `\bApplied\b` / `\bClean\b` word-boundary anchor matches both bare `Clean` and `Applied (X of Y)` forms. Rows with Status `Pending` or any other value DO NOT count toward the completed counters.
 
-If the doc does not exist or has no `## Review Log` section, both counters read 0. Treat the doc as fresh. Any subsequent round will create/append the section.
+**Total Review Log counts (`rT`, `eT`)** -- used by idle reset ONLY. Same scope as above, Status-agnostic:
 
-Note: the Review Log may also contain user-refinement rows with a `U\d+` prefix (e.g., `U1`, `U2`) representing user-driven pivots between automated rounds. These are ignored by both counters and do not affect gate math because they represent neither side's round.
+- `^\|\s*R\d+\s*\|` -- matches any R row
+- `^\|\s*E\d+\s*\|` -- matches any E row
+
+These capture the Phase 3.3 signal -- a new Pending row appearing before it flips to Applied at Phase 3.5. Scoping the greps to the Review Log section is defense-in-depth; today's templates never put `R\d+`/`E\d+` tokens in the first column of other tables.
+
+**Summary-table step counts (`rS`, `eS`)** -- used by idle reset ONLY. Scoped to ALL tables in the doc whose header row contains an `R\d+` or `E\d+` cell. In the current tracking template this covers the Item/Step/Task Summary and the Holistic Summary; the Review Log is excluded because its header cells are `#`, `Timestamp`, etc. -- not `R\d+`.
+
+For each such summary table, perform per-table parsing:
+
+1. Parse the header row into pipe-separated cells. Record column indices whose (trimmed) content matches `R\d+` (R-columns) and those matching `E\d+` (E-columns).
+2. Add the R-column count to `rS`; add the E-column count to `eS`. This captures the Phase 1 signal -- a new R2 or E2 column is added to each summary-table header before any cell is populated.
+3. For each data row (pipe-separated, skipping the header row and any `|---|` separator): for each R-column index, if the trimmed cell content is non-empty and NOT the literal `...`, increment `rS`. Repeat for E-column indices -> `eS`.
+
+Step 3 captures the Phase 2 signal -- individual cells flipping from `...` to `✅` / `1 HIGH 2 MED` as subagents complete, giving per-item idle-reset granularity throughout the round's multi-turn window. Without this, an expanding-Phase-2 round that exceeds `MAX_IDLE_TICKS * POLL_INTERVAL_SECONDS` wall-clock would idle out the follower even though the counterpart is visibly working.
+
+If the doc does not exist, or has no Review Log section, or has no summary table with R/E headers, the corresponding counters read 0. Treat the doc as fresh. The first round appends/creates everything.
+
+Note: the Review Log may also contain user-refinement rows with a `U\d+` prefix (e.g., `U1`, `U2`) representing user-driven pivots between automated rounds. These are ignored by ALL six counters and do not affect gate math or idle-reset semantics because they represent neither side's round.
+
+### Why done vs total+step (split counters)
+
+- **Gate uses done-only (`rD`/`eD`)**: a `Pending` row represents an in-flight round -- the leader is mid-phase, findings are not yet applied, and the follower cannot yet read a valid counterpart state. Gating on `Pending` or on summary-table cell fills would let the follower race ahead before the leader finishes.
+- **Idle reset uses all six counters**: any of `rD`, `eD`, `rT`, `eT`, `rS`, `eS` changing between ticks IS progress signal -- the counterpart is visibly working somewhere (summary column added, cell flipped, Pending row landed, Status moved to Applied). The follower should acknowledge it and reset `idle_ticks = 0`, even while the gate correctly keeps it waiting for `rD`/`eD` to advance.
+
+This split is what lets Gate and Idle reach different decisions on the same tick: "the gate is NOT satisfied yet (R_k is still Pending or mid-Phase-2), BUT the counterpart is alive (sig changed since last tick)."
+
+Timing map of signals visible to the follower during one leader round (review side):
+
+| Leader phase | Summary table | Review Log | Counter that advances |
+|--------------|---------------|------------|-----------------------|
+| Phase 1 (setup) | R_k column added, cells `...` | (unchanged) | `rS` (+1 per summary table, typically +2) |
+| Phase 2 per-item | cells flip `...` -> content | (unchanged) | `rS` (+1 per subagent completion) |
+| Phase 3.3 (set log entry) | (stable) | R_k Pending row added | `rT` (+1) |
+| Phase 3.5 (fix applied) | (stable) | R_k Status -> Applied | `rD` (+1); `rT` unchanged |
+
+Every row except the last is invisible to a Review-Log-only follower; `rS`/`eS` and `rT`/`eT` exist precisely to surface them.
+
+### Invocation-relative counts
+
+All gate math uses **invocation-relative** counts, not absolute counts. The invocation is the single `/review-doc-run-loop` or `/exam-loop` call the user made; `N = target_rounds` counts rounds run BY THIS INVOCATION.
+
+- `this_own = own_done - entry_own_done` (own-side progress since Initial entry)
+- `this_counterpart = counterpart_done - entry_counterpart_done` (counterpart progress since Initial entry)
+- `k = this_own + 1` (invocation-relative round ordinal: the next round this invocation will run; starts at 1)
+
+Why invocation-relative: if the doc already has `E1 Applied` pre-existing (e.g., from a prior `/exam` pass before the loop was invoked), a leader-absolute gate would see `e_count = 1` and trivially pass the gate for `k = 2`, running R1 and R2 back-to-back without waiting for a fresh E2. Invocation-relative math sees `this_e = 0` at entry, so the gate for `k = 2` requires a NEW E to appear.
 
 ### Leader gate
 
 ```
-Leader gate for round k: counterpart_count >= k - 1
+Leader gate for round k: this_counterpart >= k - 1
 ```
 
-On round 1 this is `0 >= 0`, trivially satisfied.
+On invocation round 1 this is `0 >= 0`, trivially satisfied.
 
 ### Follower gate
 
 ```
-Follower gate for round k: counterpart_count >= k
+Follower gate for round k: this_counterpart >= k
 ```
 
-On round 1 this is `0 >= 1`, NOT satisfied -- follower waits for leader's round 1.
-
-Here `k = own_count + 1` (the next round this side will run).
+On invocation round 1 this is `0 >= 1`, NOT satisfied -- follower waits for leader's round 1.
 
 ### Decision rules (symmetric, keyed by role)
 
 **Leader role** (whichever side resolved to `role = leader`):
 
-- `k_next = own_count + 1`.
-- Gate: `counterpart_count >= k_next - 1`.
+- `this_own = own_done - entry_own_done`; `this_counterpart = counterpart_done - entry_counterpart_done`; `k_next = this_own + 1`.
+- Gate: `this_counterpart >= k_next - 1`.
 - Gate satisfied -> run the round (review: Phase 1-3 from `review-doc-run-guide.md`; exam: single-turn exam flow from `exam-guide.md` Review Mode).
 - Gate not satisfied -> arm the timer, idle.
 
 **Follower role** (whichever side resolved to `role = follower`):
 
-- `k_next = own_count + 1`.
-- Gate: `counterpart_count >= k_next`.
+- `this_own = own_done - entry_own_done`; `this_counterpart = counterpart_done - entry_counterpart_done`; `k_next = this_own + 1`.
+- Gate: `this_counterpart >= k_next`.
 - Gate satisfied -> run the round.
 - Gate not satisfied -> arm the timer, idle.
 
-### Invariants keyed on resolved roles
+### Invariants keyed on resolved roles (invocation-relative)
 
-- **When resolved roles are review=leader, exam=follower** (default workflow, plus `--first` on review and `--follow` on exam as no-op variants): `e_count <= r_count` at all times. E cannot lead R because E_k's follower gate requires R_k to exist.
-- **When resolved roles are review=follower, exam=leader** (exam-first workflow: `--first` on `/exam-loop` AND `--follow` on `/review-doc-run-loop` -- both flags are role-changing, so there are no paired-no-op variants for this case): `r_count <= e_count` at all times. R cannot lead E because R_k's follower gate requires E_k to exist.
+- **When resolved roles are review=leader, exam=follower** (default workflow, plus `--first` on review and `--follow` on exam as no-op variants): `this_e <= this_r` at all times. E cannot lead R in this invocation because E_k's follower gate requires the invocation's R_k to exist.
+- **When resolved roles are review=follower, exam=leader** (exam-first workflow: `--first` on `/exam-loop` AND `--follow` on `/review-doc-run-loop` -- both flags are role-changing, so there are no paired-no-op variants for this case): `this_r <= this_e` at all times. R cannot lead E in this invocation because R_k's follower gate requires the invocation's E_k to exist.
 
-Both invariants are keyed on resolved roles, not literal flags.
+Both invariants are keyed on resolved roles, not literal flags, and hold only over the invocation-relative deltas. Absolute counts may already be imbalanced at entry (e.g., doc has `E1 Applied` pre-existing before review-leader is invoked) and that is fine -- the entry counts absorb the imbalance.
 
 ### Degenerate cases (documented, not defended against)
 
@@ -216,17 +259,36 @@ Both invariants are keyed on resolved roles, not literal flags.
 
 ### `target_rounds` additive semantics
 
-`target_rounds = N` is additive -- counts rounds run by the current invocation starting at `rounds_done = 0`, regardless of what already exists in the Review Log. A resumed `/review-doc-run-loop doc 2` against a doc that already contains R5/E5 will run R6 + R7 (or E6 + E7 on the exam side) and exit, not cap at R2 total. `entry_r_count` / `entry_e_count` are captured at Initial entry and carried forward in each iteration's TIMER echo string so the loop can compute `rounds_done = current_count - entry_count` on every tick wake. This is what makes resume free -- no special "resume mode" is needed.
+`target_rounds = N` is additive -- counts rounds run by the current invocation starting at `rounds_done = 0`, regardless of what already exists in the Review Log. A resumed `/review-doc-run-loop doc 2` against a doc that already contains R5/E5 Applied will run R6 + R7 (or E6 + E7 on the exam side) and exit, not cap at R2 total. `entry_r_done` / `entry_e_done` are captured at Initial entry and carried forward in each iteration's TIMER echo string so the loop can compute `rounds_done = current_done - entry_done` on every tick wake. This is what makes resume free -- no special "resume mode" is needed.
 
 ### Resume correctness trace
 
-On a doc with R3/E3, re-running the loop on either side with `N = 1`:
+On a doc with R3/E3 Applied, re-running the loop on either side with `N = 1` (invocation-relative gate math):
 
-- **Review-leader side**: `k = own_count + 1 = 4`. Leader gate checks `e_count >= k - 1` = `3 >= 3` (satisfied). Runs R4. `rounds_done = 4 - 3 = 1 >= target_rounds = 1` -> exit. No round is re-executed; Review Log grows by exactly one R row.
-- **Exam-follower side**: `k = 4`. Follower gate checks `r_count >= k` = `3 >= 4` (NOT satisfied) -- wait one tick, sees R4 land, gate becomes `4 >= 4` (satisfied). Runs E4. `rounds_done = 4 - 3 = 1 >= target_rounds = 1` -> exit.
-- **Exam-first resume variant** (`--first` on exam, `--follow` on review): exam-as-leader computes `k = 4`, leader gate `r_count >= 3` satisfied, runs E4, exits. Review-as-follower computes `k = 4`, follower gate `e_count >= 4` is `3 >= 4` at entry -- waits -- sees E4 land, runs R4, exits.
+- **Review-leader side**: entry_r=3, entry_e=3. `this_r=0, this_e=0, k=1`. Leader gate checks `this_e >= k - 1` = `0 >= 0` (satisfied). Runs R4 (label R4 because r_total+1 = 4 -- the 4th R row in the absolute doc). After R4: `this_r=1, this_e=0, rounds_done=1 >= target_rounds=1` -> exit. No round is re-executed; Review Log grows by exactly one R row.
+- **Exam-follower side**: entry_r=3, entry_e=3. `this_r=0, this_e=0, k=1`. Follower gate checks `this_r >= k` = `0 >= 1` (NOT satisfied) -- wait one tick, sees R4 land, `this_r=1`, gate becomes `1 >= 1` (satisfied). Runs E4. After E4: `this_e=1, rounds_done=1 >= 1` -> exit.
+- **Exam-first resume variant** (`--first` on exam, `--follow` on review): entry_r=3, entry_e=3 on both sides. Exam-as-leader at entry: `this_e=0, k=1`. Leader gate `this_r >= 0` satisfied. Runs E4, exits. Review-as-follower at entry: `this_r=0, this_e=0, k=1`. Follower gate `this_e >= 1` is `0 >= 1` at entry -- waits -- sees E4 land, `this_e=1`, gate `1 >= 1` satisfied. Runs R4, exits.
 
-A resumed `/review-doc-run-loop doc 2` paired with `/exam-loop doc 2` against a doc with R5/E5 will run R6, E6, R7, E7 interleaved (not R6+R7 then E6+E7 independently) -- each side terminates after `rounds_done = 2`.
+A resumed `/review-doc-run-loop doc 2` paired with `/exam-loop doc 2` against a doc with R5/E5 Applied will run R6, E6, R7, E7 interleaved (not R6+R7 then E6+E7 independently) -- each side terminates after `rounds_done = 2`.
+
+### Pre-existing-imbalance trace (the bug scenario)
+
+On a doc with `E1 Applied` only (no R rows yet) from a prior `/exam` pass, running `/review-doc-run-loop 2` paired with `/exam-loop 2` with N=2:
+
+- entry_r=0, entry_e=1 (review sees 0 R and 1 completed E at entry). entry on exam side is identical.
+
+**Review-leader side**:
+- Entry: `this_r=0, this_e=0, k=1`. Leader gate `this_e >= 0` TRUE. Runs R1. After: `this_r=1, this_e=0`.
+- Tick: `k=2`. Leader gate `this_e >= 1` is `0 >= 1` FALSE. Wait for E2.
+- E2 lands. Tick: `this_e=1, k=2, 1 >= 1` TRUE. Runs R2. After: `this_r=2, rounds_done=2 >= 2` -> exit.
+
+**Exam-follower side**:
+- Entry: `this_r=0, this_e=0, k=1`. Follower gate `this_r >= 1` is `0 >= 1` FALSE. Wait for R1.
+- R1 lands. Tick: `this_r=1, k=1, 1 >= 1` TRUE. Runs E2 (label E2 because e_total+1 = 2 -- the 2nd E row in the absolute doc, since E1 pre-existed). After: `this_e=1, this_r=1, k=2`.
+- Follower gate `this_r >= 2` is `1 >= 2` FALSE. Wait for R2.
+- R2 lands. Tick: `this_r=2, k=2, 2 >= 2` TRUE. Runs E3. After: `this_e=2, rounds_done=2 >= 2` -> exit.
+
+Final doc state: E1 (pre-existing) + R1 + E2 + R2 + E3. Review logged R1, R2 (2 rounds); exam logged E2, E3 (2 rounds). Pre-existing E1 is outside the invocation-relative budget and is never re-processed.
 
 ---
 
@@ -241,22 +303,29 @@ All three tuning constants (`POLL_INTERVAL_SECONDS`, `MAX_IDLE_TICKS`, `MAX_ROUN
 Per-iteration state rides in the echo's trailing `(...)` block:
 
 ```
-(idle X/<MAX_IDLE_TICKS>, last_sig=r,e, entry=r0,e0, target=N, role=leader|follower)
+(idle X/<MAX_IDLE_TICKS>, last_sig=rD,eD,rT,eT,rS,eS, entry=r0,e0, target=N, role=leader|follower)
 ```
 
 Fields:
 
 - `target_rounds` -- from `target=N` in the suffix
-- `last_sig` -- from `last_sig=r,e`; the `(r_count, e_count)` observed at the previous tick
+- `last_sig` -- from `last_sig=rD,eD,rT,eT,rS,eS`; the 6-tuple `(r_done, e_done, r_total, e_total, r_step, e_step)` observed at the previous tick
 - `idle_ticks` -- from `idle X/<MAX_IDLE_TICKS>`; stall accumulator
-- `entry_r_count` -- from `entry=r0,e0`, first element; captured at Initial entry, never updated
-- `entry_e_count` -- from `entry=r0,e0`, second element; captured at Initial entry, never updated
+- `entry_r_done` -- from `entry=r0,e0`, first element; completed R count captured at Initial entry, never updated
+- `entry_e_done` -- from `entry=r0,e0`, second element; completed E count captured at Initial entry, never updated
 - `role` -- from `role=leader|follower`; resolved at Initial entry from `--first`, `--follow`, and the side default
 
 Derived fresh on each tick:
 
-- `rounds_done = (r_count - entry_r_count)` for review side or `(e_count - entry_e_count)` for exam side
-- `gate = (counterpart_count >= k - 1)` if `role == leader`, `(counterpart_count >= k)` if `role == follower`
+- `current_sig = (r_done, e_done, r_total, e_total, r_step, e_step)` recomputed from the doc on every read per the Counter measurement rules
+- `this_own = own_done - entry_own_done` (review side: `r_done - r0`; exam side: `e_done - e0`)
+- `this_counterpart = counterpart_done - entry_counterpart_done` (review side: `e_done - e0`; exam side: `r_done - r0`)
+- `rounds_done = this_own`
+- `gate = (this_counterpart >= k - 1)` if `role == leader`, `(this_counterpart >= k)` if `role == follower`, where `k = this_own + 1`
+
+**Sig vs gate** (load-bearing split):
+- Any of the 6 sig elements changing between ticks -> reset `idle_ticks = 0`. This includes `rT`/`eT` incrementing (Pending row appeared) AND `rS`/`eS` incrementing (summary column added OR individual cell flipped from `...`), in both cases without `rD`/`eD` moving. All of these are counterpart-alive signals.
+- The gate reads ONLY `rD` and `eD`. Neither a `Pending` Review Log row nor a summary-table cell fill satisfies the gate -- a round only opens the gate once its Review Log status flips to `Applied` / `Clean`.
 
 ### Echo format
 
@@ -265,48 +334,72 @@ Armed at the end of every iteration that sleeps. The `idle X/Y` denominator rend
 Review side:
 
 ```
-sleep 240 && echo 'Running /review-doc-run-loop <doc> <N> [--first | --follow] -- <narrative>. (idle X/<MAX_IDLE_TICKS>, last_sig=r,e, entry=r0,e0, target=N, role=leader|follower). Continue per review-loop-guide Continuation.'
+sleep 240 && echo 'Running /review-doc-run-loop <doc> <N> [--first | --follow] -- <narrative>. (idle X/<MAX_IDLE_TICKS>, last_sig=rD,eD,rT,eT,rS,eS, entry=r0,e0, target=N, role=leader|follower). Continue per review-loop-guide Continuation.'
 ```
 
 Exam side (symmetric):
 
 ```
-sleep 240 && echo 'Running /exam-loop <doc> <N> [--first | --follow] -- <narrative>. (idle X/<MAX_IDLE_TICKS>, last_sig=r,e, entry=r0,e0, target=N, role=leader|follower). Continue per review-loop-guide Continuation.'
+sleep 240 && echo 'Running /exam-loop <doc> <N> [--first | --follow] -- <narrative>. (idle X/<MAX_IDLE_TICKS>, last_sig=rD,eD,rT,eT,rS,eS, entry=r0,e0, target=N, role=leader|follower). Continue per review-loop-guide Continuation.'
 ```
 
-### Four concrete echo format examples
+### Concrete echo format examples
 
-**Review-leader default, mid-loop, after R1 completes, waiting for E1**:
+Round counts are illustrative. `rS`/`eS` values include summary-table column headers + populated non-`...` cells across the Item/Step/Task Summary and Holistic Summary tables combined. Exact totals depend on doc shape; the examples below use an arbitrary 10-item doc with 7-concern Holistic Summary -> 17 cells per completed round, +2 headers per round.
 
-```
-sleep 240 && echo 'Running /review-doc-run-loop docs/foo.md 2 -- R1 done, waiting for E1 or next tick (idle 0/4, last_sig=1,0, entry=0,0, target=2, role=leader). Continue per review-loop-guide Continuation.'
-```
-
-**Exam-leader `--first`, mid-loop, after E1 completes, waiting for R1**:
+**Review-leader default, mid-loop, after R1 completes (Applied), waiting for E1** (10-item doc, 7-concern holistic; after R1 fully applied: 2 R headers accounted for + 17 R cells populated = `rS=19`):
 
 ```
-sleep 240 && echo 'Running /exam-loop docs/foo.md 2 --first -- E1 done, waiting for R1 or next tick (idle 0/4, last_sig=0,1, entry=0,0, target=2, role=leader). Continue per review-loop-guide Continuation.'
+sleep 240 && echo 'Running /review-doc-run-loop docs/foo.md 2 -- R1 done, waiting for E1 or next tick (idle 0/4, last_sig=1,0,1,0,19,0, entry=0,0, target=2, role=leader). Continue per review-loop-guide Continuation.'
+```
+
+**Exam-leader `--first`, mid-loop, after E1 completes (Applied), waiting for R1** (same 10+7 doc shape):
+
+```
+sleep 240 && echo 'Running /exam-loop docs/foo.md 2 --first -- E1 done, waiting for R1 or next tick (idle 0/4, last_sig=0,1,0,1,0,19, entry=0,0, target=2, role=leader). Continue per review-loop-guide Continuation.'
 ```
 
 **Review-follower `--follow`, Initial entry on fresh doc, waiting for E1 before running R1**:
 
 ```
-sleep 240 && echo 'Running /review-doc-run-loop docs/foo.md 2 --follow -- waiting for E1 or next tick (idle 0/4, last_sig=0,0, entry=0,0, target=2, role=follower). Continue per review-loop-guide Continuation.'
+sleep 240 && echo 'Running /review-doc-run-loop docs/foo.md 2 --follow -- waiting for E1 or next tick (idle 0/4, last_sig=0,0,0,0,0,0, entry=0,0, target=2, role=follower). Continue per review-loop-guide Continuation.'
 ```
 
 **Exam-follower default, Initial entry on fresh doc, waiting for R1 before running E1**:
 
 ```
-sleep 240 && echo 'Running /exam-loop docs/foo.md 2 -- waiting for R1 or next tick (idle 0/4, last_sig=0,0, entry=0,0, target=2, role=follower). Continue per review-loop-guide Continuation.'
+sleep 240 && echo 'Running /exam-loop docs/foo.md 2 -- waiting for R1 or next tick (idle 0/4, last_sig=0,0,0,0,0,0, entry=0,0, target=2, role=follower). Continue per review-loop-guide Continuation.'
 ```
+
+**Exam-follower default, mid-tick after leader opened R1 (Phase 1 complete, R1 column added to both summary tables with all `...` cells -- no Review Log row yet)**:
+
+```
+sleep 240 && echo 'Running /exam-loop docs/foo.md 2 -- R1 Phase 1 started (summary columns added), gate not satisfied, idle reset (idle 0/4, last_sig=0,0,0,0,2,0, entry=0,0, target=2, role=follower). Continue per review-loop-guide Continuation.'
+```
+
+**Exam-follower default, mid-tick after 5 of 10 items' R1 cells populated during Phase 2 (still no Review Log row)**:
+
+```
+sleep 240 && echo 'Running /exam-loop docs/foo.md 2 -- R1 Phase 2 in progress (5/10 items done), gate not satisfied, idle reset (idle 0/4, last_sig=0,0,0,0,7,0, entry=0,0, target=2, role=follower). Continue per review-loop-guide Continuation.'
+```
+
+**Exam-follower default, mid-tick after leader wrote R1 Pending Review Log row at Phase 3.3 (round not yet Applied)**:
+
+```
+sleep 240 && echo 'Running /exam-loop docs/foo.md 2 -- R1 Phase 3.3 Pending logged, gate not satisfied, idle reset (idle 0/4, last_sig=0,0,1,0,19,0, entry=0,0, target=2, role=follower). Continue per review-loop-guide Continuation.'
+```
+
+The last three examples illustrate the load-bearing sig/gate split: `rS` then `rT` advance as the leader progresses through Phase 1 -> Phase 2 -> Phase 3.3, while `rD` stays at 0 (not yet Applied). Gate for exam-follower `this_r >= k` is `0 >= 1` FALSE at every one of these ticks -- follower keeps waiting. But `idle_ticks` resets to 0 at each tick because the sig changed. The follower acknowledges counterpart-alive progress throughout the round without opening the gate prematurely.
 
 ### Parser rule
 
-Tool-result text beginning with `Running /review-doc-run-loop ` or `Running /exam-loop ` WITHOUT the `[sentinel]` marker immediately after the command name is a **loop wake** -- proceed with tick-wake logic. Extract all six state fields from the suffix with this regex:
+Tool-result text beginning with `Running /review-doc-run-loop ` or `Running /exam-loop ` WITHOUT the `[sentinel]` marker immediately after the command name is a **loop wake** -- proceed with tick-wake logic. Extract all state fields from the suffix with this regex:
 
 ```
-\(idle (\d+)/\d+, last_sig=(\d+),(\d+), entry=(\d+),(\d+), target=(\d+), role=(leader|follower)\)
+\(idle (\d+)/\d+, last_sig=(\d+),(\d+),(\d+),(\d+),(\d+),(\d+), entry=(\d+),(\d+), target=(\d+), role=(leader|follower)\)
 ```
+
+Capture groups (in order): `idle_ticks`, `rD` (last_sig completed R), `eD` (last_sig completed E), `rT` (last_sig total R), `eT` (last_sig total E), `rS` (last_sig R step-count), `eS` (last_sig E step-count), `entry_r_done`, `entry_e_done`, `target_rounds`, `role`.
 
 The `\d+` in the idle-tick denominator accommodates edits to `MAX_IDLE_TICKS` in the Tuning subsection without breaking the parser. The prose narrative (everything between `-- ` and the opening `(`) is free-form and ignored by the parser. Everything after the closing `)` is the guide pointer.
 
@@ -318,18 +411,18 @@ Tool-result text beginning with `Running /review-doc-run-loop [sentinel] ` is a 
 
 Side (from prefix) and role (from the `role=` suffix field) are independent. Always read `role` from the suffix, never infer from the prefix.
 
-- Prefix `Running /review-doc-run-loop ` -> **review side**. `own_count = r_count`, `counterpart_count = e_count`, `k = r_count + 1`, `rounds_done = r_count - r0`.
-- Prefix `Running /exam-loop ` -> **exam side**. `own_count = e_count`, `counterpart_count = r_count`, `k = e_count + 1`, `rounds_done = e_count - e0`.
+- Prefix `Running /review-doc-run-loop ` -> **review side**. `own_done = r_done`, `counterpart_done = e_done`, `this_own = r_done - r0`, `this_counterpart = e_done - e0`, `k = this_own + 1`, `rounds_done = this_own`.
+- Prefix `Running /exam-loop ` -> **exam side**. `own_done = e_done`, `counterpart_done = r_done`, `this_own = e_done - e0`, `this_counterpart = r_done - r0`, `k = this_own + 1`, `rounds_done = this_own`.
 - No other prefix is a valid loop wake. A tool result that does not match one of these two prefixes is not a TIMER echo -- ignore it for loop state purposes.
 
-**Side does not imply role.** `/review-doc-run-loop` can run as leader OR follower depending on the `role=` suffix field; same for `/exam-loop`. The prefix only tells you which counter is `own_count` vs `counterpart_count`.
+**Side does not imply role.** `/review-doc-run-loop` can run as leader OR follower depending on the `role=` suffix field; same for `/exam-loop`. The prefix only tells you which counter is `own_done` vs `counterpart_done`.
 
 ### Role -> gate formula mapping
 
-- `role=leader` -> gate is `counterpart_count >= k - 1`.
-- `role=follower` -> gate is `counterpart_count >= k`.
+- `role=leader` -> gate is `this_counterpart >= k - 1`.
+- `role=follower` -> gate is `this_counterpart >= k`.
 
-Side and role are independent. The prefix determines which side you are (and therefore which counter is `own_count`); the `role=` suffix field determines which gate formula to apply. Either side can be either role: `/review-doc-run-loop` with `role=follower` (exam-first workflow) uses `e_count >= k`; `/exam-loop` with `role=leader` (exam-first workflow) uses `r_count >= k - 1`. This decoupling is what lets `--first` / `--follow` on either side flow through the same loop code without branching on side.
+Side and role are independent. The prefix determines which side you are (and therefore which counter is `own_done`); the `role=` suffix field determines which gate formula to apply. Either side can be either role: `/review-doc-run-loop` with `role=follower` (exam-first workflow) uses `this_e >= k`; `/exam-loop` with `role=leader` (exam-first workflow) uses `this_r >= k - 1`. This decoupling is what lets `--first` / `--follow` on either side flow through the same loop code without branching on side.
 
 ### Doc path shell-quoting constraint
 
@@ -345,7 +438,7 @@ What is NOT in the echo: the `POLL_INTERVAL_SECONDS`, `MAX_IDLE_TICKS`, and `MAX
 
 ## Mid-round compaction recovery (review side only)
 
-The echo protects against compaction during the idle `sleep`, but on the review side when the gate is satisfied the round runs via Phase 1 (setup) followed by Phase 2 (background spawning) -> end turn -> Phase 3.1 (notifications, multi-turn) -> Phases 3.2-3.6 -> Continuation logic. No idle timer is armed until the end of that sequence, and the verbose Phase 3.1 notification-processing is the most token-heavy part of a round. If auto-compaction fires mid-round the agent could lose `target_rounds`, `entry_r_count`, `entry_e_count`, and `role` -- plus the fact it is inside a loop at all.
+The echo protects against compaction during the idle `sleep`, but on the review side when the gate is satisfied the round runs via Phase 1 (setup) followed by Phase 2 (background spawning) -> end turn -> Phase 3.1 (notifications, multi-turn) -> Phases 3.2-3.6 -> Continuation logic. No idle timer is armed until the end of that sequence, and the verbose Phase 3.1 notification-processing is the most token-heavy part of a round. If auto-compaction fires mid-round the agent could lose `target_rounds`, `entry_r_done`, `entry_e_done`, and `role` -- plus the fact it is inside a loop at all.
 
 To mitigate this (best-effort, not guaranteed), arm a **pre-round sentinel Bash call in the SAME single message as Phase 2's Task spawns**. The sentinel is one of the `run_in_background: true` tool calls emitted in the Phase 2 spawn message, alongside the item-reviewer Task calls, the holistic-reviewer Task call, and the Phase 2 brief status text that ends the turn. The sentinel's echo lands as a `tool_result` in the next turn alongside any Task notifications that have arrived.
 
@@ -362,7 +455,7 @@ The heading § Phase 2: Background Spawning (Subagents) acts as the drift detect
 The sentinel uses a **distinct prefix** (`Running /review-doc-run-loop [sentinel] `) so the Parser rule can tell it apart from an idle-timer echo:
 
 ```
-sleep 1 && echo 'Running /review-doc-run-loop [sentinel] <doc> <N> [--first | --follow] -- R<k> in progress, Phase 1 (setup) complete and Phase 2 (background spawning) underway (idle 0/<MAX_IDLE_TICKS>, last_sig=r,e, entry=r0,e0, target=N, role=leader|follower). Continue per review-loop-guide Continuation after Phase 3.6.'
+sleep 1 && echo 'Running /review-doc-run-loop [sentinel] <doc> <N> [--first | --follow] -- R<k> in progress, Phase 1 (setup) complete and Phase 2 (background spawning) underway (idle 0/<MAX_IDLE_TICKS>, last_sig=rD,eD,rT,eT,rS,eS, entry=r0,e0, target=N, role=leader|follower). Continue per review-loop-guide Continuation after Phase 3.6.'
 ```
 
 The `R<k>` token is a meta-placeholder for the concrete round number being launched (e.g., `R6` when launching the sixth round) -- substitute before emitting. The sentinel shell-quoting constraint is identical to the idle-timer echo.
@@ -412,7 +505,7 @@ There is nothing to "inject"; there is only a branch-selection rule documented h
 
 ## Continuation-turn handoff (review side)
 
-Phase 3.6 in `review-doc-run-guide.md` today ends with a single Bash invocation (afplay + say). When that Bash call completes, the current turn ends -- there is NO automatic "continuation turn" triggered by Phase 3.6. This is normally turn-end for the per-round flow.
+Phase 3.6 in `review-doc-run-guide.md` today ends with a single Bash invocation (portable `command -v` guarded `afplay` + `say`). When that Bash call completes, the current turn ends -- there is NO automatic "continuation turn" triggered by Phase 3.6. This is normally turn-end for the per-round flow.
 
 **Inside a loop-driven round, Phase 3.6's Bash-call return is NOT the end of the turn.** The loop does NOT inject a hook into Phase 3.6 (the per-round guide remains textually untouched). Instead, this guide instructs the agent:
 
@@ -429,24 +522,24 @@ The exam side does not need this handoff because exam rounds are single-turn -- 
 First iteration. Both sides execute the same outline; only the side default differs.
 
 1. **Parse args** per Argument Parsing above. Determine `target_rounds = N`, `first_flag`, `follow_flag`. If both flags are true, error (parser should have prevented this).
-2. **Read the review doc** (if any) and capture `entry_r_count`, `entry_e_count`. These are fixed for the whole invocation and used to compute `rounds_done` on every subsequent tick wake. On a fresh doc both are 0; on a resumed run against a doc that already contains R5/E5 they are `(5, 5)`.
+2. **Read the review doc** (if any) and capture `entry_r_done`, `entry_e_done` -- the Applied/Clean-only counts. These are fixed for the whole invocation and used to compute `rounds_done = own_done - entry_own_done` on every subsequent tick wake. On a fresh doc both are 0; on a resumed run against a doc that already contains R5 Applied / E5 Applied they are `(5, 5)`. Pending rows at entry do NOT count toward entry_done -- they are in-flight rounds that will flip to Applied and be detected by the idle-sig comparison as progress.
 3. **Derive role** from own flags per the Role Assignment derivation rule: `--first` -> leader, `--follow` -> follower, neither -> side default (review=leader, exam=follower).
-4. **Set `last_sig = (r_count, e_count)`** (or `(0, 0)` on a missing doc).
-5. **Evaluate the gate** for round `k = own_count + 1` using the formula for `role` (leader: `counterpart_count >= k - 1`; follower: `counterpart_count >= k`).
+4. **Set `last_sig = (r_done, e_done, r_total, e_total, r_step, e_step)`** (or `(0, 0, 0, 0, 0, 0)` on a missing doc / empty Review Log + no summary tables).
+5. **Evaluate the gate** for round `k = this_own + 1` using the formula for `role` (leader: `this_counterpart >= k - 1`; follower: `this_counterpart >= k`), where `this_own = own_done - entry_own_done` and `this_counterpart = counterpart_done - entry_counterpart_done`.
 
 ### Review side, gate satisfied
 
 Arm the pre-round sentinel Bash call (per the Pre-round sentinel format above) in the SAME single message as Phase 1 (setup) followed by Phase 2 (background spawning) Task spawns. This spawns item + holistic agents in the background and ends the current conversation turn. The loop is now dormant. Subsequent turns process agent notifications (Phase 3.1), elevation (Phase 3.2), write Review Log (Phase 3.3), apply fixes (Phase 3.4), update fix status (Phase 3.5), play completion notification (Phase 3.6).
 
-Immediately after Phase 3.6's Bash result returns (same turn -- see Continuation-turn handoff above): re-read the doc for fresh `(r_count, e_count)`, refresh `last_sig = current_sig`, compute `rounds_done = r_count - entry_r_count`, print the canonical status line, then either (a) exit without arming a timer if `rounds_done >= target_rounds`, or (b) arm the echo-encoded timer with the freshly computed state. The echo's narrative reflects what just happened (`R1 done, waiting for E1 or next tick`); the suffix carries `idle=0/<MAX_IDLE_TICKS>`, `last_sig=current_sig`, `entry=entry_r_count,entry_e_count`, `target=N`, `role=...`.
+Immediately after Phase 3.6's Bash result returns (same turn -- see Continuation-turn handoff above): re-read the doc for fresh `(r_done, e_done, r_total, e_total, r_step, e_step)`, refresh `last_sig = current_sig`, compute `rounds_done = r_done - entry_r_done`, print the canonical status line, then either (a) exit without arming a timer if `rounds_done >= target_rounds`, or (b) arm the echo-encoded timer with the freshly computed state. The echo's narrative reflects what just happened (`R1 done, waiting for E1 or next tick`); the suffix carries `idle=0/<MAX_IDLE_TICKS>`, `last_sig=rD,eD,rT,eT,rS,eS`, `entry=entry_r_done,entry_e_done`, `target=N`, `role=...`.
 
 ### Exam side, gate satisfied
 
-No Phase 2 to compose with; the exam flow is single-turn per round. Run the round inline -- read cross-refs, deep-examine, write E_k, apply fixes, update `last_sig = (r_count, e_count)` post-round all in the same turn. Then either exit if `rounds_done >= target_rounds` or arm the echo-encoded timer for the next iteration.
+No Phase 2 to compose with; the exam flow is single-turn per round. Run the round inline -- read cross-refs, deep-examine, write E_k (appends an Applied row to the Review Log since exam single-turn applies fixes in the same turn), apply fixes, update `last_sig = (r_done, e_done, r_total, e_total, r_step, e_step)` post-round all in the same turn. Then either exit if `rounds_done >= target_rounds` or arm the echo-encoded timer for the next iteration.
 
 ### Both sides, gate not satisfied
 
-Print the canonical status line (`Waiting for <counterpart>_k (idle 0/<MAX_IDLE_TICKS>, next tick in 4m)`) and arm the echo-encoded timer carrying `idle=0/<MAX_IDLE_TICKS>`, `last_sig`, `entry=entry_r_count,entry_e_count`, `target=N`, `role=...`. End the turn.
+Print the canonical status line (`Waiting for <counterpart>_k (idle 0/<MAX_IDLE_TICKS>, next tick in 4m)`) and arm the echo-encoded timer carrying `idle=0/<MAX_IDLE_TICKS>`, `last_sig=rD,eD,rT,eT,rS,eS`, `entry=entry_r_done,entry_e_done`, `target=N`, `role=...`. End the turn.
 
 ### Postcondition
 
@@ -458,25 +551,25 @@ After Initial entry completes, the current conversation turn ends. No further to
 
 Every subsequent iteration, fired by TIMER notification. Ten steps:
 
-1. **Parse the incoming TIMER echo** per the Parser rule above. The tool result text begins with `Running /review-doc-run-loop ` (-> review side) or `Running /exam-loop ` (-> exam side). Extract all six fields from the suffix: `idle_ticks`, `last_sig = (r, e)`, `entry = (r0, e0)`, `target_rounds`, `role`. These six values plus the side inferred from the prefix are the complete per-iteration state.
-2. **Re-read the review doc**. If missing: `current_sig = (0, 0)`. Otherwise compute `current_sig = (r_count, e_count)` from the Review Log.
-3. **Compute `rounds_done`**: `r_count - r0` (review side) or `e_count - e0` (exam side). Check Condition #1: `rounds_done >= target_rounds` -> report the locked termination template (see Termination Rules below) and exit without arming another timer.
-4. **Compare `current_sig` with `last_sig`**:
-   - Changed -> reset `idle_ticks = 0`; set `last_sig = current_sig`.
-   - Unchanged -> `idle_ticks += 1`.
-5. **Check Conditions #2 and #3**: if `idle_ticks >= MAX_IDLE_TICKS`, apply the two-branch test:
-   - If `counterpart_count == 0` -> Condition #3 fires for EITHER role (leader or follower). Report `counterpart never started, stopping` and exit.
+1. **Parse the incoming TIMER echo** per the Parser rule above. The tool result text begins with `Running /review-doc-run-loop ` (-> review side) or `Running /exam-loop ` (-> exam side). Extract all fields from the suffix: `idle_ticks`, `last_sig = (rD, eD, rT, eT, rS, eS)`, `entry = (r0, e0)` (completed-only counts at Initial entry), `target_rounds`, `role`. These plus the side inferred from the prefix are the complete per-iteration state.
+2. **Re-read the review doc**. If missing or contains no Review Log section and no summary tables with R/E headers: `current_sig = (0, 0, 0, 0, 0, 0)`. Otherwise compute `current_sig = (r_done, e_done, r_total, e_total, r_step, e_step)` per the Counter measurement rules above.
+3. **Compute `rounds_done`**: `r_done - r0` (review side) or `e_done - e0` (exam side). Check Condition #1: `rounds_done >= target_rounds` -> report the locked termination template (see Termination Rules below) and exit without arming another timer.
+4. **Compare `current_sig` with `last_sig`** (6-tuple equality):
+   - Any element changed -> reset `idle_ticks = 0`; set `last_sig = current_sig`. This includes `rT`/`eT` incrementing (Pending Review Log row appeared) AND `rS`/`eS` incrementing (summary column added OR cell flipped from `...`) with `rD`/`eD` unchanged -- all of these are counterpart-alive signals.
+   - All six elements unchanged -> `idle_ticks += 1`.
+5. **Check Conditions #2 and #3**: if `idle_ticks >= MAX_IDLE_TICKS`, apply the two-branch test using invocation-relative counterpart progress:
+   - If `this_counterpart == 0` (counterpart has not advanced a completed round in this invocation) -> Condition #3 fires for EITHER role (leader or follower). Report `counterpart never started, stopping` and exit.
    - Else -> Condition #2 fires. Report `no change in review doc for 4 ticks (~16 minutes), stopping` and exit.
    - Exit without arming another timer on either Condition #2 or #3.
-6. **Evaluate gate** using `role`:
-   - Review side round `k = r_count + 1`: gate is `e_count >= k - 1` if `role = leader`, `e_count >= k` if `role = follower`.
-   - Exam side round `k = e_count + 1`: gate is `r_count >= k - 1` if `role = leader`, `r_count >= k` if `role = follower`.
+6. **Evaluate gate** using `role`. Compute `this_own = own_done - entry_own_done`, `this_counterpart = counterpart_done - entry_counterpart_done`, `k = this_own + 1`:
+   - Review side: gate is `this_e >= k - 1` if `role = leader`, `this_e >= k` if `role = follower`.
+   - Exam side: gate is `this_r >= k - 1` if `role = leader`, `this_r >= k` if `role = follower`.
 7. **If gate satisfied**: run one round.
-   - **Review side**: first arm the pre-round sentinel Bash call (per the Pre-round sentinel format above), then in the same message launch Phase 1 (setup) followed by Phase 2 (background spawning) from `review-doc-run-guide.md` and yield the turn. Immediately after Phase 3.6's Bash result returns (same turn -- see Continuation-turn handoff), the Continuation logic re-reads the doc, recomputes `rounds_done = r_count - r0`, resets `idle_ticks = 0`, and proceeds to steps 9-10.
+   - **Review side**: first arm the pre-round sentinel Bash call (per the Pre-round sentinel format above), then in the same message launch Phase 1 (setup) followed by Phase 2 (background spawning) from `review-doc-run-guide.md` and yield the turn. Immediately after Phase 3.6's Bash result returns (same turn -- see Continuation-turn handoff), the Continuation logic re-reads the doc, recomputes `rounds_done = r_done - r0`, resets `idle_ticks = 0`, and proceeds to steps 9-10.
    - **Exam side**: run the round single-turn and update state inline.
-8. **If gate not satisfied**: print the canonical status line (`idle X/<MAX_IDLE_TICKS>, waiting for ...`).
+8. **If gate not satisfied**: print the canonical status line (`idle X/<MAX_IDLE_TICKS>, waiting for ...`). If `idle_ticks` was just reset in step 4 (sig changed -- e.g., `rT` advanced to show a Pending Review Log row, or `rS` advanced to show a new summary column / filled cell) but gate still not satisfied, the status line should explicitly note `idle reset (sig changed)` to surface the distinction between "gate waiting" and "counterpart alive".
 9. **Early exit**: if `rounds_done >= target_rounds` after the round completes -> exit (don't arm another timer). This check fires immediately after the round completes, not on the next tick wake, so `N=1` does not incur a wasted 4-minute wait.
-10. **Otherwise arm the next echo-encoded timer** carrying the updated `idle_ticks`, `last_sig = current_sig`, unchanged `entry = (r0, e0)`, unchanged `target = target_rounds`, unchanged `role`, and an updated prose narrative reflecting the current wait reason (`R2 done, waiting for E2 or next tick` / `waiting for R3 or next tick` / etc.). End the turn.
+10. **Otherwise arm the next echo-encoded timer** carrying the updated `idle_ticks`, `last_sig = current_sig` (6-tuple), unchanged `entry = (r0, e0)`, unchanged `target = target_rounds`, unchanged `role`, and an updated prose narrative reflecting the current wait reason (`R2 done, waiting for E2 or next tick` / `waiting for R3 or next tick` / `R3 Phase 2 in progress, gate not satisfied, idle reset` / etc.). End the turn.
 
 ---
 
@@ -486,7 +579,7 @@ Every subsequent iteration, fired by TIMER notification. Ten steps:
 
 **Dormant** = no timer is armed because a round is currently executing across multiple turns; the loop is waiting on its own work, not on the counterpart.
 
-**Idle** = a timer fired, the doc was re-read, and `(r_count, e_count)` was unchanged from `last_sig`.
+**Idle** = a timer fired, the doc was re-read, and the 6-tuple `(r_done, e_done, r_total, e_total, r_step, e_step)` was unchanged from `last_sig` -- including all six elements, not just the completed counts.
 
 `idle_ticks` only accrues BETWEEN rounds, never during one.
 
@@ -524,20 +617,23 @@ Early exit: this check is also applied immediately after a round completes (On t
 
 ### Condition #2: Idle ticks exceeded (generic)
 
-`idle_ticks >= MAX_IDLE_TICKS` at step 5 AND `counterpart_count > 0` -> exit with `no change in review doc for <MAX_IDLE_TICKS> ticks (~16 minutes), stopping`. Applies to both sides and both roles.
+`idle_ticks >= MAX_IDLE_TICKS` at step 5 AND `this_counterpart > 0` -> exit with `no change in review doc for <MAX_IDLE_TICKS> ticks (~16 minutes), stopping`. Applies to both sides and both roles.
 
-Fires when neither side has advanced the log in the last 16 minutes (at default `POLL_INTERVAL_SECONDS`) despite at least one round having been logged by either side.
+Fires when the counterpart has advanced at least one round in this invocation but has since gone quiet for 16 minutes (at default `POLL_INTERVAL_SECONDS`). Diagnostic meaning: "we were both working together, then you stopped."
 
 ### Condition #3: Counterpart never started (symmetric across roles)
 
-`idle_ticks >= MAX_IDLE_TICKS` at step 5 AND `counterpart_count == 0` -> exit with `counterpart never started, stopping`. **Fires for EITHER role** -- the earlier `role == follower` restriction was removed because the diagnostic is equally informative when a leader side runs round 1 alone and then idles without a counterpart.
+`idle_ticks >= MAX_IDLE_TICKS` at step 5 AND `this_counterpart == 0` -> exit with `counterpart never started, stopping`. **Fires for EITHER role** -- the earlier `role == follower` restriction was removed because the diagnostic is equally informative when a leader side runs round 1 alone and then idles without a counterpart. Uses invocation-relative `this_counterpart`, not absolute `counterpart_done`, so a doc with pre-existing counterpart rows still fires Condition #3 correctly when the counterpart's CURRENT SESSION never engages.
 
-Two symmetric scenarios:
+Three symmetric scenarios:
 
-- **Follower side, fresh doc**: when a side running with `role = follower` enters a fresh doc, its initial `last_sig = (0, 0)`. On the first tick wake the observed `current_sig` is still `(0, 0)`, which matches `last_sig`, so `idle_ticks` increments on every tick starting from tick 1. After `MAX_IDLE_TICKS` ticks that side exits with Condition #3. The initial `(0, 0)` convention is load-bearing here -- without it the first tick would be a "change" and the exit would drift to ~20 minutes.
-- **Leader side, counterpart never starts**: when a side running with `role = leader` enters and runs its round 1 (e.g., review side runs R1), its subsequent `last_sig = (1, 0)`. If the counterpart never starts, `current_sig` remains `(1, 0)` on every tick wake, matching `last_sig`, so `idle_ticks` increments from tick 1 after R1 lands. After `MAX_IDLE_TICKS` ticks past R1, the leader side exits with Condition #3 -- the same informative message as the follower case.
+Sig vectors below use the illustrative 10-item / 7-concern doc shape: one completed round populates 17 R-cells + 2 R-headers = 19 toward `rS` (symmetric for `eS`). Exact numbers vary with doc shape; the structural argument (sig stable because counterpart never advances) is independent of shape.
 
-The symmetric treatment means the user gets the diagnostic message regardless of which loop command they forgot to start.
+- **Follower side, fresh doc**: when a side running with `role = follower` enters a fresh doc, its initial `last_sig = (0, 0, 0, 0, 0, 0)`. On the first tick wake the observed `current_sig` is still `(0, 0, 0, 0, 0, 0)`, which matches `last_sig`, so `idle_ticks` increments on every tick starting from tick 1. `this_counterpart = 0 - 0 = 0`. After `MAX_IDLE_TICKS` ticks that side exits with Condition #3. The initial `(0, 0, 0, 0, 0, 0)` convention is load-bearing here -- without it the first tick would be a "change" and the exit would drift to ~20 minutes.
+- **Leader side, counterpart never starts**: when a side running with `role = leader` enters a fresh doc and runs its round 1 (review side runs R1 Applied), its subsequent `last_sig` lands at something like `(1, 0, 1, 0, 19, 0)` (17 R-cells populated + 2 R-headers from R1). If the counterpart never starts, `current_sig` remains at that 6-tuple on every tick wake, matching `last_sig`, so `idle_ticks` increments from tick 1 after R1 lands. `this_counterpart = 0 - 0 = 0`. After `MAX_IDLE_TICKS` ticks past R1, the leader side exits with Condition #3 -- the same informative message as the follower case.
+- **Leader side with pre-existing counterpart rows, counterpart's current session never starts**: doc has `E3 Applied` pre-existing from a prior run. User runs `/review-doc-run-loop 2` alone (forgot to invoke `/exam-loop` in another session). entry_e_done=3 (entry_r_done=0). Review runs R1 (leader gate `this_e(0) >= 0` satisfied), `last_sig = (1, 3, 1, 3, 19, 63)` (R1 populated the R-column; 3 pre-existing E columns contribute headers + 17 cells each = 3 + 60 = 63 toward `eS`). If no new E row ever appears, `current_sig` stays at that 6-tuple on every tick, `this_counterpart = 3 - 3 = 0`. After `MAX_IDLE_TICKS` ticks, review exits with Condition #3 ("counterpart never started, stopping") -- the informative diagnostic, NOT Condition #2 ("no change for 16 minutes") which would be misleading since the pre-existing E3 was never part of this invocation's counterpart budget.
+
+The symmetric treatment, keyed on `this_counterpart` rather than absolute `counterpart_done`, means the user gets the diagnostic message regardless of which loop command they forgot to start, even when the doc is not fresh.
 
 ### No timer on exit
 
@@ -550,14 +646,14 @@ On any termination path, do NOT arm a new timer. This prevents zombie ticks.
 - Counterpart running `/review-doc-run` or `/exam` in single-pass mode mid-loop -- the log grows as usual, both counters still advance, nothing special needed.
 - Two loop invocations of the same command on the same doc in the same session -- undefined behavior, don't worry about it.
 - Both sides passed `--first` -- both use leader gate, rounds run in parallel without proper interleaving. Documented in Coordination Protocol § Degenerate cases; don't do this.
-- Both sides passed `--follow` -- both wait forever for the counterpart to log round 1. On a fresh doc, both sides satisfy `counterpart_count == 0 AND role == follower`, so both exit via Condition #3 after ~16 minutes. On a resumed doc with prior rounds logged, `counterpart_count > 0` so both sides exit via the generic Condition #2 after ~16 minutes.
+- Both sides passed `--follow` -- both wait forever for the counterpart to log round 1 in this invocation. On both fresh and resumed docs, `this_counterpart = 0` on both sides because neither side advances the counterpart's counter, so both exit via Condition #3 after ~16 minutes.
 - Mismatched flags (e.g., `--first` on exam alone with nothing on the review counterpart) -- review falls back to default leader, both sides are leader, same degrade as "both `--first`".
 
 ---
 
 ## Notes for the guide author
 
-- Signature is `(r_count, e_count)`. Any advance resets idle. Both sides symmetric.
+- Signature is the 6-tuple `(r_done, e_done, r_total, e_total, r_step, e_step)`. Any element changing between ticks resets idle. Done-counts (`rD`, `eD`) gate round progression; total-counts (`rT`, `eT`) capture Pending Review Log rows; step-counts (`rS`, `eS`) capture summary-table progress (column adds at Phase 1, cell fills throughout Phase 2). Together they ensure a leader mid-round registers as counterpart-alive for the follower across every observable progress signal, while the gate still only opens on completion. Both sides symmetric.
 - Between ticks the user can chat freely -- answer immediately with loaded context, same rule as `/monitor`'s "conversational, not transactional."
 - **Post-round tick-interval wait**: after running a round we do NOT immediately re-check the gate. We still wait the full tick interval before the next iteration. The round already advances our own counter, and a post-round re-check only helps if the counterpart happened to finish in the last few seconds -- not worth the added loop-shape complexity. The tick interval is short enough that this is cheap.
 - **No extra review-log markers**: the running side always logs its round exactly as today. No extra rows, no sentinel values, no "done" marker written to the review doc. The idle-tick rule naturally ends both sides once the faster one finishes. (Transcript-side pre-round sentinel echoes are permitted and load-bearing -- see Mid-round compaction recovery. That rule only forbids writing sentinels into the review doc.)
