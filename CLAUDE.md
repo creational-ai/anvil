@@ -109,6 +109,9 @@ cd claude-desktop
 - `docs/[milestone]-milestone-summary.md` - Milestone summary
 - `tests/` - Tests per environment conventions (e.g., Python: `test_[task-slug]_*.py`)
 
+**review skill creates:**
+- `docs/[slug]-monitor-issues.md` - Issue log from `/monitor` runs (lazy-created, appended across sessions)
+
 ## Templates
 
 **design** (`claude-code/design/assets/templates/`):

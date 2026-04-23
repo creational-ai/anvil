@@ -19,13 +19,17 @@ Monitor active execution by periodically reading results, plan, design, and revi
 
 ## Input
 
-- **Argument (required)**: Task slug. Derives all doc paths:
+- **Argument (required)**: Task slug. Derives these input paths (read-only):
   - `docs/[slug]-plan.md`
   - `docs/[slug]-design.md`
   - `docs/[slug]-results.md`
   - `docs/[slug]-plan-review.md`
   - `docs/[slug]-design-review.md`
   - `docs/[slug]-expectations.md` (optional)
+
+## Output
+
+- `docs/[slug]-monitor-issues.md` — issue log, lazy-created on first verifiable issue (see guide § Issue Logging for lifecycle and write mechanics)
 
 ## Process
 

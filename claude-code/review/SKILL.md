@@ -46,6 +46,7 @@ This skill consolidates document verification and skill auditing into a single r
 | Skill Review Report Template | `assets/templates/skill-review-report.md` |
 | Exam Guide | `references/exam-guide.md` |
 | Monitor Status Template | `assets/templates/monitor-status.md` |
+| Monitor Issues Template | `assets/templates/monitor-issues.md` |
 | Loop Guide | `references/review-loop-guide.md` |
 
 ## Commands
@@ -56,7 +57,7 @@ This skill consolidates document verification and skill auditing into a single r
 - `/review-skill <skill-name>` -- Audit a skill for structure and conventions (main conversation)
 - `/exam <doc-path> [--auto] [notes]` -- Independent critical examination of a document (main conversation)
 - `/exam-loop <doc-path> [N] [--first | --follow] [notes]` -- long-running tick-driven loop coordinating with `/review-doc-loop` via the shared review doc; main conversation only. `N` defaults to 2
-- `/monitor <task-slug>` -- Monitor execution progress with periodic status reports (main conversation)
+- `/monitor <task-slug>` -- Monitor execution progress with periodic status reports; writes `docs/[slug]-monitor-issues.md` (lazy-created, appended across sessions) when issues are found (main conversation)
 - `/spawn-doc-reviewer <doc-path> [--auto] [notes]` -- Sequential doc review (background agent)
 - `/spawn-skill-reviewer <skill-name>` -- Skill audit (background agent)
 

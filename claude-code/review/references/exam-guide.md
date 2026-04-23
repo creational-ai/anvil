@@ -219,7 +219,7 @@ Observe active plan execution by periodically reading the results doc. Report st
 
 ### Path Derivation
 
-From the task slug, derive:
+From the task slug, derive these **input** paths (read-only):
 - `docs/[slug]-plan.md`
 - `docs/[slug]-design.md`
 - `docs/[slug]-results.md`
@@ -228,6 +228,9 @@ From the task slug, derive:
 - `docs/[slug]-expectations.md` (optional)
 
 Verify which paths exist. Report which docs were found and which are missing. Missing docs are not fatal — the examiner works with what's available.
+
+The monitor also derives one **output** path (write-only, lazy-created when the first issue is logged — see "Issue Logging" below):
+- `docs/[slug]-monitor-issues.md`
 
 ### Process
 
@@ -268,7 +271,7 @@ This runs in the background so the user can still chat.
 
 ### Monitor Rules
 
-- **Strictly read-only** — never touch the plan doc, results doc, or any code files
+- **Strictly read-only for all source, plan, results, design, and review docs.** The **only** file the monitor may write is `docs/[slug]-monitor-issues.md` — its own issue log. It is never overwritten or retroactively modified; only extended with new content (see "Issue Logging" below for write mechanics)
 - **Don't interfere** — no suggestions to the executor, no fixes, no edits. Pure observation and reporting.
 - **More than checkmarks** — don't just report step status. Read actual source files to verify implementation quality, check that code matches plan spec, and flag anything the results doc doesn't mention.
 - **Background timers** — always run timers in background so the user can still chat
@@ -320,3 +323,49 @@ If no expectations doc exists, omit this section entirely.
 Rate the step: ✅ Clean / ⚠️ Minor concern / ❌ Needs attention
 
 Include a one-sentence summary explaining the verdict.
+
+### Issue Logging
+
+During per-step analysis, verifiable issues are logged to `docs/[slug]-monitor-issues.md` — a persistent issue log the operator reads out-of-band. The monitor never communicates findings to the executor; the issue doc is asynchronous.
+
+Use the `monitor-issues.md` template in `assets/templates/` for the file structure, per-session block, per-issue block, Legend definitions (Severity + Scope), and structural properties.
+
+#### When to log
+
+The monitor logs an issue if and only if the issue is **verifiable**:
+- Citable with a specific `file:line` or doc-section reference
+- Demonstrable with evidence (code snippet, grep output, cross-reference between two docs)
+- Reproducible from the current state of the repo
+
+If any of the three tests fails, the issue is NOT logged. The monitor's value is in the evidentiary chain, not volume.
+
+#### When NOT to log
+
+- Speculation ("this might cause issues if…")
+- Style preferences without a concrete rule violation
+- Concerns that can't be pinned to a location
+- Issues already logged in the current session (dedupe by Location + Title — intra-session only; cross-session dedupe is not attempted)
+
+#### Required fields per issue
+
+Nine fields must be present in every per-issue block: **Title**, **Severity**, **Scope**, **Location**, **Found**, **Description**, **Evidence**, **Verification**, **Suggested direction**. Description may be brief. `Found` is auto-populated by the monitor with the tick timestamp. An issue missing Evidence or Verification is NOT logged.
+
+See the template's Legend section for Severity (HIGH/MED/LOW) and Scope (In scope / Out of scope) rubrics, including the priority-ordered boundary rules for scope classification.
+
+#### Lifecycle and write mechanics
+
+- **Lazy create**: the file is created on the first issue logged in the first session. A monitor run that surfaces no issues never creates the file.
+- **First issue of a subsequent session**: append a new `## Session: <timestamp>` block beneath the prior session's closure footer, then append the first issue.
+- **Subsequent issues within a session**: insert a Summary Table row AND append a per-issue block — two edit locations per log event.
+- **Write primitive**: use `Read` + `Edit` (targeted) for ALL post-creation updates. Full-file `Write` is used exactly once in the file's lifetime: when creating the file for the very first issue of the very first session.
+- **Issue numbering**: the `#` column resets per session (starts at 1). Cross-session identity is the `(session timestamp, #)` pair.
+- **Closure footer**: on graceful termination (all steps complete / user stops / idle timeout), append `---` + a closing line with end timestamp and issue count.
+- **Orphaned sessions**: if a session ends non-gracefully (crash, disconnect), the closure footer is not written. The next invocation treats un-closed prior sessions as acceptable and appends a new session block without editing the prior one.
+
+#### No mid-run mutation
+
+Once logged, an issue is not edited, removed, or re-statused within the same session. If the executor fixes the problem mid-run, the issue doc does not reflect it — the doc is a record of what the monitor observed, not a live bug tracker.
+
+#### No executor communication
+
+The monitor never pings, edits, or otherwise influences the execution surface. "Suggested direction" is for the human reader. The operator reads the issue doc and decides whether to interrupt execution.
