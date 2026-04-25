@@ -29,7 +29,7 @@ Example: `docs/core-tasks.md`, `docs/cloud-tasks.md`
 
 ## Section Descriptions
 
-The template carries 2 sections absorbed from the deleted `milestone-spec` stage (Prerequisite, Scope). Use this section to understand what each should contain and when to fill it.
+The template carries 2 milestone-bounding sections (Prerequisite, Scope) that frame the milestone before tasks are enumerated. Use this section to understand what each should contain and when to fill it.
 
 ### Prerequisite
 **Purpose**: Describe the prior milestone's exit state -- what must already be true before this milestone's tasks can start. Gives the reader (and executor) a clear entry condition.
@@ -52,18 +52,18 @@ The template carries 2 sections absorbed from the deleted `milestone-spec` stage
 
 ## What This Doc Does NOT Contain
 
-The 4-tasks template is intentionally lean. The following sections from the deleted `milestone-spec` canonical template and from levelplay's real-usage pattern are explicitly NOT included in 4-tasks:
+The 4-tasks template is intentionally lean. The following sections — common in heavier per-milestone design templates and in levelplay's real-usage pattern — are explicitly NOT included in 4-tasks:
 
 **Explicit cuts (8 sections)** -- each with relocation target if any:
 
 | Cut section | Origin | Relocation target |
 |-------------|--------|-------------------|
-| Executive Summary | canonical milestone-spec template | None -- duplicates Milestone Overview |
-| Architecture Overview + Technology Stack | canonical milestone-spec template | `docs/[project-slug]-architecture.md` (Stage 2 output -- structural decisions live there) |
-| Core Components Design | canonical milestone-spec template | `docs/[project-slug]-architecture.md` (Stage 2 output) |
-| Testing Strategy | canonical milestone-spec template | Per-task Success Criteria + dev-skill's plan.md Prerequisites (test identification happens at execution time) |
-| Design Decisions & Rationale | canonical milestone-spec template | `docs/[project-slug]-architecture.md` (Stage 2 output) or per-task design doc in dev skill |
-| Open Questions | canonical milestone-spec template | None -- resolved during planning, not tracked as a doc section |
+| Executive Summary | per-milestone design template | None -- duplicates Milestone Overview |
+| Architecture Overview + Technology Stack | per-milestone design template | `docs/[project-slug]-architecture.md` (Stage 2 output -- structural decisions live there) |
+| Core Components Design | per-milestone design template | `docs/[project-slug]-architecture.md` (Stage 2 output) |
+| Testing Strategy | per-milestone design template | Per-task Success Criteria + dev-skill's plan.md Prerequisites (test identification happens at execution time) |
+| Design Decisions & Rationale | per-milestone design template | `docs/[project-slug]-architecture.md` (Stage 2 output) or per-task design doc in dev skill |
+| Open Questions | per-milestone design template | None -- resolved during planning, not tracked as a doc section |
 | Exit Checklist | levelplay real-usage pattern | Per-task Success Criteria (for the 7 of 9 levelplay entries that restate per-task completion); Feedback Loops Checkpoint Questions (for the 2 unique cross-milestone regression entries) |
 | After [Milestone] | levelplay real-usage pattern | Scope's `Out` subsection (as forward-looking / deferred notes -- answers the same "what's not in this milestone" question) |
 

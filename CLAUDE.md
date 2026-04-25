@@ -117,7 +117,7 @@ Examples:
 - `docs/[milestone-slug]-[task-slug]-design.md` - Feature/bug design analysis
 - `docs/[milestone-slug]-[task-slug]-plan.md` - Implementation guide
 - `docs/[milestone-slug]-[task-slug]-results.md` - Progress tracking
-- `docs/[milestone]-milestone-summary.md` - Milestone summary
+- `docs/[milestone-slug]-milestone-summary.md` - Milestone summary
 - `tests/` - Tests per environment conventions (e.g., Python: `test_[task-slug]_*.py`)
 
 **review skill creates:**

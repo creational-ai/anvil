@@ -236,7 +236,7 @@ On invocation round 1 this is `0 >= 1`, NOT satisfied -- follower waits for lead
 
 - `this_own = own_done - entry_own_done`; `this_counterpart = counterpart_done - entry_counterpart_done`; `k_next = this_own + 1`.
 - Gate: `this_counterpart >= k_next - 1`.
-- Gate satisfied -> run the round (review: Phase 1-3 from `review-doc-run-guide.md`; exam: single-turn exam flow from `exam-guide.md` Review Mode).
+- Gate satisfied -> run the round (review: Phase 1-3 from `review-doc-run-guide.md`; exam: `exam-guide.md` § Review Mode with loop overrides per "Exam side, gate satisfied" under Initial entry below).
 - Gate not satisfied -> arm the timer, idle.
 
 **Follower role** (whichever side resolved to `role = follower`):
@@ -538,7 +538,12 @@ Immediately after Phase 3.6's Bash result returns (same turn -- see Continuation
 
 ### Exam side, gate satisfied
 
-No Phase 2 to compose with; the exam flow is single-turn per round. Run the round inline -- read cross-refs, deep-examine, write E_k (appends an Applied row to the Review Log since exam single-turn applies fixes in the same turn), apply fixes, update `last_sig = (r_done, e_done, r_total, e_total, r_step, e_step)` post-round all in the same turn. Then either exit if `rounds_done >= target_rounds` or arm the echo-encoded timer for the next iteration.
+No Phase 2 to compose with; each exam round is a single-turn operation. Follow `exam-guide.md` § Review Mode in full (Read the Review Doc First, Read the Target Document, Load Cross-References, Deep Examination, Codebase Verification, Write to Review Document, Applying Fixes, Update Review Doc Fix Status, Completion Notification), with these loop overrides:
+
+1. **`--auto` is implicit.** Applying Fixes takes the auto-apply branch unconditionally -- see Fix-application under the loop above. No user prompt.
+2. **Completion Notification is not turn-end.** When exam-guide.md's Completion Notification Bash call returns, do NOT end the turn. In the same turn, re-read the doc for fresh `(r_done, e_done, r_total, e_total, r_step, e_step)`, set `last_sig = current_sig`, compute `rounds_done = e_done - entry_e_done`, then either exit if `rounds_done >= target_rounds` or arm the echo-encoded timer for the next iteration. This is NOT the "Continuation-turn handoff" from review-loop-guide.md:509 -- that mechanism is review-side-only for re-emerging from Phase 3.6's multi-turn state. The exam side has no multi-turn window to re-emerge from; the Completion Notification Bash result simply returns inline in the round's single turn.
+
+Do NOT invoke `/exam` via the Skill tool -- the per-round flow is executed inline by following exam-guide.md directly, same pattern as `/monitor` executes Monitor Mode inline. The `Skill(/exam)` call will error because `/exam` carries `disable-model-invocation: true`, and that error is load-bearing: it forces fallback to this inline path. Do NOT try to "work around" the error by passing `/exam` differently or by reading `commands/exam.md` and executing its body verbatim -- standalone `/exam` lacks the loop overrides above (no `--auto`, no inline state update after Completion Notification) and will silently kill the loop when its Completion Notification ends the turn.
 
 ### Both sides, gate not satisfied
 
@@ -569,7 +574,7 @@ Every subsequent iteration, fired by TIMER notification. Ten steps:
    - Exam side: gate is `this_r >= k - 1` if `role = leader`, `this_r >= k` if `role = follower`.
 7. **If gate satisfied**: run one round.
    - **Review side**: first arm the pre-round sentinel Bash call (per the Pre-round sentinel format above), then in the same message launch Phase 1 (setup) followed by Phase 2 (background spawning) from `review-doc-run-guide.md` and yield the turn. Immediately after Phase 3.6's Bash result returns (same turn -- see Continuation-turn handoff), the Continuation logic re-reads the doc, recomputes `rounds_done = r_done - r0`, resets `idle_ticks = 0`, and proceeds to steps 9-10.
-   - **Exam side**: run the round single-turn and update state inline.
+   - **Exam side**: follow `exam-guide.md` § Review Mode with loop overrides from Initial entry > "Exam side, gate satisfied" above. Do NOT invoke `/exam` via the Skill tool -- run the per-round flow inline (see Initial entry for the full silent-loop-death rationale). Update `last_sig` post-round, then proceed to steps 9-10.
 8. **If gate not satisfied**: print the canonical status line (`idle X/<MAX_IDLE_TICKS>, waiting for ...`). If `idle_ticks` was just reset in step 4 (sig changed -- e.g., `rT` advanced to show a Pending Review Log row, or `rS` advanced to show a new summary column / filled cell) but gate still not satisfied, the status line should explicitly note `idle reset (sig changed)` to surface the distinction between "gate waiting" and "counterpart alive".
 9. **Early exit**: if `rounds_done >= target_rounds` after the round completes -> exit (don't arm another timer). This check fires immediately after the round completes, not on the next tick wake, so `N=1` does not incur a wasted 4-minute wait.
 10. **Otherwise arm the next echo-encoded timer** carrying the updated `idle_ticks`, `last_sig = current_sig` (6-tuple), unchanged `entry = (r0, e0)`, unchanged `target = target_rounds`, unchanged `role`, and an updated prose narrative reflecting the current wait reason (`R2 done, waiting for E2 or next tick` / `waiting for R3 or next tick` / `R3 Phase 2 in progress, gate not satisfied, idle reset` / etc.). End the turn.

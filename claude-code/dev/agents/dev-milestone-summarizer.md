@@ -44,7 +44,7 @@ When done, report:
 ```
 ## Milestone Summary Created
 
-**File**: docs/[milestone]-milestone-summary.md
+**File**: docs/[milestone-slug]-milestone-summary.md
 **Milestone**: [Milestone Name]
 **Tasks**: [count] tasks documented
 **Status**: [Complete / In Progress]

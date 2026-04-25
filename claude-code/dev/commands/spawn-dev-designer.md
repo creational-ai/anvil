@@ -1,6 +1,6 @@
 ---
 description: Create design for feature/bug/PoC (Stage 1, NO CODE)
-argument-hint: [file-path] [notes]
+argument-hint: [source-file] [--notes "<text>"]
 context: fork
 agent: dev-designer
 disable-model-invocation: true

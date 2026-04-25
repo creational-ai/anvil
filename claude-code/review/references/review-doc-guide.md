@@ -17,8 +17,8 @@ Parse the arguments string to extract:
 3. **Notes**: Any remaining text after path and flag
 
 Example inputs:
-- `docs/core-task-spec.md` -- path only, default mode (prompt user on fixes)
-- `docs/core-task-spec.md --auto` -- path + auto-fix
+- `docs/core-tasks.md` -- path only, default mode (prompt user on fixes)
+- `docs/core-tasks.md --auto` -- path + auto-fix
 - `docs/core-design.md --auto Fix the naming issues` -- path + auto-fix + notes
 - `docs/core-plan.md Some context about this review` -- path + notes, default mode
 
@@ -32,22 +32,19 @@ Identify document type from filename pattern:
 
 | Pattern | Type | Cross-Reference |
 |---------|------|-----------------|
-| `*-vision.md` | Vision | None (root document) |
-| `*-architecture.md` | Architecture | vision |
-| `*-roadmap.md` | Roadmap | architecture, vision |
-| `[project]-milestones.md` | Milestones (4-stage) | architecture, vision |
-| `[milestone]-milestone-spec.md` | Milestone Spec | roadmap, architecture |
-| `[milestone]-tasks.md` | Tasks (4-stage) | milestones, architecture |
-| `[milestone]-task-spec.md` | Task Spec | milestone-spec |
+| `[project-slug]-vision.md` | Vision | None (root document) |
+| `[project-slug]-architecture.md` | Architecture | vision |
+| `[project-slug]-milestones.md` | Milestones | architecture, vision |
+| `[milestone-slug]-tasks.md` | Tasks | milestones, architecture |
 
 ### Dev Docs (dev skill)
 
 | Pattern | Type | Cross-Reference |
 |---------|------|-----------------|
-| `docs/[slug]-design.md` | Task Design | tasks, task-spec, or milestone-spec |
-| `docs/[slug]-plan.md` | Plan | design for same slug |
-| `docs/[slug]-results.md` | Results | plan (rarely reviewed) |
-| `docs/[milestone]-milestone-summary.md` | Milestone Summary | all task results for milestone |
+| `docs/[milestone-slug]-[task-slug]-design.md` | Task Design | tasks |
+| `docs/[milestone-slug]-[task-slug]-plan.md` | Plan | design for same slug |
+| `docs/[milestone-slug]-[task-slug]-results.md` | Results | plan (rarely reviewed) |
+| `docs/[milestone-slug]-milestone-summary.md` | Milestone Summary | all task results for milestone |
 
 ## Verification Process
 
@@ -69,11 +66,8 @@ Each doc type has a template. Verify the document follows its template structure
 |----------|-------------------|
 | Vision | `~/.claude/skills/design/assets/templates/1-vision.md` |
 | Architecture | `~/.claude/skills/design/assets/templates/2-architecture.md` |
-| Roadmap | `~/.claude/skills/design/assets/templates/3-roadmap.md` |
-| Milestones (4-stage) | `~/.claude/skills/design/assets/templates/3-milestones.md` |
-| Milestone Spec | `~/.claude/skills/design/assets/templates/4-milestone-spec.md` |
-| Tasks (4-stage) | `~/.claude/skills/design/assets/templates/4-tasks.md` |
-| Task Spec | `~/.claude/skills/design/assets/templates/5-task-spec.md` |
+| Milestones | `~/.claude/skills/design/assets/templates/3-milestones.md` |
+| Tasks | `~/.claude/skills/design/assets/templates/4-tasks.md` |
 | Task Design | `~/.claude/skills/dev/assets/templates/1-design.md` |
 | Plan | `~/.claude/skills/dev/assets/templates/2-plan.md` |
 | Results | `~/.claude/skills/dev/assets/templates/3-results.md` |
@@ -85,14 +79,14 @@ Check:
 
 ### 4. Type-Specific Checks
 
-**Design Docs** (vision, architecture, roadmap, milestones, milestone-spec, tasks, task-spec):
+**Design Docs** (vision, architecture, milestones, tasks):
 - Vision alignment with parent docs
 - Scope consistency
 - Terminology consistency
 - Feasibility of proposed approach
 
 **Task Design** (NO CODE - design only):
-- Alignment with tasks, task-spec, or milestone design
+- Alignment with tasks or milestone design
 - Clear challenge statement
 - Defined success criteria
 - Reasonable scope

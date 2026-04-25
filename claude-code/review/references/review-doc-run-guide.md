@@ -19,8 +19,8 @@ Parse the arguments string to extract:
 3. **Notes**: Any remaining text after path and flag
 
 Example inputs:
-- `docs/core-task-spec.md` -- path only, default mode (report only)
-- `docs/core-task-spec.md --auto` -- path + auto-fix
+- `docs/core-tasks.md` -- path only, default mode (report only)
+- `docs/core-tasks.md --auto` -- path + auto-fix
 - `docs/core-design.md --auto Fix the naming issues` -- path + auto-fix + notes
 - `docs/core-plan.md Some context about this review` -- path + notes, default mode
 
@@ -42,26 +42,23 @@ Match filename against patterns to determine document type and cross-references.
 
 | Pattern | Type | Parallel | Cross-Reference |
 |---------|------|----------|-----------------|
-| `*-vision.md` | Vision | No | None (root document) |
-| `*-architecture.md` | Architecture | No | vision |
-| `*-roadmap.md` | Roadmap | No | architecture, vision |
-| `[project]-milestones.md` | Milestones (4-stage) | No | architecture, vision |
-| `[milestone]-milestone-spec.md` | Milestone Spec | No | roadmap, architecture |
-| `[milestone]-tasks.md` | Tasks (4-stage) | **Yes** | milestones, architecture |
-| `[milestone]-task-spec.md` | Task Spec | **Yes** | milestone-spec |
+| `[project-slug]-vision.md` | Vision | No | None (root document) |
+| `[project-slug]-architecture.md` | Architecture | No | vision |
+| `[project-slug]-milestones.md` | Milestones | No | architecture, vision |
+| `[milestone-slug]-tasks.md` | Tasks | **Yes** | milestones, architecture |
 
 #### Dev Docs (dev skill)
 
 | Pattern | Type | Parallel | Cross-Reference |
 |---------|------|----------|-----------------|
-| `docs/[slug]-design.md` | Task Design | **Yes** | tasks, task-spec, or milestone-spec |
-| `docs/[slug]-plan.md` | Plan | **Yes** | design for same slug |
-| `docs/[slug]-results.md` | Results | No | plan (rarely reviewed) |
-| `docs/[milestone]-milestone-summary.md` | Milestone Summary | No | all task results for milestone |
+| `docs/[milestone-slug]-[task-slug]-design.md` | Task Design | **Yes** | tasks |
+| `docs/[milestone-slug]-[task-slug]-plan.md` | Plan | **Yes** | design for same slug |
+| `docs/[milestone-slug]-[task-slug]-results.md` | Results | No | plan (rarely reviewed) |
+| `docs/[milestone-slug]-milestone-summary.md` | Milestone Summary | No | all task results for milestone |
 
 ### 1.3 Determine Review Mode
 
-Only four doc types support parallel review: **Tasks (4-stage)**, **Task Spec**, **Task Design**, and **Plan**.
+Only three doc types support parallel review: **Tasks**, **Task Design**, and **Plan**.
 
 - If the doc type is one of these three, continue with parallel review (Phase 2).
 - If the doc type is anything else (Vision, Architecture, Roadmap, Milestone Spec, Results, Milestone Summary), **fall back to sequential review**: follow the sequential review guide at `~/.claude/skills/review/references/review-doc-guide.md` instead. Stop following this guide.
@@ -128,9 +125,8 @@ If extraction finds zero items (the document has the right type but no parseable
 
 For item agents, prepare condensed cross-reference excerpts. Read the cross-reference documents and extract the sections most relevant to item-level review:
 
-- **Task Spec** cross-refs: From the milestone-spec, extract the milestone overview and relevant task descriptions
-- **Tasks (4-stage)** cross-refs: From the milestones doc (or architecture if no milestones doc exists), extract the milestone overview and relevant task descriptions
-- **Task Design** cross-refs: From the tasks doc or task-spec, extract the specific task block that matches this design
+- **Tasks** cross-refs: From the milestones doc (or architecture if no milestones doc exists), extract the milestone overview and relevant task descriptions
+- **Task Design** cross-refs: From the tasks doc, extract the specific task block that matches this design
 - **Plan** cross-refs: From the design, extract the Executive Summary, Constraints, and Proposed Sequence
 
 Keep excerpts concise. The item agents have access to Read and can look up additional details themselves.
@@ -363,7 +359,7 @@ The `command -v ... && ...` pattern makes both calls portable: on macOS where `a
 
 Replace placeholders:
 - `[project]`: basename of the current working directory (e.g., `anvil`).
-- `[doc-type]`: the filename suffix before `.md` matching one of `design`, `plan`, `results`, `vision`, `architecture`, `roadmap`, `milestones`, `milestone-spec`, `tasks`, `task-spec`, `milestone-summary`.
+- `[doc-type]`: the filename suffix before `.md` matching one of `design`, `plan`, `results`, `vision`, `architecture`, `milestones`, `tasks`, `milestone-summary`.
 - `[task-slug]`: the filename with `.md`, the `-[doc-type]` suffix, AND the first milestone segment (everything up to and including the first hyphen of the remaining slug) all stripped.
   - Example: `core-settings-redesign-plan.md` → project=`anvil`, task-slug=`settings-redesign`, doc-type=`plan` → "Review run completed for anvil settings-redesign plan doc"
   - Example: `core-review-staggered-auto-design.md` → project=`anvil`, task-slug=`review-staggered-auto`, doc-type=`design` → "Review run completed for anvil review-staggered-auto design doc"

@@ -81,7 +81,7 @@ Verifies design and implementation documents against templates, checks for:
 - Codebase verification (referenced files and functions exist)
 - Review tracking: persists full review history to -review.md alongside reviewed documents
 
-Supports all Design docs (vision, architecture, roadmap, milestones, milestone-spec, tasks, task-spec) and Dev docs (design, plan, results).
+Supports all Design docs (vision, architecture, milestones, tasks) and Dev docs (design, plan, results).
 
 ### Skill Review
 

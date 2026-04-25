@@ -63,22 +63,19 @@ Identify document type from filename pattern:
 
 | Pattern | Type | Cross-Reference |
 |---------|------|-----------------|
-| `*-vision.md` | Vision | None (root document) |
-| `*-architecture.md` | Architecture | vision |
-| `*-roadmap.md` | Roadmap | architecture, vision |
-| `[project]-milestones.md` | Milestones (4-stage) | architecture, vision |
-| `[milestone]-milestone-spec.md` | Milestone Spec | roadmap, architecture |
-| `[milestone]-tasks.md` | Tasks (4-stage) | milestones, architecture |
-| `[milestone]-task-spec.md` | Task Spec | milestone-spec |
+| `[project-slug]-vision.md` | Vision | None (root document) |
+| `[project-slug]-architecture.md` | Architecture | vision |
+| `[project-slug]-milestones.md` | Milestones | architecture, vision |
+| `[milestone-slug]-tasks.md` | Tasks | milestones, architecture |
 
 #### Dev Docs (dev skill)
 
 | Pattern | Type | Cross-Reference |
 |---------|------|-----------------|
-| `docs/[slug]-design.md` | Task Design | tasks, task-spec, or milestone-spec |
-| `docs/[slug]-plan.md` | Plan | design for same slug |
-| `docs/[slug]-results.md` | Results | plan (rarely reviewed) |
-| `docs/[milestone]-milestone-summary.md` | Milestone Summary | all task results for milestone |
+| `docs/[milestone-slug]-[task-slug]-design.md` | Task Design | tasks |
+| `docs/[milestone-slug]-[task-slug]-plan.md` | Plan | design for same slug |
+| `docs/[milestone-slug]-[task-slug]-results.md` | Results | plan (rarely reviewed) |
+| `docs/[milestone-slug]-milestone-summary.md` | Milestone Summary | all task results for milestone |
 
 ### Process
 
@@ -126,7 +123,7 @@ Use Glob, Grep, Read to verify:
 
 > **Environment-specific verification**: If the project has an environment guide (e.g., `~/.claude/skills/dev/references/unity-guide.md`, `python-guide.md`), consult it for additional verification tools (e.g., Unity MCP for hierarchy/component/wiring checks).
 
-### 6. Write to Review Document
+#### 6. Write to Review Document
 
 Write exam findings to the persistent review document. This is the same `-review.md` file used by `/review-doc` and `/review-doc-run`. The exam adds E columns alongside R columns in chronological order (R1 → E1 → R2 → E2 → ...).
 
@@ -201,7 +198,7 @@ The `command -v ... && ...` pattern makes both calls portable: on macOS where `a
 
 Replace placeholders:
 - `[project]`: basename of the current working directory (e.g., `anvil`).
-- `[doc-type]`: the filename suffix before `.md` matching one of `design`, `plan`, `results`, `vision`, `architecture`, `roadmap`, `milestones`, `milestone-spec`, `tasks`, `task-spec`, `milestone-summary`.
+- `[doc-type]`: the filename suffix before `.md` matching one of `design`, `plan`, `results`, `vision`, `architecture`, `milestones`, `tasks`, `milestone-summary`.
 - `[task-slug]`: the filename with `.md`, the `-[doc-type]` suffix, AND the first milestone segment (everything up to and including the first hyphen of the remaining slug) all stripped.
   - Example: `core-settings-redesign-plan.md` → project=`anvil`, task-slug=`settings-redesign`, doc-type=`plan` → "Examination completed for anvil settings-redesign plan doc"
   - Example: `core-review-staggered-auto-design.md` → project=`anvil`, task-slug=`review-staggered-auto`, doc-type=`design` → "Examination completed for anvil review-staggered-auto design doc"

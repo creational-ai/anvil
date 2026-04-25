@@ -1,6 +1,6 @@
 ---
 description: Review a completed execution step for conceptual errors (design-anchored). Runs in main conversation.
-argument-hint: [results-doc] [step-number]
+argument-hint: <results-doc> <step-id>
 disable-model-invocation: true
 ---
 

@@ -1,14 +1,14 @@
-# [Milestone] Milestone Summary
+# [Milestone-Slug] Milestone Summary
 
 > **Last Updated**: [YYYY-MM-DDTHH:MM:SS±HHMM]
 >
-> This document provides a comprehensive overview of the [Milestone] Milestone accomplishments.
+> This document provides a comprehensive overview of the [Milestone-Slug] Milestone accomplishments.
 
 ---
 
 ## Executive Summary
 
-**[Milestone] Milestone Status**: [✅ COMPLETE / 🔄 IN PROGRESS] ([X of Y] tasks)
+**[Milestone-Slug] Milestone Status**: [✅ COMPLETE / 🔄 IN PROGRESS] ([X of Y] tasks)
 
 | Task | Status | What It Proved |
 |------|--------|----------------|
@@ -105,7 +105,7 @@ KEY LESSONS FROM [TASK NAME]
 
 ---
 
-## What's Built ([Milestone] Complete)
+## What's Built ([Milestone-Slug] Complete)
 
 ```
 MILESTONE COMPLETION MAP
@@ -140,7 +140,7 @@ MILESTONE COMPLETION MAP
 
 ## Next Steps
 
-**[Milestone] Milestone: [STATUS]**
+**[Milestone-Slug] Milestone: [STATUS]**
 
 [Summary of completion status]
 

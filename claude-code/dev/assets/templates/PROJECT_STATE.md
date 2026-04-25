@@ -14,12 +14,12 @@
 
 | ID | Name | Type | Status | Tests | Docs |
 |-----|------|------|--------|-------|------|
-| poc1 | [Name] | poc | ✅ Complete | X passing | `[milestone]-[task]-*.md` |
-| poc2 | [Name] | poc | 🔄 In Progress | X passing | `[milestone]-[task]-*.md` |
+| poc1 | [Name] | poc | ✅ Complete | X passing | `[milestone-slug]-[task-slug]-*.md` |
+| poc2 | [Name] | poc | 🔄 In Progress | X passing | `[milestone-slug]-[task-slug]-*.md` |
 | poc3 | [Name] | poc | ⬜ Pending | — | — |
-| feature-1 | [Name] | feature | ✅ Complete | Included | `[milestone]-[task]-*.md` |
-| refactor-1 | [Name] | refactor | ✅ Complete | All passing | `[milestone]-[task]-*.md` |
-| bug-1 | [Name] | issue | ✅ Complete | All passing | `[milestone]-[task]-*.md` |
+| feature-1 | [Name] | feature | ✅ Complete | Included | `[milestone-slug]-[task-slug]-*.md` |
+| refactor-1 | [Name] | refactor | ✅ Complete | All passing | `[milestone-slug]-[task-slug]-*.md` |
+| bug-1 | [Name] | issue | ✅ Complete | All passing | `[milestone-slug]-[task-slug]-*.md` |
 
 **Total Tests**: X passing (100% pass rate)
 

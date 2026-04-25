@@ -1,6 +1,6 @@
 ---
 description: Execute implementation step by step with tests (Stage 3). Runs in main conversation.
-argument-hint: [plan-doc | task-name] [step-number] [--fix "<findings>"]
+argument-hint: [plan-doc | task-name] [step-id] [--fix "<findings>"]
 disable-model-invocation: true
 ---
 

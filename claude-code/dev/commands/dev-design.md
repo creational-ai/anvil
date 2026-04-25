@@ -1,6 +1,6 @@
 ---
 description: Create a design document for a task (Stage 1, NO CODE). Runs in main conversation.
-argument-hint: [source-file] [notes]
+argument-hint: [source-file] [--notes "<text>"]
 disable-model-invocation: true
 ---
 

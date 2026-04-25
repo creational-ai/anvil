@@ -1,6 +1,6 @@
 ---
 description: Create implementation plan for a task (Stage 2). Runs in main conversation.
-argument-hint: [design-doc | plan-doc update | task-id] [notes]
+argument-hint: [design-doc | plan-doc update | task-id] [--notes "<text>"]
 disable-model-invocation: true
 ---
 

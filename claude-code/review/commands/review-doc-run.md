@@ -15,7 +15,6 @@ Review a document using parallel subagents -- item reviewers check each item, ho
 ```bash
 /review-doc-run docs/core-poc3-plan.md
 /review-doc-run docs/core-poc3-plan.md --auto
-/review-doc-run docs/core-task-spec.md focus on dependency chain
 /review-doc-run docs/core-tasks.md focus on dependency chain
 ```
 
