@@ -66,14 +66,16 @@ Identify document type from filename pattern:
 | `*-vision.md` | Vision | None (root document) |
 | `*-architecture.md` | Architecture | vision |
 | `*-roadmap.md` | Roadmap | architecture, vision |
+| `[project]-milestones.md` | Milestones (4-stage) | architecture, vision |
 | `[milestone]-milestone-spec.md` | Milestone Spec | roadmap, architecture |
+| `[milestone]-tasks.md` | Tasks (4-stage) | milestones, architecture |
 | `[milestone]-task-spec.md` | Task Spec | milestone-spec |
 
 #### Dev Docs (dev skill)
 
 | Pattern | Type | Cross-Reference |
 |---------|------|-----------------|
-| `docs/[slug]-design.md` | Task Design | task-spec or milestone-spec |
+| `docs/[slug]-design.md` | Task Design | tasks, task-spec, or milestone-spec |
 | `docs/[slug]-plan.md` | Plan | design for same slug |
 | `docs/[slug]-results.md` | Results | plan (rarely reviewed) |
 | `docs/[milestone]-milestone-summary.md` | Milestone Summary | all task results for milestone |
@@ -199,7 +201,7 @@ The `command -v ... && ...` pattern makes both calls portable: on macOS where `a
 
 Replace placeholders:
 - `[project]`: basename of the current working directory (e.g., `anvil`).
-- `[doc-type]`: the filename suffix before `.md` matching one of `design`, `plan`, `results`, `vision`, `architecture`, `roadmap`, `milestone-spec`, `task-spec`, `milestone-summary`.
+- `[doc-type]`: the filename suffix before `.md` matching one of `design`, `plan`, `results`, `vision`, `architecture`, `roadmap`, `milestones`, `milestone-spec`, `tasks`, `task-spec`, `milestone-summary`.
 - `[task-slug]`: the filename with `.md`, the `-[doc-type]` suffix, AND the first milestone segment (everything up to and including the first hyphen of the remaining slug) all stripped.
   - Example: `core-settings-redesign-plan.md` → project=`anvil`, task-slug=`settings-redesign`, doc-type=`plan` → "Examination completed for anvil settings-redesign plan doc"
   - Example: `core-review-staggered-auto-design.md` → project=`anvil`, task-slug=`review-staggered-auto`, doc-type=`design` → "Examination completed for anvil review-staggered-auto design doc"

@@ -1,6 +1,6 @@
 ---
 description: Finalize task with timestamp, lessons, diagram, and health check (all 4 steps)
-argument-hint: <task-slug>
+argument-hint: <milestone-slug>-<task-slug>
 context: fork
 agent: dev-finalizer
 disable-model-invocation: true

@@ -23,25 +23,29 @@ Project (e.g., "mission-control")
 
 | Stage | Output | Purpose |
 |-------|--------|---------|
-| 1. Vision | `docs/[slug]-vision.md` | Vision & feasibility |
-| 2. Architecture | `docs/[slug]-architecture.md` | Technical design |
-| 3. Roadmap | `docs/[slug]-roadmap.md` | Strategic milestone breakdown |
-| 4. Milestone Spec | `docs/[slug]-milestone-spec.md` | Detailed per-milestone plan |
-| 5. Task Spec | `docs/[slug]-task-spec.md` | Atomic tasks with dependencies |
+| 1. Vision | `docs/[project-slug]-vision.md` | Vision & feasibility |
+| 2. Architecture | `docs/[project-slug]-architecture.md` | Technical design |
+| 3. Milestones | `docs/[project-slug]-milestones.md` | Strategic milestone breakdown |
+| 4. Tasks | `docs/[milestone-slug]-tasks.md` | Atomic tasks with dependencies (per milestone) |
 
-**File Naming**:
-- `[slug]`: Project slug for project-level docs (vision, architecture, roadmap)
-- `[slug]`: Milestone slug for milestone-level docs (milestone-spec, task-spec)
+**File Naming** (two rules):
 
-**Next**: Hand off to **dev skill** for implementation
+1. **Scope prefix**: `[project-slug]-*` for project-level docs (vision, architecture, milestones); `[milestone-slug]-*` for milestone-level docs (tasks).
+2. **Noun number**: singular noun for project-level / aggregate-of-one docs (`vision`, `architecture`); plural noun for docs that enumerate multiple items (`milestones` enumerates milestones; `tasks` enumerates tasks within a milestone).
+
+Examples:
+- `docs/mc-vision.md` — project `mc`, singular aggregate-of-one
+- `docs/mc-architecture.md` — project `mc`, singular
+- `docs/mc-milestones.md` — project `mc`, plural (enumerates milestones)
+- `docs/core-tasks.md` — milestone `core`, plural (enumerates tasks)
+- `docs/cloud-tasks.md` — milestone `cloud`, plural (enumerates tasks)
 
 ## Commands
 
 - `/design-vision` - Create or refine Vision document (Stage 1)
 - `/design-architecture` - Create architecture and integration plan (Stage 2)
-- `/design-roadmap` - Create roadmap with strategic milestones (Stage 3)
-- `/design-milestone-spec` - Expand a milestone into detailed design (Stage 4)
-- `/design-task-spec` - Define atomic tasks with dependencies and success criteria (Stage 5)
+- `/design-milestones` - Create milestones doc with strategic milestone breakdown (Stage 3)
+- `/design-tasks` - Define atomic tasks per milestone with dependencies and success criteria (Stage 4)
 
 ---
 
@@ -77,7 +81,7 @@ Templates are mandatory. They define the exact structure curated over months of 
 
 ## CRITICAL: NO-CODE SKILL
 
-**All stages (1-5) are strictly NO-CODE zones.**
+**All stages (1-4) are strictly NO-CODE zones.**
 
 **Allowed**: Architecture diagrams, data flow descriptions, workflow descriptions, pseudocode (sparingly), API contracts, tech stack decisions
 
@@ -93,16 +97,17 @@ Templates are mandatory. They define the exact structure curated over months of 
 
 **Input**: Idea (verbal, notes, rough sketch)
 **Template**: `assets/templates/1-vision.md`
-**Output**: `docs/[slug]-vision.md` (e.g., `docs/mc-vision.md`)
+**Output**: `docs/[project-slug]-vision.md` (e.g., `docs/mc-vision.md`)
 
 > See `references/1-vision-guide.md` for detailed process
 
 ### Stage 1 Complete Checklist
-- [ ] `docs/[slug]-vision.md` created using template
+- [ ] `docs/[project-slug]-vision.md` created using template
 - [ ] Problem clearly stated
 - [ ] Solution approach makes sense
 - [ ] Technical feasibility seems reasonable
 - [ ] No obvious blockers identified
+- [ ] Run `/review-doc docs/[project-slug]-vision.md`
 
 **Next**: Stage 2: Architecture
 
@@ -112,9 +117,9 @@ Templates are mandatory. They define the exact structure curated over months of 
 
 **Goal**: Create technical architecture and integration plan
 
-**Input**: Vision doc (`docs/[slug]-vision.md`)
+**Input**: Vision doc (`docs/[project-slug]-vision.md`)
 **Template**: `assets/templates/2-architecture.md`
-**Output**: `docs/[slug]-architecture.md` (e.g., `docs/mc-architecture.md`)
+**Output**: `docs/[project-slug]-architecture.md` (e.g., `docs/mc-architecture.md`)
 
 > See `references/2-architecture-guide.md` for detailed process
 
@@ -127,89 +132,58 @@ Once you have enough context (typically after Stage 2 or 3), consider validating
 Validate early. The more context you have, the better the research -- but don't over-design before confirming market fit.
 
 ### Stage 2 Complete Checklist
-- [ ] `docs/[slug]-architecture.md` created using template
+- [ ] `docs/[project-slug]-architecture.md` created using template
 - [ ] Architecture diagram complete
 - [ ] Tech stack justified
 - [ ] Data flows documented
 - [ ] Integration points identified
+- [ ] Data model documented
+- [ ] Security considerations addressed
+- [ ] Observability approach defined
 - [ ] No code written (only diagrams and descriptions)
-- [ ] Run `/verify-doc docs/[slug]-architecture.md`
+- [ ] Run `/review-doc docs/[project-slug]-architecture.md`
 
-**Next**: Stage 3: Roadmap
+**Next**: Stage 3: Milestones
 
 ---
 
-## Stage 3: Roadmap
+## Stage 3: Milestones
 
 **Goal**: Break Vision + Architecture into strategic milestones with clear progression
 
 **Input**:
-- Vision doc (`docs/[slug]-vision.md`)
-- Architecture doc (`docs/[slug]-architecture.md`)
+- Vision doc (`docs/[project-slug]-vision.md`)
+- Architecture doc (`docs/[project-slug]-architecture.md`)
 
-**Template**: `assets/templates/3-roadmap.md`
-**Output**: `docs/[slug]-roadmap.md` (e.g., `docs/mc-roadmap.md`)
+**Template**: `assets/templates/3-milestones.md`
+**Output**: `docs/[project-slug]-milestones.md` (e.g., `docs/mc-milestones.md`)
 
-> See `references/3-roadmap-guide.md` for detailed process
+> See `references/3-milestones-guide.md` for detailed process
 
 ### Stage 3 Complete Checklist
-- [ ] `docs/[slug]-roadmap.md` created using template
+- [ ] `docs/[project-slug]-milestones.md` created using template
 - [ ] Milestone Progression diagram shows overall strategy
 - [ ] First milestone (Core) fully defined with all sections
 - [ ] Each milestone has Goal, Architecture, What Gets Built, Metrics, Outcomes, Why
 - [ ] Strategic Decisions section explains milestone order
 - [ ] Success Criteria defined for each milestone
 - [ ] Next Steps clear
-- [ ] Run `/verify-doc docs/[slug]-roadmap.md`
+- [ ] Run `/review-doc docs/[project-slug]-milestones.md`
 
-**Next**: Stage 4: Milestone Spec (detailed design per milestone)
-
----
-
-## Stage 4: Milestone Spec
-
-**Goal**: Expand a single milestone into comprehensive, self-contained design document
-
-**Input**:
-- Roadmap (`docs/[slug]-roadmap.md`)
-- Architecture doc (`docs/[slug]-architecture.md`)
-
-**Template**: `assets/templates/4-milestone-spec.md`
-**Output**: `docs/[slug]-milestone-spec.md` (e.g., `docs/web-core-milestone-spec.md`)
-
-> See `references/4-milestone-spec-guide.md` for detailed process
-
-### Stage 4 Complete Checklist
-- [ ] `docs/[slug]-milestone-spec.md` created using template
-- [ ] Executive Summary provides clear context
-- [ ] Goal section includes what it proves AND what it doesn't
-- [ ] Architecture has all three subsections (Diagram, Stack, Cost)
-- [ ] Core Components (3-6) each have all subsections
-- [ ] Implementation Phases expanded from overview with details
-- [ ] Testing Strategy defines approach and priorities
-- [ ] Success Metrics have measurement details and rationale
-- [ ] Design Decisions explain why this approach
-- [ ] Risks identified with mitigation strategies
-- [ ] Open Questions grouped by category
-- [ ] Next Steps have three time horizons
-- [ ] NO forward references to other milestones
-- [ ] Run `/verify-doc docs/[slug]-milestone-spec.md`
-
-**Next**: Stage 5: Task Spec (break milestone into atomic tasks)
+**Next**: Stage 4: Tasks (break each milestone into atomic tasks)
 
 ---
 
-## Stage 5: Task Spec
+## Stage 4: Tasks
 
-**Goal**: Define atomic tasks with dependencies and success criteria -- PRODUCTION-GRADE thin slices
+**Goal**: Define atomic tasks per milestone with dependencies and success criteria -- PRODUCTION-GRADE thin slices
 
 **Input**:
-- Milestone Spec (`docs/[slug]-milestone-spec.md`)
-- Roadmap (`docs/[slug]-roadmap.md`)
-- Architecture doc (`docs/[slug]-architecture.md`)
+- Milestones doc (`docs/[project-slug]-milestones.md`)
+- Architecture doc (`docs/[project-slug]-architecture.md`)
 
-**Template**: `assets/templates/5-task-spec.md`
-**Output**: `docs/[slug]-task-spec.md` (e.g., `docs/core-task-spec.md`)
+**Template**: `assets/templates/4-tasks.md`
+**Output**: `docs/[milestone-slug]-tasks.md` (e.g., `docs/core-tasks.md`)
 
 **Task Requirements** (critical):
 - **Atomic**: Validates ONE specific thing
@@ -218,15 +192,18 @@ Validate early. The more context you have, the better the research -- but don't 
 
 **Golden Rule**: One capability = One task (minimize tasks; group related work)
 
-> See `references/5-task-spec-guide.md` for detailed process
+> See `references/4-tasks-guide.md` for detailed process
 
-### Stage 5 Complete Checklist
-- [ ] `docs/[slug]-task-spec.md` created using template
+### Stage 4 Complete Checklist
+- [ ] `docs/[milestone-slug]-tasks.md` created using template
+- [ ] Prerequisite section describes prior milestone's exit state
+- [ ] Scope section has In/Out subsections (Out absorbs forward-looking items)
 - [ ] Each task validates one specific thing
 - [ ] Dependencies mapped (which tasks unlock others)
 - [ ] Success criteria measurable
 - [ ] Order of execution clear
-- [ ] Run `/verify-doc docs/[slug]-task-spec.md`
+- [ ] Feedback loop guidance included
+- [ ] Run `/review-doc docs/[milestone-slug]-tasks.md`
 
 **Next**: Hand off to **dev skill** for implementation
 
@@ -234,7 +211,7 @@ Validate early. The more context you have, the better the research -- but don't 
 
 ## Handoff to dev
 
-Once `docs/[slug]-task-spec.md` is complete, hand off to the **dev skill** for implementation.
+Once `docs/[milestone-slug]-tasks.md` is complete, hand off to the **dev skill** for implementation.
 
 **dev** handles all development work through a repeating cycle: plan tasks, execute step-by-step, test, repeat.
 
@@ -248,6 +225,5 @@ Read when you need detailed process, examples, or edge case handling.
 |--------------|----------------|
 | Starting Stage 1 or refining vision | `references/1-vision-guide.md` |
 | Starting Stage 2 or designing architecture | `references/2-architecture-guide.md` |
-| Starting Stage 3 or breaking into milestones | `references/3-roadmap-guide.md` |
-| Starting Stage 4 or expanding a milestone | `references/4-milestone-spec-guide.md` |
-| Starting Stage 5 or defining tasks | `references/5-task-spec-guide.md` |
+| Starting Stage 3 or breaking into milestones | `references/3-milestones-guide.md` |
+| Starting Stage 4 or defining tasks per milestone | `references/4-tasks-guide.md` |

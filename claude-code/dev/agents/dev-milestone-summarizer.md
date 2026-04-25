@@ -27,7 +27,7 @@ Follow the guide exactly. Use the template exactly.
 ## Process
 
 1. Read the guide and template (listed above)
-2. Gather all `docs/[milestone]-*` files (design, implementation, results)
+2. Gather all `docs/[milestone-slug]-*` files (design, implementation, results)
 3. Extract task list, status, deliverables, decisions, lessons
 4. Follow the guide's extraction process exactly
 5. Create the milestone summary document using the template
@@ -35,7 +35,7 @@ Follow the guide exactly. Use the template exactly.
 
 ## Output
 
-Create: `docs/[milestone]-milestone-summary.md`
+Create: `docs/[milestone-slug]-milestone-summary.md`
 
 ## Completion Report
 

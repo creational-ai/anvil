@@ -25,7 +25,7 @@ This stage is **user-initiated**:
 
 - Understanding of current architecture (from implemented work)
 - New feature or issue identified
-- Existing `docs/[slug]-task-spec.md` (if applicable)
+- Existing `docs/[milestone-slug]-tasks.md` (if applicable)
 
 ## Key Concept: Two-Section Structure
 
@@ -212,8 +212,8 @@ Use the Decisions Log table in the template.
 
 ### 6. Update Plan (If Applicable)
 
-**If this task relates to a task spec:**
-- Add new tasks to `docs/[slug]-task-spec.md`
+**If this task relates to a tasks doc:**
+- Add new tasks to `docs/[milestone-slug]-tasks.md`
 - **DO NOT renumber existing items** - just add new sequential numbers
 - Update dependency graph
 - Verify dependencies still make sense

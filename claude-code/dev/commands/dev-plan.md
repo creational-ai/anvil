@@ -1,6 +1,6 @@
 ---
 description: Create implementation plan for a task (Stage 2). Runs in main conversation.
-argument-hint: [design-doc] [notes]
+argument-hint: [design-doc | plan-doc update | task-id] [notes]
 disable-model-invocation: true
 ---
 
@@ -22,11 +22,11 @@ Stage 2 of dev: Break down one task into bite-sized, production-grade steps.
 ## Input
 
 **First argument (recommended):**
-- Design doc path: `docs/[slug]-design.md` → use as blueprint
+- Design doc path: `docs/[milestone-slug]-[task-slug]-design.md` → use as blueprint
 - If omitted → plan from scratch (for simple tasks)
 
 **Other input modes:**
-- Task identifier (e.g., `PoC 6`, `Feature 3`) → Reads from `[slug]-task-spec.md`
+- Task identifier (e.g., `PoC 6`, `Feature 3`) → Reads from `[milestone-slug]-tasks.md`
 - Plan doc path + `update` → Updates to match current template
 
 **User notes (optional):**
@@ -39,7 +39,7 @@ Stage 2 of dev: Break down one task into bite-sized, production-grade steps.
 # Plan from design document (recommended)
 /dev-plan docs/cloud-mcp-ux-design.md
 
-# Plan a specific task from task-spec.md
+# Plan a specific task from tasks.md
 /dev-plan "PoC 6" --notes "Focus on error handling"
 
 # Plan from scratch (simple task, no design doc)

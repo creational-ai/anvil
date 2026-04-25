@@ -94,7 +94,7 @@ If `--auto` flag is set, continue after finalizer completes:
 - This spawns `dev-reviewer` agents in background, merges results as they complete
 - Wait for all reviews to finish
 
-**Step 4b**: Spawn `mc-update-agent`:
+**Step 4b**: Spawn `mc-update-agent` (cross-skill dependency: comes from the mission-control integration; if `mc-update-agent` is not deployed in this project's `~/.claude/agents/`, this step will fail — log and continue):
 
 | Parameter | Value |
 |-----------|-------|

@@ -40,7 +40,7 @@ See [`claude-code/README.md`](claude-code/README.md) for details.
 
 ## Design Workflow
 
-5 stages from raw idea to executable task plan. **Strictly no-code** — forces
+4 stages from raw idea to executable task plan. **Strictly no-code** — forces
 architectural thinking before any implementation.
 
 ```
@@ -65,17 +65,12 @@ architectural thinking before any implementation.
                     │ GO
                     ▼
          ┌──────────────────────┐
-         │  3. Roadmap          │  Strategic milestone breakdown
+         │  3. Milestones       │  Strategic milestone breakdown
          └──────────┬───────────┘
                     │
                     ▼
          ┌──────────────────────┐
-         │  4. Milestone Spec   │  Detailed per-milestone design
-         └──────────┬───────────┘
-                    │
-                    ▼
-         ┌──────────────────────┐
-         │  5. Task Spec        │  Atomic tasks + success criteria
+         │  4. Tasks            │  Atomic tasks + dependencies + success criteria
          └──────────┬───────────┘
                     │
                     ▼
@@ -151,7 +146,7 @@ Every product in the Creational ecosystem was designed and built using Anvil's s
 
 | Capability | Anvil | superpowers | Skill collections |
 |------------|-------|-------------|-------------------|
-| Design workflow (idea to architecture to roadmap) | Full 5-stage | -- | -- |
+| Design workflow (idea to architecture to tasks) | Full 4-stage | -- | -- |
 | Dev workflow (design to plan to execute) | Spec-driven, stage-gated | Brainstorm to plan to execute | Individual commands |
 | Anti-hallucination gates | Mandatory templates, spec-driven plans, 5-check review | TDD-first approach | -- |
 | Market validation | Go/Pivot/Kill research | -- | -- |
@@ -165,7 +160,7 @@ superpowers is excellent for the coding phase and has a more mature marketplace 
 
 | Skill | Purpose |
 |-------|---------|
-| **design** | 5-stage design workflow: Vision, Architecture, Roadmap, Milestone Spec, Task Spec |
+| **design** | 4-stage design workflow: Vision, Architecture, Milestones, Tasks |
 | **dev** | Development loop: design analysis, planning, step-by-step execution with tests, review, finalization |
 | **research** | Market validation (Go/Pivot/Kill) and naming research with scoring matrix |
 | **review** | Document review (sequential + parallel scatter-gather), skill auditing |
@@ -174,7 +169,7 @@ superpowers is excellent for the coding phase and has a more mature marketplace 
 
 | Skill | Purpose |
 |-------|---------|
-| **design** (v2.0.0) | Same 5-stage design workflow (outputs as artifacts) |
+| **design** (v2.0.0) | 5-stage design workflow (outputs as artifacts) — claude-desktop variant predates the claude-code 4-stage refactor |
 | **market-research** (v1.1.0) | Market validation with Go/Pivot/Kill recommendation |
 | **business-validation** (v1.1.0) | Business validation roadmaps with PoC-based experiments |
 | **framework-alignment** (v1.0.0) | Strategic framework analysis (Four Loops, Flywheel, Dangerous Intelligence) |
@@ -202,7 +197,7 @@ anvil/
 │   ├── verify.sh              # Verify deployment
 │   ├── sync-from-user.sh      # Sync from deployed skills
 │   ├── common/                # Shared commands (commit, bump version)
-│   ├── design/                # 5-stage design workflow
+│   ├── design/                # 4-stage design workflow
 │   ├── dev/                   # Development loop
 │   ├── research/              # Market validation + naming research
 │   └── review/                # Doc review + skill auditing

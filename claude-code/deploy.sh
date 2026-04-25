@@ -69,6 +69,12 @@ OLD_COMMANDS=(
     "agent-verify-doc.md"
     "skill-review.md"
     "agent-skill-review.md"
+    # design skill 5→4 stage refactor (core-design-4stage)
+    "design-milestone-spec.md"
+    "design-roadmap.md"
+    "design-task-spec.md"
+    # review skill loop rename
+    "review-doc-run-loop.md"
 )
 #=============================================================================
 

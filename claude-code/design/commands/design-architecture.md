@@ -30,12 +30,12 @@ Stage 2 of design skill: Design system architecture without writing code.
 ```
 
 **Mode Detection:**
-- If `docs/[slug]-architecture.md` exists → Update mode (refine existing document)
+- If `docs/[project-slug]-architecture.md` exists → Update mode (refine existing document)
 - Otherwise → Create mode (new document from product vision)
 
 **Output naming:**
-- Uses same `[slug]` as product vision (e.g., `mc`)
-- Creates/updates `docs/[slug]-architecture.md`
+- Uses same `[project-slug]` as product vision (e.g., `mc`)
+- Creates/updates `docs/[project-slug]-architecture.md`
 
 ## Key Requirements
 
@@ -52,8 +52,8 @@ Follow the guidance in `2-architecture-guide.md`:
 
 ## Output
 
-Create `docs/[slug]-architecture.md` using the template (e.g., `docs/mc-architecture.md`).
+Create `docs/[project-slug]-architecture.md` using the template (e.g., `docs/mc-architecture.md`).
 
 ## After Completion
 
-Run `/verify-doc docs/[slug]-architecture.md` to validate, then proceed to Stage 3: Roadmap.
+Run `/review-doc docs/[project-slug]-architecture.md` to validate, then proceed to Stage 3: Milestones.

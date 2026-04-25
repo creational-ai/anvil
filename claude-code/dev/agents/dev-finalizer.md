@@ -67,7 +67,7 @@ Per task finalization:
 ```
 ## Task Finalized
 
-**File**: docs/[slug]-results.md
+**File**: docs/[milestone-slug]-[task-slug]-results.md
 **Task**: [Task name]
 
 **Verified**:

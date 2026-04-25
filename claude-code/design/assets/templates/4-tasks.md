@@ -1,10 +1,29 @@
-# [Milestone Name] Task Spec
+# [Milestone Name] Tasks
 
 ## Milestone Overview
 [What does completing this Milestone prove? What capability does it unlock?]
 
-## Project
-[Parent project name - link to [slug]-vision.md]
+## Prerequisite
+[Describe the prior milestone's exit state -- what must be true before this milestone starts. Compact list, 3-6 bullets typical.]
+
+- [Prior-milestone output or deliverable the upcoming tasks consume]
+- [Capability or system state that must already be validated]
+- [Any environmental / account / access prerequisite needed up front]
+
+## Scope
+
+### In
+[What this milestone explicitly covers. Keep to capabilities and outcomes, not task-level detail -- the Tasks section below carries the task-level breakdown.]
+
+- [In-scope capability 1]
+- [In-scope capability 2]
+- [In-scope capability 3]
+
+### Out
+[What is explicitly NOT in this milestone -- including forward-looking / deferred items that belong to later milestones. Naming the exclusions here prevents scope creep.]
+
+- [Out-of-scope capability or concern, with brief reason it's deferred]
+- [Forward-looking item that will be picked up in a later milestone]
 
 ## Task Dependency Diagram
 
@@ -84,7 +103,7 @@ When a task doesn't meet success criteria:
 2. **Assess impact** — Does this invalidate the milestone approach? Or just this task?
 3. **Decide next action**:
    - **Retry with different approach** — Update task design and re-attempt
-   - **Pivot the milestone** — Revisit milestone spec with new constraints
+   - **Pivot the milestone** — Revisit milestones doc with new constraints
    - **Revisit architecture** — If fundamental assumption was wrong
    - **Kill the milestone** — If the capability isn't achievable/valuable
 

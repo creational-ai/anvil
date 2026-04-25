@@ -94,12 +94,23 @@ cd claude-desktop
 ## File Naming Conventions
 
 **design skill creates:**
-- `docs/[slug]-vision.md` - Vision and goals (e.g., `docs/mc-vision.md`)
-- `docs/[slug]-architecture.md` - Architecture (e.g., `docs/mc-architecture.md`)
-- `docs/[slug]-roadmap.md` - Strategic milestone roadmap
-- `docs/[slug]-milestone-spec.md` - Detailed milestone spec (e.g., `docs/core-milestone-spec.md`)
-- `docs/[slug]-task-spec.md` - Task spec (e.g., `docs/core-task-spec.md`)
+- `docs/[project-slug]-vision.md` - Vision and goals (e.g., `docs/mc-vision.md`)
+- `docs/[project-slug]-architecture.md` - Architecture (e.g., `docs/mc-architecture.md`)
+- `docs/[project-slug]-milestones.md` - Strategic milestone breakdown (e.g., `docs/mc-milestones.md`)
+- `docs/[milestone-slug]-tasks.md` - Atomic tasks with dependencies, per milestone (e.g., `docs/core-tasks.md`)
 - `docs/naming-research.md` - Naming research
+
+**File Naming** (two rules):
+
+1. **Scope prefix**: `[project-slug]-*` for project-level docs (vision, architecture, milestones); `[milestone-slug]-*` for milestone-level docs (tasks).
+2. **Noun number**: singular noun for project-level / aggregate-of-one docs (`vision`, `architecture`); plural noun for docs that enumerate multiple items (`milestones` enumerates milestones; `tasks` enumerates tasks within a milestone).
+
+Examples:
+- `docs/mc-vision.md` — project `mc`, singular aggregate-of-one
+- `docs/mc-architecture.md` — project `mc`, singular
+- `docs/mc-milestones.md` — project `mc`, plural (enumerates milestones)
+- `docs/core-tasks.md` — milestone `core`, plural (enumerates tasks)
+- `docs/cloud-tasks.md` — milestone `cloud`, plural (enumerates tasks)
 
 **dev skill creates:**
 - `PROJECT_STATE.md` - Task and milestone tracking
@@ -117,9 +128,8 @@ cd claude-desktop
 **design** (`claude-code/design/assets/templates/`):
 - `1-vision.md` - Stage 1 template
 - `2-architecture.md` - Stage 2 template
-- `3-roadmap.md` - Stage 3 template
-- `4-milestone-spec.md` - Stage 4 template
-- `5-task-spec.md` - Stage 5 template
+- `3-milestones.md` - Stage 3 template
+- `4-tasks.md` - Stage 4 template
 
 **dev** (`claude-code/dev/assets/templates/`):
 - `1-design.md` - Stage 1 output (Problem Analysis + Proposed Steps)
@@ -134,7 +144,7 @@ cd claude-desktop
 ## Reference Guides
 
 **design** (`claude-code/design/references/`):
-- `1-vision-guide.md` through `5-task-spec-guide.md`
+- `1-vision-guide.md` through `4-tasks-guide.md`
 
 **dev** (`claude-code/dev/references/`):
 - `1-design-guide.md` through `3-execution-guide.md`
@@ -162,9 +172,8 @@ cd claude-desktop
 **design commands**:
 - `/design-vision` - Create vision document (Stage 1)
 - `/design-architecture` - Create architecture document (Stage 2)
-- `/design-roadmap` - Create milestone roadmap (Stage 3)
-- `/design-milestone-spec` - Create detailed milestone spec (Stage 4)
-- `/design-task-spec` - Create task spec (Stage 5)
+- `/design-milestones` - Create milestones doc with strategic milestone breakdown (Stage 3)
+- `/design-tasks` - Define atomic tasks per milestone with dependencies (Stage 4)
 
 **dev commands**:
 - `/dev-design` - Create design document (Stage 1)

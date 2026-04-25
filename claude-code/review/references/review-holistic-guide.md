@@ -33,7 +33,9 @@ Each document type has a corresponding template. Verify the document follows its
 | Vision | `~/.claude/skills/design/assets/templates/1-vision.md` |
 | Architecture | `~/.claude/skills/design/assets/templates/2-architecture.md` |
 | Roadmap | `~/.claude/skills/design/assets/templates/3-roadmap.md` |
+| Milestones (4-stage) | `~/.claude/skills/design/assets/templates/3-milestones.md` |
 | Milestone Spec | `~/.claude/skills/design/assets/templates/4-milestone-spec.md` |
+| Tasks (4-stage) | `~/.claude/skills/design/assets/templates/4-tasks.md` |
 | Task Spec | `~/.claude/skills/design/assets/templates/5-task-spec.md` |
 | Task Design | `~/.claude/skills/dev/assets/templates/1-design.md` |
 | Plan | `~/.claude/skills/dev/assets/templates/2-plan.md` |
@@ -169,7 +171,7 @@ Record findings as a checklist:
 
 In addition to the universal cross-cutting checks above, apply these checks based on document type.
 
-### Design Docs (Vision, Architecture, Roadmap, Milestone Spec, Task Spec)
+### Design Docs (Vision, Architecture, Roadmap, Milestones, Milestone Spec, Tasks, Task Spec)
 
 - Vision alignment with parent docs
 - Scope consistency across sections
@@ -178,7 +180,7 @@ In addition to the universal cross-cutting checks above, apply these checks base
 
 ### Task Design (NO CODE -- design only)
 
-- Alignment with task-spec or milestone design
+- Alignment with tasks, task-spec, or milestone design
 - Clear challenge statement
 - Defined success criteria
 - Reasonable scope

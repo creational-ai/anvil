@@ -6,7 +6,7 @@ Extract and consolidate lessons learned from results docs.
 
 ## Input
 
-Path(s) to results doc(s): `docs/[slug]-results.md`
+Path(s) to results doc(s): `docs/[milestone-slug]-[task-slug]-results.md`
 
 ## Pre-Check
 

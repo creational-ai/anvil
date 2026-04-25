@@ -48,7 +48,7 @@ Your output must have two distinct sections:
 5. Define proposed sequence with rationale (Proposed Sequence section)
 6. Document design decisions
 7. Create the design document using the template
-8. Update `docs/[slug]-task-spec.md` if applicable
+8. Update `docs/[milestone-slug]-tasks.md` if applicable
 
 ## Critical Rules
 
@@ -83,7 +83,7 @@ When done, report:
 - Items Analyzed: [count]
 - Proposed Sequence: [count] items
 
-**Next**: Run `/review-doc docs/[slug]-design.md` then proceed to Stage 2
+**Next**: Run `/review-doc docs/[milestone-slug]-[task-slug]-design.md` then proceed to Stage 2
 ```
 
 ## Quality Checklist

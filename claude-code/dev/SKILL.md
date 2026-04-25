@@ -31,16 +31,16 @@ This skill operates at the **Task level** - one task at a time through a 3-stage
 
 | Stage | Input | Output | Code? |
 |-------|-------|--------|-------|
-| 1. Design | Bug/feature spec, user notes | `*-design.md` | ❌ NO |
-| 2. Planning | `*-design.md` (recommended) | `*-plan.md` | ✅ YES |
-| 3. Execution | `*-plan.md` | `*-results.md` + code + tests | ✅ YES |
+| 1. Design | Bug/feature spec, user notes | `[milestone-slug]-[task-slug]-design.md` | ❌ NO |
+| 2. Planning | `[milestone-slug]-[task-slug]-design.md` (recommended) | `[milestone-slug]-[task-slug]-plan.md` | ✅ YES |
+| 3. Execution | `[milestone-slug]-[task-slug]-plan.md` | `[milestone-slug]-[task-slug]-results.md` + code + tests | ✅ YES |
 
 | Stage | Guide | Template |
 |-------|-------|----------|
 | 1. Design | `references/1-design-guide.md` | `assets/templates/1-design.md` |
 | 2. Planning | `references/2-planning-guide.md` | `assets/templates/2-plan.md` |
-| 3a. Execution | `references/3-execution-guide.md` | `assets/templates/3-results.md` |
-| 3b. Review | `references/review-guide.md` | `assets/templates/review.md` |
+| 3. Execution | `references/3-execution-guide.md` | `assets/templates/3-results.md` |
+| 3b. Review (opt-in gate) | `references/review-guide.md` | `assets/templates/review.md` |
 
 | Environment | Guide |
 |-------------|-------|
@@ -49,7 +49,7 @@ This skill operates at the **Task level** - one task at a time through a 3-stage
 
 | Utility | Template | Output |
 |---------|----------|--------|
-| `/dev-diagram <slug>` | `assets/templates/diagram.md` | Inserts ASCII box into results doc |
+| `/dev-diagram <milestone-slug>-<task-slug>` | `assets/templates/diagram.md` | Inserts ASCII box into results doc |
 
 ## Optional Commands
 
@@ -60,18 +60,18 @@ Users can invoke stages explicitly via commands:
 - `/dev-execute-run <plan> [--auto]` - Run all steps to completion (auto-finalize, `--auto` adds review-run + mc-update)
 - `/dev-review <results-doc> <step>` - Review completed step against design
 - `/dev-review-run <results-doc>` - Review all completed steps in parallel
-- `/dev-finalize <slug>` - Finalize task (timestamp, lessons, diagram, health check)
+- `/dev-finalize <milestone-slug>-<task-slug>` - Finalize task (timestamp, lessons, diagram, health check)
 - `/dev-health` - Project health check
-- `/dev-diagram <slug>` - Generate ASCII diagram for task
-- `/dev-milestone-summary <slug>` - Generate milestone summary
+- `/dev-diagram <milestone-slug>-<task-slug>` - Generate ASCII diagram for task
+- `/dev-milestone-summary <milestone-slug>` - Generate milestone summary
 
 **Spawn commands** (run in background via subagents):
 - `/spawn-dev-designer <notes>` - Design agent for Stage 1
 - `/spawn-dev-planner <design-doc>` - Plan agent for Stage 2
 - `/spawn-dev-executor <plan>` - Execute agent for Stage 3
 - `/spawn-dev-reviewer <results-doc> <step>` - Review agent for conceptual review
-- `/spawn-dev-finalizer <slug>` - Finalize agent (timestamp + lessons + diagram + health)
-- `/spawn-dev-milestone-summarizer <slug>` - Milestone summary agent
+- `/spawn-dev-finalizer <milestone-slug>-<task-slug>` - Finalize agent (timestamp + lessons + diagram + health)
+- `/spawn-dev-milestone-summarizer <milestone-slug>` - Milestone summary agent
 
 Or use natural language: "Create design for database abstraction", "Plan the implementation", "Execute step 1"
 
@@ -184,4 +184,4 @@ Use Glob/Grep to check for existing documents:
 
 **Standalone**: Use dev for any development work (features, bugs, refactoring).
 
-**With design skill**: The design skill creates the plan (`docs/[slug]-task-spec.md`), then dev implements it (Stage 1 → Stage 2 → Stage 3, repeat for each task).
+**With design skill**: The design skill creates the plan (`docs/[milestone-slug]-tasks.md`), then dev implements it (Stage 1 → Stage 2 → Stage 3, repeat for each task).

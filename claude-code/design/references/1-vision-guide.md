@@ -19,7 +19,7 @@ NOT NEEDED - Focus on WHAT and WHY, not WHEN. Avoid timeline estimates (e.g., "W
 4. Surface assumptions and unknowns
 
 ## Output
-`docs/[slug]-vision.md` using `assets/templates/1-vision.md`
+`docs/[project-slug]-vision.md` using `assets/templates/1-vision.md`
 
 Example: `docs/mc-vision.md`
 
@@ -30,7 +30,7 @@ Example: `docs/mc-vision.md`
 - [ ] Solution approach makes sense
 - [ ] Technical feasibility seems reasonable
 - [ ] No obvious blockers identified
-- [ ] Run `/verify-doc docs/[slug]-vision.md`
+- [ ] Run `/review-doc docs/[project-slug]-vision.md`
 
 ## Key Questions to Answer
 - What problem are we solving?

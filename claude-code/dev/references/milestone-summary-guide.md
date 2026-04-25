@@ -13,11 +13,11 @@ Milestone slug (e.g., `core`, `cloud`, `auth`)
 Read ALL docs for this milestone:
 
 ```
-docs/[milestone]-*-design.md
-docs/[milestone]-*-plan.md
-docs/[milestone]-*-results.md
-docs/[milestone]-architecture.md (if exists)
-docs/[milestone]-task-spec.md (if exists)
+docs/[milestone-slug]-*-design.md
+docs/[milestone-slug]-*-plan.md
+docs/[milestone-slug]-*-results.md
+docs/[milestone-slug]-architecture.md (if exists)
+docs/[milestone-slug]-tasks.md (if exists)
 ```
 
 Also check mission-control for milestone status if available.
@@ -117,7 +117,7 @@ Link to all source docs.
 
 ## Output
 
-Write to: `docs/[milestone]-milestone-summary.md`
+Write to: `docs/[milestone-slug]-milestone-summary.md`
 
 ## Content Guidelines
 

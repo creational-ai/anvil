@@ -153,7 +153,7 @@ MILESTONE COMPLETION MAP
 
 ## References
 
-- [Task Name Design](./[milestone]-[task-slug]-design.md)
-- [Task Name Results](./[milestone]-[task-slug]-results.md)
-- [Architecture](./[milestone]-architecture.md)
-- [Task Spec](./[milestone]-task-spec.md)
+- [Task Name Design](./[milestone-slug]-[task-slug]-design.md)
+- [Task Name Results](./[milestone-slug]-[task-slug]-results.md)
+- [Architecture](./[milestone-slug]-architecture.md)
+- [Tasks](./[milestone-slug]-tasks.md)

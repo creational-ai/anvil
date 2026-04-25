@@ -1,6 +1,6 @@
 ---
 description: Finalize completed task with timestamp, lessons, diagram, and health check. Runs in main conversation.
-argument-hint: <task-slug>
+argument-hint: <milestone-slug>-<task-slug>
 disable-model-invocation: true
 ---
 
@@ -16,9 +16,9 @@ Wrap up a completed task by running all finalization steps.
 
 ## Input
 
-**Argument (required):** Task slug (e.g., `core-poc2`, `cloud-auth-fix`)
+**Argument (required):** Combined `<milestone-slug>-<task-slug>` (e.g., `core-poc2`, `cloud-auth-fix`)
 
-The slug is used to find: `docs/[slug]-results.md`
+The slug is used to find: `docs/[milestone-slug]-[task-slug]-results.md`
 
 ---
 
@@ -30,7 +30,7 @@ The slug is used to find: `docs/[slug]-results.md`
 
 ### Step 1: Timestamp
 
-1. Read `docs/[slug]-results.md`
+1. Read `docs/[milestone-slug]-[task-slug]-results.md`
 2. Find the `**Completed**:` field in the header
 3. If empty or wrong format:
    - Run `date "+%Y-%m-%dT%H:%M:%S%z"` to get current timestamp
@@ -74,5 +74,5 @@ After completing all 4 steps, verify:
 
 ## Output
 
-- Updated `docs/[slug]-results.md` with timestamp, lessons, and diagram
+- Updated `docs/[milestone-slug]-[task-slug]-results.md` with timestamp, lessons, and diagram
 - Updated `PROJECT_STATE.md` with health check

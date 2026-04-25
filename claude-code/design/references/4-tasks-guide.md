@@ -1,4 +1,4 @@
-# Stage 5: Task Spec
+# Stage 4: Tasks
 
 ## Goal
 Define atomic tasks with dependencies and success criteria -- with PRODUCTION-GRADE thin slices.
@@ -10,9 +10,8 @@ NO
 NOT NEEDED - Focus on WHAT and WHY, not WHEN. Avoid timeline estimates (e.g., "Week 1-2", "2 weeks", "3 months"). Design phases don't need schedules.
 
 ## Input
-- Milestone Spec from `docs/[slug]-milestone-spec.md` (Stage 4 output)
-- Roadmap from `docs/[slug]-roadmap.md` (Stage 3 output)
-- Architecture doc (`docs/[slug]-architecture.md`) (Stage 2 output)
+- Milestones doc from `docs/[project-slug]-milestones.md` (Stage 3 output)
+- Architecture doc (`docs/[project-slug]-architecture.md`) (Stage 2 output)
 
 **Note**: Run this stage once per milestone, starting with Core.
 
@@ -24,19 +23,70 @@ NOT NEEDED - Focus on WHAT and WHY, not WHEN. Avoid timeline estimates (e.g., "W
 5. Define success criteria for each task
 
 ## Output
-`docs/[slug]-task-spec.md` using `assets/templates/5-task-spec.md`
+`docs/[milestone-slug]-tasks.md` using `assets/templates/4-tasks.md`
 
-Example: `docs/core-task-spec.md`, `docs/cloud-deployment-task-spec.md`
+Example: `docs/core-tasks.md`, `docs/cloud-tasks.md`
+
+## Section Descriptions
+
+The template carries 2 sections absorbed from the deleted `milestone-spec` stage (Prerequisite, Scope). Use this section to understand what each should contain and when to fill it.
+
+### Prerequisite
+**Purpose**: Describe the prior milestone's exit state -- what must already be true before this milestone's tasks can start. Gives the reader (and executor) a clear entry condition.
+
+**When to fill**: For any milestone that has a dependency on a prior milestone's output. For the very first milestone (no prior), either list environmental/account/access prerequisites or write a single bullet stating "No prior milestone -- project-level prerequisites only."
+
+**Example content**:
+- Authentication service from Core milestone deployed and callable from the frontend
+- Users table populated with at least the 4 seed accounts used for integration testing
+- `API_BASE_URL` env var set in staging environment
+
+### Scope
+**Purpose**: Draw a bounded box around what this milestone covers. `In` lists capabilities the milestone delivers; `Out` lists capabilities explicitly deferred (including forward-looking work that might live in a later milestone).
+
+**When to fill**: Always. Scope is the primary scope-creep guard -- every task in the Tasks section should map to an In bullet, and every "we're not doing this yet" conversation should resolve to an Out bullet.
+
+**Example content**:
+- **In**: User CRUD end-to-end, role-based authorization, password reset email flow
+- **Out**: SSO / OAuth integration (later milestone); admin audit log UI (later milestone); rate-limiting middleware (cross-cutting, handled at the architecture level)
+
+## What This Doc Does NOT Contain
+
+The 4-tasks template is intentionally lean. The following sections from the deleted `milestone-spec` canonical template and from levelplay's real-usage pattern are explicitly NOT included in 4-tasks:
+
+**Explicit cuts (8 sections)** -- each with relocation target if any:
+
+| Cut section | Origin | Relocation target |
+|-------------|--------|-------------------|
+| Executive Summary | canonical milestone-spec template | None -- duplicates Milestone Overview |
+| Architecture Overview + Technology Stack | canonical milestone-spec template | `docs/[project-slug]-architecture.md` (Stage 2 output -- structural decisions live there) |
+| Core Components Design | canonical milestone-spec template | `docs/[project-slug]-architecture.md` (Stage 2 output) |
+| Testing Strategy | canonical milestone-spec template | Per-task Success Criteria + dev-skill's plan.md Prerequisites (test identification happens at execution time) |
+| Design Decisions & Rationale | canonical milestone-spec template | `docs/[project-slug]-architecture.md` (Stage 2 output) or per-task design doc in dev skill |
+| Open Questions | canonical milestone-spec template | None -- resolved during planning, not tracked as a doc section |
+| Exit Checklist | levelplay real-usage pattern | Per-task Success Criteria (for the 7 of 9 levelplay entries that restate per-task completion); Feedback Loops Checkpoint Questions (for the 2 unique cross-milestone regression entries) |
+| After [Milestone] | levelplay real-usage pattern | Scope's `Out` subsection (as forward-looking / deferred notes -- answers the same "what's not in this milestone" question) |
+
+**Group-handled drops (7 canonical-template H2s, never used in real milestones)**:
+- Implementation Phases
+- Success Metrics
+- Key Outcomes
+- Why [This Approach]?
+- Risks & Mitigation -- maps to the existing `## Risk Assessment` in this template
+- Next Steps
+- Related Documents
+
+Of these 7, only `Risks & Mitigation` has a relocation target (`## Risk Assessment` in the tasks template). The remaining 6 are silently dropped -- levelplay's real milestone docs never carried them, so they never provided value to retain.
 
 ## Verification Checklist
-- [ ] Template read from `assets/templates/5-task-spec.md`
+- [ ] Template read from `assets/templates/4-tasks.md`
 - [ ] Output follows template structure exactly
 - [ ] Each task validates one specific thing
 - [ ] Dependencies mapped (which tasks unlock others)
 - [ ] Success criteria measurable
 - [ ] Order of execution clear
 - [ ] Feedback loop guidance included
-- [ ] Run `/verify-doc docs/[slug]-task-spec.md`
+- [ ] Run `/review-doc docs/[milestone-slug]-tasks.md`
 
 ## What Makes a Good Task
 
@@ -79,7 +129,7 @@ Each task has a Type that determines its framing:
 
 **New projects** typically start with PoC-type tasks (proving technical feasibility).
 **Established projects** mix Feature, Issue, and Refactor tasks.
-**A single task spec can contain mixed types** -- e.g., Database Schema (PoC), User Management (Feature).
+**A single tasks doc can contain mixed types** -- e.g., Database Schema (PoC), User Management (Feature).
 
 **CRITICAL: Minimize the Number of Tasks**
 
@@ -193,7 +243,7 @@ When a task doesn't meet success criteria:
 2. **Assess impact** -- Does this invalidate the milestone approach? Or just this task?
 3. **Decide next action**:
    - **Retry with different approach** -- Update task design and re-attempt
-   - **Pivot the milestone** -- Revisit milestone-spec with new constraints
+   - **Pivot the milestone** -- Revisit the milestones doc with new constraints
    - **Revisit architecture** -- If fundamental assumption was wrong
    - **Kill the milestone** -- If the capability isn't achievable/valuable
 

@@ -3,7 +3,7 @@ name: dev-executor
 description: "Stage 3 execution specialist. Implements one step at a time with tests. Only invoke when explicitly requested."
 model: opus
 ---
-<!-- no-tools: inherits all — intentionally omitted so agent gets ALL tools including project-specific MCP servers (e.g., UnityMCP) -->
+<!-- Intentionally NO `tools:` field in frontmatter: omitting it lets this agent inherit ALL tools, including project-specific MCP servers (e.g., UnityMCP, mission-control). Adding a `tools:` allowlist would EXCLUDE all MCP tools — see project CLAUDE.md "Agent tools field gotcha". Other dev/* agents use explicit allowlists because they don't need MCP. -->
 
 You are a Stage 3 Execution specialist for the dev workflow.
 

@@ -1,9 +1,9 @@
-# [Project Name] - Roadmap
+# [Project Name] - Milestones
 
 **Vision**: [One sentence describing what this project achieves]
 
 **Related Documents**:
-- [Architecture Doc](./[slug]-architecture.md)
+- [Architecture Doc](./[project-slug]-architecture.md)
 - [Other relevant docs if any]
 
 **Strategic Approach**: [Brief description of overall strategy, e.g., "Web-first → Mobile → Scale"]
@@ -45,7 +45,7 @@
 
 ## [Milestone Name]
 
-**[📄 Detailed Plan](./[slug]-milestone-spec.md)**
+**[📄 Tasks](./[milestone-slug]-tasks.md)**
 
 **Status**: Planning
 
@@ -118,7 +118,7 @@
 
 ## [Milestone Name]
 
-**[📄 Detailed Plan](./[slug]-milestone-spec.md)**
+**[📄 Tasks](./[milestone-slug]-tasks.md)**
 
 **Status**: Planning
 
@@ -176,7 +176,7 @@
 
 ## [Milestone Name]
 
-**[📄 Detailed Plan](./[slug]-milestone-spec.md)**
+**[📄 Tasks](./[milestone-slug]-tasks.md)**
 
 **Status**: Planning
 
@@ -274,7 +274,7 @@
 
 **Next Action**: [What to do next]
 
-**Detailed Plans** (to be created):
-- [📄 [Milestone Name]](./[slug]-milestone-spec.md)
-- [📄 [Milestone Name]](./[slug]-milestone-spec.md)
-- [📄 [Milestone Name]](./[slug]-milestone-spec.md)
+**Tasks Docs** (to be created):
+- [📄 [Milestone Name]](./[milestone-slug]-tasks.md)
+- [📄 [Milestone Name]](./[milestone-slug]-tasks.md)
+- [📄 [Milestone Name]](./[milestone-slug]-tasks.md)

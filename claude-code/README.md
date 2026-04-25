@@ -1,25 +1,62 @@
 # Claude Code Skills
 
-Skills for the **implementation phase** of Anvil, designed for Claude Code (CLI).
+Stage-gated design and development skills for the Claude Code CLI. 4-stage no-code design, 3-stage spec-driven dev loop, market validation, and quality review.
 
-## Skills
+* `/design-vision` → `/design-tasks` — 4-stage design pipeline (Vision → Architecture → Milestones → Tasks). Each stage produces a doc from a mandatory template and is gated by `/review-doc`.
+* `/dev-design` → `/dev-execute-run` — Spec-driven dev loop. Per-step test enforcement; auto-finalize with timestamp, lessons, diagram, and health check.
+* `/market-research` and `/naming-research` — Go/Pivot/Kill recommendation; scored name evaluation.
+* `/review-doc-run` — Parallel scatter-gather review with optional `--auto` fix-apply.
+* `/review-doc-loop` ↔ `/exam-loop` — Tick-driven critic-sandwich (`E1 → R1 → E2`) coordinated across two sessions via a shared review doc.
+* `/spawn-*` — Background-agent variants for every command above.
+* `./deploy.sh` deploys to `~/.claude/`; `./deploy-genesis.sh` mirrors to a remote host (Raspberry Pi) via SSH.
 
-| Skill | Purpose |
-|-------|---------|
-| **design** | 5-stage design workflow (Vision → Architecture → Roadmap → Milestone Spec → Task Spec) |
-| **dev** | 3-stage development loop (Design → Plan → Execute) |
-| **research** | Market validation and naming research |
-| **review** | Quality assurance (doc review + skill review) |
+## Table of Contents
 
-## Installation
+- [Getting started](#getting-started)
+- [Workflow](#workflow)
+- [Most common workflow](#most-common-workflow)
+- [design](#design)
+- [dev](#dev)
+- [research](#research)
+- [review](#review)
+- [Spawn commands](#spawn-commands)
+- [Output files](#output-files)
+- [Development](#development)
+- [License](#license)
+
+## Getting started
+
+Requires the [Claude Code CLI](https://github.com/anthropics/claude-code).
 
 ```bash
-# Deploy skills and commands to ~/.claude/
+cd claude-code
 ./deploy.sh
-
-# Verify deployment
 ./verify.sh
 ```
+
+Real output (tail):
+
+```
+--- Deploying review skill ---
+Target: /Users/you/.claude/skills/review
+  ✓ Copied SKILL.md
+  ✓ Copied assets/templates/
+  ✓ Copied references/
+  ✓ Copied 10 commands
+  ✓ Copied 4 agents
+...
+==============================================
+Verification Summary
+==============================================
+  ✅ Passed: 74
+  ❌ Failed: 0
+
+🎉 All checks passed! Deployment is correct.
+```
+
+> Source of truth lives in this repo. Never edit `~/.claude/skills/` directly — those files are overwritten on every deploy. Edit here, then re-run `./deploy.sh`.
+
+After deploy, slash commands are immediately available in any Claude Code session. Type `/design-vision`, `/dev-design`, etc.
 
 ## Workflow
 
@@ -30,11 +67,9 @@ DESIGN PHASE (design skill)
         ↓
 /design-architecture        → Technical design
         ↓
-/design-roadmap             → Strategic roadmap
+/design-milestones          → Strategic milestones doc
         ↓
-/design-milestone-spec      → Detailed milestone spec
-        ↓
-/design-task-spec           → Atomic tasks with dependencies
+/design-tasks               → Atomic tasks per milestone with dependencies
 
 DEVELOPMENT PHASE (dev skill)
 ─────────────────────────────
@@ -51,7 +86,7 @@ DEVELOPMENT PHASE (dev skill)
 Repeat for next task
 ```
 
-## Most Common Workflow
+## Most common workflow
 
 The typical dev task workflow with review loops:
 
@@ -64,32 +99,31 @@ The typical dev task workflow with review loops:
 6.  /dev-review-run <results doc>            Conceptual review of completed work
 ```
 
-**Steps 2 and 4** are iterative — run reviews until all items are clean, fixing issues between rounds. The `--auto` flag auto-applies suggested fixes.
+> Steps 2 and 4 are iterative — re-run reviews until all items are clean. The `--auto` flag auto-applies suggested fixes. Step 5 runs all plan steps sequentially then auto-finalizes. Step 6 catches intent drift, silent assumptions, and architectural issues across the completed implementation.
 
-**Step 5** runs all plan steps sequentially, then auto-finalizes (timestamp, lessons, diagram, health check).
+## design
 
-**Step 6** is optional but recommended — catches intent drift, silent assumptions, and architectural issues across the completed implementation.
-
-## Commands
-
-### design Commands
+4-stage no-code design pipeline. Each stage produces a single doc from a mandatory template and is reviewed via `/review-doc` before moving forward.
 
 | Command | Purpose |
 |---------|---------|
-| `/design-vision` | Create vision document (Stage 1) |
-| `/design-architecture` | Create architecture document (Stage 2) |
-| `/design-roadmap` | Create milestone roadmap (Stage 3) |
-| `/design-milestone-spec` | Create detailed milestone spec (Stage 4) |
-| `/design-task-spec` | Create task spec (Stage 5) |
+| `/design-vision` | Vision document (Stage 1) |
+| `/design-architecture` | Architecture document (Stage 2) |
+| `/design-milestones` | Strategic milestone breakdown (Stage 3) |
+| `/design-tasks` | Atomic tasks per milestone with dependencies and success criteria (Stage 4) |
 
-### dev Commands
+> The design skill is **NO-CODE**. Pattern signatures and diagrams allowed; full implementations are not.
+
+## dev
+
+3-stage development loop per task. Stage 1 is design-only; Stages 2-3 allow code. Each step writes its own tests and loops until tests pass.
 
 | Command | Purpose |
 |---------|---------|
 | `/dev-design` | Create design document (Stage 1, NO CODE) |
 | `/dev-plan` | Plan implementation steps (Stage 2) |
-| `/dev-execute` | Execute one step (Stage 3) |
-| `/dev-execute-run` | Run all steps to completion (auto-finalize) |
+| `/dev-execute` | Execute one step with tests (Stage 3) |
+| `/dev-execute-run` | Run all remaining steps to completion (auto-finalize) |
 | `/dev-review` | Review completed step against design |
 | `/dev-review-run` | Review all completed steps in parallel |
 | `/dev-diagram` | Generate ASCII summary diagram |
@@ -97,7 +131,33 @@ The typical dev task workflow with review loops:
 | `/dev-milestone-summary` | Generate milestone summary document |
 | `/dev-health` | Project health check |
 
-### Spawn Commands (Background Agents)
+> `/dev-execute-run --auto` adds parallel review + Mission Control sync after finalize.
+
+## research
+
+| Command | Purpose |
+|---------|---------|
+| `/market-research` | Market validation with Go/Pivot/Kill recommendation |
+| `/naming-research` | Name candidate evaluation with scoring matrix |
+
+## review
+
+| Command | Purpose |
+|---------|---------|
+| `/review-doc` | Sequential document review (supports `--auto`) |
+| `/review-doc-run` | Parallel document review with background subagents (supports `--auto`) |
+| `/review-doc-loop` | Tick-driven loop that pairs with `/exam-loop`; long-running, main conversation only |
+| `/exam-loop` | Tick-driven loop that pairs with `/review-doc-loop`; long-running, main conversation only |
+| `/exam` | Independent critical examination of a document |
+| `/monitor` | Periodic execution monitor with per-step analysis |
+| `/walkthrough` | Operator-facing pedagogical walkthrough of a doc |
+| `/review-skill` | Audit a skill for structure, frontmatter, and consistency |
+
+> The loop pair runs an asymmetric critic-sandwich by default: `/exam-loop` leads (`N=2`) and `/review-doc-loop` follows (`N=1`), producing the sequence `E1 → R1 → E2`. Use paired flags (`--first` on one side AND `--follow` on the other) to invert.
+
+## Spawn commands
+
+Background-agent variants. Each runs the corresponding command in a subagent so it doesn't consume the main conversation context.
 
 | Command | Purpose |
 |---------|---------|
@@ -109,87 +169,45 @@ The typical dev task workflow with review loops:
 | `/spawn-dev-milestone-summarizer` | Milestone summary agent |
 | `/spawn-market-researcher` | Market research agent |
 | `/spawn-naming-researcher` | Naming research agent |
-| `/spawn-doc-reviewer` | Document review agent (supports --auto) |
+| `/spawn-doc-reviewer` | Document review agent (supports `--auto`) |
 | `/spawn-skill-reviewer` | Skill review agent |
 
-### Research Commands
-
-| Command | Purpose |
-|---------|---------|
-| `/market-research` | Market validation with Go/Pivot/Kill recommendation |
-| `/naming-research` | Research and evaluate product/project name candidates |
-
-### Review Commands
-
-| Command | Purpose |
-|---------|---------|
-| `/review-doc` | Sequential document review (supports --auto) |
-| `/review-doc-run` | Parallel document review with background subagents (supports --auto) |
-| `/review-doc-loop` | Tick-driven loop that pairs with `/exam-loop` (long-running, main conversation only) |
-| `/review-skill` | Audit skills for structure, frontmatter, and consistency |
-| `/exam-loop` | Tick-driven loop that pairs with `/review-doc-loop` (long-running, main conversation only) |
-
-## Output Files
+## Output files
 
 **design skill creates:**
-- `docs/[slug]-vision.md`
-- `docs/[slug]-architecture.md`
-- `docs/[slug]-roadmap.md`
-- `docs/[slug]-milestone-spec.md`
-- `docs/[slug]-task-spec.md`
+- `docs/[project-slug]-vision.md`
+- `docs/[project-slug]-architecture.md`
+- `docs/[project-slug]-milestones.md`
+- `docs/[milestone-slug]-tasks.md`
 
 **dev skill creates:**
-- `docs/[milestone]-[task]-design.md`
-- `docs/[milestone]-[task]-plan.md`
-- `docs/[milestone]-[task]-results.md`
-- `docs/[milestone]-milestone-summary.md`
+- `docs/[milestone-slug]-[task-slug]-design.md`
+- `docs/[milestone-slug]-[task-slug]-plan.md`
+- `docs/[milestone-slug]-[task-slug]-results.md`
+- `docs/[milestone-slug]-milestone-summary.md`
 
-**research creates:**
-- `docs/[slug]-market-research.md`
+**research skill creates:**
+- `docs/[project-slug]-market-research.md`
 - `docs/naming-research.md`
 
-## Key Principles
-
-- **design skill is NO-CODE** — Pure design and planning
-- **dev skill allows code** — Stage 1 is design-only, Stages 2-3 allow code
-- **One task at a time** — Plan and execute incrementally
-- **Production-grade quality** — OOP, Pydantic, type hints, tests required
-- **Self-contained work** — Each item works independently
-- **200-users-first** — Right-sized for early users, scale comes later
-
-## File Structure
-
-```
-claude-code/
-├── README.md               # This file
-├── deploy.sh               # Deploy to ~/.claude/
-├── verify.sh               # Verify deployment
-├── sync-from-user.sh       # Sync from deployed skills
-│
-└── [skill-name]/           # Each skill follows this structure
-    ├── SKILL.md            # Skill definition (required)
-    ├── commands/           # Slash commands (deployed to ~/.claude/commands/)
-    ├── agents/             # Subagents (deployed to ~/.claude/agents/)
-    ├── assets/templates/   # Output templates
-    └── references/         # Detailed guides
-```
-
-**Current skills:** design, dev, research, review
-
-**Deploys to:**
-- `~/.claude/skills/[skill-name]/` (SKILL.md, assets/, references/)
-- `~/.claude/commands/` (collected from all skill commands/ folders)
-- `~/.claude/agents/` (collected from all skill agents/ folders)
+**review skill creates:**
+- `docs/[slug]-review.md` (from `/review-doc`, `/review-doc-run`, `/exam`, and the loop pair)
+- `docs/[slug]-monitor-issues.md` (lazy-created by `/monitor` on first verifiable issue)
 
 ## Development
 
-### Making Changes
+### Making changes
 
-1. Edit files in this folder
-2. Deploy: `./deploy.sh`
-3. Test in Claude Code
+Edit files in this folder, then redeploy:
 
-### Sync from Deployed
+```bash
+./deploy.sh
+./verify.sh
+```
+
+Never edit `~/.claude/skills/` directly — those files are overwritten on deploy.
+
+### Sync from deployed
 
 If you made changes directly in `~/.claude/`:
 
@@ -197,6 +215,20 @@ If you made changes directly in `~/.claude/`:
 ./sync-from-user.sh
 ```
 
+### Deploy to genesis
+
+`./deploy-genesis.sh` mirrors the same skills to a remote host (default: `genesis`, a Raspberry Pi accessed via SSH alias). Verify with `./verify-genesis.sh`. Run only when explicitly needed — it is not part of the local deploy.
+
+| Script | Purpose |
+|--------|---------|
+| `deploy.sh` | Deploy to local `~/.claude/` |
+| `verify.sh` | Verify local deployment (74 checks) |
+| `sync-from-user.sh` | Pull changes from deployed `~/.claude/` back into the repo |
+| `deploy-genesis.sh` | Deploy to `genesis:/home/pi/.claude/` via SSH |
+| `verify-genesis.sh` | Verify remote deployment via SSH |
+
+> Local and genesis script pairs (`deploy.sh` ↔ `deploy-genesis.sh`, `verify.sh` ↔ `verify-genesis.sh`) must stay mirrored. Their `OLD_COMMANDS`, `OLD_AGENTS`, `REQUIRED_COMMANDS`, and `REQUIRED_AGENTS` arrays must match.
+
 ## License
 
-MIT License - see root [LICENSE](../LICENSE)
+MIT — see root [LICENSE](../LICENSE).

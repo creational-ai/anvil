@@ -1,4 +1,4 @@
-# Stage 3: Roadmap
+# Stage 3: Milestones
 
 ## Goal
 Break Vision + Architecture into strategic milestones with clear progression, detailed architecture per milestone, and measurable outcomes.
@@ -10,15 +10,15 @@ NO - This is pure strategic planning
 NOT NEEDED - Focus on WHAT and WHY, not WHEN. Avoid timeline estimates (e.g., "Week 1-2", "2 weeks", "3 months"). Design phases don't need schedules.
 
 ## Input
-- Completed Vision doc (`docs/[slug]-vision.md`)
-- Completed Architecture doc (`docs/[slug]-architecture.md`)
+- Completed Vision doc (`docs/[project-slug]-vision.md`)
+- Completed Architecture doc (`docs/[project-slug]-architecture.md`)
 - Optional: Research findings
 
 ## Process
 
 ### 1. Create Milestone Progression Diagram
 
-**Visual Roadmap**: Start by creating a high-level visual showing how milestones build on each other
+**Visual Milestones Map**: Start by creating a high-level visual showing how milestones build on each other
 
 **Include**:
 - Milestone themes (Web-First, Mobile, Scale, etc.)
@@ -190,16 +190,16 @@ Clear call-to-action:
 Current Status: Design complete, ready to start Core
 Next Action: Begin Core implementation
 
-Detailed Plans (to be created):
-- Core (./core-milestone-spec.md)
-- Mobile (./mobile-milestone-spec.md)
+Tasks Docs (to be created):
+- Core (./core-tasks.md)
+- Mobile (./mobile-tasks.md)
 ```
 
 ## Output
 
-`docs/[slug]-roadmap.md` using `assets/templates/3-roadmap.md`
+`docs/[project-slug]-milestones.md` using `assets/templates/3-milestones.md`
 
-Example: `docs/mc-roadmap.md`
+Example: `docs/mc-milestones.md`
 
 ## Key Principles
 
@@ -225,7 +225,7 @@ Example: `docs/mc-roadmap.md`
 
 ## Verification Checklist
 
-- [ ] Template read from `assets/templates/3-roadmap.md`
+- [ ] Template read from `assets/templates/3-milestones.md`
 - [ ] Output follows template structure exactly
 - [ ] Milestone Progression diagram shows overall strategy
 - [ ] First milestone (Core) is fully defined with all sections
@@ -233,7 +233,7 @@ Example: `docs/mc-roadmap.md`
 - [ ] Strategic Decisions section explains milestone order
 - [ ] Success Criteria defined for each milestone
 - [ ] Next Steps clear
-- [ ] Run `/verify-doc docs/[slug]-roadmap.md`
+- [ ] Run `/review-doc docs/[project-slug]-milestones.md`
 
 ## Examples
 
@@ -319,4 +319,4 @@ viability. Path unclear - need to validate core concept first.
 
 ## Next Stage
 
--> Stage 4: Milestone Spec (run once per milestone, starting with Core)
+-> Stage 4: Tasks (run once per milestone, starting with Core)

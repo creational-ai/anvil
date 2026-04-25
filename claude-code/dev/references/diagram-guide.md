@@ -18,9 +18,9 @@ Examples:
 Read all matching docs to synthesize the diagram:
 
 ```
-docs/[slug]-design.md
-docs/[slug]-plan.md
-docs/[slug]-results.md
+docs/[milestone-slug]-[task-slug]-design.md
+docs/[milestone-slug]-[task-slug]-plan.md
+docs/[milestone-slug]-[task-slug]-results.md
 ```
 
 ## Extraction Rules
@@ -70,7 +70,7 @@ Parse from slug:
 
 ## Generation Process
 
-1. **Read** all `docs/[slug]-*.md` files
+1. **Read** all `docs/[milestone-slug]-[task-slug]-*.md` files
 2. **Extract** fields using rules above
 3. **Format** using template (`assets/templates/diagram.md`)
 4. **Adjust** box width to fit longest line + 2 spaces padding
@@ -78,7 +78,7 @@ Parse from slug:
 
 ## Output
 
-Insert `## Diagram` section into `docs/[slug]-results.md`:
+Insert `## Diagram` section into `docs/[milestone-slug]-[task-slug]-results.md`:
 - **Location**: After `## Summary` section (after the table), before the first `---`
 
 Then add the diagram in a code block (no language tag):
@@ -95,7 +95,7 @@ See template for diagram format and examples.
 
 ## Quick Reference
 
-1. **Read** - All `docs/[slug]-*.md` files (design, plan, results)
+1. **Read** - All `docs/[milestone-slug]-[task-slug]-*.md` files (design, plan, results)
 2. **Extract** - Task ID, short name (1 word CAPS), status, features/metrics
 3. **Group** - Organize items under section headers (Data Shapes, MCP Tools, etc.)
 4. **Focus** - Features and achievements only. NEVER files, test counts, or test results

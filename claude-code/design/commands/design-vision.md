@@ -27,7 +27,7 @@ Stage 1 of design skill: Transform rough ideas into structured vision documents.
 ```
 
 **Mode Detection:**
-- If `docs/[slug]-vision.md` exists → Update mode (refine existing document based on user notes)
+- If `docs/[project-slug]-vision.md` exists → Update mode (refine existing document based on user notes)
 - Otherwise → Create mode (new document from user's idea/notes)
 
 ## Key Requirements
@@ -44,7 +44,7 @@ Follow the guidance in `1-vision-guide.md`:
 
 ## Output
 
-Create `docs/[slug]-vision.md` using the template (e.g., `docs/mc-vision.md`).
+Create `docs/[project-slug]-vision.md` using the template (e.g., `docs/mc-vision.md`).
 
 ## After Completion
 

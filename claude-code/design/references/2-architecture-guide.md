@@ -10,7 +10,7 @@ NO
 NOT NEEDED - Focus on WHAT and WHY, not WHEN. Avoid timeline estimates (e.g., "Week 1-2", "2 weeks", "3 months"). Design phases don't need schedules.
 
 ## Input
-- Vision doc from Stage 1 (`docs/[slug]-vision.md`)
+- Vision doc from Stage 1 (`docs/[project-slug]-vision.md`)
 
 ## Process
 1. Define system architecture
@@ -20,7 +20,7 @@ NOT NEEDED - Focus on WHAT and WHY, not WHEN. Avoid timeline estimates (e.g., "W
 5. Identify integration points
 
 ## Output
-`docs/[slug]-architecture.md` using `assets/templates/2-architecture.md`
+`docs/[project-slug]-architecture.md` using `assets/templates/2-architecture.md`
 
 Example: `docs/mc-architecture.md`
 
@@ -35,7 +35,7 @@ Example: `docs/mc-architecture.md`
 - [ ] Observability approach defined
 - [ ] Integration points identified
 - [ ] No code written (only diagrams and descriptions)
-- [ ] Run `/verify-doc docs/[slug]-architecture.md`
+- [ ] Run `/review-doc docs/[project-slug]-architecture.md`
 
 ## What IS Allowed
 - High-level architecture diagrams (ASCII or descriptions)
@@ -65,4 +65,4 @@ Example: `docs/mc-architecture.md`
 - Not considering failure modes
 
 ## Next Stage
--> Stage 3: Roadmap
+-> Stage 3: Milestones

@@ -1,6 +1,6 @@
 ---
 description: Generate ASCII box diagram for task results. Runs in main conversation.
-argument-hint: <slug>
+argument-hint: <milestone-slug>-<task-slug>
 disable-model-invocation: true
 ---
 
