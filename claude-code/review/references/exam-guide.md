@@ -16,7 +16,23 @@ These apply to both Review Mode and Monitor Mode.
 4. **Never just verify that review fixes were applied.** That's mechanical. Focus on whether fixes resolved the real issue.
 5. **Report findings ranked by severity.** Use `HIGH / MED / LOW` (uppercase, abbreviated).
 
+### Severity rubric
+
+**Severity is advisory** — the monitor's recommendation, not enforcement. The operator decides whether a HIGH finding warrants interrupting execution.
+
+| Label | Meaning |
+|-------|---------|
+| HIGH | A correctness bug shipped (or about to ship) in the artifact under review. Or: a step's results doc claims success but the code doesn't match the claim. |
+| MED  | A real risk in the repo right now — broken invariant, missed edge case in shipped code, drift between plan and code that future work will trip over. |
+| LOW  | A factual observation worth flagging (line-number drift, stale comment, minor doc inconsistency) but not actionable as a risk. |
+
+Every level is anchored to the **artifact**, not to the planning or process surface. Process-level observations belong in conversation or Lessons-Learned, not in the issue log.
+
+Project convention: uppercase `HIGH`/`MED`/`LOW`, never `Medium`/`H/M/L`.
+
 ## Anti-Patterns to Flag
+
+The list below is a trigger source for Per-Step Analysis § Observation filter — anti-pattern matches in the code are the third escalation trigger.
 
 - Designing for hypothetical future requirements instead of current needs
 - Solving problems in docs that should be solved by writing code and testing
@@ -266,7 +282,7 @@ This runs in the background so the user can still chat.
 
 - **All steps complete**: Report final summary, stop monitoring
 - **User says stop**: Acknowledge and stop
-- **No changes for 8 consecutive checks** (~16 minutes at the 2-minute tick cadence): Notify user and ask whether to continue
+- **No changes for 8 consecutive checks** (~16 minutes at the 2-minute tick cadence): Notify user and ask whether to continue. *Threshold tuned for slow executor steps; do not lower without measuring step-duration distribution against this floor.*
 
 ### Monitor Rules
 
@@ -274,13 +290,13 @@ This runs in the background so the user can still chat.
 - **Don't interfere** — no suggestions to the executor, no fixes, no edits. Pure observation and reporting.
 - **More than checkmarks** — don't just report step status. Read actual source files to verify implementation quality, check that code matches plan spec, and flag anything the results doc doesn't mention.
 - **Background timers** — always run timers in background so the user can still chat
-- **Conversational, not transactional** — when the user asks a question mid-monitor, answer immediately using the context already loaded. Don't defer to the next tick. The monitor is a live conversation, not a batch report.
+- **Conversational, not transactional** — when the user asks a question mid-monitor, answer immediately using the context already loaded. Don't defer to the next tick. The monitor is a live conversation, not a batch report. If the question is about state that may have changed since the last tick (a step finishing, a test result), re-read the relevant doc before answering rather than relying on stale tick context.
 
 ### Per-Step Analysis
 
 Triggers when a step transitions to Complete. For pending and in-progress steps, the status table row is sufficient — no deep analysis.
 
-**The analysis format below is a minimum, not a ceiling.** For critical or complex steps, go deeper: break down individual adaptations, verify each against the plan spec, cross-reference prior examiner findings if they exist, and give quantitative quality signals (LOC comparison, dead code check, test coverage). The examiner's value is in the judgment and initiative that mechanical review cannot provide.
+**The analysis sections below define the per-step ceiling.** Depth (LOC comparison, dead-code sweep, test-coverage analysis) lives in `/dev-review`, not the monitor. The monitor's value is real-time observation; deeper analysis is post-hoc and competes with the executor for attention.
 
 Use the `monitor-status.md` template for output format.
 
@@ -317,11 +333,31 @@ Only if an expectations doc exists. Check:
 
 If no expectations doc exists, omit this section entirely.
 
+#### Observation filter (before logging)
+
+Per-step analysis surfaces many observations across vs Plan Spec / vs Plan Review / vs Design / vs Expectations. Most are conversational, not loggable. An observation only escalates to the Issue Logging path if it matches at least ONE of:
+
+1. A code/artifact defect (correctness bug, broken invariant, missed edge case in shipped code)
+2. A plan/code mismatch the results doc doesn't acknowledge as a Deviation
+3. An anti-pattern from § Anti-Patterns to Flag, manifest in the code (not just in planning prose)
+
+Observations that are interesting but match none of the three: report in the Verdict / one-sentence summary, do not enter the issue-log path.
+
 #### Verdict
 
 Rate the step: ✅ Clean / ⚠️ Minor concern / ❌ Needs attention
 
 Include a one-sentence summary explaining the verdict.
+
+#### Verdict ↔ Severity mapping
+
+| Verdict | Issues logged for this step |
+|---------|------------------------------|
+| ✅ Clean | None — no issues logged |
+| ⚠️ Minor concern | At most LOW; usually no issue at all |
+| ❌ Needs attention | At least one HIGH or MED |
+
+A step with verdict ⚠️ and no logged issue is the common case (concern is conversational). A step with verdict ❌ and zero logged issues is a contradiction — escalate to at least one issue or downgrade the verdict.
 
 ### Issue Logging
 
@@ -331,12 +367,16 @@ Use the `monitor-issues.md` template in `assets/templates/` for the file structu
 
 #### When to log
 
-The monitor logs an issue if and only if the issue is **verifiable**:
+An issue is loggable only if BOTH:
+
+**(a) Code-anchored**: the defect or risk lives in the code/artifact under review — not in the plan, review, or process surface. Process-level concerns are the executor's job to capture as Deviations or Lessons Learned in the results doc; the monitor's surface is the code.
+
+**(b) Verifiable**:
 - Citable with a specific `file:line` or doc-section reference
 - Demonstrable with evidence (code snippet, grep output, cross-reference between two docs)
 - Reproducible from the current state of the repo
 
-If any of the three tests fails, the issue is NOT logged. The monitor's value is in the evidentiary chain, not volume.
+If (a) fails, the observation belongs in conversation or as a Lessons-Learned hint, not the issue log. If (b) fails, the observation is speculation. The monitor's value is in the evidentiary chain, not volume.
 
 #### When NOT to log
 
@@ -344,6 +384,17 @@ If any of the three tests fails, the issue is NOT logged. The monitor's value is
 - Style preferences without a concrete rule violation
 - Concerns that can't be pinned to a location
 - Issues already logged in the current session (dedupe by Location + Title — intra-session only; cross-session dedupe is not attempted)
+- **Executor self-resolved**: if the executor hit friction during a step, diagnosed it, fixed inline, and captured it in `results.md` Deviations or Lessons Learned — do NOT re-log. The doc trail is already complete; re-logging duplicates with no signal gain.
+- **Test failure already resolved within the same step**: a loud-failing test the executor diagnosed and fixed (with rationale captured in results.md) is already-processed. The test working as designed is detection, not defect.
+
+#### Pre-log gut check
+
+Before logging, answer:
+
+1. Is the risk in the code/artifact right now (not in the plan, process, or already-fixed test failure)?
+2. If the operator read this issue, would they interrupt execution — or just nod and move on?
+
+If 1 is "no" — do not log. If 2 is "just nod" — do not log.
 
 #### Required fields per issue
 

@@ -62,15 +62,17 @@
 
 ### Severity
 
-**Severity is advisory** — it's the monitor's recommendation, not enforcement. The monitor never interrupts or blocks; the operator decides whether a HIGH finding warrants interrupting execution.
+**Severity is advisory** — the monitor's recommendation, not enforcement. The operator decides whether a HIGH finding warrants interrupting execution.
 
 | Label | Meaning |
 |-------|---------|
-| HIGH | Blocks correctness, masks failures, or breaks the build |
-| MED | Degrades quality, ergonomics, or maintainability. The code runs, but something is worse than it should be |
-| LOW | Cosmetic, bookkeeping, or documentation-polish. No functional impact |
+| HIGH | A correctness bug shipped (or about to ship) in the artifact under review. Or: a step's results doc claims success but the code doesn't match the claim. |
+| MED  | A real risk in the repo right now — broken invariant, missed edge case in shipped code, drift between plan and code that future work will trip over. |
+| LOW  | A factual observation worth flagging (line-number drift, stale comment, minor doc inconsistency) but not actionable as a risk. |
 
 Project convention: uppercase `HIGH`/`MED`/`LOW`, never `Medium`/`H/M/L`.
+
+(Source of truth: `exam-guide.md` § Severity rubric. If these drift, exam-guide.md wins — re-sync this template.)
 
 ### Scope
 

@@ -75,6 +75,5 @@ What's the actual impact on the executor?]
 - **Status table**: Appears on every timer tick. Rows collapse pending steps into ranges (e.g., `3-8`) when all have the same status.
 - **Per-step analysis**: Only appears when a step transitions from non-complete to complete since the last check. Multiple steps can complete between ticks — analyze each.
 - **Observations**: Optional. Include when something notable happened that isn't captured in the status table or per-step analysis.
-- **Depth is flexible**: The per-step analysis format is a minimum. For critical or complex steps, go deeper — break down individual adaptations, cross-reference prior examiner findings, give quantitative quality signals (LOC comparison, dead code check, test coverage).
 - **Plan review section**: Shows the examiner's judgment on each reviewer finding — not just whether it was addressed, but whether it mattered and whether the fix resolved the real risk.
 - **vs Expectations**: Only include this section if an expectations doc exists for the task. Omit entirely otherwise.
