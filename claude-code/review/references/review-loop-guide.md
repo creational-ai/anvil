@@ -16,14 +16,23 @@ The per-round guides are treated as libraries the loop wraps externally; they ar
 All tuning constants live in this single section -- edit one place to change cadence, idle tolerance, or round bound.
 
 ```
-POLL_INTERVAL_SECONDS = 240   # 4 minutes; tweak to change tick cadence
-MAX_IDLE_TICKS = 4            # 4 ticks without counterpart progress triggers idle termination
-MAX_ROUNDS = 20               # upper bound on N; protects against typo-driven runaway
-DEFAULT_REVIEW_ROUNDS = 1     # used when N is omitted on /review-doc-loop
-DEFAULT_EXAM_ROUNDS = 2       # used when N is omitted on /exam-loop
+POLL_INTERVAL_SECONDS   = 240   # 4 minutes; tweak to change tick cadence
+INITIAL_POLL_MULTIPLIER = 2     # post-round arm sleeps N × POLL_INTERVAL_SECONDS; idle arms stay at 1×
+MAX_IDLE_TICKS          = 4     # 4 ticks without counterpart progress triggers idle termination
+MAX_ROUNDS              = 20    # upper bound on N; protects against typo-driven runaway
+DEFAULT_REVIEW_ROUNDS   = 1     # used when N is omitted on /review-doc-loop
+DEFAULT_EXAM_ROUNDS     = 2     # used when N is omitted on /exam-loop
 ```
 
 The two default-N constants are asymmetric by design: the default workflow is exam-led (critic-sandwich `E1 -> R1 -> E2`), so `/exam-loop` runs 2 rounds by default (initial critique + verification) while `/review-doc-loop` runs 1 round (the thorough pass between them). Either constant can be overridden at invocation time by passing an explicit N.
+
+`INITIAL_POLL_MULTIPLIER` applies to the **first arm of any new wait phase** — give the counterpart breathing room before polling faster. Two cases qualify:
+- **Post-round**: immediately after our own side completes a round (with more rounds to go).
+- **Initial-entry idle**: at our very first turn in the invocation, when gate is not satisfied (e.g., follower default at fresh or resumed entry, waiting for counterpart's first round).
+
+**Subsequent tick-wake idle** arms (gate still not satisfied on a wake AFTER we've already armed once in this invocation) use the 1× cadence — we've already given the counterpart time, now we poll faster as they approach completion.
+
+Idle-termination wall-clock therefore ranges from `(MAX_IDLE_TICKS − 1) × POLL_INTERVAL_SECONDS + POLL_INTERVAL_SECONDS × INITIAL_POLL_MULTIPLIER` (the typical case: any wait phase begins with one 2× arm followed by 1× arms) down to `MAX_IDLE_TICKS × POLL_INTERVAL_SECONDS` (degenerate edge: not reachable under the new rule, kept as a lower bound for math sanity). At defaults: ~20 min upper, ~16 min nominal lower.
 
 These constants render back into echoes and error messages as literal values (for example, the `N must be between 1 and 20` error embeds the rendered value of `MAX_ROUNDS`, and idle-timer echoes embed `MAX_IDLE_TICKS` in the `idle X/<MAX_IDLE_TICKS>` denominator). If you change a constant here, both the error text and the echo denominators shift accordingly with no other edits needed.
 
@@ -256,7 +265,7 @@ Both invariants are keyed on resolved roles, not literal flags, and hold only ov
 ### Degenerate cases (documented, not defended against)
 
 - **`--first` on both sides**: both sides are leader; rounds may run in parallel without proper interleaving. The "R sees E's findings" property is lost. Don't do this.
-- **`--follow` on both sides**: both sides wait forever for the counterpart to log round 1. Both exit via idle termination after `MAX_IDLE_TICKS * POLL_INTERVAL_SECONDS` of wall-clock time (~16 min at defaults). On a fresh doc, `counterpart_count == 0 AND role == follower` means both sides exit via Condition #3 (`counterpart never started, stopping`). Harmless but wastes wall-clock.
+- **`--follow` on both sides**: both sides wait forever for the counterpart to log round 1. Both exit via idle termination after roughly `MAX_IDLE_TICKS * POLL_INTERVAL_SECONDS` of wall-clock time (~16-20 min at defaults — depends on whether the side ran a round before idling; see Tuning §). On a fresh doc, `counterpart_count == 0 AND role == follower` means both sides exit via Condition #3 (`counterpart never started, stopping`). Harmless but wastes wall-clock.
 - **Mismatched flags** (e.g., `--first` on exam alone with nothing on review): review falls back to default leader, both sides are leader, same as "both `--first`". Silent degrade.
 - **Only one side started** (e.g., `/review-doc-loop doc N` alone, `/exam-loop` never invoked): the started side runs its first round (if leader) or waits (if follower), then idles for `MAX_IDLE_TICKS` ticks and exits via Condition #3.
 
@@ -301,7 +310,7 @@ Each side runs the same tick-driven loop. The loop uses a background timer (`Bas
 
 ### Per-iteration state (carried in the echo suffix)
 
-All three tuning constants (`POLL_INTERVAL_SECONDS`, `MAX_IDLE_TICKS`, `MAX_ROUNDS`) live in the Tuning subsection above -- NOT in the echo. They are re-read from the guide on each tick wake.
+All tuning constants (`POLL_INTERVAL_SECONDS`, `INITIAL_POLL_MULTIPLIER`, `MAX_IDLE_TICKS`, `MAX_ROUNDS`) live in the Tuning subsection above -- NOT in the echo. They are re-read from the guide on each tick wake.
 
 Per-iteration state rides in the echo's trailing `(...)` block:
 
@@ -332,15 +341,34 @@ Derived fresh on each tick:
 
 ### Echo format
 
-Armed at the end of every iteration that sleeps. The `idle X/Y` denominator renders the current value of `MAX_IDLE_TICKS` from the Tuning subsection.
+Armed at the end of every iteration that sleeps. The `idle X/Y` denominator renders the current value of `MAX_IDLE_TICKS` from the Tuning subsection. The literal `sleep <N>` value is **arming-context-dependent**:
 
-Review side:
+- **2× cadence — first arm of a new wait phase**: use `sleep <POLL_INTERVAL_SECONDS × INITIAL_POLL_MULTIPLIER>` (e.g., `sleep 480` at defaults). Two subcases:
+  - *Post-round*: immediately after own side completes a round, with more rounds to go.
+  - *Initial-entry idle*: very first turn of the invocation, when gate is not satisfied (e.g., follower waiting for counterpart's first round).
+- **1× cadence — subsequent tick-wake idle**: gate still not satisfied on a wake after we've already armed at least once in this invocation. Use `sleep <POLL_INTERVAL_SECONDS>` (e.g., `sleep 240` at defaults).
+
+The agent re-reads the Tuning subsection on each arming to compute the right value.
+
+Review side, post-round (sleep 480 at defaults):
+
+```
+sleep 480 && echo 'Running /review-doc-loop <doc> <N> [--first | --follow] -- <narrative>. (idle X/<MAX_IDLE_TICKS>, last_sig=rD,eD,rT,eT,rS,eS, entry=r0,e0, target=N, role=leader|follower). Continue per review-loop-guide Continuation.'
+```
+
+Review side, idle (sleep 240 at defaults):
 
 ```
 sleep 240 && echo 'Running /review-doc-loop <doc> <N> [--first | --follow] -- <narrative>. (idle X/<MAX_IDLE_TICKS>, last_sig=rD,eD,rT,eT,rS,eS, entry=r0,e0, target=N, role=leader|follower). Continue per review-loop-guide Continuation.'
 ```
 
-Exam side (symmetric):
+Exam side, post-round (sleep 480 at defaults):
+
+```
+sleep 480 && echo 'Running /exam-loop <doc> <N> [--first | --follow] -- <narrative>. (idle X/<MAX_IDLE_TICKS>, last_sig=rD,eD,rT,eT,rS,eS, entry=r0,e0, target=N, role=leader|follower). Continue per review-loop-guide Continuation.'
+```
+
+Exam side, idle (sleep 240 at defaults):
 
 ```
 sleep 240 && echo 'Running /exam-loop <doc> <N> [--first | --follow] -- <narrative>. (idle X/<MAX_IDLE_TICKS>, last_sig=rD,eD,rT,eT,rS,eS, entry=r0,e0, target=N, role=leader|follower). Continue per review-loop-guide Continuation.'
@@ -350,28 +378,28 @@ sleep 240 && echo 'Running /exam-loop <doc> <N> [--first | --follow] -- <narrati
 
 Round counts are illustrative. `rS`/`eS` values include summary-table column headers + populated non-`...` cells across the Item/Step/Task Summary and Holistic Summary tables combined. Exact totals depend on doc shape; the examples below use an arbitrary 10-item doc with 7-concern Holistic Summary -> 17 cells per completed round, +2 headers per round.
 
-**Review-leader default, mid-loop, after R1 completes (Applied), waiting for E1** (10-item doc, 7-concern holistic; after R1 fully applied: 2 R headers accounted for + 17 R cells populated = `rS=19`):
+**Review-leader default, mid-loop, after R1 completes (Applied), waiting for E1 — post-round arming (`sleep 480` = 2× cadence)** (10-item doc, 7-concern holistic; after R1 fully applied: 2 R headers accounted for + 17 R cells populated = `rS=19`):
 
 ```
-sleep 240 && echo 'Running /review-doc-loop docs/foo.md 2 -- R1 done, waiting for E1 or next tick (idle 0/4, last_sig=1,0,1,0,19,0, entry=0,0, target=2, role=leader). Continue per review-loop-guide Continuation.'
+sleep 480 && echo 'Running /review-doc-loop docs/foo.md 2 -- R1 done, waiting for E1 or next tick (idle 0/4, last_sig=1,0,1,0,19,0, entry=0,0, target=2, role=leader). Continue per review-loop-guide Continuation.'
 ```
 
-**Exam-leader `--first`, mid-loop, after E1 completes (Applied), waiting for R1** (same 10+7 doc shape):
+**Exam-leader `--first`, mid-loop, after E1 completes (Applied), waiting for R1 — post-round arming (`sleep 480` = 2× cadence)** (same 10+7 doc shape):
 
 ```
-sleep 240 && echo 'Running /exam-loop docs/foo.md 2 --first -- E1 done, waiting for R1 or next tick (idle 0/4, last_sig=0,1,0,1,0,19, entry=0,0, target=2, role=leader). Continue per review-loop-guide Continuation.'
+sleep 480 && echo 'Running /exam-loop docs/foo.md 2 --first -- E1 done, waiting for R1 or next tick (idle 0/4, last_sig=0,1,0,1,0,19, entry=0,0, target=2, role=leader). Continue per review-loop-guide Continuation.'
 ```
 
-**Review-follower `--follow`, Initial entry on fresh doc, waiting for E1 before running R1**:
+**Review-follower `--follow`, Initial entry on fresh doc, waiting for E1 before running R1 — Initial-entry idle arming (`sleep 480` = 2× cadence, first wait of invocation)**:
 
 ```
-sleep 240 && echo 'Running /review-doc-loop docs/foo.md 2 --follow -- waiting for E1 or next tick (idle 0/4, last_sig=0,0,0,0,0,0, entry=0,0, target=2, role=follower). Continue per review-loop-guide Continuation.'
+sleep 480 && echo 'Running /review-doc-loop docs/foo.md 2 --follow -- waiting for E1 or next tick (idle 0/4, last_sig=0,0,0,0,0,0, entry=0,0, target=2, role=follower). Continue per review-loop-guide Continuation.'
 ```
 
-**Exam-follower default, Initial entry on fresh doc, waiting for R1 before running E1**:
+**Exam-follower default, Initial entry on fresh doc, waiting for R1 before running E1 — Initial-entry idle arming (`sleep 480` = 2× cadence, first wait of invocation)**:
 
 ```
-sleep 240 && echo 'Running /exam-loop docs/foo.md 2 -- waiting for R1 or next tick (idle 0/4, last_sig=0,0,0,0,0,0, entry=0,0, target=2, role=follower). Continue per review-loop-guide Continuation.'
+sleep 480 && echo 'Running /exam-loop docs/foo.md 2 -- waiting for R1 or next tick (idle 0/4, last_sig=0,0,0,0,0,0, entry=0,0, target=2, role=follower). Continue per review-loop-guide Continuation.'
 ```
 
 **Exam-follower default, mid-tick after leader opened R1 (Phase 1 complete, R1 column added to both summary tables with all `...` cells -- no Review Log row yet)**:
@@ -435,7 +463,7 @@ The echo is generated by `Bash(run_in_background: true, command: "sleep N && ech
 
 The echo string becomes a Bash tool-result message that arrives AFTER any compaction that may have fired during the `sleep`. Compaction summarizes prior conversation; it cannot affect messages that haven't arrived yet. The agent's memory of the loop may be compacted into a one-line summary, but the fresh TIMER echo plus the guide pointer are sufficient for re-entry.
 
-What is NOT in the echo: the `POLL_INTERVAL_SECONDS`, `MAX_IDLE_TICKS`, and `MAX_ROUNDS` constants. They live in the Tuning subsection, re-read on each tick wake per the guide pointer. Keeping them out of the echo lets users change cadence by editing one line in the guide without affecting in-flight runs that would otherwise carry a stale value.
+What is NOT in the echo: the `POLL_INTERVAL_SECONDS`, `INITIAL_POLL_MULTIPLIER`, `MAX_IDLE_TICKS`, and `MAX_ROUNDS` constants. They live in the Tuning subsection, re-read on each tick wake per the guide pointer. Keeping them out of the echo lets users change cadence by editing one line in the guide without affecting in-flight runs that would otherwise carry a stale value.
 
 ---
 
@@ -534,20 +562,22 @@ First iteration. Both sides execute the same outline; only the side default diff
 
 Arm the pre-round sentinel Bash call (per the Pre-round sentinel format above) in the SAME single message as Phase 1 (setup) followed by Phase 2 (background spawning) Task spawns. This spawns item + holistic agents in the background and ends the current conversation turn. The loop is now dormant. Subsequent turns process agent notifications (Phase 3.1), elevation (Phase 3.2), write Review Log (Phase 3.3), apply fixes (Phase 3.4), update fix status (Phase 3.5), play completion notification (Phase 3.6).
 
-Immediately after Phase 3.6's Bash result returns (same turn -- see Continuation-turn handoff above): re-read the doc for fresh `(r_done, e_done, r_total, e_total, r_step, e_step)`, refresh `last_sig = current_sig`, compute `rounds_done = r_done - entry_r_done`, print the canonical status line, then either (a) exit without arming a timer if `rounds_done >= target_rounds`, or (b) arm the echo-encoded timer with the freshly computed state. The echo's narrative reflects what just happened (`R1 done, waiting for E1 or next tick`); the suffix carries `idle=0/<MAX_IDLE_TICKS>`, `last_sig=rD,eD,rT,eT,rS,eS`, `entry=entry_r_done,entry_e_done`, `target=N`, `role=...`.
+Immediately after Phase 3.6's Bash result returns (same turn -- see Continuation-turn handoff above): re-read the doc for fresh `(r_done, e_done, r_total, e_total, r_step, e_step)`, refresh `last_sig = current_sig`, compute `rounds_done = r_done - entry_r_done`, print the canonical status line, then either (a) exit without arming a timer if `rounds_done >= target_rounds`, or (b) arm the echo-encoded timer with **post-round cadence** (`sleep POLL_INTERVAL_SECONDS × INITIAL_POLL_MULTIPLIER` = 480 at defaults). The echo's narrative reflects what just happened (`R1 done, waiting for E1 or next tick`); the suffix carries `idle=0/<MAX_IDLE_TICKS>`, `last_sig=rD,eD,rT,eT,rS,eS`, `entry=entry_r_done,entry_e_done`, `target=N`, `role=...`.
 
 ### Exam side, gate satisfied
 
 No Phase 2 to compose with; each exam round is a single-turn operation. Follow `exam-guide.md` § Review Mode in full (Read the Review Doc First, Read the Target Document, Load Cross-References, Deep Examination, Codebase Verification, Write to Review Document, Applying Fixes, Update Review Doc Fix Status, Completion Notification), with these loop overrides:
 
 1. **`--auto` is implicit.** Applying Fixes takes the auto-apply branch unconditionally -- see Fix-application under the loop above. No user prompt.
-2. **Completion Notification is not turn-end.** When exam-guide.md's Completion Notification Bash call returns, do NOT end the turn. In the same turn, re-read the doc for fresh `(r_done, e_done, r_total, e_total, r_step, e_step)`, set `last_sig = current_sig`, compute `rounds_done = e_done - entry_e_done`, then either exit if `rounds_done >= target_rounds` or arm the echo-encoded timer for the next iteration. This is NOT the "Continuation-turn handoff" from review-loop-guide.md:509 -- that mechanism is review-side-only for re-emerging from Phase 3.6's multi-turn state. The exam side has no multi-turn window to re-emerge from; the Completion Notification Bash result simply returns inline in the round's single turn.
+2. **Completion Notification is not turn-end.** When exam-guide.md's Completion Notification Bash call returns, do NOT end the turn. In the same turn, re-read the doc for fresh `(r_done, e_done, r_total, e_total, r_step, e_step)`, set `last_sig = current_sig`, compute `rounds_done = e_done - entry_e_done`, then either exit if `rounds_done >= target_rounds` or arm the echo-encoded timer for the next iteration with **post-round cadence** (`sleep POLL_INTERVAL_SECONDS × INITIAL_POLL_MULTIPLIER` = 480 at defaults). This is NOT the "Continuation-turn handoff" from review-loop-guide.md:509 -- that mechanism is review-side-only for re-emerging from Phase 3.6's multi-turn state. The exam side has no multi-turn window to re-emerge from; the Completion Notification Bash result simply returns inline in the round's single turn.
 
 Do NOT invoke `/exam` via the Skill tool -- the per-round flow is executed inline by following exam-guide.md directly, same pattern as `/monitor` executes Monitor Mode inline. The `Skill(/exam)` call will error because `/exam` carries `disable-model-invocation: true`, and that error is load-bearing: it forces fallback to this inline path. Do NOT try to "work around" the error by passing `/exam` differently or by reading `commands/exam.md` and executing its body verbatim -- standalone `/exam` lacks the loop overrides above (no `--auto`, no inline state update after Completion Notification) and will silently kill the loop when its Completion Notification ends the turn.
 
 ### Both sides, gate not satisfied
 
-Print the canonical status line (`Waiting for <counterpart>_k (idle 0/<MAX_IDLE_TICKS>, next tick in 4m)`) and arm the echo-encoded timer carrying `idle=0/<MAX_IDLE_TICKS>`, `last_sig=rD,eD,rT,eT,rS,eS`, `entry=entry_r_done,entry_e_done`, `target=N`, `role=...`. End the turn.
+Print the canonical status line (`Waiting for <counterpart>_k (idle 0/<MAX_IDLE_TICKS>, next tick in 8m)`) and arm the echo-encoded timer with **2× cadence** (`sleep POLL_INTERVAL_SECONDS × INITIAL_POLL_MULTIPLIER` = 480 at defaults). This is the **first arm of the invocation's wait phase** — give the counterpart breathing room before our subsequent tick-wake idle arms drop to 1× cadence.
+
+Carry `idle=0/<MAX_IDLE_TICKS>`, `last_sig=rD,eD,rT,eT,rS,eS`, `entry=entry_r_done,entry_e_done`, `target=N`, `role=...`. End the turn.
 
 ### Postcondition
 
@@ -567,7 +597,7 @@ Every subsequent iteration, fired by TIMER notification. Ten steps:
    - All six elements unchanged -> `idle_ticks += 1`.
 5. **Check Conditions #2 and #3**: if `idle_ticks >= MAX_IDLE_TICKS`, apply the two-branch test using invocation-relative counterpart progress:
    - If `this_counterpart == 0` (counterpart has not advanced a completed round in this invocation) -> Condition #3 fires for EITHER role (leader or follower). Report `counterpart never started, stopping` and exit.
-   - Else -> Condition #2 fires. Report `no change in review doc for 4 ticks (~16 minutes), stopping` and exit.
+   - Else -> Condition #2 fires. Report `no change in review doc for 4 ticks (~16-20 minutes), stopping` and exit.
    - Exit without arming another timer on either Condition #2 or #3.
 6. **Evaluate gate** using `role`. Compute `this_own = own_done - entry_own_done`, `this_counterpart = counterpart_done - entry_counterpart_done`, `k = this_own + 1`:
    - Review side: gate is `this_e >= k - 1` if `role = leader`, `this_e >= k` if `role = follower`.
@@ -577,7 +607,11 @@ Every subsequent iteration, fired by TIMER notification. Ten steps:
    - **Exam side**: follow `exam-guide.md` § Review Mode with loop overrides from Initial entry > "Exam side, gate satisfied" above. Do NOT invoke `/exam` via the Skill tool -- run the per-round flow inline (see Initial entry for the full silent-loop-death rationale). Update `last_sig` post-round, then proceed to steps 9-10.
 8. **If gate not satisfied**: print the canonical status line (`idle X/<MAX_IDLE_TICKS>, waiting for ...`). If `idle_ticks` was just reset in step 4 (sig changed -- e.g., `rT` advanced to show a Pending Review Log row, or `rS` advanced to show a new summary column / filled cell) but gate still not satisfied, the status line should explicitly note `idle reset (sig changed)` to surface the distinction between "gate waiting" and "counterpart alive".
 9. **Early exit**: if `rounds_done >= target_rounds` after the round completes -> exit (don't arm another timer). This check fires immediately after the round completes, not on the next tick wake, so `N=1` does not incur a wasted 4-minute wait.
-10. **Otherwise arm the next echo-encoded timer** carrying the updated `idle_ticks`, `last_sig = current_sig` (6-tuple), unchanged `entry = (r0, e0)`, unchanged `target = target_rounds`, unchanged `role`, and an updated prose narrative reflecting the current wait reason (`R2 done, waiting for E2 or next tick` / `waiting for R3 or next tick` / `R3 Phase 2 in progress, gate not satisfied, idle reset` / etc.). End the turn.
+10. **Otherwise arm the next echo-encoded timer** carrying the updated `idle_ticks`, `last_sig = current_sig` (6-tuple), unchanged `entry = (r0, e0)`, unchanged `target = target_rounds`, unchanged `role`, and an updated prose narrative reflecting the current wait reason (`R2 done, waiting for E2 or next tick` / `waiting for R3 or next tick` / `R3 Phase 2 in progress, gate not satisfied, idle reset` / etc.). The literal `sleep <N>` value depends on which path led here:
+    - **From step 7 (we just completed a round, more rounds to go)**: 2× cadence — first arm of a new wait phase. Use `sleep POLL_INTERVAL_SECONDS × INITIAL_POLL_MULTIPLIER` (=480 at defaults).
+    - **From step 8 (gate not satisfied on a wake, no round ran this tick)**: 1× cadence — we've already armed at least once in this invocation; this is a subsequent tick-wake idle. Use `sleep POLL_INTERVAL_SECONDS` (=240 at defaults).
+
+    End the turn.
 
 ---
 
@@ -612,7 +646,7 @@ Three conditions. Condition #1 is evaluated at step 3 of On tick wake (immediate
 The loop guide MUST emit these literal termination strings. Tests and Success Criteria grep-match them exactly.
 
 - **Condition #1** (rounds done): `completed <N> rounds, stopping` -- literal plural regardless of N (e.g., `completed 1 rounds, stopping`, `completed 2 rounds, stopping`). No pluralization-aware form.
-- **Condition #2** (generic idle): `no change in review doc for <MAX_IDLE_TICKS> ticks (~16 minutes), stopping` -- `<MAX_IDLE_TICKS>` renders the Tuning constant value.
+- **Condition #2** (generic idle): `no change in review doc for <MAX_IDLE_TICKS> ticks (~16-20 minutes), stopping` -- `<MAX_IDLE_TICKS>` renders the Tuning constant value.
 - **Condition #3** (counterpart never started): `counterpart never started, stopping` -- applies symmetrically to both roles and both sides.
 
 These three templates are the ONLY termination strings the loop guide produces, used symmetrically on both review and exam sides.
@@ -625,9 +659,9 @@ Early exit: this check is also applied immediately after a round completes (On t
 
 ### Condition #2: Idle ticks exceeded (generic)
 
-`idle_ticks >= MAX_IDLE_TICKS` at step 5 AND `this_counterpart > 0` -> exit with `no change in review doc for <MAX_IDLE_TICKS> ticks (~16 minutes), stopping`. Applies to both sides and both roles.
+`idle_ticks >= MAX_IDLE_TICKS` at step 5 AND `this_counterpart > 0` -> exit with `no change in review doc for <MAX_IDLE_TICKS> ticks (~16-20 minutes), stopping`. Applies to both sides and both roles.
 
-Fires when the counterpart has advanced at least one round in this invocation but has since gone quiet for 16 minutes (at default `POLL_INTERVAL_SECONDS`). Diagnostic meaning: "we were both working together, then you stopped."
+Fires when the counterpart has advanced at least one round in this invocation but has since gone quiet for 16-20 minutes (at default `POLL_INTERVAL_SECONDS` and `INITIAL_POLL_MULTIPLIER`). Diagnostic meaning: "we were both working together, then you stopped."
 
 ### Condition #3: Counterpart never started (symmetric across roles)
 
@@ -639,7 +673,7 @@ Sig vectors below use the illustrative 10-item / 7-concern doc shape: one comple
 
 - **Follower side, fresh doc**: when a side running with `role = follower` enters a fresh doc, its initial `last_sig = (0, 0, 0, 0, 0, 0)`. On the first tick wake the observed `current_sig` is still `(0, 0, 0, 0, 0, 0)`, which matches `last_sig`, so `idle_ticks` increments on every tick starting from tick 1. `this_counterpart = 0 - 0 = 0`. After `MAX_IDLE_TICKS` ticks that side exits with Condition #3. The initial `(0, 0, 0, 0, 0, 0)` convention is load-bearing here -- without it the first tick would be a "change" and the exit would drift to ~20 minutes.
 - **Leader side, counterpart never starts**: when a side running with `role = leader` enters a fresh doc and runs its round 1 (review side runs R1 Applied), its subsequent `last_sig` lands at something like `(1, 0, 1, 0, 19, 0)` (17 R-cells populated + 2 R-headers from R1). If the counterpart never starts, `current_sig` remains at that 6-tuple on every tick wake, matching `last_sig`, so `idle_ticks` increments from tick 1 after R1 lands. `this_counterpart = 0 - 0 = 0`. After `MAX_IDLE_TICKS` ticks past R1, the leader side exits with Condition #3 -- the same informative message as the follower case.
-- **Leader side with pre-existing counterpart rows, counterpart's current session never starts**: doc has `E3 Applied` pre-existing from a prior run. User runs `/review-doc-loop 2` alone (forgot to invoke `/exam-loop` in another session). entry_e_done=3 (entry_r_done=0). Review runs R1 (leader gate `this_e(0) >= 0` satisfied), `last_sig = (1, 3, 1, 3, 19, 63)` (R1 populated the R-column; 3 pre-existing E columns contribute headers + 17 cells each = 3 + 60 = 63 toward `eS`). If no new E row ever appears, `current_sig` stays at that 6-tuple on every tick, `this_counterpart = 3 - 3 = 0`. After `MAX_IDLE_TICKS` ticks, review exits with Condition #3 ("counterpart never started, stopping") -- the informative diagnostic, NOT Condition #2 ("no change for 16 minutes") which would be misleading since the pre-existing E3 was never part of this invocation's counterpart budget.
+- **Leader side with pre-existing counterpart rows, counterpart's current session never starts**: doc has `E3 Applied` pre-existing from a prior run. User runs `/review-doc-loop 2` alone (forgot to invoke `/exam-loop` in another session). entry_e_done=3 (entry_r_done=0). Review runs R1 (leader gate `this_e(0) >= 0` satisfied), `last_sig = (1, 3, 1, 3, 19, 63)` (R1 populated the R-column; 3 pre-existing E columns contribute headers + 17 cells each = 3 + 60 = 63 toward `eS`). If no new E row ever appears, `current_sig` stays at that 6-tuple on every tick, `this_counterpart = 3 - 3 = 0`. After `MAX_IDLE_TICKS` ticks, review exits with Condition #3 ("counterpart never started, stopping") -- the informative diagnostic, NOT Condition #2 ("no change for 16-20 minutes") which would be misleading since the pre-existing E3 was never part of this invocation's counterpart budget.
 
 The symmetric treatment, keyed on `this_counterpart` rather than absolute `counterpart_done`, means the user gets the diagnostic message regardless of which loop command they forgot to start, even when the doc is not fresh.
 
@@ -654,7 +688,7 @@ On any termination path, do NOT arm a new timer. This prevents zombie ticks.
 - Counterpart running `/review-doc-run` or `/exam` in single-pass mode mid-loop -- the log grows as usual, both counters still advance, nothing special needed.
 - Two loop invocations of the same command on the same doc in the same session -- undefined behavior, don't worry about it.
 - Both sides passed `--first` -- both use leader gate, rounds run in parallel without proper interleaving. Documented in Coordination Protocol § Degenerate cases; don't do this.
-- Both sides passed `--follow` -- both wait forever for the counterpart to log round 1 in this invocation. On both fresh and resumed docs, `this_counterpart = 0` on both sides because neither side advances the counterpart's counter, so both exit via Condition #3 after ~16 minutes.
+- Both sides passed `--follow` -- both wait forever for the counterpart to log round 1 in this invocation. On both fresh and resumed docs, `this_counterpart = 0` on both sides because neither side advances the counterpart's counter, so both exit via Condition #3 after ~16-20 minutes.
 - Mismatched flags (e.g., `--first` on exam alone with nothing on the review counterpart) -- review falls back to default leader, both sides are leader, same degrade as "both `--first`".
 
 ---

@@ -264,25 +264,33 @@ Use the `monitor-status.md` template. Present the status table showing all steps
 
 #### 3. Set Up Timer
 
+**First tick (at startup)**: arm with **2× cadence** to give the executor breathing room before the first observation:
+
+```
+Bash(run_in_background: true, command: "sleep 240 && echo TIMER")
+```
+
+**Subsequent ticks**: arm with **1× cadence** (normal — see step 4 below):
+
 ```
 Bash(run_in_background: true, command: "sleep 120 && echo TIMER")
 ```
 
-This runs in the background so the user can still chat.
+Both run in the background so the user can still chat. The 2×/1× split mirrors the loop-guide convention (post-handoff = 2×, polling = 1×).
 
 #### 4. On Each Timer Tick
 
 1. Re-read the results doc
 2. Report the status table (every tick)
 3. For each step that transitioned to Complete since the last check: run per-step analysis
-4. Set up the next timer (repeat Step 3)
+4. Set up the next timer using the **1× cadence** (`sleep 120`). Step 3's 2× cadence applies only to the very first tick at startup; all subsequent ticks use 1×.
 5. Report observations if anything notable happened
 
 #### 5. Termination
 
 - **All steps complete**: Report final summary, stop monitoring
 - **User says stop**: Acknowledge and stop
-- **No changes for 8 consecutive checks** (~16 minutes at the 2-minute tick cadence): Notify user and ask whether to continue. *Threshold tuned for slow executor steps; do not lower without measuring step-duration distribution against this floor.*
+- **No changes for 8 consecutive checks** (~16-18 minutes — first tick is 240s, subsequent 120s): Notify user and ask whether to continue. *Threshold tuned for slow executor steps; do not lower without measuring step-duration distribution against this floor.*
 
 ### Monitor Rules
 

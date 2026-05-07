@@ -295,7 +295,11 @@ Issues: [total] ([X] HIGH, [X] MED, [X] LOW)
 
 See [review-doc-path] for full details.
 ```
-Apply each fix from the findings using Edit tool. Report each fix applied. If a fix cannot be applied (ambiguous target, already correct, or outside document scope), annotate the issue line in the review doc with `[Skipped: reason]` and report the skip to the user. Update the current review entry's Status from `Pending` to `Applied (X of Y)` where X is fixes applied and Y is total issues.
+Apply **every** fix from the findings using the Edit tool, **regardless of severity**. HIGH, MED, and LOW are all auto-applied. Severity is NOT a skip reason — the per-item and holistic agents have already verified each finding against the codebase before reporting (item agents per `item-reviewer.md` step 4 and `review-item-guide.md`; holistic agents per `review-holistic-guide.md`). By the time issues reach this phase they are real, not noise.
+
+The **only** legit Skip reasons are mechanical: `ambiguous target`, `already correct`, or `outside document scope`. Annotate skipped issues with `[Skipped: <one of the three reasons>]`. Do NOT skip a fix because it is MED or LOW; do NOT skip because the issue count is high. Apply each one in order.
+
+Report each fix applied. Update the current review entry's Status from `Pending` to `Applied (X of Y)` where X is fixes applied and Y is total issues. If `X < Y`, the gap MUST be explained by `[Skipped: <mechanical reason>]` annotations — never by severity.
 
 #### Applying Step-Splitting Fixes (Plan Documents Only)
 
