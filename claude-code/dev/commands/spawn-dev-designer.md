@@ -1,5 +1,5 @@
 ---
-description: Create design for feature/bug/PoC (Stage 1, NO CODE)
+description: Create design for a task (Stage 1, NO CODE)
 argument-hint: [source-file] [--notes "<text>"]
 context: fork
 agent: dev-designer

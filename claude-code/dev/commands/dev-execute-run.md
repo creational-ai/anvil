@@ -18,7 +18,7 @@ Orchestrates Stage 3 execution by looping through steps, launching a fresh `dev-
 - File path: `docs/[milestone-slug]-[task-slug]-plan.md`
 - Task name: `core-poc6` → looks for `docs/core-poc6-plan.md`
 
-**Flag (optional)**: `--auto` — after finalize, also run `/dev-review-run` and `/mc-update` automatically
+**Flag (optional)**: `--auto` — after finalize, also run `/dev-review-run` and spawn `mc-update-agent` automatically
 
 **User notes (optional)**:
 ```

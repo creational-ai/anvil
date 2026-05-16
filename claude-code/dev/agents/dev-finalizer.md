@@ -24,7 +24,7 @@ Also read the guides and templates referenced in that command:
 - `~/.claude/skills/dev/references/health-guide.md`
 - `~/.claude/skills/dev/assets/templates/PROJECT_STATE.md`
 
-## Critical Rule
+## Critical Rules
 
 **ALL 4 STEPS ARE REQUIRED. DO NOT STOP AFTER ANY STEP.**
 

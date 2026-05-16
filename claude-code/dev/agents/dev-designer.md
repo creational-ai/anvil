@@ -75,7 +75,7 @@ When done, report:
 
 **File**: docs/[milestone-slug]-[task-slug]-design.md
 **Task**: [Name of task]
-**Type**: [Feature / Bug Fix / PoC / Refactor]
+**Type**: [PoC / Feature / Issue / Refactor]
 
 **Summary**:
 - Current: [Brief current state]

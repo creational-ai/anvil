@@ -98,7 +98,7 @@ Planning adds specifications based on these details -- describing behavior, file
 | **Files to Modify** | Starting point, verify against codebase |
 | **Success Criteria** | Copy to Plan, add verification commands |
 | **Testing Strategy** | Expand into acceptance criteria per step |
-| **Decisions Log** | Respect - don't re-decide |
+| **Decisions Log** | Respect settled choices — don't re-litigate preference/judgment calls. But a logged decision is **not** a correctness shield: if it is internally contradictory, breaks a stated acceptance criterion, or produces output that makes no sense, fix it and note the fix — do not preserve it because it's "locked". Test: *was it consciously chosen, or did it just survive unchallenged?* Only the former binds. |
 
 ## Risk Profile
 

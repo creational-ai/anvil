@@ -36,7 +36,7 @@ Monitor active execution by periodically reading results, plan, design, and revi
 1. Read the guide (Monitor Mode section)
 2. Read all existing docs, build step-to-design-item mapping
 3. Report initial status
-4. Set up periodic timer (every 2 minutes)
+4. Set up periodic timer (every 4 minutes; first tick is 8 minutes per the 2× first-arm rule — see guide § Set Up Timer)
 5. On each tick: report status, analyze newly completed steps
 6. Continue until all steps complete or user says stop
 

@@ -208,7 +208,7 @@ After analyzing all items, define the recommended order with dedicated reasoning
 - Why that choice was made
 - What alternatives were considered
 
-Use the Decisions Log table in the template.
+Use the Decisions Log table in the template. A logged decision binds future *re-litigation of preference* — it does not bind future *defect-fixing*. If a later pass finds a logged choice is broken, self-contradictory, or violates an acceptance criterion, fix it and record why; "it's in the Decisions Log" is not a reason to ship a defect.
 
 ### 6. Update Plan (If Applicable)
 
