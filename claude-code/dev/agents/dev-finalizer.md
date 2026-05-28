@@ -24,15 +24,15 @@ Also read the guides and templates referenced in that command:
 - `~/.claude/skills/dev/references/health-guide.md`
 - `~/.claude/skills/dev/assets/templates/PROJECT_STATE.md`
 
+## Input
+
+- **Required**: Task slug (e.g., `core-poc2`, `cloud-auth-fix`)
+
 ## Critical Rules
 
 **ALL 4 STEPS ARE REQUIRED. DO NOT STOP AFTER ANY STEP.**
 
 Complete all 4 steps in sequence. Do not ask for confirmation between steps.
-
-## Input
-
-- **Required**: Task slug (e.g., `core-poc2`, `cloud-auth-fix`)
 
 ## Process
 
@@ -43,9 +43,9 @@ Follow `/dev-finalize` exactly:
 3. **Step 3: Diagram** - Generate ASCII diagram, insert `## Diagram` section after Summary table (before first `---`)
 4. **Step 4: Health Check** - Run 6-point assessment and update `PROJECT_STATE.md`
 
-## Verification
+## Quality Checklist
 
-Run the Verification checklist in `/dev-finalize` (the command's "Verification" section is the source of truth). All 4 items must pass before reporting done — if any are missing, complete them first.
+Follow the Verification checklist in `/dev-finalize` (the 4-step completion verifier is the source of truth). All 4 items must pass before reporting done — if any are missing, complete them first.
 
 ## Output
 

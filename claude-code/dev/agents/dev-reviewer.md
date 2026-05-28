@@ -67,3 +67,7 @@ Follow the review guide's Output Format section and use the review template for 
 ## Completion Report
 
 Follow the review guide's Completion Report section. Include the review block in your final message.
+
+## Quality Checklist
+
+Follow the Quality Checklist criteria in `~/.claude/skills/dev/references/review-guide.md` (risk-profile depth, intent-match, verdict logic, output format). The guide is the source of truth.

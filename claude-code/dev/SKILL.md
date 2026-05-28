@@ -1,6 +1,6 @@
 # dev
 
-A structured 3-stage workflow for implementing tasks with production-grade quality.
+A structured 3-stage workflow (with optional Stage 0 alignment and opt-in Stage 3b review) for implementing tasks with production-grade quality.
 
 ## Hierarchy
 
@@ -21,7 +21,7 @@ Project (e.g., "mission-control")
 
 ## Overview
 
-This skill operates at the **Task level** - one task at a time through a 3-stage workflow:
+This skill operates at the **Task level** — one task at a time through a 3-stage core workflow, optionally wrapped by Stage 0 (goal) and Stage 3b (conceptual review):
 
 1. **Stage 1: Design** - Problem analysis and solution design (what and why)
 2. **Stage 2: Planning** - Step-by-step breakdown
@@ -35,6 +35,8 @@ This skill operates at the **Task level** - one task at a time through a 3-stage
 | 1. Design | Bug/feature spec, user notes | `docs/[milestone-slug]-[task-slug]-design.md` | ❌ NO |
 | 2. Planning | `docs/[milestone-slug]-[task-slug]-design.md` (recommended) | `docs/[milestone-slug]-[task-slug]-plan.md` | ✅ YES |
 | 3. Execution | `docs/[milestone-slug]-[task-slug]-plan.md` | `docs/[milestone-slug]-[task-slug]-results.md` + code + tests | ✅ YES |
+
+*All stages read `docs/[milestone-slug]-[task-slug]-goal.md` as optional alignment context when present (per each stage's guide). Listed inputs are primary contracts; goal.md is a soft secondary read.*
 
 | Stage | Guide | Template |
 |-------|-------|----------|
@@ -214,6 +216,9 @@ Use Glob/Grep to check for existing documents:
 - `docs/[milestone-slug]-[task-slug]-design.md` - e.g., `docs/core-poc6-design.md`, `docs/cloud-auth-fix-design.md`
 - `docs/[milestone-slug]-[task-slug]-plan.md` - e.g., `docs/core-poc6-plan.md`, `docs/cloud-auth-fix-plan.md`
 - `docs/[milestone-slug]-[task-slug]-results.md` - e.g., `docs/core-poc6-results.md`, `docs/cloud-auth-fix-results.md`
+
+**Per Milestone**:
+- `docs/[milestone-slug]-milestone-summary.md` - e.g., `docs/core-milestone-summary.md`
 
 **Test Files**:
 - Follow environment conventions (e.g., Python: `tests/test_[task-slug]_*.py`)

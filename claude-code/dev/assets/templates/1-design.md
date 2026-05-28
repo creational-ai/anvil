@@ -181,8 +181,8 @@ Component A
 
 | File | Change | Complexity |
 |------|--------|------------|
-| `path/to/file.py` | Create - [description] | Low/Med/High |
-| `path/to/existing.py` | Modify - [description] | Low/Med/High |
+| `path/to/file.py` | Create - [description] | HIGH/MED/LOW |
+| `path/to/existing.py` | Modify - [description] | HIGH/MED/LOW |
 
 ---
 
