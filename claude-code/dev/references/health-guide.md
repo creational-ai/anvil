@@ -81,7 +81,7 @@ Review all files above and assess against the 6 criteria.
 ```markdown
 ## Latest Health Check
 
-### [YYYY-MM-DD] - [Session/Task Name]
+### [YYYY-MM-DDTHH:MM:SS±HHMM] - [Session/Task Name]
 **Status**: ✅ On Track / ⚠️ Minor Concerns / ❌ Needs Attention
 
 **Context**:

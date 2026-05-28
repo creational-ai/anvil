@@ -35,6 +35,10 @@ A step is NOT complete until:
 
 **Before starting**: If `docs/[milestone-slug]-[task-slug]-results.md` doesn't exist yet, create it using `assets/templates/3-results.md` template. Fill in the Summary, Goal, Success Criteria (from plan.md), and Prerequisites sections. Leave Implementation Progress steps as "Pending". **Record Started timestamp** (ISO 8601 with timezone, e.g., `2024-01-08T22:45:00-0800`).
 
+### If a goal doc exists for this task
+
+If `docs/[milestone-slug]-[task-slug]-goal.md` exists, treat it as the operator-facing target the execution must move toward. At each step boundary (when tests pass and results are recorded), cross-check that the step's behavior change is consistent with every Goal's Post-Task Usage in the goal doc (one Goal for single-goal docs; each enumerated Goal for multi-goal docs). Flag any drift in the results doc's step entry. If absent, proceed normally.
+
 ## Per-Step Workflow (Loop Until Tests Pass)
 
 | Phase | Action | Output | Next |

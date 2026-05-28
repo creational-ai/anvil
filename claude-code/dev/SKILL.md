@@ -31,12 +31,14 @@ This skill operates at the **Task level** - one task at a time through a 3-stage
 
 | Stage | Input | Output | Code? |
 |-------|-------|--------|-------|
-| 1. Design | Bug/feature spec, user notes | `[milestone-slug]-[task-slug]-design.md` | ❌ NO |
-| 2. Planning | `[milestone-slug]-[task-slug]-design.md` (recommended) | `[milestone-slug]-[task-slug]-plan.md` | ✅ YES |
-| 3. Execution | `[milestone-slug]-[task-slug]-plan.md` | `[milestone-slug]-[task-slug]-results.md` + code + tests | ✅ YES |
+| 0. Goal (Optional) | Operator notes / design doc | `docs/[milestone-slug]-[task-slug]-goal.md` | ❌ NO |
+| 1. Design | Bug/feature spec, user notes | `docs/[milestone-slug]-[task-slug]-design.md` | ❌ NO |
+| 2. Planning | `docs/[milestone-slug]-[task-slug]-design.md` (recommended) | `docs/[milestone-slug]-[task-slug]-plan.md` | ✅ YES |
+| 3. Execution | `docs/[milestone-slug]-[task-slug]-plan.md` | `docs/[milestone-slug]-[task-slug]-results.md` + code + tests | ✅ YES |
 
 | Stage | Guide | Template |
 |-------|-------|----------|
+| 0. Goal | `references/0-goal-guide.md` | `assets/templates/0-goal.md` |
 | 1. Design | `references/1-design-guide.md` | `assets/templates/1-design.md` |
 | 2. Planning | `references/2-planning-guide.md` | `assets/templates/2-plan.md` |
 | 3. Execution | `references/3-execution-guide.md` | `assets/templates/3-results.md` |
@@ -54,6 +56,7 @@ This skill operates at the **Task level** - one task at a time through a 3-stage
 ## Optional Commands
 
 Users can invoke stages explicitly via commands:
+- `/dev-goal <notes>` - Start Stage 0
 - `/dev-design <notes>` - Start Stage 1
 - `/dev-plan <notes>` - Start Stage 2
 - `/dev-execute <notes>` - Start Stage 3 (one step)
@@ -74,6 +77,26 @@ Users can invoke stages explicitly via commands:
 - `/spawn-dev-milestone-summarizer <milestone-slug>` - Milestone summary agent
 
 Or use natural language: "Create design for database abstraction", "Plan the implementation", "Execute step 1"
+
+---
+
+## Stage 0: Goal (Optional)
+
+**Goal**: Capture the operator-facing expectation — one or more goals, each with its own today vs. post-task before/after. Confirmation artifact for the operator; alignment anchor for downstream agents.
+
+**Code Allowed**: ❌ NO
+
+**Optional**: This stage is opt-in. Create one when the operator-facing surface IS the value (per `0-goal-guide.md` §'When to create a goal doc'). Skip for pure refactors / bug fixes / spikes.
+
+**Guide**: `references/0-goal-guide.md` | **Template**: `assets/templates/0-goal.md`
+
+**Output**: `docs/[milestone-slug]-[task-slug]-goal.md`
+
+**Dual audience**: Operator confirms direction; downstream agents (design → review → plan → review → execute → monitor) read it as alignment input when present.
+
+**After completion**:
+- *Before-design flow*: Operator confirms the draft, then runs `/dev-design` for Stage 1 — Stage 1 reads the goal doc as input context.
+- *After-design distillation flow*: Operator confirms the draft. Downstream stages already in flight pick up the goal doc on their next activation.
 
 ---
 
@@ -126,9 +149,28 @@ Or use natural language: "Create design for database abstraction", "Plan the imp
 - ⚠️ LOOP UNTIL TESTS PASS — if tests fail, fix and re-test
 - 📝 DOCUMENT AND STOP — when tests pass, update results doc and stop
 
-**Review gate** (opt-in): Run `/dev-review-run` separately after execution to review all completed steps in parallel. See `references/review-guide.md`.
-
 **After all steps**: Run `/dev-finalize` to record timestamp, consolidate lessons, generate diagram, and run health check.
+
+---
+
+## Stage 3b: Review (Opt-In)
+
+**Goal**: Catch conceptual errors tests miss — wrong assumptions, silent trade-offs, architectural drift, over-engineering.
+
+**Code Allowed**: ❌ NO — review only writes to results.md; the executor handles fixes.
+
+**Optional**: This gate is opt-in. Run `/dev-review-run` after execution to review all completed steps in parallel, or `/dev-review <results-doc> <step>` for a single step.
+
+**Guide**: `references/review-guide.md` | **Template**: `assets/templates/review.md`
+
+**Input**: `docs/[milestone-slug]-[task-slug]-results.md` + step number (single-step mode) | **Output**: Review block written into the step's section in results.md
+
+**Key rules**:
+- **DESIGN-ANCHORED** — compare against design intent and plan acceptance criteria
+- **RISK-CALIBRATED** — apply checks at the depth specified by the plan's Risk Profile (default Standard)
+- **REPLACE, DON'T APPEND** — exactly one Review section per step at all times
+
+**After completion**: If FLAG, run `/dev-execute <plan> <step> --fix "<findings>"` to apply scoped fixes, then re-review.
 
 ---
 
@@ -137,11 +179,13 @@ Or use natural language: "Create design for database abstraction", "Plan the imp
 The skill should detect where the user is in the workflow:
 
 1. **No docs exist**: Start with Stage 1 (Design)
-2. **Only design exists**: Move to Stage 2 (Planning)
-3. **Plan exists**: Move to Stage 3 (Execution)
-4. **Results doc shows progress**: Continue Stage 3 from current step
+2. **Only goal doc exists**: Move to Stage 1 (Design) — Stage 1 reads goal doc as alignment context
+3. **Only design exists**: Move to Stage 2 (Planning)
+4. **Plan exists**: Move to Stage 3 (Execution)
+5. **Results doc shows progress**: Continue Stage 3 from current step
 
 Use Glob/Grep to check for existing documents:
+- `docs/[milestone-slug]-[task-slug]-goal.md`
 - `docs/[milestone-slug]-[task-slug]-design.md`
 - `docs/[milestone-slug]-[task-slug]-plan.md`
 - `docs/[milestone-slug]-[task-slug]-results.md`
@@ -166,9 +210,10 @@ Use Glob/Grep to check for existing documents:
 - Keep it concise - remove resolved questions, keep only latest health check
 
 **Per Task**:
-- `docs/[milestone-slug]-[task-slug]-design.md` - e.g., `core-poc6-design.md`, `cloud-auth-fix-design.md`
-- `docs/[milestone-slug]-[task-slug]-plan.md` - e.g., `core-poc6-plan.md`, `cloud-auth-fix-plan.md`
-- `docs/[milestone-slug]-[task-slug]-results.md` - e.g., `core-poc6-results.md`
+- `docs/[milestone-slug]-[task-slug]-goal.md` - e.g., `docs/core-placements-goal.md`, `docs/cloud-auth-fix-goal.md`
+- `docs/[milestone-slug]-[task-slug]-design.md` - e.g., `docs/core-poc6-design.md`, `docs/cloud-auth-fix-design.md`
+- `docs/[milestone-slug]-[task-slug]-plan.md` - e.g., `docs/core-poc6-plan.md`, `docs/cloud-auth-fix-plan.md`
+- `docs/[milestone-slug]-[task-slug]-results.md` - e.g., `docs/core-poc6-results.md`, `docs/cloud-auth-fix-results.md`
 
 **Test Files**:
 - Follow environment conventions (e.g., Python: `tests/test_[task-slug]_*.py`)

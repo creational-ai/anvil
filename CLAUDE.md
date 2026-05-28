@@ -114,6 +114,7 @@ Examples:
 
 **dev skill creates:**
 - `PROJECT_STATE.md` - Task and milestone tracking
+- `docs/[milestone-slug]-[task-slug]-goal.md` - Operator-facing goal doc (Stage 0, optional)
 - `docs/[milestone-slug]-[task-slug]-design.md` - Feature/bug design analysis
 - `docs/[milestone-slug]-[task-slug]-plan.md` - Implementation guide
 - `docs/[milestone-slug]-[task-slug]-results.md` - Progress tracking
@@ -132,6 +133,7 @@ Examples:
 - `4-tasks.md` - Stage 4 template
 
 **dev** (`claude-code/dev/assets/templates/`):
+- `0-goal.md` - Stage 0 output (Operator-facing goal + delta)
 - `1-design.md` - Stage 1 output (Problem Analysis + Proposed Steps)
 - `2-plan.md` - Stage 2 output
 - `3-results.md` - Stage 3 output
@@ -147,6 +149,7 @@ Examples:
 - `1-vision-guide.md` through `4-tasks-guide.md`
 
 **dev** (`claude-code/dev/references/`):
+- `0-goal-guide.md` - Stage 0 process (optional)
 - `1-design-guide.md` through `3-execution-guide.md`
 - `review-guide.md` - Conceptual review process (Stage 3b)
 - `python-guide.md` - Python environment guide
@@ -176,6 +179,7 @@ Examples:
 - `/design-tasks` - Define atomic tasks per milestone with dependencies (Stage 4)
 
 **dev commands**:
+- `/dev-goal` - Create / update a goal doc (Stage 0, optional)
 - `/dev-design` - Create design document (Stage 1)
 - `/dev-plan` - Plan implementation steps (Stage 2)
 - `/dev-execute` - Execute one step (Stage 3)
@@ -278,5 +282,13 @@ When using Mission Control MCP tools (`mcp__mission-control__*`) to manage tasks
 - **Role:** PM (Project Manager)
 - **Read 1st:** [PM_GUIDE.md](file:///Users/docchang/Development/Mission%20Control/docs/PM_GUIDE.md)
 - **Read 2nd:** [MCP_TOOLS_REFERENCE.md](file:///Users/docchang/Development/Mission%20Control/docs/MCP_TOOLS_REFERENCE.md)
+
+---
+
+## Session Agents
+
+This project uses session agents — see `.session-agents/agents.md` for the roster. Activation model and standard role definitions live in the `session-agents` skill at `~/.claude/skills/session-agents/`.
+
+**Utility pane completion protocol:** Utility panes ack work via doorbell — `comms reply` (emits `[--reply]`) when you want completion confirmation, `comms no-reply` (emits `[--no-reply]`) when you don't. On `[--reply]` receipt the `/comms` command (1) **TaskCreates the reply as Protocol-step 0** with subject `[protocol] fire reply to <sender>` and description = the exact `comms no-reply <sender> -m "<task> done"` command (this puts the pending reply in CC's task list — the strongest forget-resistant surface the harness offers, addressing the documented "agent forgets reply at turn-end" failure mode), (2) runs the body (executes as slash command if `/`-prefixed, else acknowledges in conversation), (3) fires the doorbell as its final tool call and marks the step-0 task complete. On `[--no-reply]` receipt: same body-execution rule, no reply. No-marker wires fall back to no-reply mode AND emit a one-line conversation diagnostic. See `claude-code/session-agents/commands/comms.md` (deployed to `~/.claude/commands/comms.md`) for canonical protocol mechanics; `SKILL.md` § Persistent behaviors carries the "Fire pending doorbell reply before turn end" anchor.
 
 ---

@@ -45,14 +45,7 @@ Follow `/dev-finalize` exactly:
 
 ## Verification
 
-After all 4 steps, verify:
-
-- [ ] `**Completed**:` has ISO 8601 timestamp with timezone
-- [ ] `## Lessons Learned` section exists with consolidated lessons
-- [ ] `## Diagram` section exists with ASCII box diagram
-- [ ] `PROJECT_STATE.md` updated with health check results
-
-**If any are missing, complete them before reporting done.**
+Run the Verification checklist in `/dev-finalize` (the command's "Verification" section is the source of truth). All 4 items must pass before reporting done — if any are missing, complete them first.
 
 ## Output
 

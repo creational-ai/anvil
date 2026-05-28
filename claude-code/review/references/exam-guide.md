@@ -88,9 +88,10 @@ Identify document type from filename pattern:
 
 | Pattern | Type | Cross-Reference |
 |---------|------|-----------------|
-| `docs/[milestone-slug]-[task-slug]-design.md` | Task Design | tasks |
-| `docs/[milestone-slug]-[task-slug]-plan.md` | Plan | design for same slug |
-| `docs/[milestone-slug]-[task-slug]-results.md` | Results | plan (rarely reviewed) |
+| `docs/[milestone-slug]-[task-slug]-goal.md` | Goal | none (root operator-facing doc) |
+| `docs/[milestone-slug]-[task-slug]-design.md` | Task Design | tasks; goal (if present) |
+| `docs/[milestone-slug]-[task-slug]-plan.md` | Plan | design for same slug; goal (if present) |
+| `docs/[milestone-slug]-[task-slug]-results.md` | Results | plan (rarely reviewed); goal (if present) |
 | `docs/[milestone-slug]-milestone-summary.md` | Milestone Summary | all task results for milestone |
 
 ### Process
@@ -235,6 +236,7 @@ Observe active plan execution by periodically reading the results doc. Report st
 ### Path Derivation
 
 From the task slug, derive these **input** paths (read-only):
+- `docs/[slug]-goal.md` (optional — Stage 0; operator-facing target the entire pipeline aligns against)
 - `docs/[slug]-plan.md`
 - `docs/[slug]-design.md`
 - `docs/[slug]-results.md`
@@ -257,6 +259,7 @@ Read all existing docs. Build understanding of:
 - Design decisions and constraints
 - Known review findings per step
 - Step-to-design-item mapping (from the plan's overview/approach section)
+- **Goal doc** (if present): per-Goal Post-Task Usage as the operator-facing target each step must move toward; goal-doc-to-design mapping (which Goal each design item delivers) for use in Per-Step Analysis § vs Goal
 
 #### 2. Report Initial Status
 
@@ -341,9 +344,19 @@ Only if an expectations doc exists. Check:
 
 If no expectations doc exists, omit this section entirely.
 
+#### vs Goal
+
+Only if a goal doc exists. Check:
+- Which Goal (or Goals) does this step contribute to? (Use the goal-doc-to-design mapping built during baseline.)
+- Does the step's observable behavior move toward the corresponding Goal's Post-Task Usage?
+- Any drift between the step output and any Goal's Post-Task Usage commands / artifact example?
+- For multi-goal docs: a step typically contributes to one Goal; flag if the step touches multiple Goals' Post-Task surfaces (often a sign of bundling that should have been split).
+
+If no goal doc exists, omit this section entirely. The design proxies the goal; vs Design already covers it transitively. vs Goal is the direct check for "does the step output match what the operator was promised?"
+
 #### Observation filter (before logging)
 
-Per-step analysis surfaces many observations across vs Plan Spec / vs Plan Review / vs Design / vs Expectations. Most are conversational, not loggable. An observation only escalates to the Issue Logging path if it matches at least ONE of:
+Per-step analysis surfaces many observations across vs Plan Spec / vs Plan Review / vs Design / vs Expectations / vs Goal. Most are conversational, not loggable. An observation only escalates to the Issue Logging path if it matches at least ONE of:
 
 1. A code/artifact defect (correctness bug, broken invariant, missed edge case in shipped code)
 2. A plan/code mismatch the results doc doesn't acknowledge as a Deviation

@@ -1,10 +1,10 @@
 # Project State: Anvil
 
-> **Last Updated**: 2026-04-24T16:53:45-0700
+> **Last Updated**: 2026-05-27T16:18:26-0700
 
 **Anvil** is a structured workflow for taking ideas from concept to working product, supporting both Claude Code (implementation) and Claude Desktop (design & research).
 
-**Current Status**: Skills framework v2.0.0 with 4 Anvil skills (design, dev, research, review). Design skill refactored from 5 stages to 4 (vision, architecture, milestones, tasks) with formal two-rule naming convention (`[project-slug]-*` vs `[milestone-slug]-*`) mirrored across SKILL.md + CLAUDE.md. Review skill additively extended to recognize both legacy and 4-stage doc types. Review skill has persistent review tracking, per-item history, auto-fix support, step-splitting, paired tick-driven review loops (`/review-doc-run-loop` + `/exam-loop`), and operator-facing `/walkthrough` command for pedagogical per-unit elaboration. Marketing milestone 1/6 tasks complete.
+**Current Status**: Skills framework v2.0.0 with 4 Anvil skills (design, dev, research, review). Dev skill now carries Stage 0 (optional Goal doc) wired into the live workflow via `/dev-goal` command, SKILL.md registration, anvil `CLAUDE.md` registration, and downstream goal-doc awareness across 4 guides + 4 agents + 1-design template. Soft-reference policy preserves backwards-compat. Verify pass count: 75/75 (was 74; +1 for new REQUIRED_COMMANDS allowlist entry). Marketing milestone 1/6 tasks complete.
 
 ---
 
@@ -29,6 +29,7 @@
 | review-auto-loops | Auto Loops: /review-doc-run-loop + /exam-loop (tick-driven staggered review) | feature | ✅ Complete (Step 6 ⏭️ skipped) | `core-review-auto-loops-*.md` |
 | review-walkthrough | Operator-Facing /walkthrough Command (five-angle per-unit elaboration) | feature | ✅ Complete (smoke test ⏸ operator gate) | `core-review-walkthrough-*.md` |
 | design-4stage | Design Skill 5→4 Stage Refactor (delete milestone-spec, rename roadmap→milestones, task-spec→tasks) | refactor | ✅ Complete (Step 10 genesis deploy ⏸ operator gate) | `core-design-4stage-*.md` |
+| goal-doc | Stage 0 Goal-Doc Integration (/dev-goal + SKILL.md + CLAUDE.md + 4 downstream guides/agents + 1-design template) | feature | ✅ Complete (Step 8 operator smoke ⏸ operator gate) | `core-goal-doc-*.md` |
 
 ### Milestone: Marketing
 
@@ -67,71 +68,75 @@
 | 2026-04-23 | When Specification and Acceptance Criteria contradict, the grep wins | Step 2 Specification said "mention `--auto`" but Acceptance Criterion #6 required `grep -cE "--auto" == 0`. Enforced greps are the binding contract; "mention X" directives are drafting artifacts. Resolved by "No flags." without naming specific disavowed flags. |
 | 2026-04-23 | Live smoke test for `/walkthrough` deferred to operator as manual gate | Executor agent cannot run interactive commands in a fresh Claude Code session with human-in-loop pause semantics. All automatable preconditions (deploy, verify, byte-match, count delta, doc-unchanged) pass, giving the manual test maximum precondition strength. Same pattern as any `disable-model-invocation: true` command requiring operator input. |
 | 2026-04-24 | Collapse design skill from 5 stages to 4 (delete milestone-spec, rename roadmap→milestones, task-spec→tasks) | Stage 4 (milestone-spec) duplicated concerns already covered by Stage 3 (roadmap → milestones) + Stage 5 (task-spec → tasks); merging Prerequisite + Scope into the renamed 4-tasks template removes the extra layer without losing information. Two-rule naming convention (`[project-slug]-*` vs `[milestone-slug]-*`) formalized in SKILL.md + mirrored byte-for-byte into CLAUDE.md. Review skill extended additively to recognize both legacy and 4-stage doc types (no breaking change for user repos that still hold old-name files). |
+| 2026-05-27 | Wire Stage 0 (Goal doc, optional) into dev skill — `/dev-goal` command, SKILL.md/CLAUDE.md registration, downstream awareness across 4 guides/agents/1-design template | Stage 0 guide + template existed but the dev skill was unaware of them — no command surface, no SKILL.md mention, no downstream alignment. Soft-reference policy (read-if-present, never fail-if-absent) preserves backwards-compat for tasks that skip Stage 0. No spawn variant by design — Stage 0's defining work is operator collaboration, which spawn-mode subagents cannot do well. Optional REQUIRED_COMMANDS verify-script tightening applied + pair-synced for regression-catching parity with other entry-point commands. |
 
 ---
 
 ## What's Next
 
 **Recommended Next Steps**:
-1. **Operator action (core-design-4stage Step 10)**: When ready, run `cd claude-code && ./deploy-genesis.sh && ./verify-genesis.sh` to propagate the 5→4 refactor to genesis. Expect exit 0 on both; command count on genesis should drop to 43 (was 44 baseline) if pair-sync behaves. Per CLAUDE.md, genesis deploy is a separate manual action.
-2. **Follow-up task**: Update `claude-code/README.md` to 4-stage vocabulary (4 hits: `milestone-spec` x3, `task-spec` x1 at lines 35/82/138). Out-of-scope for core-design-4stage per its design-doc scope boundary; recommend small follow-up.
-3. **Operator action (core-review-walkthrough)**: Run `/walkthrough docs/core-review-walkthrough-design.md` in a fresh Claude Code session; confirm first unit renders five angles, `stop` ends cleanly, `git diff` returns empty. Final smoke-test gate.
-4. Exercise new loop commands + `/walkthrough` in actual daily use; log any wake-up, resume-math, parser, or walkthrough-rendering issues as follow-up bugs.
-5. Begin Distribution Listings task (awesome list PRs, SkillsMP indexing).
-6. Begin LinkedIn Launch task (profile optimization, first posts).
+1. **Operator action (core-goal-doc Step 8)**: Run the operator-driven end-to-end smoke in main conversation: `/dev-goal "core-test-goal: ..."` → confirm operator-confirmation prompts → `/dev-design --notes "core-test-goal: ..."` → verify `docs/core-test-goal-design.md` Purpose blockquote cites the goal doc. Teardown: keep for inspection or `rm docs/core-test-goal-*.md`.
+2. **Operator action (core-design-4stage Step 10)**: When ready, run `cd claude-code && ./deploy-genesis.sh && ./verify-genesis.sh` to propagate the 5→4 refactor + new Stage 0 to genesis. Per CLAUDE.md, genesis deploy is a separate manual action.
+3. **Follow-up task**: Update `claude-code/README.md` to 4-stage vocabulary (4 hits) + mention Stage 0 (optional). Out-of-scope for prior tasks; recommend small follow-up.
+4. **Operator action (core-review-walkthrough)**: Run `/walkthrough docs/core-review-walkthrough-design.md` in a fresh Claude Code session; confirm first unit renders five angles, `stop` ends cleanly, `git diff` returns empty. Final smoke-test gate.
+5. **Follow-ups from core-goal-doc Open Questions**: review-skill recognition of goal docs, `/dev-finalize` audit of goal-doc → results alignment, design-skill auto-suggest heuristic.
+6. Begin Distribution Listings task (awesome list PRs, SkillsMP indexing).
+7. Begin LinkedIn Launch task (profile optimization, first posts).
 
-**System Status**: ✅ **Production Ready + 4-Stage Design + Auto Loops + Walkthrough**
+**System Status**: ✅ **Production Ready + 4-Stage Design + Stage 0 Goal Doc + Auto Loops + Walkthrough**
 - 4 Anvil skills: design, dev, research, review
 - **4-stage design skill** (vision, architecture, milestones, tasks) with formal two-rule naming convention (`[project-slug]-*` vs `[milestone-slug]-*`)
-- 3-stage dev skill with spec-driven plan workflow and sub-step support; 8 cross-refs normalized to `[milestone-slug]-tasks.md`
+- **Dev skill now carries optional Stage 0** (Goal doc) via `/dev-goal` command (main-conversation only, no spawn variant), wired into SKILL.md (6 edit sites), anvil `CLAUDE.md` (4 sites), and downstream awareness across 4 guides + 4 agents + 1-design template (soft-reference policy preserves backwards-compat)
+- 3-stage dev skill body (Design / Plan / Execute) with spec-driven plan workflow and sub-step support; 8 cross-refs normalized to `[milestone-slug]-tasks.md`
 - review skill: persistent review tracking with per-item history, --auto support, step scope check with split suggestions, parallel + sequential doc review, skill auditing, paired tick-driven review loops (`/review-doc-run-loop` + `/exam-loop`), operator-facing `/walkthrough` for pedagogical per-unit elaboration, additive 4-stage doc-type recognition alongside legacy 5-stage support
 - review-loop-guide.md owns all loop mechanics (parser, roles, gates, tick loop, echo state, termination, tuning) as single source of truth
 - walkthrough-guide.md owns five-angle elaboration rules, three-tier adaptive vocabulary, unit extraction depth detection, per-unit advance semantics
 - All agents use bare role names, all forked commands use /spawn-* prefix
 - research/ skill consolidates market-research and naming-research
 - Marketing milestone 1/6 tasks complete (GitHub Presence)
-- **42 deployed commands** (was 43; −3 old design commands + 2 new), 16 agents, **74/74 verify checks passing**
+- **Deployed commands**: 43 (was 42; +1 `/dev-goal`), 16 agents, **75/75 verify checks passing** (was 74; +1 REQUIRED_COMMANDS allowlist entry for `dev-goal.md`)
 
 ---
 
 ## Latest Health Check
 
-### 2026-04-24 - core-design-4stage Finalization
-**Status**: ✅ On Track (structural + deploy/verify green on local; Step 10 genesis deploy deferred to operator per project policy)
+### 2026-05-27 - core-goal-doc Finalization
+**Status**: ✅ On Track (structural + deploy/verify green on local; Step 8 operator-driven end-to-end smoke deferred to operator per Stage 0's main-conversation-only contract)
 
 **Context**:
-Finalizing the core-design-4stage task — collapsed design skill from 5 stages to 4 (vision, architecture, milestones, tasks). Step 1 merged Prerequisite + Scope from milestone-spec into the renamed 4-tasks template; Steps 2-4 deleted milestone-spec triplet and renamed roadmap→milestones / task-spec→tasks via `git mv` with history preservation; Steps 5-7 rewrote design SKILL.md, mirrored the two-rule naming statement byte-for-byte into CLAUDE.md, and normalized 8 dev-skill cross-refs to `[milestone-slug]-tasks.md`; Step 8 added OLD_COMMANDS entries in pair-sync parity; Step 9 local deploy + verify passed 74/74; Step 9.5 (mid-execution insert per monitor Issue #2) additively extended review skill to recognize both legacy and 4-stage doc types. Step 10 (genesis deploy) correctly deferred — project CLAUDE.md mandates genesis deploy as a separate manual operator action.
+Finalizing the core-goal-doc task — wired the existing Stage 0 guide (`0-goal-guide.md`) and template (`0-goal.md`) into the live dev workflow as an optional opt-in stage. Step 1 created the `/dev-goal` command (main-conversation only, no spawn variant by design); Step 2 integrated Stage 0 into SKILL.md across six edit sites and removed the stale "Integration gap" paragraph from `0-goal-guide.md`; Step 3 registered Stage 0 in anvil's `CLAUDE.md` across four sites; Steps 4-7 added soft "read-if-present" goal-doc awareness to the four downstream guides (1-design, 2-planning, 3-execution, review) + four agents (designer, planner, executor, reviewer) + `1-design.md` template's Purpose blockquote; Step 8 applied the optional REQUIRED_COMMANDS verify-script tightening (pair-synced local + genesis), ran the backwards-compat sweep, and paused for operator-driven end-to-end smoke per Stage 0's no-spawn contract.
 
 **Findings**:
-- ✅ Alignment: 4-stage refactor is a structural simplification of the design skill's own pipeline — the skill IS the product for Anvil, so pipeline shape is core to product vision. Two-rule naming convention (`[project-slug]-*` vs `[milestone-slug]-*`) formalizes a previously-implicit distinction and makes CLAUDE.md a byte-for-byte mirror of SKILL.md rather than a divergent fork. Aligns with "single source of truth" patterns already established in review-loop-guide.md and walkthrough-guide.md.
-- ✅ Production: All edits land on production surfaces (SKILL.md, CLAUDE.md, commands, templates, guides, deploy/verify scripts). `deploy.sh && verify.sh` on local returns exit 0 with `✅ Passed: 74 ❌ Failed: 0`; command count dropped from 43 → 42 as designed (+2 new `design-milestones.md`/`design-tasks.md`, −3 old `design-milestone-spec.md`/`design-roadmap.md`/`design-task-spec.md`). `OLD_COMMANDS` cleanup loop fired 3 explicit `✓ Removed` log lines for each new orphan entry.
-- ✅ Gap: Step 10 (genesis deploy + verify) deferred by project policy — `CLAUDE.md` line 45 explicitly marks `deploy-genesis.sh` as a separate manual action. All local automatable preconditions pass. Risk mitigated because (a) deploy/verify scripts are pair-synced at the array-content level, (b) genesis reuses the same skill tree via SSH, (c) pair-parity invariant is the binding contract, not the absolute command count.
-- ✅ Scope: 10 steps (+ Step 9.5 additive insert) executed per plan. Mid-execution Step 9.5 is a legitimate pattern — monitor Issue #2 surfaced an in-scope gap (review skill's hardcoded legacy doc-type references), and the executor chose additive-step insertion over rollback or Success-Criteria narrowing. ADD-not-replace discipline verified via baseline count invariants: `milestone-spec`/`roadmap`/`task-spec` counts in `claude-code/review/` UNCHANGED (16/12/22 → 16/12/22) proving no accidental legacy removal.
-- ✅ Complexity: Proportionate. Refactor touches exactly the surfaces named in the plan's scope-boundary line: design skill source files (7 edits), dev skill cross-refs (8 substitutions across 6 files), project CLAUDE.md (4 sections + two-rule mirror), deploy/verify scripts (pair-sync). No premature abstractions, no redundant surface area. Out-of-scope leaks (`claude-code/README.md`, `claude-code/review/`) correctly deferred as follow-up tasks rather than expanding mid-execution.
-- ✅ Tests: N/A for runtime — design skill is structural (templates, guides, commands). Verification is deploy+verify+grep-count based. All 19 Success Criteria auto-verified: 10 grep/count checks on design subtree, 4 on CLAUDE.md, 4 on dev-skill cross-refs, 1 git-log-follow verified via `R100` staged-rename snapshot at the mv boundary. `/review-skill claude-code/design` inline check at Step 5: 0 HIGH findings across all 8 validation checks.
+- ✅ Alignment: Stage 0 closes a long-standing dual-audience contract gap (operator confirms direction; downstream agents read goal doc as alignment context). The guide + template existed but the skill was unaware of them — Step 0 baseline (74 checks) confirmed clean starting state; final 75 checks (added REQUIRED_COMMANDS entry for dev-goal.md) confirms the new entry-point command has the same loud-failure regression-catch as the other four entry-point commands. Soft-reference policy preserves backwards-compat: any task that skips Stage 0 continues unchanged through Stages 1/2/3.
+- ✅ Production: All edits land on production surfaces (`/dev-goal` command, SKILL.md, anvil CLAUDE.md, 4 downstream guides, 4 downstream agents, 1-design template, both verify scripts). `deploy.sh && verify.sh` on local: exit 0 with `✅ Passed: 75 ❌ Failed: 0`. Auto-discovery (deploy.sh:163-170 `cp -r commands/*.md`) handled `/dev-goal` deployment without any deploy-script edit; safety verified via `grep "dev-goal.md" deploy.sh deploy-genesis.sh` returning 0 matches.
+- ✅ Gap: Step 8's operator-driven end-to-end smoke deferred per Stage 0's defining contract — the command body explicitly states "Run in main conversation. Do NOT spawn a subagent or fork." An executor agent CAN'T legitimately drive the smoke without bypassing the operator-confirmation step that makes the smoke meaningful. All 10 executor-side ACs pass; the operator-procedural smoke is the final gate.
+- ✅ Scope: 8 steps executed per plan, no scope creep. All four downstream awareness slices (Steps 4-7) are placement-disambiguated to match each target file's existing semantic-section inventory (Critical Rules vs end-of-Process vs end-of-Scope) rather than forcing cross-step structural symmetry. The "If absent" backwards-compat anchor is present in all 4 downstream guides (each in file-appropriate phrasing); the load-bearing regex `If no goal doc exists|If absent` accepts both forms.
+- ✅ Complexity: Proportionate. The integration touches exactly the surfaces named in the plan's scope-boundary line. No abstractions, no wrappers, no premature generalization — just structural edits to existing files plus one new command file. The optional REQUIRED_COMMANDS tightening (1 line × 2 files) was applied with documented rationale rather than silently deferred.
+- ✅ Tests: N/A for runtime — Stage 0 integration is structural (commands, templates, guides, agents). Verification is deploy+verify+grep-anchor based. All 10 executor-side ACs auto-verified; `grep`-based structural assertions cover SKILL.md anchors (8 matches), CLAUDE.md anchors (3 matches), 0-goal-guide.md Integration-gap removal (0 matches), 1-design.md template Goal doc citation (1 match), 4 downstream guides with goal-doc subsection/alignment bullet, 4 downstream agents with literal goal-doc path. Pair-sync verified via array-region `sed` extraction (correcting the plan's looser `grep -A 10` form documented in Step 8 Issues).
 
 **Challenges**:
-- Plan-AC vs step-ownership ambiguity surfaced repeatedly (Steps 3, 4, 5): strict "0 matches in design/ subtree" ACs conflicted with Step 5's explicit ownership of SKILL.md rewrites. Resolved via step-ownership precedence as the authoritative partition. Flagged in Issues blocks at each step so reviewers can confirm the resolution pattern.
-- Step 4 command file similarity dropped to 46% post-content-edits (below git's default -M50% rename threshold). Pre-content-edit `R100` snapshot served as audit trail; post-commit `--follow` requires `--find-renames=30%` to cross the boundary. Documented in Lessons Learned for future heavy-rename steps.
-- Monitor Issue #2 (review skill scope gap) caught mid-execution after Steps 1-9 had landed. Rather than rollback or ignore, executor + operator chose Step 9.5 additive-insert path. Worked cleanly because purely additive, idempotent re-deploy, and broader Success Criteria already covered the scope.
+- Plan-internal AC pattern vs edit-spec mismatch (Step 3): AC literal pattern `grep "0-goal\.md"` expected 2+ matches, but only edit site #3 (templates) uses the literal `0-goal.md` filename — edit site #2 uses the path-placeholder form `[task-slug]-goal.md`. Resolved by verifying intent via broader regex `grep -E "goal\.md"` returning 2 matches at expected lines, documenting the AC-vs-spec mismatch in Issues for future plan tightening.
+- Placement disambiguation across four agent files with different section inventories (Steps 4-7): `dev-designer.md` and `dev-executor.md` have `## Critical Rules`; `dev-planner.md` doesn't; `dev-reviewer.md` doesn't either but has `## Scope`. Forcing uniform placement would either fabricate sections or jam constraints into wrong places. Resolved by matching each file's existing semantic-section inventory and documenting the placement pattern across all four steps.
+- Pair-sync verification command in plan (Step 8) used `diff <(grep -A 10 REQUIRED_COMMANDS verify.sh) <(grep -A 10 …)` which matches multiple sites (array declaration + consumer loop) and legitimately differs at the consumer site (local vs SSH). Resolved by using `sed -n '/^REQUIRED_COMMANDS=(/,/^)/p'` for exact array-region extraction; that diff is empty, confirming pair-sync at the binding-invariant abstraction level.
 
 **Results**:
-- ✅ Design skill file surface: 4 commands / 4 templates / 4 guides (was 5/5/5), all with correct stage-number prefixes (1-vision, 2-architecture, 3-milestones, 4-tasks); no stale `milestone-spec`/`roadmap`/`task-spec` files remain
-- ✅ SKILL.md rewritten: 4-row Stage Overview table, two-rule File Naming statement with 5 concrete examples, 4 `/design-*` command bullets, 4 per-stage bodies with correct inputs/outputs/checklists (Stage 4 Complete Checklist extended with absorbed Prerequisite + Scope items)
-- ✅ CLAUDE.md updated in 4 sections (File Naming, Templates, Reference Guides, Slash Commands); two-rule statement mirrored byte-for-byte from SKILL.md lines 31-41 to CLAUDE.md lines 103-113 (verified via `diff <(sed -n …) <(sed -n …)` exit 0); line 16 (claude-desktop "Same 5-stage") preserved
-- ✅ Dev skill's 8 cross-refs all speak one convention: `[milestone-slug]-tasks.md` (or bare `tasks.md` in 1 bash comment); 3-way alignment across SKILL.md + CLAUDE.md + dev skill prevents future drift
-- ✅ Review skill additively extended to recognize 4-stage doc types (`*-milestones.md`, `*-tasks.md`) alongside legacy 5-stage types; 7 files updated; completion-notification allowlist extended
-- ✅ `deploy.sh` + `deploy-genesis.sh` `OLD_COMMANDS` arrays both gained 3 entries in pair-sync parity with `# design skill 5→4 stage refactor (core-design-4stage)` provenance comments
-- ✅ Local deploy + verify: 74/74 checks passing; command count 43 → 42; all 3 OLD_COMMANDS cleanups fired; 4 `design-*.md` files present with correct names
-- ⏸ Genesis deploy + verify deferred to operator per CLAUDE.md policy
+- ✅ `/dev-goal` command created, deployed (`~/.claude/commands/dev-goal.md`), and registered in REQUIRED_COMMANDS allowlist for regression-catching parity
+- ✅ SKILL.md carries Stage 0 across six edit sites (Quick Reference Input/Output table, Quick Reference Guide/Template table, Optional Commands list, dedicated Stage 0 H2 section, State Detection list, File Naming Conventions)
+- ✅ Anvil `CLAUDE.md` registers Stage 0 across four sites (dev commands, dev-skill-creates file list, templates, references) — no spawn variant entry
+- ✅ `0-goal-guide.md` stale "Integration gap" paragraph removed; replaced by concise navigational bullet matching the cross-references section's existing pattern
+- ✅ Downstream goal-doc awareness present in all 4 guides (1-design, 2-planning, 3-execution, review) with file-appropriate "If absent" anchor and all 4 agents (designer, planner, executor, reviewer) with literal goal-doc path
+- ✅ `1-design.md` template's Purpose blockquote carries `> **Goal doc**: docs/[milestone-slug]-[task-slug]-goal.md` citation (conditionally emitted by dev-designer.md per goal-doc presence — no orphan citation when absent)
+- ✅ Optional verify-script tightening applied: `REQUIRED_COMMANDS` array gained `dev-goal.md` in both `verify.sh` and `verify-genesis.sh`; pair-sync verified via array-region `sed` extraction
+- ✅ Local deploy + verify: 75/75 checks passing (was 74; +1 for new REQUIRED_COMMANDS entry); deploy scripts untouched (auto-discovery preserved)
+- ⏸ End-to-end operator-driven smoke (`/dev-goal "core-test-goal: ..."` → `/dev-design --notes "..."` → verify Purpose blockquote citation) deferred to operator per Stage 0's main-conversation-only contract
 
 **Lessons Learned**:
-- `git mv` first, then content edits — pre-edit `R100` snapshot is the load-bearing audit trail when post-edit similarity drops below git's default -M50% rename threshold.
-- Pair AC negation greps with explicit-pattern greps — "grep for OLD returns 0" only proves absence, not replacement correctness. Pair with "grep for NEW returns exactly N" to catch typos, over-replacements, half-finished refactors.
-- Pair-sync invariant operates at the abstraction level of shared arrays, not whole-file equality. Correct verification primitive: `diff <(grep <pattern> file1) <(grep <pattern> file2)`, NOT `git diff file1 file2`.
-- Step-ownership precedence resolves plan-AC ambiguity. When a step's "0 matches" AC conflicts with a later step's explicit ownership, the step-ownership partition is authoritative — redoing work mid-sequence causes commit drift.
-- Mid-execution scope expansion via additive insert-step is legitimate when monitor surfaces an in-scope HIGH gap with bounded additive cost. Prefer additive over Success-Criteria narrowing.
-- ADD-not-replace discipline verified via baseline count invariants (`grep -rcn` pre/post) — any drop signals accidental legacy removal.
-- Mirror verification by byte-diff when plan says "verbatim" — `diff <(sed -n 'a,bp' src) <(sed -n 'c,dp' dst)` exit 0 = byte-identical.
+- Auto-discovery in `deploy.sh` (`cp -r commands/*.md`) makes adding a new command a single-file source-side change; `OLD_COMMANDS` is a footgun — adding a still-live command DELETES it on every deploy.
+- Conditional-emission templates need agent-side instructions to be load-bearing — without explicit strip-on-absence in the agent spec, the template line becomes an orphan citation pointing to a nonexistent file.
+- Placement is driven by target-file structure, not cross-step symmetry — match each file's existing semantic-section inventory rather than forcing uniformity that distorts file structure.
+- Stage 0's operator-pause is a deliberate contract, not a deferral — when a command body forbids spawning, any end-to-end smoke of that command MUST be operator-driven, not executor-driven.
+- `grep -A N` cuts across multiple match sites in scripts with repeated patterns — prefer `sed` range-extraction for pair-sync verification.
+- REQUIRED_COMMANDS is a deploy-regression catch-net, not just a count check — every operator-facing entry-point command should appear there.
+- Anchored greps catch structural drift that bare greps miss — `grep -E '^> \*\*Goal doc\*\*'` confirms the line is INSIDE the blockquote.
 
-**Next**: Operator runs `cd claude-code && ./deploy-genesis.sh && ./verify-genesis.sh` when ready to propagate to genesis (expect exit 0 on both; genesis command count should drop to 43 from 44 baseline if pair-sync holds). Then address follow-up tasks: (a) update `claude-code/README.md` to 4-stage vocabulary, (b) design+plan cycle for `claude-code/review/` legacy vs 4-stage doc-type vocabulary alignment. Unrelated operator gate still pending: live `/walkthrough` smoke test from the prior core-review-walkthrough task.
+**Next**: Operator runs end-to-end smoke in main conversation (`/dev-goal "core-test-goal: ..."` → operator-confirmation → `/dev-design --notes "..."` → verify goal-doc citation in produced design). Then optionally trigger genesis deploy + verify (separate manual step per anvil's `CLAUDE.md`). Unrelated operator gates still pending: core-design-4stage Step 10 genesis deploy, core-review-walkthrough live smoke test.

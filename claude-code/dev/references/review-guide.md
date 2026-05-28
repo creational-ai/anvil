@@ -25,6 +25,8 @@ The design doc provides the higher-level intent (what to build and why). The pla
 
 **Not a flag:** Minor implementation details neither the design nor acceptance criteria specified (variable names, helper methods, defensive error handling).
 
+**Goal doc alignment (if present)**: If `docs/[milestone-slug]-[task-slug]-goal.md` exists, the review checks design-vs-goal alignment (the design is the goal doc's downstream proxy). Flag design-vs-goal contradictions or step output that breaks the design's commitments; do NOT re-litigate results-vs-goal directly. If no goal doc exists, this check is a no-op.
+
 ### 2. Assumption Audit
 
 Did the agent introduce assumptions not present in the design?

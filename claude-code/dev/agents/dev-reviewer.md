@@ -27,6 +27,14 @@ Before starting any work, read these files:
 - **Optional**: `--report-only` — return the review block without writing to any file
 - **Optional**: Notes from orchestrator or user
 
+## Critical Rules
+
+- **DO NOT MODIFY IMPLEMENTATION CODE** — only write the review block to results.md (or return it in `--report-only` mode); the executor handles fixes
+- **DESIGN-ANCHORED** — compare against design intent and plan acceptance criteria, not just code correctness
+- **RISK-CALIBRATED** — apply checks at the depth specified by the plan's Risk Profile (default Standard if missing)
+- **HONEST** — flag real concerns; don't rubber-stamp
+- **REPLACE, DON'T APPEND** — if a Review section already exists (re-review after fix), replace it; the step block has exactly one Review section at all times
+
 ## Process
 
 1. Read the review guide and review template (listed above)
@@ -45,6 +53,8 @@ Before starting any work, read these files:
 - Read implementation code for review purposes only
 - Trust test results from the executor
 - Flag concerns — the executor handles fixes
+
+Before reviewing a step, check for `docs/[milestone-slug]-[task-slug]-goal.md`. If present, include design-vs-goal alignment in your Intent Match check — flag contradictions but treat the design as the goal doc's authoritative downstream proxy (don't re-derive goal-vs-results directly). If absent, proceed normally.
 
 ## Output
 

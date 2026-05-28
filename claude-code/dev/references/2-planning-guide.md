@@ -13,6 +13,10 @@ YES
 If Design doc provided → read and use as blueprint
 If no Design doc → plan from scratch (for simple tasks, quick fixes)
 
+### If a goal doc exists for this task
+
+If `docs/[milestone-slug]-[task-slug]-goal.md` exists, read it before drafting the plan. The goal doc — every Goal's Post-Task Usage — is the contract the plan's steps must collectively deliver. Treat as a constraint: no plan step should land an operator-facing change that contradicts any Goal in the goal doc. If absent, proceed normally — Stage 0 is optional.
+
 ## Process
 1. List all prerequisites (setup Supabase, configure AWS, API keys, etc.)
 2. Break implementation into bite-sized steps (small, completable, testable)

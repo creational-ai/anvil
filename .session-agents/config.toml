@@ -1,0 +1,9 @@
+# Per-project config for the `comms` CLI.
+# See `~/.claude/skills/session-agents/references/comms.md` for the schema.
+# tmux_prefix = "<project-name>"  # uncomment to override basename default
+
+
+# Flags passed to `claude` when `comms open <role>` auto-launches it. Appended
+# before the hardcoded `--resume <role>`. See `comms/README.md` § Configuration.
+[claude]
+options = "--dangerously-skip-permissions"

@@ -1,0 +1,1 @@
+<!-- Empty overlay — inherits skill baseline at ~/.claude/skills/session-agents/references/roles/qa.md. Add project-specific scope, responsibilities, or rules below to tailor. Delete this comment once you start writing real content. -->

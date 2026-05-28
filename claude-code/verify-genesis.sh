@@ -79,6 +79,7 @@ REQUIRED_COMMANDS=(
     "review-skill.md"
     "dev-health.md"
     "market-research.md"
+    "dev-goal.md"
 )
 
 # Key agents that must exist (sanity check)

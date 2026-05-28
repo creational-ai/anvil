@@ -49,7 +49,7 @@
 
 ## Latest Health Check
 
-### [Date] - [Session/Task Name]
+### [YYYY-MM-DDTHH:MM:SS±HHMM] - [Session/Task Name]
 **Status**: ✅ On Track / ⚠️ Minor Concerns / ❌ Needs Attention
 
 **Context**:

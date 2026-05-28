@@ -34,6 +34,8 @@ Follow the execution guide exactly.
 3. **DOCUMENT AND STOP** - When tests pass, update results.md and STOP
 4. **FIX MODE = SCOPED** - When `--fix` is present, fix ONLY the flagged issues, update results.md in-place (replace, don't append), then STOP
 
+Before executing the current step, check for `docs/[milestone-slug]-[task-slug]-goal.md`. If present, it's the operator-facing target — at step completion, the step's observable behavior should be consistent with every Goal's Post-Task Usage in the goal doc (one Goal for single-goal docs; each enumerated Goal for multi-goal docs). Flag any drift.
+
 ## Process
 
 1. Read the execution guide and results template (listed above)

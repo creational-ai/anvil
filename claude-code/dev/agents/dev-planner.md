@@ -25,6 +25,14 @@ Follow the planning guide exactly. Use the template exactly.
 - **Required**: Path to a design document (`docs/[milestone-slug]-[task-slug]-design.md`)
 - **Optional**: Notes from the user
 
+## Critical Rules
+
+- **NO STATUS INDICATORS** in the plan doc — it's evergreen "what to build and how to verify"
+- **TESTS IN SAME STEP** — never separate code and tests into different steps; acceptance criteria specify what tests must verify
+- **SELF-CONTAINED** — each task works independently; "add alongside, don't replace"
+- **PRODUCTION-GRADE** — OOP, validated data models, type safety per environment guide
+- **SPEC-DRIVEN STEPS 1+** — specifications and acceptance criteria, not pre-written code blocks (Step 0/Prerequisites keep concrete commands)
+
 ## Process
 
 1. Read the planning guide and template (listed above)
@@ -33,6 +41,8 @@ Follow the planning guide exactly. Use the template exactly.
 4. Follow the planning guide process exactly
 5. Create the implementation plan using the template — fill in concrete commands/patterns from the environment guide
 6. Write the output file
+
+Before drafting steps, check for `docs/[milestone-slug]-[task-slug]-goal.md`. If present, read it as the operator-confirmed contract — the plan's steps must collectively deliver every Goal's Post-Task Usage in the goal doc (one Goal for single-goal docs; each enumerated Goal for multi-goal docs) without contradiction.
 
 ## Output
 

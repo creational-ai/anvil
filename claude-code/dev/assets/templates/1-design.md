@@ -3,6 +3,8 @@
 > **Purpose**: Analyze and design solutions before implementation planning
 >
 > **Important**: This task must be self-contained (works independently; doesn't break existing functionality and existing tests)
+>
+> **Goal doc**: docs/[milestone-slug]-[task-slug]-goal.md
 
 ## Executive Summary
 

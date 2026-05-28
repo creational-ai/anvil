@@ -58,6 +58,8 @@ Your output must have two distinct sections:
 - **Proposed Sequence has Rationale** - Each item explains Depends On, Rationale, Notes
 - **Add Alongside** - Don't replace, add new alongside existing
 
+Before drafting, check for `docs/[milestone-slug]-[task-slug]-goal.md`. If present, read it as the operator-confirmed target; the design's Target State must align with every Goal's Post-Task Usage in the goal doc (one Goal for single-goal docs; each enumerated Goal for multi-goal docs), and the design's Success Criteria must align with the goal doc's Success Indicator. Keep the `> **Goal doc**: docs/...` citation line in the produced design's Purpose blockquote with the actual goal-doc path substituted. If absent, remove the `> **Goal doc**:` line entirely from the produced design (no orphan citation pointing to a nonexistent file) and proceed normally.
+
 ## Output
 
 Create: `docs/[milestone-slug]-[task-slug]-design.md`

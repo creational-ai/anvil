@@ -24,6 +24,13 @@ Follow the guide exactly. Use the template exactly.
 
 - **Required**: Milestone slug (e.g., `core`, `cloud`)
 
+## Critical Rules
+
+- **SYNTHESIZE, DON'T COPY** — summarize task content; never duplicate full step-by-step implementation details (those live in results docs)
+- **USE EXISTING DIAGRAMS** — copy `## Diagram` blocks from results docs verbatim; do not regenerate them
+- **TEMPLATE STRUCTURE** — follow the milestone-summary template exactly; do not invent new sections
+- **CONCRETE OVER NARRATIVE** — tables, ASCII diagrams, and metrics; avoid prose where structured content fits
+
 ## Process
 
 1. Read the guide and template (listed above)

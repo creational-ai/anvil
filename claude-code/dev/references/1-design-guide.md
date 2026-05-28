@@ -27,6 +27,10 @@ This stage is **user-initiated**:
 - New feature or issue identified
 - Existing `docs/[milestone-slug]-tasks.md` (if applicable)
 
+### If a goal doc exists for this task
+
+If `docs/[milestone-slug]-[task-slug]-goal.md` exists, read it before drafting the design. The goal doc is the operator-confirmed expectation; the design's "Target State" must align with every Goal's "Post-Task Usage" in the goal doc (the goal doc may have one or many Goals — degenerate single-`## Goal` form or enumerated `### Goal N` form), and the design's "Success Criteria" must align with the goal doc's "Success Indicator". Flag any conflict in "Open Questions" — do NOT silently override the goal doc. If absent, proceed normally — Stage 0 is optional.
+
 ## Key Concept: Two-Section Structure
 
 Stage 1 produces a design document with two distinct sections:
