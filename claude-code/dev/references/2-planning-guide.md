@@ -317,5 +317,7 @@ When the cascade exceeds a single-step size budget, apply the "split if too big"
 ## Next Stage
 → Stage 3: Execution (use 3-execution-guide.md)
 
+Optionally run `/dev-ready docs/[milestone-slug]-[task-slug]-plan.md` at this break for a bounded readiness check — it resolves the plan-stage gate (**G4** pre-review / **G5** post-review, ready-to-execute). See `references/ready-guide.md`.
+
 ## After Task Complete
 → Return to Stage 2 for next task

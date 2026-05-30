@@ -87,3 +87,5 @@ Create one document:
 ## After Completion
 
 User will run `/review-doc` on the design, fix issues, then request Stage 2 (Planning).
+
+Optionally run `/dev-ready docs/[milestone-slug]-[task-slug]-design.md` at this break for a bounded READY / NOT-READY check — it resolves the design-stage gate (**G2** pre-review: is the design worth `/review-doc`? / **G3** post-review: are findings resolved and will the design yield autonomous steps?). See `references/ready-guide.md`.

@@ -27,17 +27,7 @@ Follow the guide exactly. Use the template exactly.
 
 ## Key Concept: Two-Section Structure
 
-Your output must have two distinct sections:
-
-**Part A: Analysis** (Non-Sequential)
-- Each item gets its own numbered subsection (1, 2, 3...)
-- Analyzed independently - no implied order
-- Format: What (to build/fix/prove) → Why (impact) → Approach (detailed technical approach)
-
-**Part B: Proposed Sequence** (Sequential)
-- Shows recommended order using item notation (#1 → #2 → #3)
-- Each item gets its own subsection with: Depends On, Rationale, Notes
-- Planning stage will create actual implementation steps from this
+Your output has two distinct sections — **Part A: Analysis** (non-sequential) and **Part B: Proposed Sequence** (ordered). See the Two-Section Structure spec in `1-design-guide.md` for the exact per-item formats; follow it exactly.
 
 ## Process
 

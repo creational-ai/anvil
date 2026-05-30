@@ -63,6 +63,7 @@ Users can invoke stages explicitly via commands:
 - `/dev-plan <notes>` - Start Stage 2
 - `/dev-execute <notes>` - Start Stage 3 (one step)
 - `/dev-execute-run <plan> [--auto]` - Run all steps to completion (auto-finalize, `--auto` adds review-run + mc-update)
+- `/dev-ready <doc>` - Run the readiness gate for a task (pass any of its docs; resolves the furthest-along break from docs on disk) — see Readiness Gates below
 - `/dev-review <results-doc> <step>` - Review completed step against design
 - `/dev-review-run <results-doc>` - Review all completed steps in parallel
 - `/dev-finalize <milestone-slug>-<task-slug>` - Finalize task (timestamp, lessons, diagram, health check)
@@ -191,6 +192,38 @@ Use Glob/Grep to check for existing documents:
 - `docs/[milestone-slug]-[task-slug]-design.md`
 - `docs/[milestone-slug]-[task-slug]-plan.md`
 - `docs/[milestone-slug]-[task-slug]-results.md`
+
+`/dev-ready <doc>` resolves the applicable readiness gate (G1–G5) from these same artifact-trail signals — it derives the task slug from the doc argument, walks the ladder (goal → design → design-review → plan → plan-review) and binds the **furthest-along** break, each `-review.md` twin advancing the cursor one gate. The gate is always computed, never operator-supplied. See **Readiness Gates** below.
+
+---
+
+## Readiness Gates
+
+**Goal**: At each break between dev stages, run a directed, inline readiness check that emits a **bounded decision** (READY / NOT-READY + the shortest in-scope action list, or "escalate: re-scope") — never a finding dump. Non-autonomous work (spikes, human-gates, operator-driven steps) is caught **at the gate**, so downstream execution stays autonomous.
+
+**Code Allowed**: ❌ NO — the gate is PROPOSE-only: it surfaces the minimal in-scope diff, the operator approves and applies. The gate never mutates the artifact itself.
+
+**Command**: `/dev-ready <doc>` | **Guide**: `references/ready-guide.md` (the shared flow + leashes + profile schema) | **Profiles**: `assets/ready/g1.md … g5.md` (one per gate)
+
+There are **five gates**, one at each break:
+
+```
+/dev-goal → [G1] → /dev-design → [G2] → /review-doc → [G3] → /dev-plan → [G4] → /review-doc → [G5] → /dev-execute-run
+            ▲                    ▲                     ▲                   ▲                     ▲
+            ready to design?     ready for review?     ready to plan?      ready for review?     ready to execute?
+```
+
+| Gate | Break — "are we ready…?" | Reads | Verdict |
+|------|--------------------------|-------|---------|
+| **G1** | …to design? | goal doc and/or notes (any de-risking evidence, optional) | proceed-to-design / spike-first |
+| **G2** | …for design review? | `…-design.md` | ready-for-`/review-doc` |
+| **G3** | …to plan? | `…-design.md` + `…-design-review.md` | ready-to-plan **or** go/no-go (may recommend don't-plan / archive) |
+| **G4** | …for plan review? | `…-plan.md` | ready-for-`/review-doc` |
+| **G5** | …to execute? | `…-plan.md` + `…-plan-review.md` | ready-to-execute |
+
+**Resolution**: `/dev-ready <doc>` derives the task slug from the doc argument, then binds the **furthest-along** break by walking the artifact ladder; each `-review.md` twin advances the cursor one gate. The `<doc>` argument selects the *task*; the ladder selects the *gate* — the gate is never operator-supplied.
+
+**Contract**: every gate runs through the **one shared flow** in `ready-guide.md` — **inline** (one agent, one context; no sub-agents, no fan-out, no Workflow-primitive dependency), against the **one artifact** for that break, scored on a short fixed rubric, **biased to READY**. Adding or retuning a gate is editing one `assets/ready/gN.md` profile — zero new machinery.
 
 ---
 

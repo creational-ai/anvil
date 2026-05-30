@@ -245,3 +245,9 @@ Before considering the goal doc done:
 
 - `1-design-guide.md` — Stage 1 guide; the goal doc's natural partner doc. Each Goal's "Post-Task Usage" is the operator-facing target the design's Target State must align with.
 - `~/.claude/skills/dev/SKILL.md` — workflow overview; registers Stage 0 in the Quick Reference, Optional Commands, State Detection, and File Naming Conventions sections.
+
+## Next Stage
+
+→ Stage 1: Design (use `references/1-design-guide.md`)
+
+Once the goal doc is confirmed, proceed to Stage 1 with it as the alignment anchor. Optionally run `/dev-ready docs/[milestone-slug]-[task-slug]-goal.md` at this break for a bounded readiness check — it resolves the **G1** gate (a light de-risking judgment: are the high-risk issues that would shape the design de-risked, or is a spike warranted first?). See `references/ready-guide.md`.

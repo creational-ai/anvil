@@ -143,6 +143,9 @@ Examples:
 - `milestone-summary.md` - Milestone summary template
 - `review.md` - Review block for /dev-review output
 
+**dev ready-gate profiles** (`claude-code/dev/assets/ready/`):
+- `g1.md` through `g5.md` - Per-break gate profiles (rubric/inputs/verdict/remedy) consumed by `/dev-ready`
+
 ## Reference Guides
 
 **design** (`claude-code/design/references/`):
@@ -151,6 +154,7 @@ Examples:
 **dev** (`claude-code/dev/references/`):
 - `0-goal-guide.md` - Stage 0 process (optional)
 - `1-design-guide.md` through `3-execution-guide.md`
+- `ready-guide.md` - Readiness gate process (G1–G5 stage breaks, optional)
 - `review-guide.md` - Conceptual review process (Stage 3b)
 - `python-guide.md` - Python environment guide
 - `unity-guide.md` - Unity/C# environment guide
@@ -184,6 +188,7 @@ Examples:
 - `/dev-plan` - Plan implementation steps (Stage 2)
 - `/dev-execute` - Execute one step (Stage 3)
 - `/dev-execute-run` - Run all steps to completion (auto-finalize, `--auto` adds review-run + mc-update)
+- `/dev-ready` - Run the readiness gate (G1–G5) for a task; resolves the furthest-along break from docs on disk and emits a bounded READY / NOT-READY decision
 - `/dev-review` - Review completed step against design (conceptual review)
 - `/dev-review-run` - Review all completed steps in parallel
 - `/dev-diagram` - Generate task diagram

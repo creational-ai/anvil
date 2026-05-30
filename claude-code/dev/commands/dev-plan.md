@@ -87,3 +87,5 @@ Create one document:
 ## After Completion
 
 User will run `/review-doc` on the plan, fix issues, then request Stage 3 (Execution).
+
+Optionally run `/dev-ready docs/[milestone-slug]-[task-slug]-plan.md` at this break for a bounded READY / NOT-READY check — it resolves the plan-stage gate (**G4** pre-review: is every step autonomous and the plan worth `/review-doc`? / **G5** post-review: are steps + reviews cohesive and fully autonomous end-to-end, ready to execute?). See `references/ready-guide.md`.

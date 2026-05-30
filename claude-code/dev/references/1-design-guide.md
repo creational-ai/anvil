@@ -278,3 +278,5 @@ Use the Decisions Log table in the template. A logged decision binds future *re-
 → Stage 2: Planning (use `references/2-planning-guide.md`)
 
 User should review design, run `/review-doc`, fix issues, then request Stage 2.
+
+Optionally run `/dev-ready docs/[milestone-slug]-[task-slug]-design.md` at this break for a bounded readiness check — it resolves the design-stage gate (**G2** pre-review / **G3** post-review). See `references/ready-guide.md`.

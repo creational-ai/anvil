@@ -155,11 +155,13 @@ for skill in "${SKILLS[@]}"; do
         echo "  ✓ Copied SKILL.md"
     fi
 
-    # Copy assets/templates/ (wipe first to remove old-named files)
-    if [ -d "$SKILL_SRC/assets/templates" ]; then
-        ssh "$REMOTE" "rm -rf '$SKILL_DST/assets/templates' && mkdir -p '$SKILL_DST/assets/templates'"
-        scp -q -r "$SKILL_SRC/assets/templates/"* "$REMOTE:$SKILL_DST/assets/templates/"
-        echo "  ✓ Copied assets/templates/"
+    # Copy assets/ wholesale (wipe first to remove old-named files).
+    # Covers every assets subdir — templates/, ready/, and any future ones —
+    # so new asset directories deploy automatically without a script edit.
+    if [ -d "$SKILL_SRC/assets" ]; then
+        ssh "$REMOTE" "rm -rf '$SKILL_DST/assets' && mkdir -p '$SKILL_DST/assets'"
+        scp -q -r "$SKILL_SRC/assets/"* "$REMOTE:$SKILL_DST/assets/"
+        echo "  ✓ Copied assets/"
     fi
 
     # Copy references/ (wipe first to remove old-named files)

@@ -66,3 +66,9 @@ Create one document:
 - `docs/[milestone-slug]-[task-slug]-goal.md`
 
 **Examples**: `docs/core-placements-goal.md`, `docs/cloud-auth-fix-goal.md`, `docs/integrations-slack-goal.md`
+
+## After Completion
+
+User will proceed to Stage 1 (Design) with the confirmed goal doc as the alignment anchor.
+
+Optionally run `/dev-ready docs/[milestone-slug]-[task-slug]-goal.md` at this break for a bounded readiness check — it resolves the **G1** gate (a light de-risking judgment: are the high-risk issues that would shape the design de-risked enough to proceed, or is a spike warranted first?). See `references/ready-guide.md`.
