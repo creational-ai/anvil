@@ -16,7 +16,7 @@
 Turns Claude into a full product team — architect, developer, QA reviewer, market researcher, strategist — with stage-gated workflows that eliminate hallucination from design through deployment.
 
 [![MIT License](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
-[![Version](https://img.shields.io/badge/version-v0.0.16-green.svg)](https://github.com/creational-ai/anvil/releases)
+[![Version](https://img.shields.io/badge/version-v0.0.17-green.svg)](https://github.com/creational-ai/anvil/releases)
 [![GitHub Stars](https://img.shields.io/github/stars/creational-ai/anvil?style=social)](https://github.com/creational-ai/anvil)
 
 ## Quick Start
