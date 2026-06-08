@@ -1,6 +1,5 @@
 ---
-name: review-loop
-description: Additive exam/review critic-sandwich on a design or plan doc — N exams + N-1 reviews (default 2), ending on an exam (E1, R1, E2, …, E_N). Sequences the existing /exam and /review-doc-run behaviors. Run in a top-level session (e.g. a session-agents builder pane) for full visibility.
+description: Additive exam/review critic-sandwich on a design or plan doc — N exams + N-1 reviews (default 2), ending on an exam (E1, R1, E2, …, E_N). Sequences the `/exam` and `/review-doc-run` methodologies (via their guides). Run in a top-level session (e.g. a session-agents builder pane) for full visibility.
 argument-hint: <doc-path> [rounds] [notes]
 disable-model-invocation: true
 ---
@@ -9,7 +8,7 @@ disable-model-invocation: true
 
 Run an **additive exam → review → exam critic-sandwich** on a single document by sequencing the existing `/exam` and `/review-doc-run` behaviors. `rounds` = the number of NEW exam rounds this invocation (default **2**). The loop runs N exams interleaved with N-1 reviews and **always ends on an exam**: `E1, R1, E2, R2, …, E_N`.
 
-> **Run this in a top-level session** — your main pane, or a session-agents `builder` pane (dispatch it with `comms no-reply builder -m "/review-loop <doc> <rounds>"`). It spawns subagents, which only works from a top-level session, never from inside another subagent. All rounds run as **background** subagents (chat never blocks); watch progress in `/tasks` (live per-round status) and via the pane's own orchestration narration + per-round summaries when you `tmux attach -t <prefix>-builder`. Each subagent's full transcript also persists on disk for deep inspection.
+> **Run this in a top-level session** — your main pane, or a session-agents `builder` pane (dispatch it with `comms no-reply builder -m "/review-loop <doc> <rounds>"`). It spawns subagents, which only works from a top-level session, never from inside another subagent. Both round types lean on **background** subagents, so the chat never blocks for long: an exam round is one background subagent (zero orchestrator turns until it finishes); a review round has *this* session spawn its background item+holistic fan-out and process each completion notification (brief foreground turns between which the chat is free). Watch progress in `/tasks` (live per-round status) and via the pane's own orchestration narration + per-round summaries when you `tmux attach -t <prefix>-builder`. Each subagent's full transcript also persists on disk for deep inspection.
 
 ## Input — parse `$ARGUMENTS`
 
@@ -17,10 +16,12 @@ Run an **additive exam → review → exam critic-sandwich** on a single documen
 - **rounds** (optional): a bare integer ≥ 1. Default **2**. (`3` → `E1,R1,E2,R2,E3`; no value → `E1,R1,E2`.)
 - **notes** (optional): any remaining text — pass it to each exam/review as focus context.
 
-## Why exams are subagents but reviews run inline
+## Who owns each round (both use background subagents)
 
-- **Exam = fresh subagent.** The examiner's value is *independence* — surfacing what the work is too close to see. A fresh subagent context (it reads the `-review.md` for continuity but carries none of this pane's reasoning) keeps E2/E3 honest after a review has run.
-- **Review = inline in this session.** `/review-doc-run` fans out parallel item + holistic subagents. A subagent can't spawn subagents, so the review must run from *this* top-level session to get its real parallel fan-out.
+The split is **not** background-vs-foreground — both round types run on background subagents and neither blocks the chat for long. The difference is *who orchestrates the round*:
+
+- **Exam = the whole round is delegated to one fresh subagent.** The examiner's value is *independence* — surfacing what the work is too close to see. A fresh background subagent (it reads the `-review.md` for continuity but carries none of this pane's reasoning) keeps E2/E3 honest after a review has run; this session does nothing until it completes.
+- **Review = orchestrated from this session (background fan-out).** `/review-doc-run` fans out parallel item + holistic subagents, and a subagent can't spawn subagents — so the *spawn* must originate from *this* top-level session. The workers are still background (`run_in_background: true`); per `review-doc-run-guide.md` Phase 2-3 this session spawns them, ends its turn, and writes findings incrementally as each completion notification arrives. So it is non-blocking — just orchestrated here rather than delegated whole.
 
 ## Process
 
@@ -49,7 +50,7 @@ For each planned round (set its task `in_progress` when you start, `completed` w
 
 **Exam round `E{n}`** — spawn a fresh subagent (Agent tool, `general-purpose`) **in the background (`run_in_background: true`)** so the chat/pane is never blocked, with this instruction:
 
-> Run `/exam --auto` on `<doc-path>` by reading `~/.claude/skills/review/references/exam-guide.md` and following its **Review Mode** section exactly. The guide is the full methodology — don't restate it. Apply these four orchestration constraints it doesn't cover:
+> Perform an `/exam --auto` pass on `<doc-path>` by following `~/.claude/skills/review/references/exam-guide.md`'s **Review Mode** section exactly — you are executing the guide's methodology directly, not invoking the slash command. The guide is the full methodology — don't restate it. Apply these four orchestration constraints it doesn't cover:
 > 1. **Column is assigned, not counted.** Write your findings under column **E{n}** — orchestrator-assigned and authoritative. Do NOT re-derive it by counting columns or bump to a higher number; if an `E{n}` column or partial `E{n}` entries already exist, resume that same column (counting after you start writing double-counts your own work).
 > 2. **Timestamp from the clock.** Stamp the `E{n}` log + detail entries by running `date "+%Y-%m-%dT%H:%M:%S%z"` via Bash — never guess, round, or fabricate; reuse the one value everywhere in this round.
 > 3. **Skip the afplay/say notification.**
@@ -57,7 +58,7 @@ For each planned round (set its task `in_progress` when you start, `completed` w
 
 Because it runs in the background, **end your turn after launching it** — do not block. The completion notification re-invokes you with its summary; only then do the post-round header check above and move to the next round. The rounds stay strictly sequential (R{n} must see E{n}'s applied fixes), but the chat is free the whole time.
 
-**Review round `R{n}`** — run **in this session** (do not delegate the whole review to one subagent — it couldn't fan out). Read `~/.claude/skills/review/references/review-doc-run-guide.md` and follow it in `--auto` mode on `<doc-path>`: identify type, extract items, create/extend the skeleton with the **R{n}** column (write exactly the orchestrator-assigned `R{n}` — do NOT re-derive the number by counting; if an `R{n}` column already exists you are resuming it), spawn the parallel item + holistic reviewers, process findings incrementally, run the elevation pass, set the review-log entry (timestamp it from `date "+%Y-%m-%dT%H:%M:%S%z"` — never guess), and apply ALL fixes. **Skip the per-round afplay/say notification.** Pass `<notes>` as focus context. For non-parallel doc types (anything but Tasks / Task-Design / Plan, or zero items), the guide's own fallback to sequential `/review-doc` applies.
+**Review round `R{n}`** — orchestrate it **from this session** (do not delegate the whole review to one subagent — it couldn't fan out). Read `~/.claude/skills/review/references/review-doc-run-guide.md` and follow it in `--auto` mode on `<doc-path>`: identify type, extract items, create/extend the skeleton with the **R{n}** column (write exactly the orchestrator-assigned `R{n}` — do NOT re-derive the number by counting; if an `R{n}` column already exists you are resuming it), spawn the parallel item + holistic reviewers **in the background per the guide's Phase 2 (`run_in_background: true`), end the turn, and write findings incrementally as each completion notification arrives (Phase 3)** — so the chat stays free while they run, run the elevation pass, set the review-log entry (timestamp it from `date "+%Y-%m-%dT%H:%M:%S%z"` — never guess), and apply ALL fixes. The round's task is complete only once the `R{n}` column is written and all fixes applied. **Skip the per-round afplay/say notification.** Pass `<notes>` as focus context. For non-parallel doc types (anything but Tasks / Task-Design / Plan, or zero items), the guide's own fallback to sequential `/review-doc` applies.
 
 ### 4. Report
 

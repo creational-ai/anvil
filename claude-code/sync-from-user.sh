@@ -8,13 +8,13 @@ set -e
 
 #=============================================================================
 # CONFIGURATION - Edit this section to add/remove skills
+# MUST mirror deploy.sh's SKILLS array (same skills, reverse direction).
 #=============================================================================
 SKILLS=(
     "design"
     "dev"
-    "verify"
     "research"
-    "skill-reviewer"
+    "review"
 )
 #=============================================================================
 
@@ -22,6 +22,7 @@ SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 SKILLS_DIR="$HOME/.claude/skills"
 COMMANDS_DIR="$HOME/.claude/commands"
 AGENTS_DIR="$HOME/.claude/agents"
+WORKFLOWS_DIR="$HOME/.claude/workflows"
 
 echo "=============================================="
 echo "Syncing from user directories..."
@@ -54,10 +55,10 @@ for skill in "${SKILLS[@]}"; do
         echo "  ✓ Synced SKILL.md"
     fi
 
-    # Sync assets/templates/
-    if [ -d "$SKILL_SRC/assets/templates" ] && [ -d "$SKILL_DST/assets/templates" ]; then
-        cp -r "$SKILL_SRC/assets/templates/"* "$SKILL_DST/assets/templates/"
-        echo "  ✓ Synced assets/templates/"
+    # Sync assets/ wholesale (templates/, ready/, and any future subdir) — mirrors deploy.sh's assets copy
+    if [ -d "$SKILL_SRC/assets" ] && [ -d "$SKILL_DST/assets" ]; then
+        cp -r "$SKILL_SRC/assets/"* "$SKILL_DST/assets/"
+        echo "  ✓ Synced assets/"
     fi
 
     # Sync references/
@@ -95,6 +96,25 @@ for skill in "${SKILLS[@]}"; do
         done
         if [ "$synced" -gt "0" ]; then
             echo "  ✓ Synced $synced agents"
+        fi
+    fi
+
+    # Sync workflows back from the GLOBAL ~/.claude/workflows dir — source-driven
+    # (only pull back *.js this skill already owns in workflows/, since the global
+    # dir is shared). Companion *-guard.sh files live only in source, so nothing
+    # to pull back for them. Mirrors deploy.sh's per-skill workflows copy.
+    if [ -d "$SKILL_DST/workflows" ]; then
+        synced=0
+        for js in "$SKILL_DST/workflows/"*.js; do
+            [ -f "$js" ] || continue
+            wf_name=$(basename "$js")
+            if [ -f "$WORKFLOWS_DIR/$wf_name" ]; then
+                cp "$WORKFLOWS_DIR/$wf_name" "$SKILL_DST/workflows/"
+                ((synced++))
+            fi
+        done
+        if [ "$synced" -gt "0" ]; then
+            echo "  ✓ Synced $synced workflow(s)"
         fi
     fi
 

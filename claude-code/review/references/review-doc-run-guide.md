@@ -139,7 +139,7 @@ Before spawning agents, create the review document structure so it exists while 
 2. **Read tracking template**: Load `~/.claude/skills/review/assets/templates/review-tracking.md`.
 3. **Check if review doc exists** (Read):
    - **Does not exist**: Create the skeleton — header table, summary tables with all items/concerns listed and a single review column where every cell is `...`, empty detail sections (headers only, no entries yet), empty holistic detail section, review log with a pending row. This is R1.
-   - **Exists**: Determine review number N by counting R columns in the item summary table header (count only R columns, not E columns from `/exam`). Add RN column to summary tables with all cells set to `...`.
+   - **Exists**: Determine review number N by counting R columns in the item summary table header (count only R columns, not E columns from `/exam`). Add RN column to the right of all existing round columns, with all cells set to `...`.
 4. **Write** the skeleton. The `...` cells indicate "in progress" — they will be replaced with issue counts or `✅` as each agent completes.
 
 ---

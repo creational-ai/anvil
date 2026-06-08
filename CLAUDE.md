@@ -36,6 +36,7 @@ anvil/
 │       ├── SKILL.md            # Skill definition (required)
 │       ├── commands/           # Slash commands
 │       ├── agents/             # Subagents (optional)
+│       ├── workflows/          # Workflow scripts (*.js) + guards (optional)
 │       ├── assets/templates/   # Output templates
 │       └── references/         # Detailed guides
 │
@@ -219,6 +220,7 @@ Examples:
 - `/review-skill` - Audit a skill for structure, frontmatter, and consistency
 - `/exam` - Independent critical examination of a document
 - `/exam-loop` - Tick-driven loop that coordinates with `/review-doc-loop` via the shared review doc (long-running, main conversation only)
+- `/review-loop` - Single-session critic-sandwich (N exams + N-1 reviews, ends on an exam) sequencing `/exam` + `/review-doc-run`; the go-forward replacement for `/exam-loop` + `/review-doc-loop` (main conversation / top-level pane)
 - `/monitor` - Monitor execution progress with periodic status reports
 - `/walkthrough` - Operator-facing walkthrough; paces you through a doc unit-by-unit with five-angle elaboration (main conversation only)
 
@@ -233,6 +235,7 @@ Commands are deployed to `~/.claude/commands/`
 - `~/.claude/skills/review/`
 - `~/.claude/commands/` (collected from each skill's `commands/` folder)
 - `~/.claude/agents/`
+- `~/.claude/workflows/` (collected from each skill's `workflows/` folder — `*.js` only; resolve by `name` from any project. Companion `*-guard.sh` files stay in source and are run by `verify.sh`, which also asserts each deployed workflow is byte-identical to source.)
 
 **Claude Code (genesis)**: `claude-code/deploy-genesis.sh` deploys the same skills to `genesis:/home/pi/.claude/` via SSH. `claude-code/verify-genesis.sh` validates the remote deployment (mirrors `verify.sh` via SSH). Keep the local/genesis pairs in sync — see "Keep local/genesis pairs in sync" note above.
 
@@ -251,7 +254,7 @@ git commit -m "Description"
 git push
 ```
 
-**Remote**: `git@github-creational:creational-ai/anvil.git`
+**Remote**: `git@github-creational-legacy:creational-ai-legacy/anvil.git`
 
 ### git-crypt
 

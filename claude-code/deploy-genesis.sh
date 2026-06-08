@@ -88,6 +88,7 @@ SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 REMOTE_SKILLS="$REMOTE_HOME/.claude/skills"
 REMOTE_COMMANDS="$REMOTE_HOME/.claude/commands"
 REMOTE_AGENTS="$REMOTE_HOME/.claude/agents"
+REMOTE_WORKFLOWS="$REMOTE_HOME/.claude/workflows"
 
 echo "=============================================="
 echo "Deploying Claude Code skills to $REMOTE..."
@@ -101,7 +102,7 @@ if ! ssh -o ConnectTimeout=5 "$REMOTE" "echo ok" > /dev/null 2>&1; then
 fi
 
 # Create target directories
-ssh "$REMOTE" "mkdir -p '$REMOTE_SKILLS' '$REMOTE_COMMANDS' '$REMOTE_AGENTS'"
+ssh "$REMOTE" "mkdir -p '$REMOTE_SKILLS' '$REMOTE_COMMANDS' '$REMOTE_AGENTS' '$REMOTE_WORKFLOWS'"
 
 # Clean up old skill directories
 for old_skill in "${OLD_SKILLS[@]}"; do
@@ -197,6 +198,18 @@ for skill in "${SKILLS[@]}"; do
         echo "  ✓ Copied scripts/"
     fi
 
+    # Copy workflows/ (*.js) to the GLOBAL remote ~/.claude/workflows dir.
+    # Workflows resolve by name from ANY project, so — like commands/agents —
+    # they deploy to a global dir, NOT under the skill. Companion *-guard.sh
+    # files stay in source (verify-time helpers, never deployed).
+    if [ -d "$SKILL_SRC/workflows" ]; then
+        count=$(ls -1 "$SKILL_SRC/workflows/"*.js 2>/dev/null | wc -l | tr -d ' ')
+        if [ "$count" -gt "0" ]; then
+            scp -q "$SKILL_SRC/workflows/"*.js "$REMOTE:$REMOTE_WORKFLOWS/"
+            echo "  ✓ Copied $count workflow(s)"
+        fi
+    fi
+
     echo ""
 done
 
@@ -221,6 +234,7 @@ for skill in "${SKILLS[@]}"; do
 done
 echo "  - $REMOTE_COMMANDS (commands)"
 echo "  - $REMOTE_AGENTS (agents)"
+echo "  - $REMOTE_WORKFLOWS (workflows)"
 echo ""
 echo "Run ./verify-genesis.sh to validate deployment."
 echo ""

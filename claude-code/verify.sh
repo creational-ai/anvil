@@ -86,6 +86,8 @@ REQUIRED_AGENTS=(
 SKILLS_DIR="$HOME/.claude/skills"
 COMMANDS_DIR="$HOME/.claude/commands"
 AGENTS_DIR="$HOME/.claude/agents"
+WORKFLOWS_DIR="$HOME/.claude/workflows"
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 
 PASS_COUNT=0
 FAIL_COUNT=0
@@ -233,6 +235,44 @@ if [ -d "$AGENTS_DIR" ]; then
     done
 else
     echo "  ℹ️  agents directory not found (this may be expected)"
+fi
+
+echo ""
+
+# Check workflows: deployed copy is byte-identical to source, and each skill's
+# regression guard (workflows/*-guard.sh) passes against the live guides.
+echo "--- Checking workflows ---"
+wf_src_count=0
+for skill in "${SKILLS[@]}"; do
+    SKILL_WF="$SCRIPT_DIR/$skill/workflows"
+    [ -d "$SKILL_WF" ] || continue
+
+    # Byte-identity: every source *.js must be deployed and identical.
+    for js in "$SKILL_WF/"*.js; do
+        [ -f "$js" ] || continue
+        ((wf_src_count++))
+        wf_name=$(basename "$js")
+        if [ ! -f "$WORKFLOWS_DIR/$wf_name" ]; then
+            fail "$wf_name not deployed to $WORKFLOWS_DIR"
+        elif cmp -s "$js" "$WORKFLOWS_DIR/$wf_name"; then
+            pass "$wf_name deployed (byte-identical)"
+        else
+            fail "$wf_name DRIFT — source and $WORKFLOWS_DIR copy differ (re-run ./deploy.sh)"
+        fi
+    done
+
+    # Regression guards: run each *-guard.sh (exit 0 = pass or skill-absent skip).
+    for guard in "$SKILL_WF/"*-guard.sh; do
+        [ -f "$guard" ] || continue
+        if bash "$guard" >/dev/null 2>&1; then
+            pass "$(basename "$guard") passed"
+        else
+            fail "$(basename "$guard") FAILED — run it directly to see drift"
+        fi
+    done
+done
+if [ "$wf_src_count" -eq "0" ]; then
+    echo "  ℹ️  No skill workflows/ in source (this is OK)"
 fi
 
 echo ""

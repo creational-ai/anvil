@@ -142,7 +142,7 @@ Use Glob, Grep, Read to verify:
 
 #### 6. Write to Review Document
 
-Write exam findings to the persistent review document. This is the same `-review.md` file used by `/review-doc` and `/review-doc-run`. The exam adds E columns alongside R columns in chronological order (R1 → E1 → R2 → E2 → ...).
+Write exam findings to the persistent review document. This is the same `-review.md` file used by `/review-doc` and `/review-doc-run`. The exam appends each E column to the RIGHT of all existing round columns, so columns read left-to-right in the order rounds were actually run (exam-led critic-sandwich → E1 → R1 → E2; review-led → R1 → E1 → R2).
 
 1. **Derive path**: Strip `.md` from the document path, append `-review.md`. Example: `docs/core-poc6-plan.md` becomes `docs/core-poc6-plan-review.md`.
 2. **Read tracking template**: Load `~/.claude/skills/review/assets/templates/review-tracking.md`.

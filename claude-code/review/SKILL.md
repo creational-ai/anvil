@@ -49,6 +49,7 @@ This skill consolidates document verification and skill auditing into a single r
 | Monitor Status Template | `assets/templates/monitor-status.md` |
 | Monitor Issues Template | `assets/templates/monitor-issues.md` |
 | Loop Guide | `references/review-loop-guide.md` |
+| Loop Workflow | `workflows/review-loop.js` (deploys to `~/.claude/workflows/`; guarded by `workflows/review-loop-guard.sh`) |
 
 ## Commands
 
@@ -58,6 +59,7 @@ This skill consolidates document verification and skill auditing into a single r
 - `/review-skill <skill-name>` -- Audit a skill for structure and conventions (main conversation)
 - `/exam <doc-path> [--auto] [notes]` -- Independent critical examination of a document (main conversation)
 - `/exam-loop <doc-path> [N] [--first | --follow] [notes]` -- long-running tick-driven loop coordinating with `/review-doc-loop` via the shared review doc; main conversation only. `N` defaults to 2
+- `/review-loop <doc-path> [rounds] [notes]` -- single-session additive critic-sandwich: `rounds` new exams + `rounds-1` reviews, ending on an exam (E1,R1,E2,…); sequences `/exam` (background subagent) + `/review-doc-run` (background fan-out orchestrated from this session). Go-forward replacement for the tick-loops; run in a top-level pane. `rounds` defaults to 2
 - `/monitor <task-slug>` -- Monitor execution progress with periodic status reports; writes `docs/[slug]-monitor-issues.md` (lazy-created, appended across sessions) when issues are found (main conversation)
 - `/walkthrough <doc-path> [notes]` -- Operator-facing walkthrough; paces you through a doc unit-by-unit with five-angle elaboration and conversational per-unit advance (main conversation)
 - `/spawn-doc-reviewer <doc-path> [--auto] [notes]` -- Sequential doc review (background agent)

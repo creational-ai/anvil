@@ -82,6 +82,7 @@ SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 SKILLS_DIR="$HOME/.claude/skills"
 COMMANDS_DIR="$HOME/.claude/commands"
 AGENTS_DIR="$HOME/.claude/agents"
+WORKFLOWS_DIR="$HOME/.claude/workflows"
 
 echo "=============================================="
 echo "Deploying Claude Code skills..."
@@ -121,6 +122,7 @@ done
 # Create target directories
 mkdir -p "$COMMANDS_DIR"
 mkdir -p "$AGENTS_DIR"
+mkdir -p "$WORKFLOWS_DIR"
 
 # Deploy each skill
 for skill in "${SKILLS[@]}"; do
@@ -188,6 +190,18 @@ for skill in "${SKILLS[@]}"; do
         echo "  ✓ Copied scripts/"
     fi
 
+    # Copy workflows/ (*.js) to the GLOBAL ~/.claude/workflows dir.
+    # Workflows resolve by name from ANY project, so — like commands/agents —
+    # they deploy to a global dir, NOT under the skill. Companion *-guard.sh
+    # files stay in source (verify-time helpers, never deployed).
+    if [ -d "$SKILL_SRC/workflows" ]; then
+        count=$(ls -1 "$SKILL_SRC/workflows/"*.js 2>/dev/null | wc -l | tr -d ' ')
+        if [ "$count" -gt "0" ]; then
+            cp "$SKILL_SRC/workflows/"*.js "$WORKFLOWS_DIR/"
+            echo "  ✓ Copied $count workflow(s)"
+        fi
+    fi
+
     echo ""
 done
 
@@ -212,4 +226,5 @@ for skill in "${SKILLS[@]}"; do
 done
 echo "  - $COMMANDS_DIR (commands)"
 echo "  - $AGENTS_DIR (agents)"
+echo "  - $WORKFLOWS_DIR (workflows)"
 echo ""

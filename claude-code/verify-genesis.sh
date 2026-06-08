@@ -92,6 +92,8 @@ REQUIRED_AGENTS=(
 REMOTE_SKILLS="$REMOTE_HOME/.claude/skills"
 REMOTE_COMMANDS="$REMOTE_HOME/.claude/commands"
 REMOTE_AGENTS="$REMOTE_HOME/.claude/agents"
+REMOTE_WORKFLOWS="$REMOTE_HOME/.claude/workflows"
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 
 PASS_COUNT=0
 FAIL_COUNT=0
@@ -248,6 +250,48 @@ if r_dir_exists "$REMOTE_AGENTS"; then
     done
 else
     echo "  ℹ️  agents directory not found (this may be expected)"
+fi
+
+echo ""
+
+# Check workflows: remote copy is byte-identical to source, and each skill's
+# regression guard (workflows/*-guard.sh) passes against the REMOTE live guides.
+echo "--- Checking workflows ---"
+wf_src_count=0
+for skill in "${SKILLS[@]}"; do
+    SKILL_WF="$SCRIPT_DIR/$skill/workflows"
+    [ -d "$SKILL_WF" ] || continue
+
+    # Byte-identity: stream the remote *.js and compare to the local source.
+    for js in "$SKILL_WF/"*.js; do
+        [ -f "$js" ] || continue
+        ((wf_src_count++))
+        wf_name=$(basename "$js")
+        if ! r_file_exists "$REMOTE_WORKFLOWS/$wf_name"; then
+            fail "$wf_name not deployed to $REMOTE:$REMOTE_WORKFLOWS"
+        elif ssh "$REMOTE" "cat '$REMOTE_WORKFLOWS/$wf_name'" 2>/dev/null | cmp -s "$js" -; then
+            pass "$wf_name deployed (byte-identical)"
+        else
+            fail "$wf_name DRIFT — source and $REMOTE:$REMOTE_WORKFLOWS copy differ (re-run ./deploy-genesis.sh)"
+        fi
+    done
+
+    # Regression guards: run each *-guard.sh on the REMOTE so it checks the
+    # remote deployed guides. scp to a temp path, execute via ssh, clean up.
+    for guard in "$SKILL_WF/"*-guard.sh; do
+        [ -f "$guard" ] || continue
+        guard_name=$(basename "$guard")
+        remote_tmp="/tmp/$guard_name.$$"
+        if scp -q "$guard" "$REMOTE:$remote_tmp" 2>/dev/null \
+           && ssh "$REMOTE" "bash '$remote_tmp' >/dev/null 2>&1; rc=\$?; rm -f '$remote_tmp'; exit \$rc"; then
+            pass "$guard_name passed (remote)"
+        else
+            fail "$guard_name FAILED on $REMOTE — run it there to see drift"
+        fi
+    done
+done
+if [ "$wf_src_count" -eq "0" ]; then
+    echo "  ℹ️  No skill workflows/ in source (this is OK)"
 fi
 
 echo ""
