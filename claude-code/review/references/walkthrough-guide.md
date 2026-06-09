@@ -79,12 +79,13 @@ If Tier 1 is inconclusive, fall back to the per-doc-type default term:
 |----------|-------------------|
 | Vision | Goal |
 | Architecture | Component |
-| Roadmap | Milestone |
-| Milestone Spec | Task |
-| Task Spec | Item |
+| Milestones | Milestone |
+| Tasks | Task |
+| Goal | Goal |
 | Task Design | Item |
 | Plan | Step |
 | Results | Step |
+| Milestone Summary | Task |
 
 ### Tier 3 (last resort) — Generic "Section"
 
@@ -140,9 +141,9 @@ If unsure which kind to use, default to **box-and-arrow**.
 A concrete state delta, anchored in **artifacts**. The interpretation of "state" depends on the doc type:
 
 - **Plan / Results** → **code state**: file list, key function signatures, test count — before vs. after.
-- **Task Design / Task Spec** → **design state** (decisions, constraints) and **behavior state** (what the system does) — before vs. after.
-- **Milestone Spec** → **deliverable state**: what exists, what's in scope, what's shippable — before vs. after.
-- **Roadmap** → **capability state**: what's shippable — before vs. after.
+- **Task Design / Tasks** → **design state** (decisions, constraints) and **behavior state** (what the system does) — before vs. after.
+- **Milestones** → **deliverable / capability state**: what exists, what's in scope, what's shippable per milestone — before vs. after.
+- **Goal** → **operator-facing usage state**: what the operator does today vs. post-task — before vs. after.
 - **Architecture** → **structural state**: what components exist and how they relate — before vs. after.
 - **Vision** → **strategic state**: what the organization understood — before vs. after.
 - **Unknown / generic** → describe the delta in whatever terms the unit itself uses.

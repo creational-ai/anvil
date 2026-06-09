@@ -10,7 +10,7 @@ This guide covers **cross-cutting checks only**. Per-item correctness checks (in
 
 The orchestrator provides:
 
-- **Document path** and **document type** (Vision, Architecture, Roadmap, Milestone Spec, Task Spec, Task Design, Plan, Results)
+- **Document path** and **document type** (Vision, Architecture, Milestones, Tasks, Task Design, Plan, Results)
 - **Full document text** (the complete document content)
 - **Cross-reference documents** (full content of parent/sibling documents)
 
@@ -61,7 +61,7 @@ Assess whether the overall approach is coherent and feasible.
 
 ### 3. Step Flow
 
-For documents with steps, phases, or sequential sections (Plans, Roadmaps, some Designs with Proposed Sequence).
+For documents with steps, phases, or sequential sections (Plans, Milestones, some Designs with Proposed Sequence).
 
 **Check**:
 - Logical ordering -- are steps in the right sequence? Could any be reordered for clarity?
@@ -168,7 +168,7 @@ Record findings as a checklist:
 
 In addition to the universal cross-cutting checks above, apply these checks based on document type.
 
-### Design Docs (Vision, Architecture, Roadmap, Milestones, Milestone Spec, Tasks, Task Spec)
+### Design Docs (Vision, Architecture, Milestones, Tasks)
 
 - Vision alignment with parent docs
 - Scope consistency across sections

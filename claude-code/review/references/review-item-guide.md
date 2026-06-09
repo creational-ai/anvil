@@ -10,7 +10,7 @@ This guide covers **per-item checks only**. Cross-cutting checks (template align
 
 The orchestrator provides:
 
-- **Document path** and **document type** (Task Spec, Design, or Plan)
+- **Document path** and **document type** (Tasks, Design, or Plan)
 - **Item text** (the full markdown block for this item)
 - **Shared context** (relevant surrounding sections -- varies by doc type)
 - **Cross-reference excerpts** (content from parent/sibling documents)
@@ -21,7 +21,7 @@ Run the checks for the matching doc type. Each check produces a pass/fail with a
 
 ---
 
-### Task Spec Items
+### Tasks Items
 
 Each item is a `### Task N: [Name]` block. Shared context includes the Milestone Overview and Task Dependency Diagram.
 

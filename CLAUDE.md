@@ -221,6 +221,7 @@ Examples:
 - `/exam` - Independent critical examination of a document
 - `/exam-loop` - Tick-driven loop that coordinates with `/review-doc-loop` via the shared review doc (long-running, main conversation only)
 - `/review-loop` - Single-session critic-sandwich (N exams + N-1 reviews, ends on an exam) sequencing `/exam` + `/review-doc-run`; the go-forward replacement for `/exam-loop` + `/review-doc-loop` (main conversation / top-level pane)
+- `/review-triangulate` - Multi-lane cross-validated deep review: runs the `review-loop` workflow while read-only subagents ground claims against the repo and adversarially validate the chosen path (web-verified), then consolidates one verdict via a convergence map; the heavyweight variant of `/review-loop` (main conversation / top-level pane)
 - `/monitor` - Monitor execution progress with periodic status reports
 - `/walkthrough` - Operator-facing walkthrough; paces you through a doc unit-by-unit with five-angle elaboration (main conversation only)
 

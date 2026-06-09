@@ -61,7 +61,7 @@ Match filename against patterns to determine document type and cross-references.
 Only three doc types support parallel review: **Tasks**, **Task Design**, and **Plan**.
 
 - If the doc type is one of these three, continue with parallel review (Phase 2).
-- If the doc type is anything else (Vision, Architecture, Roadmap, Milestone Spec, Results, Milestone Summary), **fall back to sequential review**: follow the sequential review guide at `~/.claude/skills/review/references/review-doc-guide.md` instead. Stop following this guide.
+- If the doc type is anything else (Vision, Architecture, Milestones, Results, Milestone Summary), **fall back to sequential review**: follow the sequential review guide at `~/.claude/skills/review/references/review-doc-guide.md` instead. Stop following this guide.
 
 ### 1.4 Read Cross-Reference Documents
 
@@ -73,7 +73,7 @@ Parse the document to identify individual items based on doc type rules.
 
 ---
 
-#### Task Spec Extraction
+#### Tasks Extraction
 
 **Item boundary**: Each `### Task N: [Name]` block.
 - Start: `### Task N: [Name]` heading (where N is a number)
@@ -161,7 +161,7 @@ Use the item report template: ~/.claude/skills/review/assets/templates/item-repo
 
 ## Document
 **Path**: {doc_path}
-**Type**: {doc_type} (Task Spec / Design / Plan)
+**Type**: {doc_type} (Tasks / Design / Plan)
 
 ## Item to Review
 {item_text}
@@ -174,7 +174,7 @@ Use the item report template: ~/.claude/skills/review/assets/templates/item-repo
 ```
 
 Replace the placeholders:
-- `{doc_type}`: The identified document type (Task Spec, Design, or Plan)
+- `{doc_type}`: The identified document type (Tasks, Design, or Plan)
 - `{doc_path}`: Full path to the document being reviewed
 - `{item_text}`: The full markdown content of this specific item (from boundary start to boundary end)
 - `{shared_context}`: The shared context sections extracted in Phase 1.5

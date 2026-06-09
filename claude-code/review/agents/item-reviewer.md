@@ -25,7 +25,7 @@ Follow the item review guide exactly.
 The orchestrator provides:
 
 - **Document path**: Path to the document being reviewed
-- **Document type**: Task Spec, Design, or Plan
+- **Document type**: Tasks, Design, or Plan
 - **Item text**: The full text of the item to review
 - **Shared context**: Relevant surrounding sections (varies by doc type)
 - **Cross-reference excerpts**: Relevant content from parent/sibling documents
@@ -63,7 +63,7 @@ When done, report:
 ## Item Review Complete
 
 **Item**: [item name]
-**Doc Type**: [Task Spec / Design / Plan]
+**Doc Type**: [Tasks / Design / Plan]
 **Status**: Pass | Issues Found
 
 **Issues**: [count] ([X] HIGH, [X] MED, [X] LOW)

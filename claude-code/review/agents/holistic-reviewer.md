@@ -25,7 +25,7 @@ Follow the holistic review guide exactly.
 The orchestrator provides:
 
 - **Document path**: Path to the document being reviewed
-- **Document type**: The identified document type (Vision, Architecture, Roadmap, Milestone Spec, Task Spec, Task Design, Plan, Results)
+- **Document type**: The identified document type (Vision, Architecture, Milestones, Tasks, Task Design, Plan, Results)
 - **Full document text**: The complete document content
 - **Cross-reference documents**: Full content of parent/sibling documents for alignment checks
 
