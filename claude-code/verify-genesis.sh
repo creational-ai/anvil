@@ -56,6 +56,8 @@ OLD_COMMANDS=(
     "skill-review.md"
     "agent-skill-review.md"
     "review-doc-run-loop.md"
+    # dev skill Stage 0: goal → usecases
+    "dev-goal.md"
 )
 
 # Old agents that should NOT exist (renamed to role-based names)
@@ -79,7 +81,7 @@ REQUIRED_COMMANDS=(
     "review-skill.md"
     "dev-health.md"
     "market-research.md"
-    "dev-goal.md"
+    "dev-usecases.md"
     "dev-ready.md"
 )
 

@@ -54,7 +54,7 @@ Before starting any work, read these files:
 - Trust test results from the executor
 - Flag concerns — the executor handles fixes
 
-Before reviewing a step, check for `docs/[milestone-slug]-[task-slug]-goal.md`. If present, include design-vs-goal alignment in your Intent Match check — flag contradictions but treat the design as the goal doc's authoritative downstream proxy (don't re-derive goal-vs-results directly). If absent, proceed normally.
+Before reviewing a step, check for `docs/[milestone-slug]-[task-slug]-usecases.md`. If present, include design-vs-usecases alignment in your Intent Match check — flag contradictions but treat the design as the usecases doc's authoritative downstream proxy (don't re-derive usecases-vs-results directly). If absent, proceed normally.
 
 ## Output
 

@@ -203,7 +203,7 @@ const pf = await agent(
   `Review doc path (AUTHORITATIVE — use EXACTLY this; do NOT re-derive it or strip any \`-design\`/\`-plan\` suffix): ${reviewDocPath}\n\n` +
   `1. Read \`${reviewDocPath}\`. Set review_doc_path to that exact path in your result.\n` +
   `2. If it does NOT exist: return exists=false, e_count=0, r_count=0.\n` +
-  `   If it exists: find the summary-table header row. Its title varies by doc type — \`## Item Summary\` (Design), \`## Step Summary\` (Plan), or \`## Task Summary\` (Task Spec) — so locate it by shape (the \`| # | <noun> | …round columns… |\` table), not by the literal word "Item". Count how many **E** columns (exam rounds, from /exam) and how many **R** columns (review rounds, from /review-doc / /review-doc-run) it has. Return those two counts.\n` +
+  `   If it exists: find the summary-table header row. Its title varies by doc type — \`## Item Summary\` (Design), \`## Step Summary\` (Plan), or \`## Task Summary\` (Tasks) — so locate it by shape (the \`| # | <noun> | …round columns… |\` table), not by the literal word "Item". Count how many **E** columns (exam rounds, from /exam) and how many **R** columns (review rounds, from /review-doc / /review-doc-run) it has. Return those two counts.\n` +
   `Return the structured result.`,
   { label: 'pre-flight', phase: 'Pre-flight', agentType: 'general-purpose', schema: PREFLIGHT_SCHEMA }
 )
@@ -350,7 +350,7 @@ async function reviewRound(label, priorCount) {
 async function verifyRound(reviewDocPath, expectedLabel) {
   return agent(
     `READ-ONLY verification. Do NOT edit anything.\n\n` +
-    `Read \`${reviewDocPath}\`. Locate the summary-table header row (its title varies by doc type — \`## Item/Step/Task Summary\`; find it by shape, the \`| # | <noun> | …round columns… |\` table). Then:\n` +
+    `Read \`${reviewDocPath}\`. Locate the summary-table header row (its title varies by doc type — \`## Item Summary\` (Design), \`## Step Summary\` (Plan), or \`## Task Summary\` (Tasks); find it by shape, the \`| # | <noun> | …round columns… |\` table). Then:\n` +
     `- Count the **E** columns (exam: E1, E2, …) and the **R** columns (review: R1, R2, …) in that header.\n` +
     `- Report whether a column labeled EXACTLY **${expectedLabel}** is present.\n` +
     `- In the note, flag anything anomalous: a duplicate column, an unexpected extra column, or a partially-written one.\n` +

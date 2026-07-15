@@ -115,7 +115,7 @@ Examples:
 
 **dev skill creates:**
 - `PROJECT_STATE.md` - Task and milestone tracking
-- `docs/[milestone-slug]-[task-slug]-goal.md` - Operator-facing goal doc (Stage 0, optional)
+- `docs/[milestone-slug]-[task-slug]-usecases.md` - Operator-facing usecases doc (Stage 0, optional)
 - `docs/[milestone-slug]-[task-slug]-design.md` - Feature/bug design analysis
 - `docs/[milestone-slug]-[task-slug]-plan.md` - Implementation guide
 - `docs/[milestone-slug]-[task-slug]-results.md` - Progress tracking
@@ -134,7 +134,7 @@ Examples:
 - `4-tasks.md` - Stage 4 template
 
 **dev** (`claude-code/dev/assets/templates/`):
-- `0-goal.md` - Stage 0 output (Operator-facing goal + delta)
+- `0-usecases.md` - Stage 0 output (Operator-facing usecases: goals-at-a-glance + artifact + use cases + contract)
 - `1-design.md` - Stage 1 output (Problem Analysis + Proposed Steps)
 - `2-plan.md` - Stage 2 output
 - `3-results.md` - Stage 3 output
@@ -153,7 +153,7 @@ Examples:
 - `1-vision-guide.md` through `4-tasks-guide.md`
 
 **dev** (`claude-code/dev/references/`):
-- `0-goal-guide.md` - Stage 0 process (optional)
+- `0-usecases-guide.md` - Stage 0 process (optional)
 - `1-design-guide.md` through `3-execution-guide.md`
 - `ready-guide.md` - Readiness gate process (G1–G5 stage breaks, optional)
 - `review-guide.md` - Conceptual review process (Stage 3b)
@@ -184,7 +184,7 @@ Examples:
 - `/design-tasks` - Define atomic tasks per milestone with dependencies (Stage 4)
 
 **dev commands**:
-- `/dev-goal` - Create / update a goal doc (Stage 0, optional)
+- `/dev-usecases` - Create / update a usecases doc (Stage 0, optional) — 3 modes: before-design notes walk, existing-doc update / legacy conversion, after-design distillation
 - `/dev-design` - Create design document (Stage 1)
 - `/dev-plan` - Plan implementation steps (Stage 2)
 - `/dev-execute` - Execute one step (Stage 3)
@@ -221,7 +221,7 @@ Examples:
 - `/exam` - Independent critical examination of a document
 - `/exam-loop` - Tick-driven loop that coordinates with `/review-doc-loop` via the shared review doc (long-running, main conversation only)
 - `/review-loop` - Single-session critic-sandwich (N exams + N-1 reviews, ends on an exam) sequencing `/exam` + `/review-doc-run`; the go-forward replacement for `/exam-loop` + `/review-doc-loop` (main conversation / top-level pane)
-- `/review-triangulate` - Multi-lane cross-validated deep review: runs the `review-loop` workflow while read-only subagents ground claims against the repo and adversarially validate the chosen path (web-verified), then consolidates one verdict via a convergence map; the heavyweight variant of `/review-loop` (main conversation / top-level pane)
+- `/review-triangulate` - Multi-lane cross-validated deep review: runs the `review-loop` workflow while citation-lane subagents (read-only) ground claims against the repo and adversarially validate the chosen path (web-verified) — and, when claims are runtime-testable, probe lanes demonstrate behavior empirically (execute-but-don't-write) — then consolidates one verdict via a convergence map; the heavyweight variant of `/review-loop` (main conversation / top-level pane)
 - `/monitor` - Monitor execution progress with periodic status reports
 - `/walkthrough` - Operator-facing walkthrough; paces you through a doc unit-by-unit with five-angle elaboration (main conversation only)
 

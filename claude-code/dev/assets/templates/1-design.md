@@ -4,7 +4,7 @@
 >
 > **Important**: This task must be self-contained (works independently; doesn't break existing functionality and existing tests)
 >
-> **Goal doc**: docs/[milestone-slug]-[task-slug]-goal.md
+> **Use cases**: docs/[milestone-slug]-[task-slug]-usecases.md
 
 ## Executive Summary
 

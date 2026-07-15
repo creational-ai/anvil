@@ -2,6 +2,8 @@
 
 > **Design**: See `docs/[milestone-slug]-[task-slug]-design.md` for analysis and approach.
 >
+> **Use cases**: docs/[milestone-slug]-[task-slug]-usecases.md
+>
 > **Track Progress**: See `docs/[milestone-slug]-[task-slug]-results.md` for implementation status, test results, and issues.
 
 ## Overview

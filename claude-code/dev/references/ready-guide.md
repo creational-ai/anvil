@@ -2,7 +2,7 @@
 
 ## Purpose
 
-The dev ceremony (Goal → Design → Plan → Execute) hands off **informally** between stages, so non-autonomous work (spikes, human-gates, operator-driven steps) leaks into plans and surfaces only at execution. `/dev-ready` sits at each break, runs a **directed** readiness check on the one artifact for that break, and emits a **bounded decision** — READY / NOT-READY + the shortest in-scope action list, or "escalate: re-scope." It never dumps findings, never ranges beyond the artifact, and never mutates the artifact itself.
+The dev ceremony (Usecases → Design → Plan → Execute) hands off **informally** between stages, so non-autonomous work (spikes, human-gates, operator-driven steps) leaks into plans and surfaces only at execution. `/dev-ready` sits at each break, runs a **directed** readiness check on the one artifact for that break, and emits a **bounded decision** — READY / NOT-READY + the shortest in-scope action list, or "escalate: re-scope." It never dumps findings, never ranges beyond the artifact, and never mutates the artifact itself.
 
 **Thesis: direction, not power.** This guide is the *base* — the invariant 7-step flow, the five leashes, and the profile schema that every gate fills. Each gate (G1–G5) is a small concrete profile under `assets/ready/gN.md` that fills the schema; the `/dev-ready` command is the dispatcher that resolves the break, binds the profile, and runs this flow with it bound. Adding or retuning a gate is **editing one profile file** — the base flow never changes.
 
@@ -15,9 +15,9 @@ NO — this guide runs an inline check and PROPOSES edits; the operator applies 
 ## The five gates (the breaks)
 
 ```
-/dev-goal → [G1] → /dev-design → [G2] → /review-doc → [G3] → /dev-plan → [G4] → /review-doc → [G5] → /dev-execute-run
-            ▲                    ▲                     ▲                   ▲                     ▲
-            ready to design?     ready for review?     ready to plan?      ready for review?     ready to execute?
+/dev-usecases → [G1] → /dev-design → [G2] → /review-doc → [G3] → /dev-plan → [G4] → /review-doc → [G5] → /dev-execute-run
+                ▲                    ▲                     ▲                   ▲                     ▲
+                ready to design?     ready for review?     ready to plan?      ready for review?     ready to execute?
 ```
 
 Each gate is one profile (`assets/ready/g1.md … g5.md`) filling this guide's schema. The shared flow below runs identically for all five; only the bound profile (step 2) differs.
@@ -80,12 +80,14 @@ The *concern* is shared by every gate; the *depth* tracks whether executable ste
 
 ## Resolution rule (flow step 1)
 
-`/dev-ready <doc>` binds the **furthest-along** break. It derives the task slug **and directory** from the `<doc>` argument (strip the `-goal` / `-design` / `-plan` / `-review` suffix and `.md`), globs the doc's sibling artifacts in that directory (`<dir>/<slug>-*.md` — normally `docs/`, but a `/tmp/` fixture resolves against `/tmp/`), walks the artifact ladder, and selects the last gate whose inputs are present:
+`/dev-ready <doc>` binds the **furthest-along** break. It derives the task slug **and directory** from the `<doc>` argument (strip the `-usecases` / `-design` / `-plan` / `-review` suffix and `.md`), globs the doc's sibling artifacts in that directory (`<dir>/<slug>-*.md` — normally `docs/`, but a `/tmp/` fixture resolves against `/tmp/`), walks the artifact ladder, and selects the last gate whose inputs are present:
 
 ```
-goal → design → design-review → plan → plan-review
- G1       G2          G3          G4        G5
+usecases → design → design-review → plan → plan-review
+   G1         G2          G3          G4        G5
 ```
+
+> **Legacy `-goal.md` argument**: a `-goal.md` doc is the retired Stage-0 type — its `-goal` suffix is **not** in the strip list, so it mis-derives the slug and the sibling glob matches nothing. Reject it with the hint to convert first: `/dev-usecases <goal-doc> update` (produces the `-usecases.md`, then re-run `/dev-ready` against that). No compatibility glob is added. Note: once G1 is reachable via a usecases doc, a pre-existing legacy goal doc still counts as **optional de-risking evidence** under g1's any-name input rule — it is inert as a *gate argument*, not as *evidence*.
 
 - **G1 is the floor** — it fires when no `…-design.md` exists yet.
 - Each **`-review.md` twin advances the cursor one gate** (a `…-design-review.md` advances G2 → G3; a `…-plan-review.md` advances G4 → G5). Detector = `-review.md` twin presence (the review skill persists a `-review.md` sidecar alongside each reviewed doc).

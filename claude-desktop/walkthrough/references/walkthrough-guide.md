@@ -1,44 +1,55 @@
-# Walkthrough Guide
+# Walkthrough Guide (Claude Desktop)
 
-Pedagogical, operator-facing comprehension pass: `/walkthrough` paces an operator through a document **unit-by-unit**, elaborating each unit from five angles (plain English, motivation, diagram, before/after state delta, usage) and pausing between units for natural-language confirmation before advancing.
+Pedagogical, operator-facing comprehension pass: the walkthrough paces an operator through a document **unit-by-unit**, elaborating each unit from five angles (plain English, motivation, diagram, before/after state delta, usage) and pausing between units for natural-language confirmation before advancing.
 
-> **Source of truth.** This guide defines every aspect of walkthrough behavior — argument parsing, doc-type recognition, unit detection, unit extraction, the five-angle elaboration rules, review-context enrichment, and per-unit advance semantics. The thin command wrapper at `~/.claude/commands/walkthrough.md` is an entry point; all logic lives here.
+> **Source of truth.** This guide defines every aspect of walkthrough behavior — input acquisition, doc-type recognition, unit detection, unit extraction, the five-angle elaboration rules, review-context enrichment, and per-unit advance semantics. `SKILL.md` is the entry point; all logic lives here.
+
+> **Lineage.** Ported from the Anvil Claude Code walkthrough (`claude-code/review/references/walkthrough-guide.md`). Sections marked **[CD-adapted]** deviate deliberately for the Claude Desktop surface; everything else is ported intact and should stay in sync with the CC version.
 
 > **Reading convention.** Below, "unit" is the generic label for whatever the doc calls its segment (Step, Item, Task, Milestone, Goal, Phase, Component, Requirement, Section, …). `{Term}` is the placeholder the walkthrough substitutes at render time with the doc's detected term (see Adaptive Vocabulary).
 
 ---
 
-## Input / Argument Parsing
+## Input Acquisition **[CD-adapted]**
 
-- **Argument 1 (required)**: `<doc-path>` — path to the document to walk through.
-- **Argument 2+ (optional)**: free-form `[notes]` — focus areas the operator wants emphasized (e.g., "pay extra attention to the migration path").
-- **No flags.** No `--auto`. No `--first`. No `--follow`. No mutually-exclusive flag pairs. The walkthrough's invocation surface is deliberately minimal and conversational.
+Claude Desktop has no path arguments; the document arrives through whatever channel the conversation offers:
 
-### Path Normalization
+1. **Uploaded file** — use its content directly; the filename drives doc-type recognition.
+2. **Pasted content** — use as-is; no filename, so doc-type recognition falls to content cues.
+3. **Project file / artifact** — a doc already in the conversation or project context.
+4. **Fetched via connected tools** — when the operator names a file and a filesystem/Drive/repo tool is connected, fetch it. Ask before guessing among multiple matches.
 
-Apply these rules to `<doc-path>` **before** the existence check:
-
-1. **Strip a leading `@`** if present (Claude Code-style path reference — e.g., `@docs/foo.md` becomes `docs/foo.md`).
-2. **Expand a leading `~/`** to `$HOME` (e.g., `~/Development/anvil/docs/foo.md` resolves against the user's home directory).
-3. **If the remaining path is relative**, resolve it against the current working directory.
-4. **If the remaining path is absolute**, accept as-is.
+**Notes (optional)**: free-form focus areas the operator wants emphasized (e.g., "pay extra attention to the migration path"). Weight elaboration toward them; never let them skip units or angles.
 
 ### Rejection Rules
 
 Surface these as operator-visible errors (not silent failures):
 
-- **Missing doc path** → `doc path required`
-- **Normalized path does not exist on disk** → `doc not found: <normalized-path>`
+- **No document provided and none fetchable** → ask the operator for the doc; do not walk through a summary of what you imagine the doc says.
 - **Doc has no headings Unit Extraction can consume** (neither a Tier 1 match nor any H2 under default extraction) → `No unit structure detected. Walkthrough requires at least H2 sections (or a consistent indexed heading pattern at any depth) to segment the doc.`
 
 ---
 
-## Doc-Type Recognition
+## Doc-Type Recognition **[CD-adapted: table inlined]**
 
-Identify the document type from its filename pattern. Use the shared tables defined in `exam-guide.md § Document Type Recognition` (Design Docs + Dev Docs). **Reference them by name — do not duplicate the tables here.** This keeps filename→doc-type mapping a single source of truth: if `exam-guide.md` adds a new doc type later, walkthrough inherits it for free.
+The CC version references `exam-guide.md § Document Type Recognition`; that guide is not present on this surface, so the mapping is inlined here. Identify the document type from its filename pattern (Anvil naming conventions):
+
+| Filename pattern | Doc type |
+|---|---|
+| `[slug]-vision.md` | Vision |
+| `[slug]-architecture.md` | Architecture |
+| `[slug]-milestones.md` | Milestones |
+| `[milestone]-tasks.md` | Tasks |
+| `[milestone]-[task]-usecases.md` | Usecases |
+| `[milestone]-[task]-design.md` | Task Design |
+| `[milestone]-[task]-plan.md` | Plan |
+| `[milestone]-[task]-results.md` | Results |
+| `[milestone]-milestone-summary.md` | Milestone Summary |
+
+**Content-cue fallback** (pasted docs with no filename): an Executive Summary table + `## Analysis` + `## Proposed Sequence` reads as Task Design; `## Specification` + numbered Steps + acceptance criteria reads as Plan; goals/strategy framing reads as Vision; milestone enumerations read as Milestones. Apply judgment; certainty is not required.
 
 - The doc type drives two things: the **Tier 2 unit-term default** (see Adaptive Vocabulary below) and the **before/after interpretation** for Angle 4 (see Five-Angle Elaboration Rules).
-- **Unknown doc type** (filename matches no pattern) → walkthrough continues; the unit term falls through to Tier 3 generic "Section".
+- **Unknown doc type** (no pattern or cue match) → walkthrough continues; the unit term falls through to Tier 3 generic "Section".
 
 ---
 
@@ -121,20 +132,20 @@ One paragraph, jargon-free. Describe what this unit accomplishes and its outcome
 
 One paragraph. Explain why this unit exists, what would break or remain unsolved without it, what constraint or goal it satisfies. Length: 1-3 sentences.
 
-### Angle 3 — Diagram (How)
+### Angle 3 — Diagram (How) **[CD-adapted: rendering upgrade]**
 
-An **ASCII diagram** illustrating the unit's mechanism, structure, flow, or state. Diagram kind is selected from the unit's body content:
+A diagram illustrating the unit's mechanism, structure, flow, or state. Diagram kind is selected from the unit's body content:
 
 - **flow diagram** — for process / sequence units (e.g., "read input → validate → write output").
 - **box-and-arrow** — for structural / component units (e.g., architecture components, module interactions).
 - **state transition** — for before→after value changes (e.g., config key flipped, data-model migration).
 - **dependency graph** — for coordination units (e.g., milestone ordering, which task blocks which).
 
-ASCII only — always renders in any environment, no flag required.
+**Default rendering is inline ASCII** — it always works, keeps the pace conversational, and reads fine on a phone. Claude Desktop adds one upgrade the CC version cannot offer: when a unit's structure genuinely earns it (a multi-component architecture, a dependency web, a state machine with several transitions), you MAY render the diagram as a Mermaid or SVG artifact instead. Use the upgrade sparingly — at most where it adds real comprehension over ASCII — and never as a substitute for the angle: a unit gets exactly one diagram either way.
 
 **Non-visual units** (renames, config-value edits, prose changes) still get a diagram — a **simple two-box before→after** showing the value change is sufficient. **Never skip Angle 3.** The discipline of producing a diagram forces the unit to be concrete.
 
-If unsure which kind to use, default to **box-and-arrow**.
+If unsure which kind to use, default to **box-and-arrow** in ASCII.
 
 ### Angle 4 — Before / After (State Delta)
 
@@ -157,18 +168,19 @@ Who consumes this unit's output? Another unit? A downstream doc? End user? QA? W
 ### Common Pitfalls (avoid all of these)
 
 - **common pitfall: verbose boilerplate** that repeats the unit's own body text instead of elaborating. Each angle must add information — not restate.
-- **common pitfall: diagrams that describe rather than render**. A prose sentence that says "this is a flow from A to B" is not a diagram. Render actual ASCII.
+- **common pitfall: diagrams that describe rather than render**. A prose sentence that says "this is a flow from A to B" is not a diagram. Render actual ASCII (or an artifact, per the Angle-3 upgrade rule).
 - **common pitfall: before/after type mismatch** — phrasing state delta as "code changes" when the unit is strategic, or as "strategic change" when the unit edits code. Match the per-doc-type interpretation in Angle 4.
+- **common pitfall: artifact overuse** **[CD]** — rendering every unit's diagram as an artifact turns a paced conversation into a gallery crawl. ASCII is the default for a reason; upgrade only when structure earns it.
 
 ---
 
-## Review Context Enrichment (Optional Overlay)
+## Review Context Enrichment (Optional Overlay) **[CD-adapted: availability]**
 
-If a `docs/[slug]-review.md` file exists alongside the target doc, load it.
+If a companion review doc (`[slug]-review.md`) is available — uploaded alongside the target, present in project context, or fetchable via the same connected tool that supplied the target — load it.
 
 - Surface review context in the **Motivation angle** when pedagogically useful. Example: *"This {term} was rewritten in R2 because the original approach conflicted with the existing loop defaults."*
 - Review context **enriches** elaboration; it does **not** drive unit extraction or override the detected term.
-- If no `-review.md` exists, proceed without it.
+- If no review doc is available, proceed without it — never ask the operator to go find one.
 
 ---
 
@@ -208,7 +220,7 @@ Render exactly: *"Walked through {K} of {Total} {term}s"* (plural lowercased, e.
 
 These are **non-negotiable** — hard invariants enforced by this guide:
 
-1. The walkthrough **never writes** to the target doc or any other file. It is strictly read + elaborate. No `--auto`, no fix mode, no persisted state. Re-running starts fresh.
+1. The walkthrough **never writes** to the target doc or any other file, and never edits an artifact holding the target doc. It is strictly read + elaborate. No fix mode, no persisted state. Re-running starts fresh.
 2. The five-angle format is **non-negotiable**. Even non-visual units get a weak two-box state diagram for Angle 3. No angle is skipped. No angle is silently merged with another.
 3. **No formal response-protocol vocabulary** (`yes` / `questions` / `stop` as labeled tokens) surfaces in the walkthrough's output. Operator signals are interpreted from natural language only — the prompt shape is *"Ready for {Term} {N+1}?"*, not a menu.
 
@@ -216,13 +228,13 @@ These are **non-negotiable** — hard invariants enforced by this guide:
 
 ## Process Outline
 
-The thin command wrapper's short Process list mirrors this outline. The authoritative process is:
+The authoritative process is:
 
 1. Read this guide.
-2. Parse arguments (doc path + optional free-form notes).
-3. Detect doc type from filename pattern (via `exam-guide.md § Document Type Recognition`).
+2. Acquire the document (uploaded / pasted / project file / fetched) + optional free-form notes.
+3. Detect doc type — filename pattern first, content cues as fallback (tables above).
 4. Detect the unit term using the 3-tier adaptive vocabulary (Tier 1 heading scan → Tier 2 doc-type default → Tier 3 generic "Section").
 5. Extract units — iterate at the detected dominant heading depth from Tier 1; default to H2 boundaries when Tier 1 is inconclusive.
-6. Load review context if a `-review.md` file exists alongside the target doc.
+6. Load review context if a companion review doc is available.
 7. For each unit in document order: render the five angles → pause on the minimal *"Ready for {Term} {N+1}?"* prompt → interpret the operator's response in natural language → advance, elaborate, or exit.
 8. On exit signal or final unit: render the summary line *"Walked through {K} of {Total} {term}s"* and end.

@@ -14,4 +14,4 @@ and `references/comms-format.md` for the inbox format.
 -->
 
 - architect
-- qa
+- QA

@@ -4,6 +4,21 @@ Inbox for the architect role. See `.session-agents/agents.md` for the roster; th
 
 ## Open
 
+### [2026-06-10] — Sanction a multi-main-scenario variant in the usecases template/guide (operator-confirmed preference — no reply needed)
+**From:** session-agents architect (cross-project, `~/Development/session-agents`)
+**Re:** Refinement to the shipped `/dev-usecases` surface (`0-usecases-guide.md` § Shape + `assets/templates/0-usecases.md` § Main success scenario) — surfaced by the first real Mode-2 reformat, run today against `~/Development/session-agents/docs/session-agents-pane-refresh-usecases.md`.
+
+**The case.** Some use cases have two genuinely **co-equal happy paths under one actor goal**. Exemplar: `comms open <agent>` — fresh named launch (brand-new pane) vs continuity resume (at-shell pane with a recoverable session). Same actor intent, same command, system-detected branch; by the guide's own goal-based clustering rule this is ONE use case (splitting it would be the flat-scenario-list drift the guide warns against — the running-pane branches would become a third "use case"). But the template mandates a singular "Main success scenario," which forces one happy path down into the extensions table as an alternate-success row.
+
+**Operator decision (2026-06-10, explicit).** The operator reviewed both forms and chose the variant: both happy paths written as main scenarios — `**Main success scenario A — <name>**`, `**Main success scenario B — <name>**` — with the decision tree showing which fires and the extensions table carrying only deviations. Rationale: the usecases doc is the operator confirmation anchor; the operator is its primary audience, and two visible scenarios beat one buried as extension row 1. The Cockburn single-main form is a writing convention, not a correctness rule — use-case *boundaries* (cluster by actor goal, never by scenario or verb) stay orthodox.
+
+**Why it needs to land in the guide/template.** As shipped, a future `/dev-usecases <doc> update` reformat will read the singular-main mandate and "fix" the A/B form back — the convention fights a confirmed operator preference instead of encoding it. Suggested edits (small):
+- Guide § Shape, the use-case bullet: sanction the variant — "when a use case has co-equal happy paths under one actor goal, write them as `Main success scenario A/B — <name>` (alternate-success extension rows remain the default for non-co-equal paths); the decision tree shows which fires."
+- Template: one-line bracket note under the Main-success-scenario block to the same effect.
+- Optionally § Common Pitfalls: distinguish this sanctioned variant from flat-scenario-list drift (the boundary rule is untouched).
+
+The reformatted exemplar showing the A/B form lives at `~/Development/session-agents/docs/session-agents-pane-refresh-usecases.md` (Use Case 1). No reply needed — absorb and delete this entry when done.
+
 ### [2026-06-10] — How to produce a `-usecases` doc (method + template, FYI — no reply needed)
 **From:** session-agents architect (cross-project, `~/Development/session-agents`)
 **Re:** Teaching transfer — the `-usecases.md` doc type we developed on the pane-refresh task. Worked exemplar: `~/Development/session-agents/docs/session-agents-pane-refresh-usecases.md` (read it alongside this entry; its design twin `…-pane-refresh-design.md` shows the cross-doc contract).

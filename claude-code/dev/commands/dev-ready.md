@@ -10,14 +10,14 @@ Run a **directed readiness check** at the break between two dev stages and emit 
 
 ## What This Does
 
-The dev ceremony (Goal → Design → Plan → Execute) hands off **informally** between stages, so non-autonomous work (spikes, human-gates, operator-driven steps) leaks into plans and surfaces only at execution. `/dev-ready` sits at each break, resolves which gate applies from the docs on disk, binds that gate's profile, and runs **one shared inline flow** to decide whether the work is ready to advance.
+The dev ceremony (Usecases → Design → Plan → Execute) hands off **informally** between stages, so non-autonomous work (spikes, human-gates, operator-driven steps) leaks into plans and surfaces only at execution. `/dev-ready` sits at each break, resolves which gate applies from the docs on disk, binds that gate's profile, and runs **one shared inline flow** to decide whether the work is ready to advance.
 
 Five gates, one flow:
 
 ```
-/dev-goal → [G1] → /dev-design → [G2] → /review-doc → [G3] → /dev-plan → [G4] → /review-doc → [G5] → /dev-execute-run
-            ▲                    ▲                     ▲                   ▲                     ▲
-            ready to design?     ready for review?     ready to plan?      ready for review?     ready to execute?
+/dev-usecases → [G1] → /dev-design → [G2] → /review-doc → [G3] → /dev-plan → [G4] → /review-doc → [G5] → /dev-execute-run
+                ▲                    ▲                     ▲                   ▲                     ▲
+                ready to design?     ready for review?     ready to plan?      ready for review?     ready to execute?
 ```
 
 ## Resources
@@ -29,7 +29,7 @@ Five gates, one flow:
 
 ## Input
 
-**Argument (required):** `<doc>` — a path to any artifact of the task being gated (its goal, design, or plan doc, or a `-review.md` twin). The command derives the **task slug** from it and computes which gate applies from the docs on disk. **The gate is never passed by the operator** — resolving it is the command's job (see Resolution rule). Any artifact of the same task resolves to the same gate.
+**Argument (required):** `<doc>` — a path to any artifact of the task being gated (its usecases, design, or plan doc, or a `-review.md` twin). The command derives the **task slug** from it and computes which gate applies from the docs on disk. **The gate is never passed by the operator** — resolving it is the command's job (see Resolution rule). Any artifact of the same task resolves to the same gate.
 
 **Examples:**
 ```bash
@@ -40,17 +40,19 @@ Five gates, one flow:
 /dev-ready docs/core-foo-plan.md
 
 # Any artifact of the task works — the slug is what matters
-/dev-ready docs/core-foo-goal.md
+/dev-ready docs/core-foo-usecases.md
 ```
 
 ## Resolution rule (furthest-along)
 
-From the `<doc>` argument, derive the **task slug** and its **directory** — strip the stage suffix (`-goal` / `-design` / `-plan`, and any `-review`) and the `.md` extension (e.g. `docs/core-foo-design.md` → slug `core-foo`, dir `docs/`). Then glob the doc's **sibling artifacts** in that same directory (`<dir>/<slug>-*.md` — normally `docs/`, but a fixture under `/tmp/` resolves against `/tmp/`), walk the artifact ladder, and bind the **last gate whose inputs are present**:
+From the `<doc>` argument, derive the **task slug** and its **directory** — strip the stage suffix (`-usecases` / `-design` / `-plan`, and any `-review`) and the `.md` extension (e.g. `docs/core-foo-design.md` → slug `core-foo`, dir `docs/`). Then glob the doc's **sibling artifacts** in that same directory (`<dir>/<slug>-*.md` — normally `docs/`, but a fixture under `/tmp/` resolves against `/tmp/`), walk the artifact ladder, and bind the **last gate whose inputs are present**:
 
 ```
-goal → design → design-review → plan → plan-review
- G1       G2          G3          G4        G5
+usecases → design → design-review → plan → plan-review
+   G1         G2          G3          G4        G5
 ```
+
+A legacy `-goal.md` argument is **rejected** (its suffix is not in the strip list — it would mis-derive the slug and match no siblings); convert it first via `/dev-usecases <goal-doc> update`, then gate the resulting `-usecases.md`.
 
 - **G1 is the floor** — it fires when no `…-design.md` exists yet.
 - Each **`-review.md` twin advances the cursor one gate**: a `…-design-review.md` advances G2 → G3; a `…-plan-review.md` advances G4 → G5. Detector = `-review.md` twin presence (the review skill persists a `-review.md` sidecar alongside each reviewed doc).

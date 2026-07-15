@@ -42,7 +42,7 @@ Follow the planning guide exactly. Use the template exactly.
 5. Create the implementation plan using the template — fill in concrete commands/patterns from the environment guide
 6. Write the output file
 
-Before drafting steps, check for `docs/[milestone-slug]-[task-slug]-goal.md`. If present, read it as the operator-confirmed contract — the plan's steps must collectively deliver every Goal's Post-Task Usage in the goal doc (one Goal for single-goal docs; each enumerated Goal for multi-goal docs) without contradiction.
+Before drafting steps, check for `docs/[milestone-slug]-[task-slug]-usecases.md`. If present, read it as the operator-confirmed contract — the plan's steps must collectively deliver each use case's main success scenario + extensions in the usecases doc (one `## Use Case N` section for single-use-case docs; each enumerated use case for multi-use-case docs) without contradiction. Keep the `> **Use cases**: docs/...` citation line in the produced plan's header blockquote (it ships in the template) with the actual usecases-doc path substituted — this is the plan-pointer leg of the cohesion pass. If absent, remove the `> **Use cases**:` line entirely from the produced plan (no orphan citation pointing to a nonexistent file) and proceed normally.
 
 ## Output
 

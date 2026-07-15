@@ -21,7 +21,7 @@ Project (e.g., "mission-control")
 
 ## Overview
 
-This skill operates at the **Task level** — one task at a time through a 3-stage core workflow, optionally wrapped by Stage 0 (goal) and Stage 3b (conceptual review):
+This skill operates at the **Task level** — one task at a time through a 3-stage core workflow, optionally wrapped by Stage 0 (usecases) and Stage 3b (conceptual review):
 
 1. **Stage 1: Design** - Problem analysis and solution design (what and why)
 2. **Stage 2: Planning** - Step-by-step breakdown
@@ -31,16 +31,16 @@ This skill operates at the **Task level** — one task at a time through a 3-sta
 
 | Stage | Input | Output | Code? |
 |-------|-------|--------|-------|
-| 0. Goal (Optional) | Operator notes / design doc | `docs/[milestone-slug]-[task-slug]-goal.md` | ❌ NO |
+| 0. Usecases (Optional) | Operator notes / design doc | `docs/[milestone-slug]-[task-slug]-usecases.md` | ❌ NO |
 | 1. Design | Bug/feature spec, user notes | `docs/[milestone-slug]-[task-slug]-design.md` | ❌ NO |
 | 2. Planning | `docs/[milestone-slug]-[task-slug]-design.md` (recommended) | `docs/[milestone-slug]-[task-slug]-plan.md` | ✅ YES |
 | 3. Execution | `docs/[milestone-slug]-[task-slug]-plan.md` | `docs/[milestone-slug]-[task-slug]-results.md` + code + tests | ✅ YES |
 
-*All stages read `docs/[milestone-slug]-[task-slug]-goal.md` as optional alignment context when present (per each stage's guide). Listed inputs are primary contracts; goal.md is a soft secondary read.*
+*All stages read `docs/[milestone-slug]-[task-slug]-usecases.md` as optional alignment context when present (per each stage's guide). Listed inputs are primary contracts; the usecases doc is a soft secondary read.*
 
 | Stage | Guide | Template |
 |-------|-------|----------|
-| 0. Goal | `references/0-goal-guide.md` | `assets/templates/0-goal.md` |
+| 0. Usecases | `references/0-usecases-guide.md` | `assets/templates/0-usecases.md` |
 | 1. Design | `references/1-design-guide.md` | `assets/templates/1-design.md` |
 | 2. Planning | `references/2-planning-guide.md` | `assets/templates/2-plan.md` |
 | 3. Execution | `references/3-execution-guide.md` | `assets/templates/3-results.md` |
@@ -58,7 +58,7 @@ This skill operates at the **Task level** — one task at a time through a 3-sta
 ## Optional Commands
 
 Users can invoke stages explicitly via commands:
-- `/dev-goal <notes>` - Start Stage 0
+- `/dev-usecases <notes-or-slug-or-doc-path> [update]` - Start Stage 0 (usecases doc). Three modes: before-design notes walk (notes prefixed `<m>-<t>:`); existing-doc update / legacy conversion (`<doc-path> update`); after-design distillation (task slug, reads design ±plan)
 - `/dev-design <notes>` - Start Stage 1
 - `/dev-plan <notes>` - Start Stage 2
 - `/dev-execute <notes>` - Start Stage 3 (one step)
@@ -83,23 +83,23 @@ Or use natural language: "Create design for database abstraction", "Plan the imp
 
 ---
 
-## Stage 0: Goal (Optional)
+## Stage 0: Usecases (Optional)
 
-**Goal**: Capture the operator-facing expectation — one or more goals, each with its own today vs. post-task before/after. Confirmation artifact for the operator; alignment anchor for downstream agents.
+**Goal**: Capture the operator-facing expectation as a value-first, use-case-structured doc — a goals-at-a-glance table (one row per goal, quantified pain, where it's delivered), the real artifact the operator edits, one section per use case (actor goal + main success scenario + extensions), and a one-sentence contract. Confirmation artifact for the operator; alignment anchor for downstream agents.
 
 **Code Allowed**: ❌ NO
 
-**Optional**: This stage is opt-in. Create one when the operator-facing surface IS the value (per `0-goal-guide.md` §'When to create a goal doc'). Skip for pure refactors / bug fixes / spikes.
+**Optional**: This stage is opt-in. Create one when the operator-facing surface IS the value (per `0-usecases-guide.md` §'When to create'). Skip for pure refactors / bug fixes / spikes.
 
-**Guide**: `references/0-goal-guide.md` | **Template**: `assets/templates/0-goal.md`
+**Guide**: `references/0-usecases-guide.md` | **Template**: `assets/templates/0-usecases.md`
 
-**Output**: `docs/[milestone-slug]-[task-slug]-goal.md`
+**Output**: `docs/[milestone-slug]-[task-slug]-usecases.md`
 
 **Dual audience**: Operator confirms direction; downstream agents (design → review → plan → review → execute → monitor) read it as alignment input when present.
 
 **After completion**:
-- *Before-design flow*: Operator confirms the draft, then runs `/dev-design` for Stage 1 — Stage 1 reads the goal doc as input context.
-- *After-design distillation flow*: Operator confirms the draft. Downstream stages already in flight pick up the goal doc on their next activation.
+- *Before-design flow*: Operator confirms the draft, then runs `/dev-design` for Stage 1 — Stage 1 reads the usecases doc as input context.
+- *After-design distillation flow*: Operator confirms the draft. Downstream stages already in flight pick up the usecases doc on their next activation.
 
 ---
 
@@ -182,18 +182,18 @@ Or use natural language: "Create design for database abstraction", "Plan the imp
 The skill should detect where the user is in the workflow:
 
 1. **No docs exist**: Start with Stage 1 (Design)
-2. **Only goal doc exists**: Move to Stage 1 (Design) — Stage 1 reads goal doc as alignment context
+2. **Only usecases doc exists**: Move to Stage 1 (Design) — Stage 1 reads the usecases doc as alignment context
 3. **Only design exists**: Move to Stage 2 (Planning)
 4. **Plan exists**: Move to Stage 3 (Execution)
 5. **Results doc shows progress**: Continue Stage 3 from current step
 
 Use Glob/Grep to check for existing documents:
-- `docs/[milestone-slug]-[task-slug]-goal.md`
+- `docs/[milestone-slug]-[task-slug]-usecases.md`
 - `docs/[milestone-slug]-[task-slug]-design.md`
 - `docs/[milestone-slug]-[task-slug]-plan.md`
 - `docs/[milestone-slug]-[task-slug]-results.md`
 
-`/dev-ready <doc>` resolves the applicable readiness gate (G1–G5) from these same artifact-trail signals — it derives the task slug from the doc argument, walks the ladder (goal → design → design-review → plan → plan-review) and binds the **furthest-along** break, each `-review.md` twin advancing the cursor one gate. The gate is always computed, never operator-supplied. See **Readiness Gates** below.
+`/dev-ready <doc>` resolves the applicable readiness gate (G1–G5) from these same artifact-trail signals — it derives the task slug from the doc argument, walks the ladder (usecases → design → design-review → plan → plan-review) and binds the **furthest-along** break, each `-review.md` twin advancing the cursor one gate. The gate is always computed, never operator-supplied. See **Readiness Gates** below.
 
 ---
 
@@ -208,14 +208,14 @@ Use Glob/Grep to check for existing documents:
 There are **five gates**, one at each break:
 
 ```
-/dev-goal → [G1] → /dev-design → [G2] → /review-doc → [G3] → /dev-plan → [G4] → /review-doc → [G5] → /dev-execute-run
-            ▲                    ▲                     ▲                   ▲                     ▲
-            ready to design?     ready for review?     ready to plan?      ready for review?     ready to execute?
+/dev-usecases → [G1] → /dev-design → [G2] → /review-doc → [G3] → /dev-plan → [G4] → /review-doc → [G5] → /dev-execute-run
+                ▲                    ▲                     ▲                   ▲                     ▲
+                ready to design?     ready for review?     ready to plan?      ready for review?     ready to execute?
 ```
 
 | Gate | Break — "are we ready…?" | Reads | Verdict |
 |------|--------------------------|-------|---------|
-| **G1** | …to design? | goal doc and/or notes (any de-risking evidence, optional) | proceed-to-design / spike-first |
+| **G1** | …to design? | usecases doc and/or notes (any de-risking evidence, optional) | proceed-to-design / spike-first |
 | **G2** | …for design review? | `…-design.md` | ready-for-`/review-doc` |
 | **G3** | …to plan? | `…-design.md` + `…-design-review.md` | ready-to-plan **or** go/no-go (may recommend don't-plan / archive) |
 | **G4** | …for plan review? | `…-plan.md` | ready-for-`/review-doc` |
@@ -245,7 +245,7 @@ There are **five gates**, one at each break:
 - Keep it concise - remove resolved questions, keep only latest health check
 
 **Per Task**:
-- `docs/[milestone-slug]-[task-slug]-goal.md` - e.g., `docs/core-placements-goal.md`, `docs/cloud-auth-fix-goal.md`
+- `docs/[milestone-slug]-[task-slug]-usecases.md` - e.g., `docs/core-placements-usecases.md`, `docs/cloud-auth-fix-usecases.md`
 - `docs/[milestone-slug]-[task-slug]-design.md` - e.g., `docs/core-poc6-design.md`, `docs/cloud-auth-fix-design.md`
 - `docs/[milestone-slug]-[task-slug]-plan.md` - e.g., `docs/core-poc6-plan.md`, `docs/cloud-auth-fix-plan.md`
 - `docs/[milestone-slug]-[task-slug]-results.md` - e.g., `docs/core-poc6-results.md`, `docs/cloud-auth-fix-results.md`

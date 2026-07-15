@@ -81,6 +81,8 @@ OLD_COMMANDS=(
     "design-task-spec.md"
     # review skill loop rename
     "review-doc-run-loop.md"
+    # dev skill Stage 0: goal → usecases
+    "dev-goal.md"
 )
 #=============================================================================
 

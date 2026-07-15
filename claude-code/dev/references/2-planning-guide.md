@@ -13,9 +13,9 @@ YES
 If Design doc provided → read and use as blueprint
 If no Design doc → plan from scratch (for simple tasks, quick fixes)
 
-### If a goal doc exists for this task
+### If a usecases doc exists for this task
 
-If `docs/[milestone-slug]-[task-slug]-goal.md` exists, read it before drafting the plan. The goal doc — every Goal's Post-Task Usage — is the contract the plan's steps must collectively deliver. Treat as a constraint: no plan step should land an operator-facing change that contradicts any Goal in the goal doc. If absent, proceed normally — Stage 0 is optional.
+If `docs/[milestone-slug]-[task-slug]-usecases.md` exists, read it before drafting the plan. The usecases doc — each use case's main success scenario + extensions — is the contract the plan's steps must collectively deliver. Treat as a constraint: no plan step should land an operator-facing change that contradicts any scenario or extension in the usecases doc. Carry the `> **Use cases**: docs/[milestone-slug]-[task-slug]-usecases.md` pointer line in the plan's header blockquote (it ships in `assets/templates/2-plan.md`) — it is the plan-pointer leg of the cohesion pass, letting the usecases doc and plan cross-reference each other. If absent, proceed normally — Stage 0 is optional.
 
 ## Process
 1. List all prerequisites (setup Supabase, configure AWS, API keys, etc.)
