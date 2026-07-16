@@ -3,11 +3,12 @@
 Stage-gated design and development skills for the Claude Code CLI. 4-stage no-code design, 3-stage spec-driven dev loop, market validation, and quality review.
 
 * `/design-vision` → `/design-tasks` — 4-stage design pipeline (Vision → Architecture → Milestones → Tasks). Each stage produces a doc from a mandatory template and is gated by `/review-doc`.
-* `/dev-design` → `/dev-execute-run` — Spec-driven dev loop. Per-step test enforcement; auto-finalize with timestamp, lessons, diagram, and health check.
+* `/dev-usecases` (Stage 0, optional) → `/dev-design` → `/dev-execute-run` — Spec-driven dev loop. Per-step test enforcement; `/dev-ready` readiness gate (G1–G5) between stages; auto-finalize with timestamp, lessons, diagram, and health check.
 * `/market-research` and `/naming-research` — Go/Pivot/Kill recommendation; scored name evaluation.
 * `/review-doc-run` — Parallel scatter-gather review with optional `--auto` fix-apply.
-* `/review-doc-loop` ↔ `/exam-loop` — Tick-driven critic-sandwich (`E1 → R1 → E2`) coordinated across two sessions via a shared review doc.
-* `/spawn-*` — Background-agent variants for every command above.
+* `/review-loop` — Single-session additive critic-sandwich (`E1 → R1 → E2`, default 2 rounds); the go-forward replacement for the `/review-doc-loop` ↔ `/exam-loop` tick-loops.
+* `/review-triangulate` — Heavyweight multi-lane cross-validated deep review (critic sandwich + repo-grounding + path-correctness + optional empirical probes).
+* `/spawn-*` — Background-agent variants for the dev, research, and review commands.
 * `./deploy.sh` deploys to `~/.claude/`; `./deploy-genesis.sh` mirrors to a remote host (Raspberry Pi) via SSH.
 
 ## Table of Contents
@@ -42,13 +43,14 @@ Target: /Users/you/.claude/skills/review
   ✓ Copied SKILL.md
   ✓ Copied assets/templates/
   ✓ Copied references/
-  ✓ Copied 10 commands
+  ✓ Copied 12 commands
   ✓ Copied 4 agents
+  ✓ Copied 1 workflow(s)
 ...
 ==============================================
 Verification Summary
 ==============================================
-  ✅ Passed: 74
+  ✅ Passed: 79
   ❌ Failed: 0
 
 🎉 All checks passed! Deployment is correct.
@@ -73,6 +75,8 @@ DESIGN PHASE (design skill)
 
 DEVELOPMENT PHASE (dev skill)
 ─────────────────────────────
+/dev-usecases               → (Stage 0, optional) Operator-facing usecases doc
+        ↓
 /dev-design                 → Analyze task (NO CODE)
         ↓
 /dev-plan                   → Plan implementation steps
@@ -84,6 +88,9 @@ DEVELOPMENT PHASE (dev skill)
 /dev-finalize               → Wrap up (timestamp + lessons + diagram + health)
         ↓
 Repeat for next task
+
+/dev-ready                  → Readiness gate (G1–G5) at any stage break;
+                              READY / NOT-READY decided from docs on disk
 ```
 
 ## Most common workflow
@@ -100,6 +107,8 @@ The typical dev task workflow with review loops:
 ```
 
 > Steps 2 and 4 are iterative — re-run reviews until all items are clean. The `--auto` flag auto-applies suggested fixes. Step 5 runs all plan steps sequentially then auto-finalizes. Step 6 catches intent drift, silent assumptions, and architectural issues across the completed implementation.
+>
+> Optionally begin with `/dev-usecases <milestone>-<task>: <notes>` (Stage 0) to capture operator-facing use cases before design. Run `/dev-ready <any task doc>` at any stage break for a bounded READY / NOT-READY readiness check (G1–G5) before advancing. For deeper scrutiny than `/review-doc-run`, use `/review-loop` (critic-sandwich) or `/review-triangulate` (multi-lane cross-validation).
 
 ## design
 
@@ -116,14 +125,16 @@ The typical dev task workflow with review loops:
 
 ## dev
 
-3-stage development loop per task. Stage 1 is design-only; Stages 2-3 allow code. Each step writes its own tests and loops until tests pass.
+3-stage development loop per task, wrapped by an optional Stage 0 (usecases) and readiness gates between stages. Stage 1 is design-only; Stages 2-3 allow code. Each step writes its own tests and loops until tests pass.
 
 | Command | Purpose |
 |---------|---------|
+| `/dev-usecases` | Create/update an operator-facing usecases doc (Stage 0, optional, NO CODE) — 3 modes: before-design notes walk, existing-doc update / legacy conversion, after-design distillation |
 | `/dev-design` | Create design document (Stage 1, NO CODE) |
 | `/dev-plan` | Plan implementation steps (Stage 2) |
 | `/dev-execute` | Execute one step with tests (Stage 3) |
 | `/dev-execute-run` | Run all remaining steps to completion (auto-finalize) |
+| `/dev-ready` | Readiness gate (G1–G5) — emits a bounded READY / NOT-READY decision, computing which gate applies from the docs on disk |
 | `/dev-review` | Review completed step against design |
 | `/dev-review-run` | Review all completed steps in parallel |
 | `/dev-diagram` | Generate ASCII summary diagram |
@@ -131,7 +142,7 @@ The typical dev task workflow with review loops:
 | `/dev-milestone-summary` | Generate milestone summary document |
 | `/dev-health` | Project health check |
 
-> `/dev-execute-run --auto` adds parallel review + Mission Control sync after finalize.
+> `/dev-execute-run --auto` adds parallel review + Mission Control sync after finalize. `/dev-ready` runs inline in the main conversation and never mutates the artifact — it proposes, you apply.
 
 ## research
 
@@ -146,14 +157,16 @@ The typical dev task workflow with review loops:
 |---------|---------|
 | `/review-doc` | Sequential document review (supports `--auto`) |
 | `/review-doc-run` | Parallel document review with background subagents (supports `--auto`) |
+| `/exam` | Independent critical examination of a document — deeper than automated review (supports `--auto`) |
+| `/review-loop` | Single-session additive critic-sandwich: N exams + N-1 reviews, ending on an exam (`E1 → R1 → E2`, default 2 rounds) |
+| `/review-triangulate` | Multi-lane cross-validated deep review — critic sandwich + repo-grounding + path-correctness lanes (+ optional empirical probes), consolidated via a convergence map |
 | `/review-doc-loop` | Tick-driven loop that pairs with `/exam-loop`; long-running, main conversation only |
 | `/exam-loop` | Tick-driven loop that pairs with `/review-doc-loop`; long-running, main conversation only |
-| `/exam` | Independent critical examination of a document |
-| `/monitor` | Periodic execution monitor with per-step analysis |
+| `/monitor` | Periodic execution monitor with per-step analysis (read-only) |
 | `/walkthrough` | Operator-facing pedagogical walkthrough of a doc |
 | `/review-skill` | Audit a skill for structure, frontmatter, and consistency |
 
-> The loop pair runs an asymmetric critic-sandwich by default: `/exam-loop` leads (`N=2`) and `/review-doc-loop` follows (`N=1`), producing the sequence `E1 → R1 → E2`. Use paired flags (`--first` on one side AND `--follow` on the other) to invert.
+> `/review-loop` is the go-forward replacement for the `/review-doc-loop` ↔ `/exam-loop` tick-loop pair — it runs the same additive critic-sandwich (`E1 → R1 → E2`) in a single top-level session instead of coordinating two. `/review-triangulate` is its heavyweight variant, adding read-only repo-grounding and web-verified path-correctness lanes plus optional execute-but-don't-write probe lanes. Both require running in a top-level session (they spawn background subagents).
 
 ## Spawn commands
 
@@ -181,6 +194,8 @@ Background-agent variants. Each runs the corresponding command in a subagent so 
 - `docs/[milestone-slug]-tasks.md`
 
 **dev skill creates:**
+- `PROJECT_STATE.md` (task + milestone tracking)
+- `docs/[milestone-slug]-[task-slug]-usecases.md` (Stage 0, optional)
 - `docs/[milestone-slug]-[task-slug]-design.md`
 - `docs/[milestone-slug]-[task-slug]-plan.md`
 - `docs/[milestone-slug]-[task-slug]-results.md`
@@ -191,7 +206,7 @@ Background-agent variants. Each runs the corresponding command in a subagent so 
 - `docs/naming-research.md`
 
 **review skill creates:**
-- `docs/[slug]-review.md` (from `/review-doc`, `/review-doc-run`, `/exam`, and the loop pair)
+- `docs/[slug]-review.md` (from `/review-doc`, `/review-doc-run`, `/exam`, `/review-loop`, `/review-triangulate`, and the loop pair)
 - `docs/[slug]-monitor-issues.md` (lazy-created by `/monitor` on first verifiable issue)
 
 ## Development
@@ -222,7 +237,7 @@ If you made changes directly in `~/.claude/`:
 | Script | Purpose |
 |--------|---------|
 | `deploy.sh` | Deploy to local `~/.claude/` |
-| `verify.sh` | Verify local deployment (74 checks) |
+| `verify.sh` | Verify local deployment (79 checks) |
 | `sync-from-user.sh` | Pull changes from deployed `~/.claude/` back into the repo |
 | `deploy-genesis.sh` | Deploy to `genesis:/home/pi/.claude/` via SSH |
 | `verify-genesis.sh` | Verify remote deployment via SSH |

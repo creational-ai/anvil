@@ -16,7 +16,7 @@
 Turns Claude into a full product team — architect, developer, QA reviewer, market researcher, strategist — with stage-gated workflows that eliminate hallucination from design through deployment.
 
 [![MIT License](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
-[![Version](https://img.shields.io/badge/version-v0.0.17-green.svg)](https://github.com/creational-ai/anvil/releases)
+[![Version](https://img.shields.io/badge/version-v0.0.18-green.svg)](https://github.com/creational-ai/anvil/releases)
 [![GitHub Stars](https://img.shields.io/github/stars/creational-ai/anvil?style=social)](https://github.com/creational-ai/anvil)
 
 ## Quick Start
@@ -82,8 +82,11 @@ User runs `/review-doc` between stages to catch gaps before moving forward.
 
 ## Development Workflow
 
-3-stage loop per task. Spec-driven plans mean the AI implements from
-specifications, not from pre-written code it might hallucinate.
+3-stage loop per task — with an optional **Stage 0 usecases** doc up front and an
+opt-in conceptual review after. Spec-driven plans mean the AI implements from
+specifications, not from pre-written code it might hallucinate. Between stages,
+`/dev-ready` runs a readiness gate (**G1–G5**) that decides — from the docs on
+disk, not operator say-so — whether the task is ready to advance.
 
 ```
          ┌──────────────────────┐
@@ -150,7 +153,7 @@ Every product in the Creational ecosystem was designed and built using Anvil's s
 | Dev workflow (design to plan to execute) | Spec-driven, stage-gated | Brainstorm to plan to execute | Individual commands |
 | Anti-hallucination gates | Mandatory templates, spec-driven plans, 5-check review | TDD-first approach | -- |
 | Market validation | Go/Pivot/Kill research | -- | -- |
-| Quality review | Doc review (sequential + parallel), skill audits, 5-check conceptual review | Verification skills | -- |
+| Quality review | Doc review (sequential + parallel), independent exam + critic-sandwich loops, cross-validated triangulation, skill audits, 5-check conceptual review | Verification skills | -- |
 
 superpowers is excellent for the coding phase and has a more mature marketplace presence. Anvil's strength is the full lifecycle -- from raw idea through market validation to shipped product. They're complementary, not mutually exclusive; you can use superpowers for coding discipline alongside Anvil's design-through-deployment methodology.
 
@@ -161,9 +164,9 @@ superpowers is excellent for the coding phase and has a more mature marketplace 
 | Skill | Purpose |
 |-------|---------|
 | **design** | 4-stage design workflow: Vision, Architecture, Milestones, Tasks |
-| **dev** | Development loop: design analysis, planning, step-by-step execution with tests, review, finalization |
+| **dev** | Development loop: optional usecases (Stage 0), design analysis, planning, step-by-step execution with tests, readiness gates (G1–G5), conceptual review, finalization |
 | **research** | Market validation (Go/Pivot/Kill) and naming research with scoring matrix |
-| **review** | Document review (sequential + parallel scatter-gather), skill auditing |
+| **review** | Document review (sequential + parallel), independent exam, multi-round critic-sandwich (`/review-loop`), cross-validated deep review (`/review-triangulate`), execution monitoring, walkthroughs, skill auditing |
 
 ### Claude Desktop
 
@@ -189,18 +192,21 @@ superpowers is excellent for the coding phase and has a more mature marketplace 
 anvil/
 ├── README.md
 ├── CLAUDE.md
+├── VERSION
 ├── LICENSE
 │
 ├── claude-code/                # Claude Code skills
 │   ├── README.md
 │   ├── deploy.sh              # Deploy skills and commands (local)
-│   ├── verify.sh              # Verify deployment
+│   ├── verify.sh              # Verify deployment (79 checks)
+│   ├── deploy-genesis.sh      # Deploy to genesis (Raspberry Pi) via SSH
+│   ├── verify-genesis.sh      # Verify remote deployment
 │   ├── sync-from-user.sh      # Sync from deployed skills
 │   ├── common/                # Shared commands (commit, bump version)
 │   ├── design/                # 4-stage design workflow
-│   ├── dev/                   # Development loop
+│   ├── dev/                   # Development loop (optional Stage 0 + G1–G5 gates)
 │   ├── research/              # Market validation + naming research
-│   └── review/                # Doc review + skill auditing
+│   └── review/                # Doc review, exam/loop/triangulate, workflows/, skill auditing
 │
 └── claude-desktop/             # Claude Desktop skills
     ├── README.md
