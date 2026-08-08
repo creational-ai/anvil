@@ -1,7 +1,7 @@
 ---
 description: Audit a skill for structural correctness, frontmatter, architecture hierarchy, cross-references, and consistency. Runs in main conversation.
 argument-hint: <skill-name>
-disable-model-invocation: true
+disable-model-invocation: false
 ---
 
 # /review-skill
