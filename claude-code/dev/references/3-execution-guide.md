@@ -43,12 +43,20 @@ If `docs/[milestone-slug]-[task-slug]-usecases.md` exists, treat it as the opera
 
 | Phase | Action | Output | Next |
 |-------|--------|--------|------|
+| **0. Re-read the two rules** | Re-read the comment-discipline and test-discipline rules in `~/.claude/CLAUDE.md` — **every step, not once per session** | Nothing written | → Phase 1 |
 | **1. Implement** | Write implementation code for current step | Implementation files in appropriate modules | → Phase 2 |
 | **2. Write Tests** | Cover critical paths + edge cases | Test files per environment conventions | → Phase 3 |
 | **3. Verify** | Run test suite | Per environment guide commands | IF FAIL → Phase 1 (fix and retry)<br>IF PASS → Phase 4 |
 | **4. Document & STOP** | Update results doc, report completion | `docs/[milestone-slug]-[task-slug]-results.md` (step status + lessons learned) | **STOP - Wait for user** |
 
 **Critical**: Loop phases 1-3 until ALL tests pass. Only when tests pass → document and STOP. DO NOT continue to next step.
+
+**Phase 0 exists because these two are the most frequently violated rules in the workflow**, and both fail quietly — nothing in the suite catches either:
+
+- **Tests verify behavior, never source text.** Never read a source file in a test and assert on what the code *says* — no `File.ReadAllText`/`open(path)` + `Contains("someCall")`, no "this comment/literal exists", no grep-the-tree zero-reference scans. Such a test breaks on a rename that changes nothing and passes through a refactor that breaks everything, and its failure message names a moved substring instead of a regression. **If a behavior cannot be exercised in a test, write no test and record why in the results doc** — never substitute a source-grep proxy. To get it covered, extract the logic into a plain testable class. Reflection on the compiled type (member exists/absent, signature, enum values) and serialization round-trips are fine — they exercise the artifact, not its text.
+- **Comments: one line max, WHY only.** Only a non-obvious WHY — a hidden constraint, a workaround. Never restate what the code does. No docstring blocks or paragraphs. **A detailed plan is not a license to transcribe its rationale into the source**: the more thoroughly a step is specified, the stronger the pull to paste that reasoning into comments. Rationale belongs in the design doc, which is where a reader will look for it.
+
+Before Phase 4, re-scan the step's own diff against both rules — that is cheaper than the reviewer catching it, and far cheaper than a purge later.
 
 ## Fix Mode (when invoked with `--fix`)
 
