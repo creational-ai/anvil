@@ -15,3 +15,5 @@ and `references/comms-format.md` for the inbox format.
 
 - architect
 - QA
+- custodian
+- skillwright

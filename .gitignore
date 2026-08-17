@@ -1,2 +1,4 @@
 claude-code/deploy-genesis.sh
 .claude/scheduled_tasks.lock
+# Generated per-role system prompts (comms open/refresh rebuild these every launch)
+.session-agents/*/.system-prompt.md

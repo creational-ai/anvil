@@ -71,13 +71,7 @@ Users can invoke stages explicitly via commands:
 - `/dev-diagram <milestone-slug>-<task-slug>` - Generate ASCII diagram for task
 - `/dev-milestone-summary <milestone-slug>` - Generate milestone summary
 
-**Spawn commands** (run in background via subagents):
-- `/spawn-dev-designer <notes>` - Design agent for Stage 1
-- `/spawn-dev-planner <design-doc>` - Plan agent for Stage 2
-- `/spawn-dev-executor <plan>` - Execute agent for Stage 3
-- `/spawn-dev-reviewer <results-doc> <step>` - Review agent for conceptual review
-- `/spawn-dev-finalizer <milestone-slug>-<task-slug>` - Finalize agent (timestamp + lessons + diagram + health)
-- `/spawn-dev-milestone-summarizer <milestone-slug>` - Milestone summary agent
+**Background execution**: to run a stage in a subagent instead of the main conversation, spawn the matching agent directly by `subagent_type` — `dev-usecase-author` (Stage 0), `dev-designer` (Stage 1), `dev-planner` (Stage 2), `dev-executor` (Stage 3), `dev-reviewer` (conceptual review), `dev-finalizer` (timestamp + lessons + diagram + health), `dev-milestone-summarizer`. Each agent carries its own stage workflow; no wrapper command is needed. `dev-usecase-author` drafts only — Stage 0's operator confirmation still happens in the main conversation.
 
 Or use natural language: "Create design for database abstraction", "Plan the implementation", "Execute step 1"
 

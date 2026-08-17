@@ -49,7 +49,7 @@ Post-execution conceptual review. Compares the implementation output against the
 
 ## Process
 
-**Run in main conversation. Do NOT spawn a subagent or fork.** Use `/spawn-dev-reviewer` for background execution.
+**Run in main conversation. Do NOT spawn a subagent or fork.** For background execution, spawn the `dev-reviewer` agent directly by `subagent_type`.
 
 Follow `review-guide.md`:
 

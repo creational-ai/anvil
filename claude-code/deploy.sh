@@ -77,6 +77,17 @@ OLD_COMMANDS=(
     "review-doc-run-loop.md"
     # dev skill Stage 0: goal → usecases
     "dev-goal.md"
+    # spawn-* wrappers retired — spawn the agents directly by subagent_type
+    "spawn-dev-designer.md"
+    "spawn-dev-planner.md"
+    "spawn-dev-executor.md"
+    "spawn-dev-reviewer.md"
+    "spawn-dev-finalizer.md"
+    "spawn-dev-milestone-summarizer.md"
+    "spawn-market-researcher.md"
+    "spawn-naming-researcher.md"
+    "spawn-doc-reviewer.md"
+    "spawn-skill-reviewer.md"
 )
 #=============================================================================
 

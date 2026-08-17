@@ -51,7 +51,9 @@ Stage 0 supports three input modes. **In Mode 1, notes MUST begin with `<milesto
 
 ## Process
 
-**Run in main conversation. Do NOT spawn a subagent or fork — Stage 0's operator-interactive confirmation loop requires the main conversation; no `/spawn-dev-usecases` variant exists by design.** Follow `0-usecases-guide.md` exactly. The guide branches on what exists on disk; all flows close with operator confirmation.
+**Run in main conversation.** Follow `0-usecases-guide.md` exactly. The guide branches on what exists on disk; all flows close with operator confirmation.
+
+For background execution, spawn the `dev-usecase-author` agent directly by `subagent_type`. The agent drafts the doc and hands it back naming what still needs walking — **it never confirms**. Operator confirmation always happens in the main conversation, whoever drafted.
 
 The command will:
 1. Read the guide and template.

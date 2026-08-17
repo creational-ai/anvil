@@ -197,17 +197,7 @@ Examples:
 - `/dev-milestone-summary` - Generate milestone summary
 - `/dev-health` - Project health check (standalone, also included in finalize)
 
-**Spawn commands** (run in background via subagents):
-- `/spawn-dev-designer` - Design agent for Stage 1
-- `/spawn-dev-planner` - Plan agent for Stage 2
-- `/spawn-dev-executor` - Execute agent for Stage 3
-- `/spawn-dev-reviewer` - Review agent for conceptual review (Stage 3b)
-- `/spawn-dev-finalizer` - Finalize agent (timestamp + lessons + diagram + health)
-- `/spawn-dev-milestone-summarizer` - Milestone summary agent
-- `/spawn-market-researcher` - Market research agent
-- `/spawn-naming-researcher` - Naming research agent
-- `/spawn-doc-reviewer` - Document review agent (supports --auto)
-- `/spawn-skill-reviewer` - Skill review agent
+**Background execution**: there are no `/spawn-*` wrapper commands — they were retired as thin `context: fork` duplicates of their agents. To run a stage in a subagent, spawn its agent directly by `subagent_type`: `dev-usecase-author` (Stage 0), `dev-designer` (Stage 1), `dev-planner` (Stage 2), `dev-executor` (Stage 3), `dev-reviewer` (Stage 3b), `dev-finalizer`, `dev-milestone-summarizer`, `market-researcher`, `naming-researcher`, `doc-reviewer`, `skill-reviewer`. Agents live in `claude-code/<skill>/agents/` and deploy to `~/.claude/agents/`.
 
 **Research commands**:
 - `/market-research` - Market validation with Go/Pivot/Kill recommendation

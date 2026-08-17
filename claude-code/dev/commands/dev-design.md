@@ -73,7 +73,7 @@ Stage 1 of dev: Analyze a problem and design a solution WITHOUT writing code.
 
 ## Process
 
-**Run in main conversation. Do NOT spawn a subagent or fork.** Use `/spawn-dev-designer` for background execution.
+**Run in main conversation. Do NOT spawn a subagent or fork.** For background execution, spawn the `dev-designer` agent directly by `subagent_type`.
 
 Follow `1-design-guide.md` exactly. It contains the full process for analysis, constraints, sequencing, and decisions.
 

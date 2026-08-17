@@ -64,16 +64,13 @@ Does the skill have the required files and directories?
 
 Do all commands have valid YAML frontmatter?
 
-**Rules for regular commands** (`commands/[name].md` where name does NOT start with `spawn-`):
+**Rules for all commands** (`commands/[name].md`):
 - Has YAML frontmatter between `---` delimiters
 - Has `description` field (non-empty string)
 - Has `argument-hint` if the command takes arguments (look for examples with args in the body)
 - Has `disable-model-invocation: true`
 
-**Rules for spawn commands** (`commands/spawn-[name].md`):
-- All regular command rules above, PLUS:
-- Has `context: fork`
-- Has `agent: [agent-name]` that matches a file in `agents/`
+**Flag:** any command that is a thin `context: fork` + `agent: [name]` wrapper adding no logic of its own. Background execution is reached by spawning the agent directly by `subagent_type`; wrapper commands duplicate the agent's own description and drift from it. (The 10 `spawn-*` wrappers were retired for this reason.)
 
 **How to check:** Read each command file. Parse the frontmatter block. Verify required fields.
 

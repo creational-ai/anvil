@@ -63,8 +63,7 @@ This skill consolidates document verification and skill auditing into a single r
 - `/review-triangulate <doc-path> [rounds] [notes]` -- multi-lane cross-validated deep review: runs the `review-loop` workflow (`workflows/review-loop.js`) while independent subagents — citation lanes read-only — ground every claim against the repo (`file:line` evidence) and adversarially validate the chosen path (web-verified) — and, when claims are runtime-testable, probe lanes demonstrate behavior empirically (execute-but-don't-write) — then builds a convergence map (CONVERGED / WORKFLOW-ONLY / SUBAGENT-ONLY) and consolidates one verdict. The heavyweight variant of `/review-loop`; run in a top-level pane. Design/plan docs only
 - `/monitor <task-slug>` -- Monitor execution progress with periodic status reports; writes `docs/[slug]-monitor-issues.md` (lazy-created, appended across sessions) when issues are found (main conversation)
 - `/walkthrough <doc-path> [notes]` -- Operator-facing walkthrough; paces you through a doc unit-by-unit with five-angle elaboration and conversational per-unit advance (main conversation)
-- `/spawn-doc-reviewer <doc-path> [--auto] [notes]` -- Sequential doc review (background agent)
-- `/spawn-skill-reviewer <skill-name>` -- Skill audit (background agent)
+**Background execution**: to run a review in a subagent instead of the main conversation, spawn the matching agent directly by `subagent_type` — `doc-reviewer` (sequential doc review) or `skill-reviewer` (skill audit). Each agent carries its own workflow and argument parsing; no wrapper command is needed.
 
 Or use natural language: "Review this document", "Check this plan for issues", "Audit the design skill", "Exam the plan", "Monitor the execution"
 

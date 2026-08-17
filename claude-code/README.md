@@ -8,7 +8,7 @@ Stage-gated design and development skills for the Claude Code CLI. 4-stage no-co
 * `/review-doc-run` — Parallel scatter-gather review with optional `--auto` fix-apply.
 * `/review-loop` — Single-session additive critic-sandwich (`E1 → R1 → E2`, default 2 rounds); the go-forward replacement for the `/review-doc-loop` ↔ `/exam-loop` tick-loops.
 * `/review-triangulate` — Heavyweight multi-lane cross-validated deep review (critic sandwich + repo-grounding + path-correctness + optional empirical probes).
-* `/spawn-*` — Background-agent variants for the dev, research, and review commands.
+* Any stage can run in the background instead of the main conversation — spawn its agent directly by `subagent_type` (`dev-usecase-author`, `dev-designer`, `dev-planner`, `dev-executor`, `dev-reviewer`, `dev-finalizer`, `dev-milestone-summarizer`, `market-researcher`, `naming-researcher`, `doc-reviewer`, `skill-reviewer`). Each agent carries its own workflow.
 * `./deploy.sh` deploys to `~/.claude/`; `./deploy-genesis.sh` mirrors to a remote host (Raspberry Pi) via SSH.
 
 ## Table of Contents
@@ -20,7 +20,6 @@ Stage-gated design and development skills for the Claude Code CLI. 4-stage no-co
 - [dev](#dev)
 - [research](#research)
 - [review](#review)
-- [Spawn commands](#spawn-commands)
 - [Output files](#output-files)
 - [Development](#development)
 - [License](#license)
@@ -167,23 +166,6 @@ The typical dev task workflow with review loops:
 | `/review-skill` | Audit a skill for structure, frontmatter, and consistency |
 
 > `/review-loop` is the go-forward replacement for the `/review-doc-loop` ↔ `/exam-loop` tick-loop pair — it runs the same additive critic-sandwich (`E1 → R1 → E2`) in a single top-level session instead of coordinating two. `/review-triangulate` is its heavyweight variant, adding read-only repo-grounding and web-verified path-correctness lanes plus optional execute-but-don't-write probe lanes. Both require running in a top-level session (they spawn background subagents).
-
-## Spawn commands
-
-Background-agent variants. Each runs the corresponding command in a subagent so it doesn't consume the main conversation context.
-
-| Command | Purpose |
-|---------|---------|
-| `/spawn-dev-designer` | Design agent for Stage 1 |
-| `/spawn-dev-planner` | Plan agent for Stage 2 |
-| `/spawn-dev-executor` | Execute agent for Stage 3 |
-| `/spawn-dev-reviewer` | Review agent for conceptual review |
-| `/spawn-dev-finalizer` | Finalize agent (timestamp + lessons + diagram + health) |
-| `/spawn-dev-milestone-summarizer` | Milestone summary agent |
-| `/spawn-market-researcher` | Market research agent |
-| `/spawn-naming-researcher` | Naming research agent |
-| `/spawn-doc-reviewer` | Document review agent (supports `--auto`) |
-| `/spawn-skill-reviewer` | Skill review agent |
 
 ## Output files
 

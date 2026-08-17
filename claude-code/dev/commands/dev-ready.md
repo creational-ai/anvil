@@ -60,7 +60,7 @@ A legacy `-goal.md` argument is **rejected** (its suffix is not in the strip lis
 
 ## Process
 
-**Run in main conversation — inline. Do NOT spawn a subagent, fork, or fan out.** The gate is one agent, one context, a fixed rubric. There is no `/spawn-dev-ready` variant by design: heavy parallel analysis is the review layer's job (`/review-doc-run`), one step downstream of G2/G4 — the gate neither duplicates it nor depends on the Workflow primitive.
+**Run in main conversation — inline. Do NOT spawn a subagent, fork, or fan out.** The gate is one agent, one context, a fixed rubric. There is no background-agent variant by design: heavy parallel analysis is the review layer's job (`/review-doc-run`), one step downstream of G2/G4 — the gate neither duplicates it nor depends on the Workflow primitive.
 
 Follow `references/ready-guide.md` exactly. It carries the invariant 7-step flow; the command's job is the first two steps (resolve the break, bind the profile), then run the flow with that profile bound:
 

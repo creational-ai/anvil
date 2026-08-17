@@ -6,8 +6,8 @@ Research capabilities for product validation and naming decisions.
 
 - `/market-research` - Market validation with Go/Pivot/Kill recommendation
 - `/naming-research` - Research and evaluate product/project name candidates
-- `/spawn-market-researcher` - Market research agent (background)
-- `/spawn-naming-researcher` - Naming research agent (background)
+
+**Background execution**: spawn the `market-researcher` or `naming-researcher` agent directly by `subagent_type`; no wrapper command is needed.
 
 ## When to Use
 

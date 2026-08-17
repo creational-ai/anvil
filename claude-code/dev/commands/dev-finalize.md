@@ -24,7 +24,7 @@ The slug is used to find: `docs/[milestone-slug]-[task-slug]-results.md`
 
 ## Steps
 
-**Run in main conversation. Do NOT spawn a subagent or fork.** Use `/spawn-dev-finalizer` for background execution.
+**Run in main conversation. Do NOT spawn a subagent or fork.** For background execution, spawn the `dev-finalizer` agent directly by `subagent_type`.
 
 **ALL 4 STEPS ARE REQUIRED. DO NOT STOP EARLY.**
 
