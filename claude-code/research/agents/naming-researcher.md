@@ -1,7 +1,7 @@
 ---
 name: naming-researcher
 description: "Research and evaluate product/project name candidates with scoring matrix. Only invoke when explicitly requested."
-tools: Glob, Grep, Read, Write, WebFetch, WebSearch, TodoWrite
+tools: Glob, Grep, Read, Write, WebFetch, WebSearch
 model: opus
 ---
 

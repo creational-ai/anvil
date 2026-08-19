@@ -1,7 +1,7 @@
 ---
 name: doc-reviewer
 description: "Review design or implementation documents sequentially. Only invoke when explicitly requested."
-tools: Bash, Edit, Write, Glob, Grep, Read, WebFetch, WebSearch, TodoWrite, AskUserQuestion
+tools: Bash, Edit, Write, Glob, Grep, Read, WebFetch, WebSearch, AskUserQuestion
 model: opus
 ---
 

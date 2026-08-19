@@ -1,7 +1,7 @@
 ---
 name: market-researcher
 description: "Market validation specialist. Conducts thorough research to produce Go/Pivot/Kill recommendation. Only invoke when explicitly requested."
-tools: Bash, Glob, Grep, Read, Write, WebFetch, WebSearch, TodoWrite, ListMcpResourcesTool, ReadMcpResourceTool
+tools: Bash, Glob, Grep, Read, Write, WebFetch, WebSearch, ListMcpResourcesTool, ReadMcpResourceTool
 model: opus
 ---
 

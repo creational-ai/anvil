@@ -1,7 +1,7 @@
 ---
 name: dev-reviewer
 description: "Conceptual review specialist. Reviews execution step output against design intent, flags conceptual errors. Only invoke when explicitly requested."
-tools: Bash, Glob, Grep, Read, Edit, Write, TodoWrite
+tools: Bash, Glob, Grep, Read, Edit, Write
 model: opus
 ---
 

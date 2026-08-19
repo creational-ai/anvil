@@ -1,7 +1,7 @@
 ---
 name: dev-milestone-summarizer
 description: "Generate comprehensive milestone summary document. Only invoke when explicitly requested."
-tools: Bash, Edit, Write, Glob, Grep, Read, WebFetch, TodoWrite, ListMcpResourcesTool, ReadMcpResourceTool
+tools: Bash, Edit, Write, Glob, Grep, Read, WebFetch, ListMcpResourcesTool, ReadMcpResourceTool
 model: opus
 ---
 

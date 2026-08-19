@@ -1,7 +1,7 @@
 ---
 name: dev-finalizer
 description: "Finalize a completed task: timestamp, lessons, diagram, health check. Runs all 4 steps and verifies completion. Only invoke when explicitly requested."
-tools: Bash, Edit, Write, Glob, Grep, Read, TodoWrite
+tools: Bash, Edit, Write, Glob, Grep, Read
 model: opus
 ---
 

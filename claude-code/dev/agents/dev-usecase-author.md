@@ -1,7 +1,7 @@
 ---
 name: dev-usecase-author
 description: "Stage 0 usecases specialist. Drafts a value-first, use-case-structured operator-facing doc; returns it for operator confirmation. Only invoke when explicitly requested."
-tools: Glob, Grep, Read, Write, TodoWrite, ListMcpResourcesTool, ReadMcpResourceTool
+tools: Glob, Grep, Read, Write, ListMcpResourcesTool, ReadMcpResourceTool
 model: opus
 ---
 

@@ -8,7 +8,7 @@ disable-model-invocation: true
 
 Run an **additive exam → review → exam critic-sandwich** on a single document by sequencing the existing `/exam` and `/review-doc-run` behaviors. `rounds` = the number of NEW exam rounds this invocation (default **2**). The loop runs N exams interleaved with N-1 reviews and **always ends on an exam**: `E1, R1, E2, R2, …, E_N`.
 
-> **Run this in a top-level session** — your main pane, or a session-agents `builder` pane (dispatch it with `comms no-reply builder -m "/review-loop <doc> <rounds>"`). It spawns subagents, which only works from a top-level session, never from inside another subagent. Both round types lean on **background** subagents, so the chat never blocks for long: an exam round is one background subagent (zero orchestrator turns until it finishes); a review round has *this* session spawn its background item+holistic fan-out and process each completion notification (brief foreground turns between which the chat is free). Watch progress in `/tasks` (live per-round status) and via the pane's own orchestration narration + per-round summaries when you `tmux attach -t <prefix>-builder`. Each subagent's full transcript also persists on disk for deep inspection.
+> **Run this in a top-level session** — your main pane, or a session-agents `builder` pane (dispatch it with `comms no-reply builder -m "/review-loop <doc> <rounds>"`). It spawns subagents, which only works from a top-level session, never from inside another subagent. Both round types lean on **background** subagents, so the chat never blocks for long: an exam round is one background subagent (zero orchestrator turns until it finishes); a review round has *this* session spawn its background item+holistic fan-out and process each completion notification (brief foreground turns between which the chat is free). Watch progress via the pane's own orchestration narration + per-round summaries when you `tmux attach -t <prefix>-builder`. Each subagent's full transcript also persists on disk for deep inspection.
 
 ## Input — parse `$ARGUMENTS`
 
@@ -34,17 +34,17 @@ The round labels are **not** fixed; they continue from whatever the shared revie
 3. Compute the plan: for `i` in `1..rounds`: exam → `E(e0+i)`; and if `i < rounds`: review → `R(r0+i)`.
 4. Announce the planned sequence, e.g. `pre-flight: 2 E / 1 R columns exist → planned: E3 → R2 → E4`.
 
-### 2. Lay the sequence into the task list (TaskCreate — tracking, not execution)
+### 2. Hold the sequence in the transcript
 
-`TaskCreate` does **not** run anything; it records a checklist. Use it to make the order explicit, visible in the pane, and resilient to mid-run compaction:
+The plan from step 1 is the run's only record of where you are, so it lives in what you emit:
 
-1. `TaskCreate` one task per planned round, in order — subject e.g. `review-loop E3 (exam)`, `review-loop R2 (review)`, `review-loop E4 (exam)`; description = the round's target column + doc path.
-2. Chain them with `TaskUpdate addBlockedBy` so each round is blocked by the previous one (the sequence is the contract).
-3. You execute each step yourself and move its task `pending → in_progress → completed` as you go. Never mark a round complete until its column is written and its fixes are applied.
+1. Emit the sequence as its own line before the first round: `sequence: E3 → R2 → E4 · next: E3`
+2. **Re-emit that line — unchanged except for `next:` — at the start of every round and immediately after every completion notification, including when nothing has changed.** The restatement is the durable surface. If a compaction takes it, re-derive the plan by counting E/R columns and say in the final report that you did.
+3. `next:` advances only once the previous round's column is written and its fixes are applied. A column appears only when a round *finishes*, so `next:` is the only thing distinguishing "mid-E3" from "done with E3, not yet started R2."
 
 ### 3. Execute the rounds in order
 
-For each planned round (set its task `in_progress` when you start, `completed` when its column is written and fixes applied):
+For each planned round (advance `next:` only when its column is written and fixes applied):
 
 > **Numbering is orchestrator-owned.** The labels computed in Pre-flight (step 1) are authoritative — the orchestrator (this session) did the one reliable column count before any round wrote, and rounds run strictly one at a time, so nothing else changes the columns mid-round. Hand each round its exact target column and **never let a round re-derive its own number by counting** — once an agent starts writing column `E{n}`, a recount includes its own write and mis-promotes it to `E{n+1}`. After each round returns, re-read the review-doc summary-table header and confirm **exactly one** new column was added, with the expected label. If a round wrote a different/extra column (e.g. both `E{n}` and `E{n+1}`), **STOP and report** — do not launch the next round onto a corrupted base.
 
@@ -58,7 +58,7 @@ For each planned round (set its task `in_progress` when you start, `completed` w
 
 Because it runs in the background, **end your turn after launching it** — do not block. The completion notification re-invokes you with its summary; only then do the post-round header check above and move to the next round. The rounds stay strictly sequential (R{n} must see E{n}'s applied fixes), but the chat is free the whole time.
 
-**Review round `R{n}`** — orchestrate it **from this session** (do not delegate the whole review to one subagent — it couldn't fan out). Read `~/.claude/skills/review/references/review-doc-run-guide.md` and follow it in `--auto` mode on `<doc-path>`: identify type, extract items, create/extend the skeleton with the **R{n}** column (write exactly the orchestrator-assigned `R{n}` — do NOT re-derive the number by counting; if an `R{n}` column already exists you are resuming it), spawn the parallel item + holistic reviewers **in the background per the guide's Phase 2 (`run_in_background: true`), end the turn, and write findings incrementally as each completion notification arrives (Phase 3)** — so the chat stays free while they run, run the elevation pass, set the review-log entry (timestamp it from `date "+%Y-%m-%dT%H:%M:%S%z"` — never guess), and apply ALL fixes. The round's task is complete only once the `R{n}` column is written and all fixes applied. **Skip the per-round afplay/say notification.** Pass `<notes>` as focus context. For non-parallel doc types (anything but Tasks / Task-Design / Plan, or zero items), the guide's own fallback to sequential `/review-doc` applies.
+**Review round `R{n}`** — orchestrate it **from this session** (do not delegate the whole review to one subagent — it couldn't fan out). Read `~/.claude/skills/review/references/review-doc-run-guide.md` and follow it in `--auto` mode on `<doc-path>`: identify type, extract items, create/extend the skeleton with the **R{n}** column (write exactly the orchestrator-assigned `R{n}` — do NOT re-derive the number by counting; if an `R{n}` column already exists you are resuming it), spawn the parallel item + holistic reviewers **in the background per the guide's Phase 2 (`run_in_background: true`), end the turn, and write findings incrementally as each completion notification arrives (Phase 3)** — so the chat stays free while they run, run the elevation pass, set the review-log entry (timestamp it from `date "+%Y-%m-%dT%H:%M:%S%z"` — never guess), and apply ALL fixes. The round is complete only once the `R{n}` column is written and all fixes applied. **Skip the per-round afplay/say notification.** Pass `<notes>` as focus context. For non-parallel doc types (anything but Tasks / Task-Design / Plan, or zero items), the guide's own fallback to sequential `/review-doc` applies.
 
 ### 4. Report
 
@@ -76,5 +76,5 @@ command -v afplay >/dev/null 2>&1 && afplay /System/Library/Sounds/Glass.aiff; c
 
 ## Notes & limits
 
-- **Context cost scales with rounds.** Each review's fan-out results land in this session's context. `rounds=2` is light; `rounds=4+` on a large doc may trigger mid-loop compaction — the TaskCreate checklist is your recovery anchor if it does. For very large unattended runs, the two-pane orchestration mesh keeps each review's fan-out out of one context.
+- **Context cost scales with rounds.** Each review's fan-out results land in this session's context. `rounds=2` is light; `rounds=4+` on a large doc may trigger mid-loop compaction — the re-emitted `sequence:` line is your recovery anchor if it does, and if the line is gone too, re-derive by counting E/R columns. For very large unattended runs, the two-pane orchestration mesh keeps each review's fan-out out of one context.
 - **Additive, per-invocation.** `rounds` is how many *new* exams to run now. Re-running on a doc that ended on an exam places two exams back-to-back across the boundary (e.g. `…E2` then `E3, R2, E4`) — expected.
