@@ -4,7 +4,7 @@ Inbox for the QA role. See `.session-agents/agents.md` for the roster; the `sess
 
 ## Open
 
-*— nothing pending —*
+*— nothing open —*
 
 ## In Progress
 

@@ -288,6 +288,6 @@ When using Mission Control MCP tools (`mcp__mission-control__*`) to manage tasks
 
 This project uses session agents — see `.session-agents/agents.md` for the roster. Activation model and standard role definitions live in the `session-agents` skill at `~/.claude/skills/session-agents/`.
 
-**Utility pane completion protocol:** `comms reply <slug>` (emits `[--reply]`) asks for a completion ack; `comms no-reply <slug>` (emits `[--no-reply]`) does not. The receiver runs the body — slash-dispatched if it starts with `/`, else acknowledged in conversation — and on `[--reply]` owes the sender an ack as its final tool call. See the deployed `/comms` command at `~/.claude/commands/comms.md` for canonical protocol mechanics (its source lives in the global `session-agents` skill, not this repo).
+**Utility pane completion protocol:** `comms reply <slug>` (emits `[--reply]`) asks for a completion ack; `comms no-reply <slug>` (emits `[--no-reply]`) does not. The receiver runs the body — slash-dispatched if it starts with `/`, else acknowledged in conversation — and on `[--reply]` owes the sender an ack as its final tool call. See the deployed `/comms` command at `~/.claude/commands/comms.md` for canonical protocol mechanics (its source lives in the global `session-agents` skill, not this repo). The session-agents skill's `SKILL.md` (`~/.claude/skills/session-agents/SKILL.md`) § Persistent behaviors carries the "Fire pending doorbell reply before turn end" anchor.
 
 ---

@@ -53,6 +53,7 @@ Write it once, whole, with `Write`. This is the entire schema:
 
 | Field | Value |
 |-------|-------|
+| **Command** | `~/.claude/commands/review-triangulate.md` — **re-read it if you are recovering: this file carries the run's data, not its procedure** |
 | **Target doc** | <doc-path> |
 | **Review doc** | <doc-path minus .md>-review.md |
 | **Baseline** | /tmp/<slug>-launch-baseline.md |
@@ -76,10 +77,11 @@ Carried claim text — reproduce byte-for-byte, never re-wrap, never paraphrase:
 - No edits to the target doc or its `-review.md` while the workflow is running.
 - Do NOT shell-Read agent `.output` JSONL files — results arrive in task-notifications.
 - <any role constraints in effect, including a pending ack owed to a dispatching pane>
+- If the `## Lane log` below is empty but the report needs lanes, check `/tmp/<slug>-triangulate-run.abandoned-*.md` — a post-compaction re-entry at Phase 1 moves the live log aside and starts fresh, so this run's landed lanes may be in the sibling.
 
 ## Lane log
 
-**Loop rule** — while the workflow is running, every turn ends with either a new lane launched or a one-line statement of why no lane adds value right now. Never idle-wait.
+**Loop rule** — while the workflow is running, every turn ends with either a new lane launched or a one-line statement of why no lane adds value right now. Never idle-wait. A turn that launches nothing appends `### idle · <ts> · <one-line reason>` here — that append is what forces you to open this file on a turn with no lane landing, and it is what the Phase-3 ledger counts.
 
 Append-only. Newest at the bottom. Never edit or delete an existing block.
 ````
@@ -100,7 +102,7 @@ Immediately after the launch block returns: `Edit` the run file's **Workflow run
 **Write protocol — one writer, the orchestrator. Lanes never touch this file.** The hazard is not concurrent writers; it is a single writer with a lossy memory rewriting the file from a stale in-context copy after a compaction, and silently dropping a lane. Three rules close that:
 
 1. **One whole-file `Write`, at creation. Never again.**
-2. **Every subsequent write is an append at end of file**, using `cat >> /tmp/<slug>-triangulate-run.md <<'EOF'`. The **quoted** heredoc is load-bearing — probe output is the payload most likely to contain backticks and `$`. Do NOT use `Edit` for appends: it needs an anchor, which needs a fresh read of the tail a compaction just removed.
+2. **Every subsequent write is an append at end of file**, using `cat >> /tmp/<slug>-triangulate-run.md <<'RUNFILE_EOF_a91f'`. The **quoted** heredoc is load-bearing — probe output is the payload most likely to contain backticks and `$` — and the **odd delimiter** is too: `probeFindings` carries literal command output, so a payload line that is exactly `EOF` would close the heredoc early and hand the rest to the shell as commands. Never use a delimiter a captured output could plausibly contain. Do NOT use `Edit` for appends: it needs an anchor, which needs a fresh read of the tail a compaction just removed.
 3. **A written block is never edited or deleted.** For a key with repeated blocks — `probeFindings` collects the first-order probe, both second-order probes, and the Phase-3 spot-check — the later block supersedes by position and both stay visible.
 
 Two header rows are ever rewritten, each a single-line `Edit` anchored on its bold key: **Workflow run** (status) and **Probe gate** (on upgrade). A gate upgrade **appends a new gate block** and rewrites only the row — it never edits the fenced claim text, so the original survives.
@@ -115,7 +117,7 @@ Lane blocks take this shape, lane keys verbatim (`groundingFindings`, `pathFindi
 
 Condense hard — carry what Phase 3 needs to act, not the full report. **`probeFindings`** carries, per question: claim → command(s) run → condensed literal output → verdict → iterations used.
 
-The loop rule lives at the head of the run file's `## Lane log`. There is no separate driver task: on a turn with no lane landing, nothing forces you to open the file, so the rule is on you.
+The loop rule lives at the head of the run file's `## Lane log`. There is no separate driver task and nothing re-injects the rule each turn, so it is on you — with one prop: a turn that launches nothing must append an `### idle` block, which both forces you to open the file and makes the idling countable in the Phase-3 ledger.
 
 ## Phase 2 — Keep looping until the workflow finishes
 
@@ -167,7 +169,7 @@ Read `/tmp/<slug>-triangulate-run.md` first, whether or not you think you rememb
    - **Probe weighting** — a **DEMONSTRATED** or **REFUTED** probe finding (carrying the exact command and literal output) enters as highest-confidence regardless of lane count; when it conflicts with a citation-grounded verdict about runtime behavior, the conflict resolves in the probe's favor under hard rule 5, and the overruled citation lane's finding is **annotated, not deleted** — the map must show *why* the citation lost.
 3. Apply the consolidated fixes the workflow didn't already apply to the target doc (the workflow has finished — edits are safe now). Respect the doc's existing structure; date-stamp substantive corrections. **In-flight probe handoff for TESTABLE fixes** (from **Probe-the-fix**): if a TESTABLE fix's demonstrating probe is still in flight when the workflow completes, await that probe's verdict before applying the fix; if the probe cannot complete, apply the fix annotated **UNDEMONSTRATED**; a TESTABLE fix for which no probe was ever launched is applied annotated **UNDEMONSTRATED** directly (no await target exists). Phase 3 spawns NO new probe lanes — the only Phase-3 probe activity is the inline spot-check (Phase-3 step 2); any runtime-behavior conflict noticed during Phase 3's steps 1–2 becomes a residual operator-acceptance item, not a new lane.
 4. Deliver the final report: overall verdict (lead with it), the convergence map (table), fixes applied vs. residual plan-time items, and any finding that changes the task's risk profile. **Residual probe doubts** — every terminal **INCONCLUSIVE** (whether it hit the iteration bound or terminated early on a permission block) and every **UNTESTABLE** question appears as a named residual operator-acceptance item: an at-bound INCONCLUSIVE carries its written next-probe design, a permission-blocked INCONCLUSIVE and an UNTESTABLE carry their required-access statement. The report may not claim doubt-removal it didn't earn. If any lane found the path WRONG, say so first and stop short of fixes until the user weighs in.
-5. Report the lane ledger in one line — e.g. `lanes: 7 launched / 7 landed over 84 min` — then delete `/tmp/<slug>-triangulate-run.md`, but only after the final report is delivered. If the report could not be delivered, leave the file and say where it is.
+5. Report the lane ledger in one line, counted from the run file's `## Lane log` — e.g. `lanes: 7 launched / 7 landed over 84 min · 2 idle turns` (an idle turn is an `### idle` block; if there are none and elapsed time is long, say the log is silent rather than implying none occurred) — then delete `/tmp/<slug>-triangulate-run.md`, but only after the final report is delivered. If the report could not be delivered, leave the file and say where it is.
 6. Play a single completion notification:
 
 ```bash
