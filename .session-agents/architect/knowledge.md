@@ -123,3 +123,14 @@ Three incidents in one session turned out to be the same bug wearing different c
 - **Delete by identity, not by region.** Clear an inbox entry by matching its header, never by truncating a section — a section rewrite silently destroys concurrent arrivals.
 
 **Diagnosis discipline that mattered here:** skillwright reported two possible causes and declined to pick, one of which blamed me. I had evidence they lacked — my write had a post-write read-back that returned true — which ruled out their charitable-to-them option. **Post-write read-back assertions are worth their cost precisely because they survive into someone else's incident analysis.** Without it, the honest answer would have stayed "cannot distinguish."
+
+
+## Deploy-ordering trap: a straddling change can need THREE deploys (2026-09-03)
+
+From session-agents' architect. A change that straddles two deploy fences can cost **three** runs — `deploy.sh` → `/deploy-comms` → `deploy.sh` — because one fence **regenerates** a file the other **mutates**. Skipping the third is **silent**: verify compares the mirror against its own regenerated contract, not against the CLI, so it passes while the shipped surface is stale.
+
+**Generalised test:** whenever a change touches files owned by two different deploy paths, ask *does either path regenerate a file the other edits?* If yes, the edit-then-regenerate order determines whether the third pass is required — and no verifier will tell you.
+
+**Anvil's own instance of the same blindness:** `verify.sh` checks file presence and byte-identity, **not frontmatter**. A `disable-model-invocation` divergence between source and deployed passes **80/80 silently**. Found when session-agents left six anvil files unlocked at source and locked at deploy — a deliberate, correctly-fenced hold that our own verifier could not see. **Check flag parity by hand after any frontmatter change:** compare source / local / genesis directly; `verify.sh` will not.
+
+**Family:** this is the same class as file-then-ping without `&&`, the blind read-modify-write inbox clear, and the `Illustrates` tripwire with no reader — *a promised step nothing verifies*. Fourth instance; the pattern is now the most productive diagnostic in this project.

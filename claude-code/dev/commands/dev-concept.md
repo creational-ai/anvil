@@ -53,7 +53,7 @@ Follow `concept-guide.md` exactly. In short:
 
 **Prose is labelling, not explaining** — the guide's **§ Prose budget** sets the caps (lines before and after a diagram, longest unbroken run, and whole-doc prose-to-fence ratio). **Over budget means redraw, never write-it-tighter**: move the content into the picture — label the arrow, name the box, add a column, split into panels. Prose that survives a redraw is prose the diagram genuinely cannot hold.
 
-**ASCII diagrams only, never mermaid.** Width ≤100 **characters** inside a fence — measure characters, not bytes.
+**ASCII diagrams only, never mermaid.** The guide's **§ Diagrams** sets the width limit — measured in **characters, not bytes**.
 
 ## Output
 

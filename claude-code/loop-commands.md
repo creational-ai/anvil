@@ -38,7 +38,7 @@ Single-side periodic observation of an in-flight execution. Reads results / plan
 **Termination**:
 - All plan steps complete → final summary + stop.
 - User says stop → acknowledge + stop.
-- 8 consecutive idle ticks (~16 min at 2-min cadence) → ask user whether to continue.
+- 8 consecutive idle ticks (~32-36 min; first tick 480s, subsequent 240s) → end the watch and escalate. Does not ask whether to continue.
 
 **Side effects**: Lazy-creates `docs/[slug]-monitor-issues.md` on first verifiable issue. Append-only across sessions. Never edits source docs.
 

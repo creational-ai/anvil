@@ -1,7 +1,7 @@
 ---
-description: Monitor execution progress with periodic status reports. Read-only observation.
+description: Monitor execution progress with periodic status reports. Read-only observation. Terminates on its own — when every step completes, or when the idle bound expires and it escalates.
 argument-hint: <task-slug>
-disable-model-invocation: true
+disable-model-invocation: false
 ---
 
 # /monitor
@@ -38,6 +38,6 @@ Monitor active execution by periodically reading results, plan, design, and revi
 3. Report initial status
 4. Set up periodic timer (every 4 minutes; first tick is 8 minutes per the 2× first-arm rule — see guide § Set Up Timer)
 5. On each tick: report status, analyze newly completed steps
-6. Continue until all steps complete or user says stop
+6. Continue until all steps complete, the user says stop, or the idle bound expires — 8 consecutive no-change checks ends the watch and reports an escalation, without prompting (guide § Termination)
 
 Read the guide. Follow it exactly.

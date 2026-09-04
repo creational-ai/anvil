@@ -1,7 +1,7 @@
 ---
 description: Run a directed readiness check at a dev-stage break (G1–G5). Takes a doc path, resolves the furthest-along gate for that task from docs on disk, runs inline, emits a bounded READY / NOT-READY decision. Runs in main conversation.
 argument-hint: <doc>
-disable-model-invocation: true
+disable-model-invocation: false
 ---
 
 # /dev-ready

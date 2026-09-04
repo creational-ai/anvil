@@ -293,7 +293,9 @@ Both run in the background so the user can still chat. The 2×/1× split mirrors
 
 - **All steps complete**: Report final summary, stop monitoring
 - **User says stop**: Acknowledge and stop
-- **No changes for 8 consecutive checks** (~32-36 minutes — first tick is 480s, subsequent 240s): Notify user and ask whether to continue. *Threshold tuned for slow executor steps; do not lower without measuring step-duration distribution against this floor.*
+- **No changes for 8 consecutive checks** — the **idle bound** (~32-36 minutes — first tick is 480s, subsequent 240s): **end the watch and escalate.** Do not arm another timer, do not ask whether to continue, and do not wait for a reply. Report the escalation: which step is stalled, the last observed state, elapsed idle time, and that monitoring has stopped. *Threshold tuned for slow executor steps; do not lower without measuring step-duration distribution against this floor.*
+
+  The bound is what makes `/monitor` safe to run unattended. Whoever invoked it may be a pane rather than a person, and under observation a dead executor simply stops writing — silence is indistinguishable from progress, so a monitor that waits for an answer waits forever and reads as still working. Escalating is the report; the caller decides what to do with it.
 
 ### Monitor Rules
 
