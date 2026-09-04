@@ -41,6 +41,7 @@ This skill operates at the **Task level** — one task at a time through a 3-sta
 | Stage | Guide | Template |
 |-------|-------|----------|
 | 0. Usecases | `references/0-usecases-guide.md` | `assets/templates/0-usecases.md` |
+| — Concept (optional companion) | `references/concept-guide.md` | `assets/templates/concept.md` |
 | 1. Design | `references/1-design-guide.md` | `assets/templates/1-design.md` |
 | 2. Planning | `references/2-planning-guide.md` | `assets/templates/2-plan.md` |
 | 3. Execution | `references/3-execution-guide.md` | `assets/templates/3-results.md` |
@@ -59,6 +60,7 @@ This skill operates at the **Task level** — one task at a time through a 3-sta
 
 Users can invoke stages explicitly via commands:
 - `/dev-usecases <notes-or-slug-or-doc-path> [update]` - Start Stage 0 (usecases doc). Three modes: before-design notes walk (notes prefixed `<m>-<t>:`); existing-doc update / legacy conversion (`<doc-path> update`); after-design distillation (task slug, reads design ±plan)
+- `/dev-concept <design-doc-path>` - Create a concept doc for an existing design (optional companion; human-facing, diagram-carried, ≤400 lines). Illustrative only — gates nothing, nothing waits on it
 - `/dev-design <notes>` - Start Stage 1
 - `/dev-plan <notes>` - Start Stage 2
 - `/dev-execute <notes>` - Start Stage 3 (one step)
@@ -71,7 +73,9 @@ Users can invoke stages explicitly via commands:
 - `/dev-diagram <milestone-slug>-<task-slug>` - Generate ASCII diagram for task
 - `/dev-milestone-summary <milestone-slug>` - Generate milestone summary
 
-**Background execution**: to run a stage in a subagent instead of the main conversation, spawn the matching agent directly by `subagent_type` — `dev-usecase-author` (Stage 0), `dev-designer` (Stage 1), `dev-planner` (Stage 2), `dev-executor` (Stage 3), `dev-reviewer` (conceptual review), `dev-finalizer` (timestamp + lessons + diagram + health), `dev-milestone-summarizer`. Each agent carries its own stage workflow; no wrapper command is needed. `dev-usecase-author` drafts only — Stage 0's operator confirmation still happens in the main conversation.
+**Background execution**: to run a stage in a subagent instead of the main conversation, spawn the matching agent directly by `subagent_type` — `dev-usecase-author` (Stage 0), `dev-concept-author` (concept companion), `dev-designer` (Stage 1), `dev-planner` (Stage 2), `dev-executor` (Stage 3), `dev-reviewer` (conceptual review), `dev-finalizer` (timestamp + lessons + diagram + health), `dev-milestone-summarizer`. Each agent carries its own stage workflow; no wrapper command is needed. `dev-usecase-author` drafts only — Stage 0's operator confirmation still happens in the main conversation.
+
+**Agent-invocable commands**: `/dev-usecases`, `/dev-concept`, `/dev-design`, and `/dev-plan` carry `disable-model-invocation: false` — an agent may invoke them directly instead of spawning the stage agent. An agent-invoked run **executes the stage inline and must not fan out further** (no subagent, no fork — it *is* the background execution). `/dev-usecases` additionally **never self-confirms**: any runner other than the operator's own main-conversation session drafts and reports, and the doc is not an alignment anchor until the operator confirms.
 
 Or use natural language: "Create design for database abstraction", "Plan the implementation", "Execute step 1"
 

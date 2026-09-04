@@ -4,6 +4,7 @@
 |---|---|
 | **Created** | [run `date "+%Y-%m-%dT%H:%M:%S%z"` — never guess] |
 | **Task** | [Task name] |
+| **Distilled from** | [Flow B only — the design path and the line count you read, e.g. `docs/core-foo-design.md @ 1055 lines`. Omit this row entirely when no design exists yet (Flow A).] |
 | **Role** | Operator-value + behavior companion — subsumes the Stage-0 goal layer; `[milestone-slug]-[task-slug]-design.md` is normative — behavior questions land here, spec questions land in design. (When this doc is written before the design exists, the normative link is forward-looking — same as the goal doc's design pointer.) |
 
 ---

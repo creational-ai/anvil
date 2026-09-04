@@ -4,8 +4,4 @@ Inbox for the skillwright role. See `.session-agents/agents.md` for the roster; 
 
 ## Open
 
-*— nothing pending —*
-
-## In Progress
-
-*— nothing in progress —*
+_(no open entries)_

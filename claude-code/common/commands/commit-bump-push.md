@@ -1,11 +1,16 @@
 ---
 description: Commit all changes, bump version, tag, and push
 argument-hint: [patch | minor | major | X.Y.Z]
+disable-model-invocation: false
 ---
 
 # Commit Bump Push
 
 Commit all changes, bump version, create tag, and push everything.
+
+**Scope:** commit, bump, tag, and push what is already in the working tree. Do NOT test, lint, deploy, verify, review, spawn agents, or wait on anything. If the tree needs work before committing, that is a separate request.
+
+**This one pushes tags.** A tag is the hardest thing here to retract once it is on the remote, and this command makes two commits and mutates version files before it pushes. Re-read the version source you are about to edit; never force-push; never retag an existing version.
 
 ## Arguments (optional)
 
@@ -25,6 +30,8 @@ Commit all changes, bump version, create tag, and push everything.
 2. **Show what will be committed** (for user awareness)
 
 3. **Commit all changes**:
+   - List **untracked** paths separately first — `git add -A` sweeps them in and `.gitignore` covers almost nothing; leave out scratch, logs, `*_to_delete*`, `.env`/keys unless plainly part of the change.
+   - `git config --local user.email` — unset → ABORT. Identity is set per-repo here; committing without it silently falls back to whatever global identity exists and attributes the commit to the wrong account.
    ```bash
    git add -A
    git commit -m "[concise summary of changes]"

@@ -1,14 +1,31 @@
 ---
-description: Additive exam/review critic-sandwich on a design or plan doc — N exams + N-1 reviews (default 2), ending on an exam (E1, R1, E2, …, E_N). Sequences the `/exam` and `/review-doc-run` methodologies (via their guides). Run in a top-level session (e.g. a session-agents builder pane) for full visibility.
+description: Deep multi-round critic review of ONE design or plan doc — N independent exam rounds interleaved with N-1 fan-out review rounds (default 2 exams, 1 review), applying fixes as it goes and ending on an exam. Use when a design or plan needs harder scrutiny than a single `/review-doc` pass — before committing to a plan, after a doc has been revised and needs re-checking, or when asked to stress-test, deeply review, or really dig into a doc. Heavyweight: spawns many subagents and costs context. Requires a top-level session (main conversation or a session-agents pane) — a subagent cannot run it.
 argument-hint: <doc-path> [rounds] [notes]
-disable-model-invocation: true
+disable-model-invocation: false
 ---
 
 # /review-loop
 
 Run an **additive exam → review → exam critic-sandwich** on a single document by sequencing the existing `/exam` and `/review-doc-run` behaviors. `rounds` = the number of NEW exam rounds this invocation (default **2**). The loop runs N exams interleaved with N-1 reviews and **always ends on an exam**: `E1, R1, E2, R2, …, E_N`.
 
-> **Run this in a top-level session** — your main pane, or a session-agents `builder` pane (dispatch it with `comms no-reply builder -m "/review-loop <doc> <rounds>"`). It spawns subagents, which only works from a top-level session, never from inside another subagent. Both round types lean on **background** subagents, so the chat never blocks for long: an exam round is one background subagent (zero orchestrator turns until it finishes); a review round has *this* session spawn its background item+holistic fan-out and process each completion notification (brief foreground turns between which the chat is free). Watch progress via the pane's own orchestration narration + per-round summaries when you `tmux attach -t <prefix>-builder`. Each subagent's full transcript also persists on disk for deep inspection.
+> **Orientation.** Both round types lean on **background** subagents, so the chat never blocks for long: an exam round is one background subagent (zero orchestrator turns until it finishes); a review round has *this* session spawn its background item+holistic fan-out and process each completion notification (brief foreground turns between which the chat is free). Watch progress via the pane's own orchestration narration + per-round summaries when you `tmux attach -t <prefix>-builder`. Each subagent's full transcript also persists on disk for deep inspection.
+
+## 0. Eligibility — check this before anything else
+
+This command **spawns subagents**, which only works from a top-level session. Establish that you are one **before** reading the target doc, writing the sequence file, or touching the review doc.
+
+- **Eligible** — the main conversation, or a session-agents pane (`builder`, `QA`, `architect`, …). These are full sessions and can spawn.
+- **NOT eligible** — you are a subagent: something spawned you with a task prompt instead of you running a session of your own. Subagents cannot spawn subagents, so **every round would fail**.
+
+If you are not eligible, **STOP before writing anything** and delegate instead:
+
+```bash
+comms no-reply builder -m "/review-loop <doc-path> [rounds] [notes]"
+```
+
+Then report that you delegated and to whom. Do **not** start the rounds "as far as you can get" — a partial run leaves a half-written column in the shared review doc and a stale `/tmp/<slug>-loop-sequence.md`, and the next invocation's column count reads that wreckage as real progress.
+
+If you are eligible but were invoked on your own initiative rather than by the operator, say so in one line before starting — this run costs real context and spawns many agents, and the operator should see it beginning.
 
 ## Input — parse `$ARGUMENTS`
 

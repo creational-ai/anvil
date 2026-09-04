@@ -1,7 +1,7 @@
 ---
-description: Create a design document for a task (Stage 1, NO CODE). Runs in main conversation.
+description: Create a design document for a task (Stage 1) — analyzes the problem and designs the approach. NO CODE.
 argument-hint: [source-file] [--notes "<text>"]
-disable-model-invocation: true
+disable-model-invocation: false
 ---
 
 # /dev-design
@@ -73,7 +73,7 @@ Stage 1 of dev: Analyze a problem and design a solution WITHOUT writing code.
 
 ## Process
 
-**Run in main conversation. Do NOT spawn a subagent or fork.** For background execution, spawn the `dev-designer` agent directly by `subagent_type`.
+**Execute inline — do NOT spawn a subagent or fork from here.** An agent may invoke this command directly; when it does, it *is* the background execution and runs the stage itself rather than delegating again. To hand the stage off instead, spawn the `dev-designer` agent by `subagent_type`.
 
 Follow `1-design-guide.md` exactly. It contains the full process for analysis, constraints, sequencing, and decisions.
 

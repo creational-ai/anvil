@@ -59,7 +59,7 @@ This skill consolidates document verification and skill auditing into a single r
 - `/review-skill <skill-name>` -- Audit a skill for structure and conventions (main conversation)
 - `/exam <doc-path> [--auto] [notes]` -- Independent critical examination of a document (main conversation)
 - `/exam-loop <doc-path> [N] [--first | --follow] [notes]` -- long-running tick-driven loop coordinating with `/review-doc-loop` via the shared review doc; main conversation only. `N` defaults to 2
-- `/review-loop <doc-path> [rounds] [notes]` -- single-session additive critic-sandwich: `rounds` new exams + `rounds-1` reviews, ending on an exam (E1,R1,E2,…); sequences `/exam` (background subagent) + `/review-doc-run` (background fan-out orchestrated from this session). Go-forward replacement for the tick-loops; run in a top-level pane. `rounds` defaults to 2
+- `/review-loop <doc-path> [rounds] [notes]` -- single-session additive critic-sandwich: `rounds` new exams + `rounds-1` reviews, ending on an exam (E1,R1,E2,…); sequences `/exam` (background subagent) + `/review-doc-run` (background fan-out orchestrated from this session). Go-forward replacement for the tick-loops. **Agent-invocable** (`disable-model-invocation: false`) — a pane may reach for it on its own; its §0 eligibility gate stops a subagent before it writes, since subagents cannot spawn. `rounds` defaults to 2
 - `/review-triangulate <doc-path> [rounds] [notes]` -- multi-lane cross-validated deep review: runs the `review-loop` workflow (`workflows/review-loop.js`) while independent subagents — citation lanes read-only — ground every claim against the repo (`file:line` evidence) and adversarially validate the chosen path (web-verified) — and, when claims are runtime-testable, probe lanes demonstrate behavior empirically (execute-but-don't-write) — then builds a convergence map (CONVERGED / WORKFLOW-ONLY / SUBAGENT-ONLY) and consolidates one verdict. The heavyweight variant of `/review-loop`; run in a top-level pane. Design/plan docs only
 - `/monitor <task-slug>` -- Monitor execution progress with periodic status reports; writes `docs/[slug]-monitor-issues.md` (lazy-created, appended across sessions) when issues are found (main conversation)
 - `/walkthrough <doc-path> [notes]` -- Operator-facing walkthrough; paces you through a doc unit-by-unit with five-angle elaboration and conversational per-unit advance (main conversation)
@@ -90,7 +90,7 @@ Supports all Design docs (vision, architecture, milestones, tasks) and Dev docs 
 Audits Claude Code skills for quality and consistency across 8 categories:
 
 1. **Structure** -- SKILL.md exists, directories present, naming correct
-2. **Command Frontmatter** -- Required YAML fields, spawn command fields
+2. **Command Frontmatter** -- Required YAML fields; flags thin `context: fork` agent-wrapper commands
 3. **Agent Frontmatter & Structure** -- Required fields, consistent section pattern
 4. **Architecture Hierarchy** -- Guide is source of truth, commands/agents are thin wrappers
 5. **Cross-Reference Integrity** -- All file references resolve, SKILL.md matches commands

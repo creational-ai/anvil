@@ -83,10 +83,12 @@ There is no normative doc to distill; you produce the usecases doc *with* the op
 The design doc is the primary input; the usecases doc is a compression of its value + behavior layer.
 
 1. **Read everything that exists end-to-end.** Design always; the plan too when present — its steps often name outcome vocabulary the design abstracts. Do not skim; value and outcome claims are scattered (Executive Summary, Current/Target State, Files to Modify, worked examples).
-2. **Extract** the goals (and their goal levels), the real artifact, and the **outcome/action vocabulary** the design (and plan) name.
-3. **Draft value-first**, same as Flow A step 3 — goals table + artifact section before the use cases — then write each `Use Case N`'s main success scenario and extensions using the **design's literal outcome vocabulary** (do not paraphrase named actions like a `refreshed` action).
-4. **Run the vocabulary parity sweep** — the **highest-yield QA step**. Grep the design's (and plan's, if present) outcome/action vocabulary against the usecases doc: **every named action must appear in some main scenario or extension row.** A missing term means a missing extension row or an unnamed happy-path action — fix it.
-5. **Run the cohesion pass across the family.** usecases → design → plan must agree:
+2. **Input-staleness pass** — check the design's claims against its own inputs list, not only against the design body. The design cites its sources — an origin proposal, prior docs, decision records, real project files. Spot-check the load-bearing claims against them, and **record the design's line count as you read it** for the header's `Distilled from` row. A premise that is merely *out of date* relative to a newer input is internally consistent by construction, so no amount of reading the design against itself will surface it — only the cited source will. Report what you find; never silently correct the design.
+3. **Flag self-contradiction in the design as you distill.** Distinct from step 2 and found the opposite way: staleness is only visible in the design's *cited sources*, self-contradiction only in the design *against itself*. Compression surfaces it naturally — two sections naming different counts, a question parked as open in one place and asserted as settled in another, a rule whose stated scope excludes a case it later covers. Report it under the same rule as staleness; **reconcile nothing yourself** — the design is normative even when it disagrees with itself.
+4. **Extract** the goals (and their goal levels), the real artifact, and the **outcome/action vocabulary** the design (and plan) name.
+5. **Draft value-first**, same as Flow A step 3 — goals table + artifact section before the use cases — then write each `Use Case N`'s main success scenario and extensions using the **design's literal outcome vocabulary** (do not paraphrase named actions like a `refreshed` action).
+6. **Run the vocabulary parity sweep** — the **highest-yield QA step**. Grep the design's (and plan's, if present) outcome/action vocabulary against the usecases doc: **every named action must appear in some main scenario or extension row.** A missing term means a missing extension row or an unnamed happy-path action — fix it.
+7. **Run the cohesion pass across the family.** usecases → design → plan must agree:
    - The **design header** gets a `Use cases:` pointer line.
    - The **plan header blockquote** points at the usecases doc when the plan exists.
    - The usecases doc never contradicts the design — on disagreement, **design wins** and the usecases doc gets fixed (it is the descriptive twin). Grep shared terms across all docs that exist.
@@ -188,7 +190,7 @@ Before considering the usecases doc done:
 
 **Shape**
 - [ ] Five sections present, in order: Header table → Goals at a glance → What the operator actually edits → Use Case N sections → One-sentence contract
-- [ ] Header table has `Created` (via `date`), `Task`, `Role` line with the subsumes-the-goal-layer / design-is-normative contract
+- [ ] Header table has `Created` (via `date`), `Task`, `Role` line with the subsumes-the-goal-layer / design-is-normative contract; `Distilled from` row naming the design and the line count read (Flow B only) — a companion whose recorded read-size no longer matches its source is visibly suspect
 - [ ] `## Goals at a glance` table present; each row has a quantified pain and a `Where` cell pointing at a `Use Case N` or artifact section; `**Success indicator**:` line present
 - [ ] Each use case is `## Use Case N — [name]` (spelled out, em-dash; abbreviation rejected); enumeration kept even at N=1
 - [ ] `## One-sentence contract` written — "if you can't write it, the use cases aren't coherent yet"
@@ -205,6 +207,8 @@ Before considering the usecases doc done:
 - [ ] Success indicator is observable, not metric-shaped
 
 **QA (when a design exists)**
+- [ ] **Input-staleness pass** run: load-bearing claims spot-checked against the docs and files the design *cites*, not just against the design body; anything out of date reported, not silently fixed
+- [ ] **Self-contradiction flagged**: any place the design disagrees with itself is named in the report, reconciled by no one
 - [ ] **Vocabulary parity sweep** run: every design-named (and plan-named, if present) action appears in some main scenario or extension row
 - [ ] **Cohesion pass** run: design header carries the `Use cases:` pointer; plan header blockquote points at the usecases doc when the plan exists; usecases never contradicts the design
 

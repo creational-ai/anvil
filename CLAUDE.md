@@ -117,6 +117,7 @@ Examples:
 - `PROJECT_STATE.md` - Task and milestone tracking
 - `docs/[milestone-slug]-[task-slug]-usecases.md` - Operator-facing usecases doc (Stage 0, optional)
 - `docs/[milestone-slug]-[task-slug]-design.md` - Feature/bug design analysis
+- `docs/[milestone-slug]-[task-slug]-concept.md` - Diagram-driven concept companion to a design doc (optional, illustrative, NOT normative; `/dev-concept` or the `dev-concept-author` agent)
 - `docs/[milestone-slug]-[task-slug]-plan.md` - Implementation guide
 - `docs/[milestone-slug]-[task-slug]-results.md` - Progress tracking
 - `docs/[milestone-slug]-milestone-summary.md` - Milestone summary
@@ -135,6 +136,7 @@ Examples:
 
 **dev** (`claude-code/dev/assets/templates/`):
 - `0-usecases.md` - Stage 0 output (Operator-facing usecases: goals-at-a-glance + artifact + use cases + contract)
+- `concept.md` - Concept doc output (thesis + angle sections with diagrams + boundary section)
 - `1-design.md` - Stage 1 output (Problem Analysis + Proposed Steps)
 - `2-plan.md` - Stage 2 output
 - `3-results.md` - Stage 3 output
@@ -154,6 +156,7 @@ Examples:
 
 **dev** (`claude-code/dev/references/`):
 - `0-usecases-guide.md` - Stage 0 process (optional)
+- `concept-guide.md` - Concept doc process (optional companion to a design doc)
 - `1-design-guide.md` through `3-execution-guide.md`
 - `ready-guide.md` - Readiness gate process (G1–G5 stage breaks, optional)
 - `review-guide.md` - Conceptual review process (Stage 3b)
@@ -184,9 +187,10 @@ Examples:
 - `/design-tasks` - Define atomic tasks per milestone with dependencies (Stage 4)
 
 **dev commands**:
-- `/dev-usecases` - Create / update a usecases doc (Stage 0, optional) — 3 modes: before-design notes walk, existing-doc update / legacy conversion, after-design distillation
-- `/dev-design` - Create design document (Stage 1)
-- `/dev-plan` - Plan implementation steps (Stage 2)
+- `/dev-usecases` - Create / update a usecases doc (Stage 0, optional) — 3 modes: before-design notes walk, existing-doc update / legacy conversion, after-design distillation — **agent-invocable**; runs the stage inline, never fans out, never self-confirms
+- `/dev-concept` - Create a concept doc for an existing design (optional companion) — human-facing, diagram-carried, ≤400 lines; illustrative only, gates nothing — **agent-invocable**; runs inline, never fans out
+- `/dev-design` - Create design document (Stage 1) — **agent-invocable**; runs the stage inline, never fans out
+- `/dev-plan` - Plan implementation steps (Stage 2) — **agent-invocable**; runs the stage inline, never fans out
 - `/dev-execute` - Execute one step (Stage 3)
 - `/dev-execute-run` - Run all steps to completion (auto-finalize, `--auto` adds review-run + mc-update)
 - `/dev-ready` - Run the readiness gate (G1–G5) for a task; resolves the furthest-along break from docs on disk and emits a bounded READY / NOT-READY decision
@@ -197,7 +201,7 @@ Examples:
 - `/dev-milestone-summary` - Generate milestone summary
 - `/dev-health` - Project health check (standalone, also included in finalize)
 
-**Background execution**: there are no `/spawn-*` wrapper commands — they were retired as thin `context: fork` duplicates of their agents. To run a stage in a subagent, spawn its agent directly by `subagent_type`: `dev-usecase-author` (Stage 0), `dev-designer` (Stage 1), `dev-planner` (Stage 2), `dev-executor` (Stage 3), `dev-reviewer` (Stage 3b), `dev-finalizer`, `dev-milestone-summarizer`, `market-researcher`, `naming-researcher`, `doc-reviewer`, `skill-reviewer`. Agents live in `claude-code/<skill>/agents/` and deploy to `~/.claude/agents/`.
+**Background execution**: there are no `/spawn-*` wrapper commands — they were retired as thin `context: fork` duplicates of their agents. To run a stage in a subagent, spawn its agent directly by `subagent_type`: `dev-usecase-author` (Stage 0), `dev-concept-author` (concept doc), `dev-designer` (Stage 1), `dev-planner` (Stage 2), `dev-executor` (Stage 3), `dev-reviewer` (Stage 3b), `dev-finalizer`, `dev-milestone-summarizer`, `market-researcher`, `naming-researcher`, `doc-reviewer`, `skill-reviewer`. Agents live in `claude-code/<skill>/agents/` and deploy to `~/.claude/agents/`.
 
 **Research commands**:
 - `/market-research` - Market validation with Go/Pivot/Kill recommendation
@@ -210,7 +214,7 @@ Examples:
 - `/review-skill` - Audit a skill for structure, frontmatter, and consistency
 - `/exam` - Independent critical examination of a document
 - `/exam-loop` - Tick-driven loop that coordinates with `/review-doc-loop` via the shared review doc (long-running, main conversation only)
-- `/review-loop` - Single-session critic-sandwich (N exams + N-1 reviews, ends on an exam) sequencing `/exam` + `/review-doc-run`; the go-forward replacement for `/exam-loop` + `/review-doc-loop` (main conversation / top-level pane)
+- `/review-loop` - Single-session critic-sandwich (N exams + N-1 reviews, ends on an exam) sequencing `/exam` + `/review-doc-run`; the go-forward replacement for `/exam-loop` + `/review-doc-loop`. Agent-invocable — runs in the main conversation or a session-agents pane; a subagent cannot run it (it spawns) and is stopped by the command's §0 eligibility gate
 - `/review-triangulate` - Multi-lane cross-validated deep review: runs the `review-loop` workflow while citation-lane subagents (read-only) ground claims against the repo and adversarially validate the chosen path (web-verified) — and, when claims are runtime-testable, probe lanes demonstrate behavior empirically (execute-but-don't-write) — then consolidates one verdict via a convergence map; the heavyweight variant of `/review-loop` (main conversation / top-level pane)
 - `/monitor` - Monitor execution progress with periodic status reports
 - `/walkthrough` - Operator-facing walkthrough; paces you through a doc unit-by-unit with five-angle elaboration (main conversation only)

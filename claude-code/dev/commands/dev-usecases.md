@@ -1,7 +1,7 @@
 ---
-description: Create or update a usecases doc (Stage 0, optional). Value-first, use-case-structured operator-facing doc. Runs in main conversation.
+description: Create or update a usecases doc (Stage 0, optional) — value-first, use-case-structured operator-facing doc capturing goals and observable behavior. Drafts only; the operator confirms.
 argument-hint: [notes-or-slug-or-doc-path] [update]
-disable-model-invocation: true
+disable-model-invocation: false
 ---
 
 # /dev-usecases
@@ -51,16 +51,16 @@ Stage 0 supports three input modes. **In Mode 1, notes MUST begin with `<milesto
 
 ## Process
 
-**Run in main conversation.** Follow `0-usecases-guide.md` exactly. The guide branches on what exists on disk; all flows close with operator confirmation.
+**Execute inline — do NOT spawn a subagent or fork from here.** An agent may invoke this command directly; when it does, it *is* the background execution and runs the stage itself rather than delegating again. To hand the stage off instead, spawn the `dev-usecase-author` agent by `subagent_type`. Follow `0-usecases-guide.md` exactly. The guide branches on what exists on disk; all flows close with operator confirmation.
 
-For background execution, spawn the `dev-usecase-author` agent directly by `subagent_type`. The agent drafts the doc and hands it back naming what still needs walking — **it never confirms**. Operator confirmation always happens in the main conversation, whoever drafted.
+**Confirmation belongs to the operator and happens only in the main conversation — whoever drafted.** This holds for every runner: the operator running this command, an *agent* invoking this command, and the `dev-usecase-author` agent. **If you are not the operator's own main-conversation session, you draft and report — you never confirm.** Deliver the draft naming exactly what still needs walking, and do not mark it confirmed, final, or ready for downstream agents. Until the operator confirms, downstream stages have no stable alignment anchor.
 
 The command will:
 1. Read the guide and template.
 2. Determine which input mode applies (notes-prefixed-with-slug / doc-path + `update` / task-slug-with-existing-design).
 3. Execute the matching flow from `0-usecases-guide.md` (Flow A before-design walk / Flow B after-design distillation / Flow C legacy conversion or reformat).
 4. Draft the usecases doc using the template's five-section shape, with real portfolio data for the artifact section (degenerate single-use-case form if N=1).
-5. **Present the draft to the operator and obtain confirmation.** Until the operator confirms, downstream agents have no stable anchor. If the operator pushes back, revise and re-confirm.
+5. **Hand the draft to the operator for confirmation.** In the operator's own session: present it, and on pushback revise and re-confirm. Invoked by an agent: stop at the draft and report what still needs walking — do not self-confirm. Either way the doc is not an alignment anchor until the operator confirms.
 6. Write to `docs/[milestone-slug]-[task-slug]-usecases.md`.
 
 ## Output

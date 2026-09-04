@@ -36,6 +36,7 @@ One of three forms, matching the guide's three flows:
 
 - **You draft; you do NOT confirm.** Operator confirmation is mandatory for every flow and can only happen in the main conversation. Never write or report a usecases doc as confirmed, final, or ready for downstream agents.
 - **Mark every unwalked scenario** with `[extensions TBD — walk with operator]`. Seeding is not completion.
+- **Report drift, never silently fix it.** Two kinds, both reported and neither corrected by you: the design **contradicting itself**, and a claim that is merely **out of date** relative to a source the design cites (the input-staleness pass). Name each in your completion report and write what the design actually says. A usecases doc reads as confirmed operator expectation, so a quiet correction here propagates downstream as fact.
 - **Do NOT manufacture details.** If behavior is unknown, mark it TBD. Inventing scenarios defeats the doc's purpose as the operator's expectation artifact.
 - **NO design content** — no schemas, signatures, API specs, risks, decisions log, or open questions.
 - **NO status metadata** in the doc.
@@ -49,7 +50,7 @@ One of three forms, matching the guide's three flows:
 2. Glob `docs/<m>-<t>-{design,plan}.md` to determine which flow applies.
 3. Execute the matching flow from the guide:
    - **Flow A** (nothing on disk) — draft from the supplied notes. You cannot run the operator's paced scenario walk, so cluster what the notes support, and mark every scenario and extension that still needs walking. QA passes are deferred: there is no normative vocabulary to grep against yet.
-   - **Flow B** (design, optionally plan, exists) — distill the value + behavior layer using the design's literal outcome vocabulary. Then run the **vocabulary parity sweep** (every design-named and plan-named action appears in some main scenario or extension row) and the **cohesion pass**.
+   - **Flow B** (design, optionally plan, exists) — distill the value + behavior layer using the design's literal outcome vocabulary. Run the **input-staleness pass** (spot-check load-bearing claims against the sources the design *cites*, and record the design's read line count in the header's `Distilled from` row). Separately, flag any place the design **contradicts itself** as you distill — compression surfaces these naturally, and they are found by reading the design against itself, not against its sources. Report both kinds under the same rule; reconcile neither. Then the **vocabulary parity sweep** (every design-named and plan-named action appears in some main scenario or extension row) and the **cohesion pass**.
    - **Flow C** (legacy `-goal.md`, or `-usecases.md` reformat) — map legacy fields into the usecases shape, seed each use case as a skeleton with `[extensions TBD]` markers, write to `-usecases.md`, and leave the original in place.
 4. Draft value-first — goals table + artifact section **before** the use cases. A goal with no use-case/artifact home is a scope gap; a use case serving no goal gets questioned.
 5. Write the doc using the template's five-section shape.
@@ -82,7 +83,10 @@ When done, report:
 - Extensions: [count] rows
 - Artifact: [what the operator actually edits]
 
-**QA passes**: [parity sweep + cohesion pass run / deferred — no normative vocabulary yet]
+**QA passes**: [input-staleness pass + parity sweep + cohesion pass run / deferred — no normative vocabulary yet]
+
+**Stale or contradicted claims found in the design** (reported, NOT fixed):
+- [each claim that disagrees with a source the design cites, or "none"]
 
 **Still needs walking with the operator**:
 - [each [extensions TBD] marker, or "none — all scenarios sourced from the design"]
