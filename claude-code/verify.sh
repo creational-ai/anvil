@@ -216,6 +216,46 @@ fi
 
 echo ""
 
+# Check command frontmatter parity (source -> deployed)
+# verify.sh compares file presence and content elsewhere; this catches a
+# `disable-model-invocation` divergence, which is otherwise silent.
+echo "--- Checking command frontmatter parity ---"
+if [ -d "$COMMANDS_DIR" ]; then
+    flag_bad=0
+    flag_checked=0
+    flag_nofield=""
+    for src in "$SCRIPT_DIR"/*/commands/*.md; do
+        [ -f "$src" ] || continue
+        base=$(basename "$src")
+        dep="$COMMANDS_DIR/$base"
+        [ -f "$dep" ] || continue
+        s=$(grep -m1 '^disable-model-invocation:' "$src" | tr -d '[:space:]' | cut -d: -f2)
+        d=$(grep -m1 '^disable-model-invocation:' "$dep" | tr -d '[:space:]' | cut -d: -f2)
+        if [ -z "$s" ]; then
+            flag_nofield="$flag_nofield $base"
+            # absent at source means model-invocable by default; deployed must also be absent
+            if [ -n "$d" ]; then
+                fail "$base: disable-model-invocation absent at source but deployed=$d"
+                flag_bad=1
+            fi
+            continue
+        fi
+        flag_checked=$((flag_checked + 1))
+        if [ "$s" != "$d" ]; then
+            fail "$base: disable-model-invocation source=$s deployed=${d:-<absent>}"
+            flag_bad=1
+        fi
+    done
+    if [ "$flag_bad" -eq 0 ]; then
+        pass "disable-model-invocation matches source for $flag_checked commands"
+    fi
+    if [ -n "$flag_nofield" ]; then
+        echo "    (no disable-model-invocation field:$flag_nofield)"
+    fi
+else
+    fail "commands directory missing at $COMMANDS_DIR"
+fi
+
 # Check agents
 echo "--- Checking agents ---"
 if [ -d "$AGENTS_DIR" ]; then

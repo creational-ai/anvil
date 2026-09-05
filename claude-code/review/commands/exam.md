@@ -1,7 +1,7 @@
 ---
 description: Independent critical examination of a design or plan document. Deeper than automated review.
 argument-hint: <doc-path> [--auto] [notes]
-disable-model-invocation: true
+disable-model-invocation: false
 ---
 
 # /exam

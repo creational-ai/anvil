@@ -232,6 +232,46 @@ fi
 
 echo ""
 
+# Check command frontmatter parity (source -> deployed on remote)
+# Mirrors verify.sh. One SSH round-trip fetches every remote flag at once.
+echo "--- Checking command frontmatter parity ---"
+if r_dir_exists "$REMOTE_COMMANDS"; then
+    remote_flags=$(ssh "$REMOTE" "grep -m1 -H '^disable-model-invocation:' $REMOTE_COMMANDS/*.md 2>/dev/null | tr -d '[:blank:]'")
+    flag_bad=0
+    flag_checked=0
+    flag_nofield=""
+    for src in "$SCRIPT_DIR"/*/commands/*.md; do
+        [ -f "$src" ] || continue
+        base=$(basename "$src")
+        s=$(grep -m1 '^disable-model-invocation:' "$src" | tr -d '[:space:]' | cut -d: -f2)
+        if [ -z "$s" ]; then
+            flag_nofield="$flag_nofield $base"
+            if echo "$remote_flags" | grep -q "/$base:disable-model-invocation:"; then
+                rd=$(echo "$remote_flags" | grep "/$base:disable-model-invocation:" | sed 's/.*disable-model-invocation://')
+                fail "$base: disable-model-invocation absent at source but $REMOTE=$rd"
+                flag_bad=1
+            fi
+            continue
+        fi
+        line=$(echo "$remote_flags" | grep "/$base:disable-model-invocation:" || true)
+        [ -n "$line" ] || continue
+        d=$(echo "$line" | sed 's/.*disable-model-invocation://')
+        flag_checked=$((flag_checked + 1))
+        if [ "$s" != "$d" ]; then
+            fail "$base: disable-model-invocation source=$s $REMOTE=${d:-<absent>}"
+            flag_bad=1
+        fi
+    done
+    if [ "$flag_bad" -eq 0 ]; then
+        pass "disable-model-invocation matches source for $flag_checked commands"
+    fi
+    if [ -n "$flag_nofield" ]; then
+        echo "    (no disable-model-invocation field:$flag_nofield)"
+    fi
+else
+    fail "commands directory missing at $REMOTE:$REMOTE_COMMANDS"
+fi
+
 # Check agents
 echo "--- Checking agents ---"
 if r_dir_exists "$REMOTE_AGENTS"; then
